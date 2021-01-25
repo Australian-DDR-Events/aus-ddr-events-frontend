@@ -21,12 +21,9 @@ const LoginForm = () => {
     AuthenticationRepositoryContext,
   );
 
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-
   const onFinish = (values: any) => {
     authRepo.authenticationRepositoryInstance
-      ?.login(email, password)
+      ?.login(values.email, values.password)
       .then((result) => {
         if (result.isOk()) {
           alert(result.value);
@@ -42,10 +39,6 @@ const LoginForm = () => {
       name="basic"
       initialValues={{ remember: true }}
       onFinish={onFinish}
-      onValuesChange={(changedValues, allValues) => {
-        setEmail(allValues['email'] || '');
-        setPassword(allValues['password'] || '');
-      }}
     >
       <Form.Item
         label="Email"
