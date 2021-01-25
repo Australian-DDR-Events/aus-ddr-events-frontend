@@ -16,8 +16,8 @@
 
 "@ant-design/icons@^4.4.0":
   version "4.4.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@ant-design/icons/-/icons-4.4.0.tgz#d4e4ba5910454e1d3f67a802d2aad9ee75a51dea"
-  integrity sha1-1OS6WRBFTh0/Z6gC0qrZ7nWlHeo=
+  resolved "https://registry.yarnpkg.com/@ant-design/icons/-/icons-4.4.0.tgz#d4e4ba5910454e1d3f67a802d2aad9ee75a51dea"
+  integrity sha512-+X44IouK56JbP3r7zM+Zoykv5wQlXBlxY0NTaFXGpiyYSS/Bh6HIo9aTF62QkSuDTqA3UpeNVTRFioKKRmkWDQ==
   dependencies:
     "@ant-design/colors" "^5.0.0"
     "@ant-design/icons-svg" "^4.0.0"
@@ -3335,6 +3335,11 @@ word-wrap@^1.2.3:
   version "1.2.3"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/word-wrap/-/word-wrap-1.2.3.tgz#610636f6b1f703891bd34771ccb17fb93b47079c"
   integrity sha1-YQY29rH3A4kb00dxzLF/uTtHB5w=
+
+wouter@^2.7.1:
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/wouter/-/wouter-2.7.1.tgz#696032a59d2f7652fb2d718b528286defe16e388"
+  integrity sha512-nreNglXtRGsvhRuURa/PTM2U7YyYDGXJhhsoCccWRDon6yXhwMVJgN+UyyzON0+cYq15eWdJTFSdHscbe/ykOg==
 
 wrappy@1:
   version "1.0.2"

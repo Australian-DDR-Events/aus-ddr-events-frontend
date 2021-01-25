@@ -3,25 +3,17 @@ export type Result<E, T> = Ok<E, T> | Err<E, T>;
 export class Ok<E, T> {
   public constructor(public readonly value: T) {}
 
-  public isOk(): this is Ok<E, T> {
-    return true;
-  }
+  public isOk = (): this is Ok<E, T> => true;
 
-  public isErr(): this is Err<E, T> {
-    return false;
-  }
+  public isErr = (): this is Err<E, T> => false;
 }
 
 export class Err<E, T> {
   public constructor(public readonly error: E) {}
 
-  public isOk(): this is Ok<E, T> {
-    return false;
-  }
+  public isOk = (): this is Ok<E, T> => false;
 
-  public isErr(): this is Err<E, T> {
-    return true;
-  }
+  public isErr = (): this is Err<E, T> => true;
 }
 
 /**

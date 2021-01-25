@@ -14,6 +14,7 @@ const authenticationFirebaseDao = (
       .signInWithEmailAndPassword(username, password)
       .then(
         (result): Ok<Error, string> => {
+          console.log(result);
           if (!result.user) throw new Error('unknown user');
           return ok(result.user.uid);
         },
@@ -30,7 +31,10 @@ const authenticationFirebaseDao = (
   };
 
   const get = async (): Promise<Result<Error, string>> => {
-    const currentUser = firebaseApp.auth().currentUser;
+    let currentUser: firebase.User | null = null;
+    await firebaseApp.auth().onAuthStateChanged((user) => {
+      currentUser = user;
+    });
     if (currentUser) {
       return ok(currentUser.uid);
     }
