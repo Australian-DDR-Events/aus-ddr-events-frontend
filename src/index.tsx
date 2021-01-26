@@ -3,9 +3,16 @@ import firebase from 'firebase';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import authenticationFirebaseDao from './services/authentication/authenticationFirebaseDao';
-import authenticationRepository from './services/authentication/authenticationRepository';
-import AuthenticationRepositoryProvider from './services/authentication/authenticationRepositoryProvider';
+import {
+  authenticationFirebaseDao,
+  authenticationRepository,
+  AuthenticationRepositoryProvider,
+} from './providers/authentication';
+import {
+  UserRepositoryContextProvider,
+  userFirebaseDao,
+  userRepository,
+} from './providers/user';
 
 dotenv.config();
 
@@ -26,11 +33,17 @@ const authenticationRepositoryInstance = authenticationRepository(
   authenticationFirebaseDao(firebaseApp),
 );
 
+const userRepositoryInstance = userRepository(userFirebaseDao(firebaseApp));
+
 ReactDOM.render(
   <AuthenticationRepositoryProvider
     authenticationRepositoryInstance={authenticationRepositoryInstance}
   >
-    <App />
+    <UserRepositoryContextProvider
+      userRepositoryInstance={userRepositoryInstance}
+    >
+      <App />
+    </UserRepositoryContextProvider>
   </AuthenticationRepositoryProvider>,
   document.getElementById('root'),
 );

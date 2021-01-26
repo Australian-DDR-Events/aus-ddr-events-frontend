@@ -40,5 +40,16 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'no-console': 'error',
     'no-alert': 'error',
+    'import/no-internal-modules': [
+      'error',
+      {
+        allow: [
+          '**/providers/authentication',
+          '**/providers/user',
+          '**/components/**/index.tsx',
+          '**/common/*',
+        ],
+      },
+    ],
   },
 };

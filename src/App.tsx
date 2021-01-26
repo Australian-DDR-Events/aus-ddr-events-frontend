@@ -2,8 +2,10 @@ import React, { useContext, useState } from 'react';
 import 'antd/dist/antd.css';
 import Wrapper from './components/Wrapper';
 import Router from './components/Router';
-import { AuthenticationRepositoryContextInterface } from './services/authentication/types';
-import { AuthenticationRepositoryContext } from './services/authentication/authenticationRepositoryContext';
+import {
+  AuthenticationRepositoryContextInterface,
+  AuthenticationRepositoryContext,
+} from './providers/authentication';
 
 const App = (): React.ReactElement => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(

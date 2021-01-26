@@ -6,6 +6,7 @@ import {
   FileOutlined,
   TeamOutlined,
   UserOutlined,
+  LoginOutlined,
 } from '@ant-design/icons';
 
 const { Sider } = Layout;
@@ -42,6 +43,9 @@ const Navigation = () => {
         </SubMenu>
         <Menu.Item key="9" icon={<FileOutlined />}>
           Files
+        </Menu.Item>
+        <Menu.Item key="10" icon={<LoginOutlined />}>
+          Login
         </Menu.Item>
       </Menu>
     </Sider>

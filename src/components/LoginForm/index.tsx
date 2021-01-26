@@ -21,8 +21,10 @@ const LoginForm = () => {
   const [, setLocation] = useLocation();
 
   useEffect(() => {
-    const getAuthResult = authRepo.authenticationRepositoryInstance?.get();
-    if (getAuthResult?.isOk() && getAuthResult.value) {
+    const loggedInUserId = authRepo.authenticationRepositoryInstance
+      .get()
+      .okOrDefault();
+    if (loggedInUserId) {
       setLocation('/');
     }
   }, []);
@@ -33,12 +35,7 @@ const LoginForm = () => {
       .then((result) => {
         if (result.isOk()) {
           setLocation('/');
-        } else {
-          alert('potato');
         }
-      })
-      .catch((e) => {
-        console.log(e);
       });
   };
 
