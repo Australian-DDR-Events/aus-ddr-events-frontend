@@ -8,14 +8,21 @@ export class Ok<E, T> {
   public isOk = (): this is Ok<E, T> => true;
 
   public isErr = (): this is Err<E, T> => false;
+
+  public okOrDefault = (): T => this.value;
 }
 
 export class Err<E, T> {
-  public constructor(public readonly error: E) {}
+  public constructor(
+    public readonly error: E,
+    private readonly defaultValue: T,
+  ) {}
 
   public isOk = (): this is Ok<E, T> => false;
 
   public isErr = (): this is Err<E, T> => true;
+
+  public okOrDefault = (): T => this.defaultValue;
 }
 
 /**
@@ -26,4 +33,5 @@ export const ok = <E, T>(value: T): Ok<E, T> => new Ok(value);
 /**
  * Construct a new Err result value.
  */
-export const err = <E, T>(error: E): Err<E, T> => new Err(error);
+export const err = <E, T>(error: E, defaultValue: T): Err<E, T> =>
+  new Err(error, defaultValue);
