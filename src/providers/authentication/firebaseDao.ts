@@ -28,7 +28,7 @@ const authenticationFirebaseDao = (
           return ok(result.user.uid);
         },
       )
-      .catch((e): Err<Error, string> => err(e));
+      .catch((e): Err<Error, string> => err(e, ''));
   };
 
   const logout = async (): Promise<Result<Error, void>> => {
@@ -36,14 +36,14 @@ const authenticationFirebaseDao = (
       .auth()
       .signOut()
       .then((): Ok<Error, void> => ok(undefined))
-      .catch((e): Err<Error, void> => err(e));
+      .catch((e): Err<Error, void> => err(e, undefined));
   };
 
   const get = (): Result<Error, string> => {
     if (user) {
       return ok(user.uid);
     }
-    return err(new Error('user not logged in'));
+    return err(new Error('user not logged in'), '');
   };
 
   const onAuthStateChanged = (callback: AuthStateChangedCallback) => {

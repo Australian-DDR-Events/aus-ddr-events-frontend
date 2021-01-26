@@ -1,10 +1,11 @@
 import firebase from 'firebase';
+import { ok, Result } from '../../common/Result';
 import { User, UserDao } from './types';
 
 const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
   const storage = firebaseApp.storage();
-  const get = async (id: string): Promise<User> => {
-    const currentAuthUser = JSON.parse(localStorage.getItem('authUser') || '');
+  const get = async (id: string): Promise<Result<Error, User>> => {
+    const currentAuthUser = firebaseApp.auth().currentUser;
     const user: User = {
       dancerId: '',
       dancerName: '',
@@ -14,7 +15,7 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
       state: '',
       userName: '',
     };
-    if (!currentAuthUser) return user;
+    if (!currentAuthUser) return ok(user);
 
     return firebaseApp
       .database()
@@ -40,13 +41,13 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
           user.profilePicture = '';
         }
 
-        return user;
+        return ok(user);
       });
   };
 
-  const update = async (user: User): Promise<boolean> => {
+  const update = async (user: User): Promise<Result<Error, boolean>> => {
     const currentAuthUser = JSON.parse(localStorage.getItem('authUser') || '');
-    if (!currentAuthUser) return false;
+    if (!currentAuthUser) return ok(false);
 
     await firebaseApp.database().ref(`users/${currentAuthUser.uid}`).update({
       dancerName: user.dancerName,
@@ -65,7 +66,7 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
       )
       .putString(user.profilePicture);
 
-    return true;
+    return ok(true);
   };
 
   return {

@@ -1,8 +1,16 @@
 import { createContext } from 'react';
+import { err } from '../../common/Result';
 import { AuthenticationRepositoryContextInterface } from './types';
 
 const initialContext = {
-  authenticationRepositoryInstance: undefined,
+  authenticationRepositoryInstance: {
+    login: async () =>
+      err(new Error('authentication repository not initialized'), ''),
+    logout: async () =>
+      err(new Error('authentication repository not initialized'), undefined),
+    get: () => err(new Error('authentication repository not initialized'), ''),
+    onAuthStateChanged: () => {},
+  },
 };
 
 // eslint-disable-next-line max-len

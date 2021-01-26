@@ -1,11 +1,6 @@
-import React, { ReactNode } from 'react';
-import { UserRepositoryContext } from './userRepositoryContext';
-import { UserRepository } from './types';
-
-export interface UserRepositoryProviderOptions {
-  children?: ReactNode;
-  userRepositoryInstance: UserRepository;
-}
+import React from 'react';
+import UserRepositoryContext from './context';
+import { UserRepositoryProviderOptions } from './types';
 
 const UserRepositoryProvider = (options: UserRepositoryProviderOptions) => (
   <UserRepositoryContext.Provider

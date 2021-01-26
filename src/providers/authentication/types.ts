@@ -32,7 +32,7 @@ export interface AuthenticationDao {
 }
 
 export interface AuthenticationRepositoryContextInterface {
-  authenticationRepositoryInstance?: AuthenticationRepository;
+  authenticationRepositoryInstance: AuthenticationRepository;
 }
 
 export interface AuthenticationRepositoryProviderOptions {
