@@ -46,7 +46,7 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
   };
 
   const update = async (user: User): Promise<Result<Error, boolean>> => {
-    const currentAuthUser = JSON.parse(localStorage.getItem('authUser') || '');
+    const currentAuthUser = firebaseApp.auth().currentUser;
     if (!currentAuthUser) return ok(false);
 
     await firebaseApp.database().ref(`users/${currentAuthUser.uid}`).update({
