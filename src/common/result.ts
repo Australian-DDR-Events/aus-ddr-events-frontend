@@ -1,3 +1,5 @@
+/* eslint-disable max-classes-per-file */
+
 export type Result<E, T> = Ok<E, T> | Err<E, T>;
 
 export class Ok<E, T> {

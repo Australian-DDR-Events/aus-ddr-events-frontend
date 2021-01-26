@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import { AuthenticationRepositoryContext } from './authenticationRepositoryContext';
+import React from 'react';
+import AuthenticationRepositoryContext from './context';
 import { AuthenticationRepositoryProviderOptions } from './types';
 
 const AuthenticationRepositoryProvider = (

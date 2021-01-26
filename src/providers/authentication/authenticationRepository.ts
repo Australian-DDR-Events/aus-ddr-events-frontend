@@ -5,7 +5,7 @@ import {
   AuthStateChangedCallback,
 } from './types';
 
-const autenticationRepository = (
+const authenticationRepository = (
   dao: AuthenticationDao,
 ): AuthenticationRepository => {
   const login = (
@@ -20,4 +20,4 @@ const autenticationRepository = (
   return { login, logout, get, onAuthStateChanged };
 };
 
-export default autenticationRepository;
+export default authenticationRepository;

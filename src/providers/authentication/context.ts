@@ -5,6 +5,9 @@ const initialContext = {
   authenticationRepositoryInstance: undefined,
 };
 
-export const AuthenticationRepositoryContext = createContext<AuthenticationRepositoryContextInterface>(
+// eslint-disable-next-line max-len
+const AuthenticationRepositoryContext = createContext<AuthenticationRepositoryContextInterface>(
   initialContext,
 );
+
+export default AuthenticationRepositoryContext;

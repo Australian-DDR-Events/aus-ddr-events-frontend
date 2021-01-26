@@ -37,5 +37,8 @@ module.exports = {
         ignoreRegExpLiterals: true,
       },
     ],
+    'react/jsx-props-no-spreading': 'off',
+    'no-console': 'error',
+    'no-alert': 'error',
   },
 };
