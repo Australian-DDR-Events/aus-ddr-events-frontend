@@ -61,9 +61,7 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
     });
 
     await storage
-      .ref(
-        `${currentAuthUser.displayName} - ${currentAuthUser.uid} - images/ProfilePicture`,
-      )
+      .ref(`${currentAuthUser.uid} - images/ProfilePicture`)
       .putString(user.profilePicture);
 
     return ok(true);
