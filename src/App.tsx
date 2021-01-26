@@ -6,6 +6,7 @@ import {
   AuthenticationRepositoryContextInterface,
   AuthenticationRepositoryContext,
 } from './providers/authentication';
+import { Skeleton } from 'antd';
 
 const App = (): React.ReactElement => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
@@ -13,11 +14,11 @@ const App = (): React.ReactElement => {
   );
   const [loading, setLoading] = useState<boolean>(true);
 
-  authRepo.authenticationRepositoryInstance?.onAuthStateChanged(() => {
+  authRepo.authenticationRepositoryInstance.onAuthStateChanged(() => {
     setLoading(false);
   });
 
-  return <Wrapper>{loading ? <>Loading</> : <Router />}</Wrapper>;
+  return <Wrapper>{loading ? <Skeleton active /> : <Router />}</Wrapper>;
 };
 
 export default App;

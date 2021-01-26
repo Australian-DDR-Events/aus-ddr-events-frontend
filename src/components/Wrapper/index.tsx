@@ -1,9 +1,9 @@
 import React from 'react';
-import { Layout, Breadcrumb } from 'antd';
-
+import { Layout } from 'antd';
 import Navigation from '../Navigation';
+import { StyledContent, StyledHeader, WhiteBackgroundLayout } from './styles';
 
-const { Header, Content, Footer } = Layout;
+const { Footer } = Layout;
 
 const Wrapper = ({
   children,
@@ -12,19 +12,14 @@ const Wrapper = ({
 }) => (
   <Layout style={{ minHeight: '100vh' }}>
     <Navigation />
-    <Layout className="site-layout">
-      <Header className="site-layout-background" style={{ padding: 0 }} />
-      <Content style={{ margin: '0 16px' }}>
-        <div
-          className="site-layout-background"
-          style={{ padding: 24, minHeight: 360 }}
-        >
-          {children}
-        </div>
-      </Content>
-      <Footer style={{ textAlign: 'center' }}>
-        Ant Design ©2018 Created by Ant UED
-      </Footer>
+    <Layout>
+      <WhiteBackgroundLayout>
+        <StyledHeader />
+      </WhiteBackgroundLayout>
+      <StyledContent>
+        <WhiteBackgroundLayout>{children}</WhiteBackgroundLayout>
+      </StyledContent>
+      <Footer style={{ textAlign: 'center' }}>Created by your truly</Footer>
     </Layout>
   </Layout>
 );
