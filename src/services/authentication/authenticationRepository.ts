@@ -1,5 +1,9 @@
 import { Result } from '../../common/Result';
-import { AuthenticationDao, AuthenticationRepository } from './types';
+import {
+  AuthenticationDao,
+  AuthenticationRepository,
+  AuthStateChangedCallback,
+} from './types';
 
 const autenticationRepository = (
   dao: AuthenticationDao,
@@ -9,9 +13,11 @@ const autenticationRepository = (
     password: string,
   ): Promise<Result<Error, string>> => dao.login(username, password);
   const logout = (): Promise<Result<Error, void>> => dao.logout();
-  const get = (): Promise<Result<Error, string>> => dao.get();
+  const get = (): Result<Error, string> => dao.get();
+  const onAuthStateChanged = (cb: AuthStateChangedCallback): void =>
+    dao.onAuthStateChanged(cb);
 
-  return { login, logout, get };
+  return { login, logout, get, onAuthStateChanged };
 };
 
 export default autenticationRepository;

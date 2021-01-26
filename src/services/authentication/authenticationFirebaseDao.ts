@@ -1,10 +1,20 @@
 import firebase from 'firebase';
 import { Result, Ok, Err, ok, err } from '../../common/Result';
-import { AuthenticationDao } from './types';
+import { AuthenticationDao, AuthStateChangedCallback } from './types';
 
 const authenticationFirebaseDao = (
   firebaseApp: firebase.app.App,
 ): AuthenticationDao => {
+  let user: firebase.User | null = null;
+  const onAuthStateChangedCallbacks: AuthStateChangedCallback[] = [];
+
+  firebaseApp.auth().onAuthStateChanged((a) => {
+    user = a;
+    onAuthStateChangedCallbacks.forEach((cb) => {
+      cb();
+    });
+  });
+
   const login = async (
     username: string,
     password: string,
@@ -14,7 +24,6 @@ const authenticationFirebaseDao = (
       .signInWithEmailAndPassword(username, password)
       .then(
         (result): Ok<Error, string> => {
-          console.log(result);
           if (!result.user) throw new Error('unknown user');
           return ok(result.user.uid);
         },
@@ -30,18 +39,18 @@ const authenticationFirebaseDao = (
       .catch((e): Err<Error, void> => err(e));
   };
 
-  const get = async (): Promise<Result<Error, string>> => {
-    let currentUser: firebase.User | null = null;
-    await firebaseApp.auth().onAuthStateChanged((user) => {
-      currentUser = user;
-    });
-    if (currentUser) {
-      return ok(currentUser.uid);
+  const get = (): Result<Error, string> => {
+    if (user) {
+      return ok(user.uid);
     }
     return err(new Error('user not logged in'));
   };
 
-  return { login, logout, get };
+  const onAuthStateChanged = (callback: AuthStateChangedCallback) => {
+    onAuthStateChangedCallbacks.push(callback);
+  };
+
+  return { login, logout, get, onAuthStateChanged };
 };
 
 export default authenticationFirebaseDao;

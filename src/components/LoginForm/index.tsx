@@ -1,14 +1,8 @@
-import React, {
-  ChangeEvent,
-  ChangeEventHandler,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
+import useLocation from 'wouter/use-location';
 import { AuthenticationRepositoryContext } from '../../services/authentication/authenticationRepositoryContext';
 import { AuthenticationRepositoryContextInterface } from '../../services/authentication/types';
-import useLocation from 'wouter/use-location';
 
 const layout = {
   labelCol: { span: 8 },
@@ -22,23 +16,19 @@ const LoginForm = () => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
     AuthenticationRepositoryContext,
   );
-  const [location, setLocation] = useLocation();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [, setLocation] = useLocation();
 
   useEffect(() => {
-    authRepo.authenticationRepositoryInstance?.get().then((result) => {
-      if (result.isOk() && result.value) {
-        setLocation('/');
-      }
-      setLoading(false);
-    });
+    const getAuthResult = authRepo.authenticationRepositoryInstance?.get();
+    if (getAuthResult?.isOk() && getAuthResult.value) {
+      setLocation('/');
+    }
   }, []);
 
   const onFinish = (values: any) => {
     authRepo.authenticationRepositoryInstance
       ?.login(values.email, values.password)
       .then((result) => {
-        console.log(result);
         if (result.isOk()) {
           setLocation('/');
         } else {
@@ -49,10 +39,6 @@ const LoginForm = () => {
         console.log(e);
       });
   };
-
-  if (loading) {
-    return <p>Please wait...</p>;
-  }
 
   return (
     <Form

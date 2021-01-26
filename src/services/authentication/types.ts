@@ -4,7 +4,8 @@ import { Result } from '../../common/Result';
 export type AuthenticationRepository = {
   login: (username: string, password: string) => Promise<Result<Error, string>>;
   logout: () => Promise<Result<Error, void>>;
-  get: () => Promise<Result<Error, string>>;
+  get: () => Result<Error, string>;
+  onAuthStateChanged: (cb: AuthStateChangedCallback) => void;
 };
 
 export interface Login {
@@ -16,13 +17,18 @@ export interface Logout {
 }
 
 export interface Get {
-  (): Promise<Result<Error, string>>;
+  (): Result<Error, string>;
+}
+
+export interface OnAuthStateChanged {
+  (cb: AuthStateChangedCallback): void;
 }
 
 export interface AuthenticationDao {
   login: Login;
   logout: Logout;
   get: Get;
+  onAuthStateChanged: OnAuthStateChanged;
 }
 
 export interface AuthenticationRepositoryContextInterface {
@@ -33,3 +39,5 @@ export interface AuthenticationRepositoryProviderOptions {
   children?: ReactNode;
   authenticationRepositoryInstance: AuthenticationRepository;
 }
+
+export type AuthStateChangedCallback = () => void;
