@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
-import useLocation from 'wouter/use-location';
+import { useLocation } from 'wouter';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
-} from '../../providers/authentication';
+} from '../../context/authentication';
 
 const layout = {
   labelCol: { span: 8 },

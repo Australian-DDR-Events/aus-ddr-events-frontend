@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { Layout, Menu, Image } from 'antd';
 import { useLocation } from 'wouter';
-import { AuthenticationRepositoryContext } from '../../providers/authentication';
 import { UserOutlined, SmileOutlined, LoginOutlined } from '@ant-design/icons';
+import { AuthenticationRepositoryContext } from '../../context/authentication';
 
 const { Sider } = Layout;
 

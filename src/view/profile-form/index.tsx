@@ -1,6 +1,6 @@
 import { Button, Form, Input, Select } from 'antd';
 import React, { useContext } from 'react';
-import { UserRepositoryContext } from '../../providers/user';
+import { UserRepositoryContext } from '../../context/user';
 import { StateOptions } from './constants';
 import { ProfileFormData } from './types';
 
@@ -67,6 +67,9 @@ const ProfileForm = ({
         <Button type="primary" htmlType="submit">
           Save
         </Button>
+      </Form.Item>
+      <Form.Item>
+        <Button type="default">Cancel</Button>
       </Form.Item>
     </Form>
   );

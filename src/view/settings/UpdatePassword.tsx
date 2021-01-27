@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Button, Form, Input, Spin } from 'antd';
-import { AuthenticationRepositoryContext } from '../../providers/authentication';
+import { AuthenticationRepositoryContext } from '../../context/authentication';
 
 const layout = {
   labelCol: { span: 8 },

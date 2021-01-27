@@ -1,18 +1,23 @@
 import dotenv from 'dotenv';
 import firebase from 'firebase';
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import { Skeleton } from 'antd';
 import {
   authenticationFirebaseDao,
   authenticationRepository,
   AuthenticationRepositoryProvider,
-} from './providers/authentication';
+  AuthenticationRepositoryContextInterface,
+  AuthenticationRepositoryContext,
+} from './context/authentication';
 import {
   UserRepositoryContextProvider,
   userFirebaseDao,
   userRepository,
-} from './providers/user';
+} from './context/user';
+import Wrapper from './view/wrapper';
+import Router from './view/router';
+import 'antd/dist/antd.css';
 
 dotenv.config();
 
@@ -34,6 +39,19 @@ const authenticationRepositoryInstance = authenticationRepository(
 );
 
 const userRepositoryInstance = userRepository(userFirebaseDao(firebaseApp));
+
+const App = (): React.ReactElement => {
+  const authRepo = useContext<AuthenticationRepositoryContextInterface>(
+    AuthenticationRepositoryContext,
+  );
+  const [loading, setLoading] = useState<boolean>(true);
+
+  authRepo.authenticationRepositoryInstance.onAuthStateChanged(() => {
+    setLoading(false);
+  });
+
+  return <Wrapper>{loading ? <Skeleton active /> : <Router />}</Wrapper>;
+};
 
 ReactDOM.render(
   <AuthenticationRepositoryProvider

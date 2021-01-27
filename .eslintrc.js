@@ -47,7 +47,7 @@ module.exports = {
       'error',
       {
         allow: [
-          '**/providers/**/index*',
+          '**/context/**/index*',
           '**/view/**/index*',
           '**/common/*',
           'antd/**',

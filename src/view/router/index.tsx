@@ -4,7 +4,7 @@ import LoginForm from '../login-form';
 import {
   AuthenticationRepositoryContextInterface,
   AuthenticationRepositoryContext,
-} from '../../providers/authentication';
+} from '../../context/authentication';
 import Profile from '../profile';
 import Settings from '../settings';
 import RegistrationForm from '../registration-form';
