@@ -44,6 +44,9 @@ const Router = () => {
       <ProtectedRoute path="/profile">
         <Profile />
       </ProtectedRoute>
+      <ProtectedRoute path="/settings">
+        <Settings />
+      </ProtectedRoute>
       <Route>
         <p>Error</p>
       </Route>
