@@ -6,6 +6,7 @@ import {
   AuthenticationRepositoryContext,
 } from '../../providers/authentication';
 import Profile from '../profile';
+import Settings from '../settings';
 
 const ProtectedRoute = (props: RouteProps) => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
@@ -43,6 +44,9 @@ const Router = () => {
       </Route>
       <ProtectedRoute path="/profile">
         <Profile />
+      </ProtectedRoute>
+      <ProtectedRoute path="/settings">
+        <Settings />
       </ProtectedRoute>
       <Route>
         <p>Error</p>

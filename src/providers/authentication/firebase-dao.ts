@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 import { Result, Ok, Err, ok, err } from '../../common/Result';
 import { AuthenticationDao, AuthStateChangedCallback } from './types';
+import EmailAuthProvider = firebase.auth.EmailAuthProvider;
 
 const authenticationFirebaseDao = (
   firebaseApp: firebase.app.App,
@@ -46,11 +47,36 @@ const authenticationFirebaseDao = (
     return err(new Error('user not logged in'), '');
   };
 
+  const updatePassword = async (
+    currentPassword: string,
+    newPassword: string,
+  ): Promise<Result<Error, void>> => {
+    if (!user || !user.email) {
+      return err(new Error('user not logged in'), undefined);
+    }
+    return user
+      .reauthenticateWithCredential(
+        EmailAuthProvider.credential(user.email, currentPassword),
+      )
+      .then(
+        (userCredential): Ok<Error, void> => {
+          user = userCredential.user;
+          user?.updatePassword(newPassword);
+          return ok(undefined);
+        },
+      )
+      .catch(
+        (): Err<Error, void> => {
+          return err(new Error('failed to update password'), undefined);
+        },
+      );
+  };
+
   const onAuthStateChanged = (callback: AuthStateChangedCallback) => {
     onAuthStateChangedCallbacks.push(callback);
   };
 
-  return { login, logout, get, onAuthStateChanged };
+  return { login, logout, get, updatePassword, onAuthStateChanged };
 };
 
 export default authenticationFirebaseDao;

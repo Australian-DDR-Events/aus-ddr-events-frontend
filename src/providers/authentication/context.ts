@@ -9,6 +9,8 @@ const initialContext = {
     logout: async () =>
       err(new Error('authentication repository not initialized'), undefined),
     get: () => err(new Error('authentication repository not initialized'), ''),
+    updatePassword: async () =>
+      err(new Error('authentication repository not initialized'), undefined),
     onAuthStateChanged: () => {},
   },
 };

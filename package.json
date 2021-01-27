@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "parcel index.html",
-    "test": "yarn jest"
+    "test": "yarn jest",
+    "lint": "yarn eslint --fix"
   },
   "author": "",
   "license": "ISC",
