@@ -25,6 +25,54 @@ To start, simple do
 yarn start
 ```
 
+## Project structure
+
+```
+src/
+    ├── features/
+    │   └── feature-name/
+    │       ├── __tests__/
+    │       │   ├── index.test.ts
+    │       │   └── feature-specific-component-name.test.ts
+    │       ├── components/
+    │       │   └── feature-specific-component-name/
+    │       │       ├── index.tsx
+    │       │       └── ...
+    │       ├── index.tsx
+    │       ├── styled.tsx
+    │       └── types.tsx
+    ├── context/
+    │   └── context-name/
+    │       ├── __tests__/
+    │       │   └── index.test.ts
+    │       ├── index.tsx
+    │       ├── types.tsx
+    │       ├── context.tsx
+    │       └── provider.tsx
+    ├── components/
+    │   └── component-name/
+    │       ├── __tests__/
+    │       │   └── index.test.ts
+    │       ├── index.tsx
+    │       └── ...
+    └── types/
+        └── type-name/
+            ├── __test__/
+            │   └── index.test.ts
+            └── index.tsx
+```
+
+- `features`
+  - Anything that the users may interact with goes under this folder
+- `context`
+  - Stores all the custom context that can be used with `React.useContext`
+- `components`
+  - Shared components that can be reused across multiple `features`
+- `types`
+  - Common types that can be used across the entire project
+- `assets`
+  - Stores static assets like images
+
 ## Tests
 
 To run test
