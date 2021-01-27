@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout } from 'antd';
 import Navigation from '../navigation';
-import { StyledContent, StyledHeader, WhiteBackgroundLayout } from './styled';
+import { StyledContent, WhiteBackgroundLayout } from './styled';
 
 const { Footer } = Layout;
 

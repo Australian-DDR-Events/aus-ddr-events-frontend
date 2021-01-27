@@ -11,7 +11,6 @@ export const WhiteBackgroundLayout = styled.div`
 
 export const StyledContent = styled(Content)`
   margin: 0 16px;
-  text-align: center;
 `;
 
 export const StyledHeader = styled(Header)`
