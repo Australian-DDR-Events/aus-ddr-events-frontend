@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { err } from '../../common/Result';
+import { err } from '../../types/Result';
 import { DefaultUser } from './constants';
 import { UserRepositoryContextInterface } from './types';
 

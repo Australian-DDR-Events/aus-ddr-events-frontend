@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Result } from '../../common/Result';
+import { Result } from '../../types/Result';
 
 export type User = {
   dancerName: string;

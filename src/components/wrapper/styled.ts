@@ -1,5 +1,5 @@
 import { Layout } from 'antd';
-import styled from '../../theme';
+import styled from '../../types/styled-components';
 
 const { Header, Content } = Layout;
 
