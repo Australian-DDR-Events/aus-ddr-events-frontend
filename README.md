@@ -7,15 +7,11 @@ Make sure you have the following installed:
 
 ### Yarn
 
-Head here for how to install `yarn`
-
-https://classic.yarnpkg.com/en/docs/instal
+Install Yarn with `npm install -g yarn`
 
 ### Parcel
 
-Check out Parcel's official website to install Parcel
-
-https://parceljs.org/
+Install Parcel with `yarn global add parcel-bundler`
 
 ### dotenv
 
