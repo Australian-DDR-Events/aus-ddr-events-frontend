@@ -52,6 +52,7 @@ module.exports = {
           '**/context/*/index*',
           '**/types/*',
           '**/types/*/index*',
+          '**/components/*/index*',
         ],
       },
     ],
