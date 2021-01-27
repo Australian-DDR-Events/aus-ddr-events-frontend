@@ -7,6 +7,7 @@ import {
 } from '../../providers/authentication';
 import Profile from '../profile';
 import Settings from '../settings';
+import RegistrationForm from '../registration-form';
 
 const ProtectedRoute = (props: RouteProps) => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
@@ -41,6 +42,9 @@ const Router = () => {
       </Route>
       <Route path="/login">
         <LoginForm />
+      </Route>
+      <Route path="/register">
+        <RegistrationForm />
       </Route>
       <ProtectedRoute path="/profile">
         <Profile />
