@@ -47,10 +47,10 @@ module.exports = {
       'error',
       {
         allow: [
-          '**/context/**/index*',
-          '**/view/**/index*',
+          '**/features/*/index*',
+          '**!(features)/*/components/*/index*',
+          '**/context/*/index*',
           '**/common/*',
-          'antd/**',
         ],
       },
     ],

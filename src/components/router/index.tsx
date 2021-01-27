@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from 'react';
 import { Route, RouteProps, Switch, useLocation } from 'wouter';
-import LoginForm from '../login-form';
+import Login from '../../features/login';
 import {
   AuthenticationRepositoryContextInterface,
   AuthenticationRepositoryContext,
 } from '../../context/authentication';
-import Profile from '../profile';
-import Settings from '../settings';
-import RegistrationForm from '../registration-form';
+import Profile from '../../features/profile';
+import Settings from '../../features/settings';
+import Register from '../../features/register';
 
 const ProtectedRoute = (props: RouteProps) => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
@@ -41,10 +41,10 @@ const Router = () => {
         <p>hello {loggedInUserId}</p>
       </Route>
       <Route path="/login">
-        <LoginForm />
+        <Login />
       </Route>
       <Route path="/register">
-        <RegistrationForm />
+        <Register />
       </Route>
       <ProtectedRoute path="/profile">
         <Profile />

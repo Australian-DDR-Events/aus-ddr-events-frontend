@@ -4,7 +4,7 @@ import { useLocation } from 'wouter';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
-} from '../../context/authentication';
+} from '../../../../context/authentication';
 
 const layout = {
   labelCol: { span: 8 },

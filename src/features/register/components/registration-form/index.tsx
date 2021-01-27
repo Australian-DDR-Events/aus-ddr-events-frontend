@@ -16,7 +16,8 @@ const formItemLayout = {
 const RegistrationForm = () => {
   const [form] = Form.useForm();
 
-  const onFinish = (values: any) => {}; // todo
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onFinish = (values: any) => {}; // todo: remove the eslint disable and properly implement this
 
   return (
     <Form

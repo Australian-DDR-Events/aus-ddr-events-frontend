@@ -15,8 +15,8 @@ import {
   userFirebaseDao,
   userRepository,
 } from './context/user';
-import Wrapper from './view/wrapper';
-import Router from './view/router';
+import Wrapper from './components/wrapper';
+import Router from './components/router';
 import 'antd/dist/antd.css';
 
 dotenv.config();
