@@ -72,11 +72,31 @@ const authenticationFirebaseDao = (
       );
   };
 
+  const signUp = async (
+    email: string,
+    password: string,
+  ): Promise<Result<Error, void>> => {
+    return firebaseApp
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(
+        (result): Result<Error, void> => {
+          user = result.user;
+          return ok(undefined);
+        },
+      )
+      .catch(
+        (error): Result<Error, void> => {
+          return err(error, undefined);
+        },
+      );
+  };
+
   const onAuthStateChanged = (callback: AuthStateChangedCallback) => {
     onAuthStateChangedCallbacks.push(callback);
   };
 
-  return { login, logout, get, updatePassword, onAuthStateChanged };
+  return { login, logout, get, updatePassword, signUp, onAuthStateChanged };
 };
 
 export default authenticationFirebaseDao;

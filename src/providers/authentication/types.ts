@@ -1,11 +1,11 @@
 import { ReactNode } from 'react';
 import { Result } from '../../common/Result';
-import {Update} from "../user/types";
 
 export type AuthenticationRepository = {
   login: (username: string, password: string) => Promise<Result<Error, string>>;
   logout: () => Promise<Result<Error, void>>;
   get: () => Result<Error, string>;
+  signUp: (email: string, password: string) => Promise<Result<Error, void>>;
   updatePassword: (
     currentPassword: string,
     newPassword: string,
@@ -25,6 +25,10 @@ export interface Get {
   (): Result<Error, string>;
 }
 
+export interface SignUp {
+  (email: string, password: string): Promise<Result<Error, void>>;
+}
+
 export interface UpdatePassword {
   (currentPassword: string, newPassword: string): Promise<Result<Error, void>>;
 }
@@ -37,6 +41,7 @@ export interface AuthenticationDao {
   login: Login;
   logout: Logout;
   get: Get;
+  signUp: SignUp;
   updatePassword: UpdatePassword;
   onAuthStateChanged: OnAuthStateChanged;
 }
