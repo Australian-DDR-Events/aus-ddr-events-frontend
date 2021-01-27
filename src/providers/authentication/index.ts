@@ -1,8 +1,8 @@
 import AuthenticationRepositoryProvider from './provider';
 import AuthenticationRepositoryContext from './context';
 import { AuthenticationRepositoryContextInterface } from './types';
-import authenticationFirebaseDao from './firebaseDao';
-import authenticationRepository from './authenticationRepository';
+import authenticationFirebaseDao from './firebase-dao';
+import authenticationRepository from './authentication-repository';
 
 export {
   AuthenticationRepositoryProvider,

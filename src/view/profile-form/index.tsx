@@ -26,7 +26,12 @@ const ProfileForm = ({
       );
   };
   return (
-    <Form layout="vertical" initialValues={formData} onFinish={onFinish}>
+    <Form
+      layout="vertical"
+      initialValues={formData}
+      onFinish={onFinish}
+      style={{ textAlign: 'left' }}
+    >
       <Form.Item label="Username">
         <Form.Item name="displayName" noStyle>
           <Input />
@@ -38,32 +43,24 @@ const ProfileForm = ({
         </Form.Item>
       </Form.Item>
 
-      <Form.Item label="Location">
-        <Input.Group>
-          <Form.Item
-            style={{ width: '25%' }}
-            name="state"
-            extra="Which state do you live in?"
-          >
-            <Select style={{ width: '100%' }}>
-              {StateOptions.map((option, index) => (
-                // todo: add key to option object
-                // eslint-disable-next-line react/no-array-index-key
-                <Select.Option key={index + 1} value={option.value}>
-                  {option.label}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
+      <Form.Item label="State" name="state" extra="Which state do you live in?">
+        <Select>
+          {StateOptions.map((option, index) => (
+            // todo: add key to option object
+            // eslint-disable-next-line react/no-array-index-key
+            <Select.Option key={index + 1} value={option.value}>
+              {option.label}
+            </Select.Option>
+          ))}
+        </Select>
+      </Form.Item>
 
-          <Form.Item
-            style={{ width: '75%' }}
-            name="primaryMachine"
-            extra="Where do you mainly play DDR at?"
-          >
-            <Input />
-          </Form.Item>
-        </Input.Group>
+      <Form.Item
+        label="Primary machine"
+        name="primaryMachine"
+        extra="Where do you mainly play DDR at?"
+      >
+        <Input />
       </Form.Item>
 
       <Form.Item>

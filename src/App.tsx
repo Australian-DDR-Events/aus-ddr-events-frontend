@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
 import 'antd/dist/antd.css';
-import Wrapper from './components/Wrapper';
-import Router from './components/Router';
+import { Skeleton } from 'antd';
+import Wrapper from './view/wrapper';
+import Router from './view/router';
 import {
   AuthenticationRepositoryContextInterface,
   AuthenticationRepositoryContext,
 } from './providers/authentication';
-import { Skeleton } from 'antd';
 
 const App = (): React.ReactElement => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(

@@ -1,8 +1,8 @@
-import UserRepositoryContext from './context';
-import { UserRepositoryContextInterface } from './types';
+import { UserRepositoryContextInterface, User } from './types';
 import UserRepositoryContextProvider from './provider';
-import userFirebaseDao from './userFirebaseDao';
-import userRepository from './userRepository';
+import userFirebaseDao from './user-firebase-dao';
+import UserRepositoryContext from './context';
+import userRepository from './user-repository';
 import { DefaultUser } from './constants';
 
 export {
@@ -12,4 +12,5 @@ export {
   userFirebaseDao,
   userRepository,
   DefaultUser,
+  User,
 };

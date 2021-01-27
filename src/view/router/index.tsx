@@ -1,11 +1,28 @@
 import React, { useContext, useEffect } from 'react';
 import { Route, RouteProps, Switch, useLocation } from 'wouter';
-import LoginForm from '../LoginForm';
+import LoginForm from '../login-form';
 import {
   AuthenticationRepositoryContextInterface,
   AuthenticationRepositoryContext,
 } from '../../providers/authentication';
-import Profile from '../Profile';
+import Profile from '../profile';
+
+const ProtectedRoute = (props: RouteProps) => {
+  const authRepo = useContext<AuthenticationRepositoryContextInterface>(
+    AuthenticationRepositoryContext,
+  );
+  const [, setLocation] = useLocation();
+  useEffect(() => {
+    const loggedInUserId = authRepo.authenticationRepositoryInstance
+      .get()
+      .okOrDefault();
+    if (!loggedInUserId) {
+      setLocation('/login');
+    }
+  }, []);
+
+  return <Route {...props}>{props.children}</Route>;
+};
 
 const Router = () => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
@@ -32,23 +49,6 @@ const Router = () => {
       </Route>
     </Switch>
   );
-};
-
-const ProtectedRoute = (props: RouteProps) => {
-  const authRepo = useContext<AuthenticationRepositoryContextInterface>(
-    AuthenticationRepositoryContext,
-  );
-  const [, setLocation] = useLocation();
-  useEffect(() => {
-    const loggedInUserId = authRepo.authenticationRepositoryInstance
-      .get()
-      .okOrDefault();
-    if (!loggedInUserId) {
-      setLocation('/login');
-    }
-  }, []);
-
-  return <Route {...props}>{props.children}</Route>;
 };
 
 export default Router;

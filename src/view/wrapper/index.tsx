@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout } from 'antd';
-import Navigation from '../Navigation';
-import { StyledContent, StyledHeader, WhiteBackgroundLayout } from './styles';
+import Navigation from '../navigation';
+import { StyledContent, StyledHeader, WhiteBackgroundLayout } from './styled';
 
 const { Footer } = Layout;
 
@@ -13,9 +13,6 @@ const Wrapper = ({
   <Layout style={{ minHeight: '100vh' }}>
     <Navigation />
     <Layout>
-      <WhiteBackgroundLayout>
-        <StyledHeader />
-      </WhiteBackgroundLayout>
       <StyledContent>
         <WhiteBackgroundLayout>{children}</WhiteBackgroundLayout>
       </StyledContent>
