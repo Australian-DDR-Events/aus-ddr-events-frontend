@@ -1,13 +1,16 @@
 module.exports = {
   extends: [
     'airbnb-typescript',
-    'plugin:prettier/recommended',
     'prettier/react',
     'prettier/@typescript-eslint',
+    'plugin:prettier/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: './tsconfig.eslint.json',
+    tsconfigRootDir: __dirname,
+    sourceType: 'module',
+    extraFileExtensions: ['.json'],
   },
   plugins: ['@typescript-eslint'],
   env: {
@@ -44,12 +47,13 @@ module.exports = {
       'error',
       {
         allow: [
-          '**/providers/authentication',
-          '**/providers/user',
-          '**/components/**/index.tsx',
+          '**/providers/**/index*',
+          '**/view/**/index*',
           '**/common/*',
+          'antd/**',
         ],
       },
     ],
+    'react/destructuring-assignment': 'off',
   },
 };
