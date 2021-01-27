@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthenticationRepositoryContext } from '../../providers/authentication';
 import { DefaultUser, UserRepositoryContext, User } from '../../providers/user';
 import ProfileForm from '../profile-form';
-import { ProfileHeader } from './styled';
+import { ProfileHeader, ProfileWrapper } from './styled';
 
 const Profile = () => {
   const userRepo = useContext(UserRepositoryContext);
@@ -25,7 +25,7 @@ const Profile = () => {
   }, []);
 
   return !isEditing ? (
-    <div>
+    <ProfileWrapper>
       <Space align="center" size={16} direction="vertical">
         {loading && (
           <>
@@ -52,7 +52,7 @@ const Profile = () => {
           </>
         )}
       </Space>
-    </div>
+    </ProfileWrapper>
   ) : (
     <ProfileForm
       formData={user}
