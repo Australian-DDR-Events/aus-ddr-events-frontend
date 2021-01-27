@@ -1,4 +1,4 @@
-import authenticationRepository from '../authenticationRepository';
+import authenticationRepository from '../authentication-repository';
 
 describe('authenticationRepository', () => {
   const firebaseDaoMock = {

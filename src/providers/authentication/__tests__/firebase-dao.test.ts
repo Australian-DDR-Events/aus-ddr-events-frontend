@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import authenticationFirebaseDao from '../firebaseDao';
+import authenticationFirebaseDao from '../firebase-dao';
 
 describe('firebaseDao', () => {
   const firebaseAuth = {
