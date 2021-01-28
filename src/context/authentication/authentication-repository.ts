@@ -1,4 +1,4 @@
-import { Result } from '../../types/Result';
+import { Result } from '../../types/result';
 import {
   AuthenticationDao,
   AuthenticationRepository,

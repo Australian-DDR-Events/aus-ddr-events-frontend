@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import { ok, Result } from '../../types/Result';
+import { ok, Result } from '../../types/result';
 import { User, UserDao } from './types';
 
 const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
