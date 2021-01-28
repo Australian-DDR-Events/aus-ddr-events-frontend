@@ -57,5 +57,7 @@ module.exports = {
       },
     ],
     'react/destructuring-assignment': 'off',
+    'react/props-types': 'off',
+    'react/require-default-props': 'off',
   },
 };

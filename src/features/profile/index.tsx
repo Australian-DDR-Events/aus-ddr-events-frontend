@@ -6,7 +6,11 @@ import { DefaultUser, UserRepositoryContext, User } from '../../context/user';
 import ProfileForm from './components/profile-form';
 import { ProfileHeader, ProfileWrapper } from './styled';
 
-const Profile = () => {
+interface ProfileProps {
+  id?: string;
+}
+
+const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
   const userRepo = useContext(UserRepositoryContext);
   const authRepo = useContext(AuthenticationRepositoryContext);
   const [user, setUser] = useState(DefaultUser);
@@ -14,11 +18,10 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loggedInUserId = authRepo.authenticationRepositoryInstance
-      .get()
-      .okOrDefault();
+    const lookupId =
+      id ?? authRepo.authenticationRepositoryInstance.get().okOrDefault();
 
-    userRepo.userRepositoryInstance.get(loggedInUserId).then((u) => {
+    userRepo.userRepositoryInstance.get(lookupId).then((u) => {
       setUser(u.okOrDefault());
       setLoading(false);
     });
