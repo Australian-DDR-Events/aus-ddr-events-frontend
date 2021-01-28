@@ -12,6 +12,7 @@ const ProfileForm = ({
   onSuccessfulSubmit: Function;
 }) => {
   const userRepo = useContext(UserRepositoryContext);
+  
   const onFinish = (values: ProfileFormData) => {
     userRepo.userRepositoryInstance
       .update({
@@ -25,6 +26,7 @@ const ProfileForm = ({
         }),
       );
   };
+
   return (
     <Form
       layout="vertical"
