@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Result } from '../../types/Result';
+import { Result } from '../../types/result';
 
 export type AuthenticationRepository = {
   login: (username: string, password: string) => Promise<Result<Error, string>>;

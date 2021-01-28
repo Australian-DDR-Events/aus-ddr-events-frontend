@@ -1,4 +1,4 @@
-import { Result } from '../../types/Result';
+import { Result } from '../../types/result';
 import { User, UserRepository, UserDao } from './types';
 
 const userRepository = (dao: UserDao): UserRepository => {
