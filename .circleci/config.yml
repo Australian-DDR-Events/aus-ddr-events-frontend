@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   jira: circleci/jira@1.3.0
+  build-tools: circleci/build-tools@2.7.1
 jobs:
   install:
     working_directory: ~/aus-ddr-poc
@@ -10,8 +11,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: rebase on master
-          command: git pull -r origin master
+          name: Merge with master
+          command: build-tools/merge-with-parent
       - attach_workspace:
           at: ~/aus-ddr-poc
       - run:
