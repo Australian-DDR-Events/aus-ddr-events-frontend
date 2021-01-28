@@ -1,16 +1,20 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from '../../context/authentication';
 import { Space, Typography, Image, Button } from 'antd';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import { HomeWrapper } from './styled';
-import HomeHowto from './home-howto';
-import HomeAboutUs from './home-about';
-import HomeContactUs from './home-contactus';
+import HomeHowto from './components/home-howto';
+import HomeAboutUs from './components/home-about';
+import HomeContactUs from './components/home-contactus';
+import RegistrationForm from '../register';
 
 
 const Home = () => {
+  const [isSigningUp, setSigningUp] = useState(false);
+
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
     AuthenticationRepositoryContext,
   );
@@ -19,7 +23,7 @@ const Home = () => {
     .get()
     .okOrDefault();
 
-  return (
+  return !isSigningUp ? (
     <HomeWrapper>
       <Space className='whitebg' direction='vertical'>
         <Typography.Title>Coming Soon...</Typography.Title>
@@ -31,9 +35,9 @@ const Home = () => {
         <Typography.Title level={4}>
           Show off your moves and join in on the hottest DDR seasonal event starting February 2021. Pre-register your account today!
         </Typography.Title>
-        <Button type="primary">Sign Up</Button>
+        <Button type="primary" onClick={() => { setSigningUp(true)}}>Sign Up</Button>
       </Space>
-
+    
       <Space className='darkbg' direction='vertical'>
         <HomeAboutUs />
       </Space>
@@ -42,9 +46,15 @@ const Home = () => {
       </Space>
       <Space className='darkbg' direction='vertical'> 
         <HomeContactUs />
+        <Button type="primary" onClick={() => { setSigningUp(true)}}>Sign Up</Button>
       </Space>
     </HomeWrapper>
-       
+
+        ) : (
+          <>
+          <ArrowLeftOutlined onClick={() => { setSigningUp(false)}} />
+          <RegistrationForm />
+          </>
         )
 };
 
