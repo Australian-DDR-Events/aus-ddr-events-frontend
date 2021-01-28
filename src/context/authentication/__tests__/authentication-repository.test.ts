@@ -6,6 +6,8 @@ describe('authenticationRepository', () => {
     login: jest.fn(),
     logout: jest.fn(),
     onAuthStateChanged: jest.fn(),
+    register: jest.fn(),
+    updatePassword: jest.fn(),
   };
   const authRepo = authenticationRepository(firebaseDaoMock);
 
@@ -29,6 +31,22 @@ describe('authenticationRepository', () => {
     authRepo.onAuthStateChanged(callbackMock);
     expect(firebaseDaoMock.onAuthStateChanged).toHaveBeenCalledWith(
       callbackMock,
+    );
+  });
+
+  test('should call DAO register', () => {
+    authRepo.register('test email', 'test password');
+    expect(firebaseDaoMock.register).toBeCalledWith(
+      'test email',
+      'test password',
+    );
+  });
+
+  test('should call DAO updatePassword', () => {
+    authRepo.updatePassword('old password', 'new password');
+    expect(firebaseDaoMock.updatePassword).toBeCalledWith(
+      'old password',
+      'new password',
     );
   });
 });

@@ -5,7 +5,7 @@ export type AuthenticationRepository = {
   login: (username: string, password: string) => Promise<Result<Error, string>>;
   logout: () => Promise<Result<Error, void>>;
   get: () => Result<Error, string>;
-  signUp: (email: string, password: string) => Promise<Result<Error, void>>;
+  register: (email: string, password: string) => Promise<Result<Error, void>>;
   updatePassword: (
     currentPassword: string,
     newPassword: string,
@@ -25,7 +25,7 @@ export interface Get {
   (): Result<Error, string>;
 }
 
-export interface SignUp {
+export interface Register {
   (email: string, password: string): Promise<Result<Error, void>>;
 }
 
@@ -41,7 +41,7 @@ export interface AuthenticationDao {
   login: Login;
   logout: Logout;
   get: Get;
-  signUp: SignUp;
+  register: Register;
   updatePassword: UpdatePassword;
   onAuthStateChanged: OnAuthStateChanged;
 }

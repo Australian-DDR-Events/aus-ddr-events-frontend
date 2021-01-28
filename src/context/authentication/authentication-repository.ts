@@ -14,10 +14,10 @@ const authenticationRepository = (
   ): Promise<Result<Error, string>> => dao.login(username, password);
   const logout = (): Promise<Result<Error, void>> => dao.logout();
   const get = (): Result<Error, string> => dao.get();
-  const signUp = async (
+  const register = async (
     email: string,
     password: string,
-  ): Promise<Result<Error, void>> => dao.signUp(email, password);
+  ): Promise<Result<Error, void>> => dao.register(email, password);
   const updatePassword = async (
     currentPassword: string,
     newPassword: string,
@@ -26,7 +26,14 @@ const authenticationRepository = (
   const onAuthStateChanged = (cb: AuthStateChangedCallback): void =>
     dao.onAuthStateChanged(cb);
 
-  return { login, logout, get, updatePassword, signUp, onAuthStateChanged };
+  return {
+    login,
+    logout,
+    get,
+    updatePassword,
+    register,
+    onAuthStateChanged,
+  };
 };
 
 export default authenticationRepository;
