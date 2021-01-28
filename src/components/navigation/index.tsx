@@ -23,10 +23,11 @@ const Navigation = () => {
       theme="light"
     >
       <Image
-        height={32}
-        width="auto"
-        src="http://placekitten.com/32/14"
+        height="auto"
+        width={50}
+        src='https://i.imgur.com/BmSeIdK.png'
         preview={false}
+        style={{margin: "15px"}}
       />
 
       <Menu
