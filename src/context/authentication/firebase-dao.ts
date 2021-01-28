@@ -26,7 +26,8 @@ const authenticationFirebaseDao = (
       .then(
         (result): Ok<Error, string> => {
           if (!result.user) throw new Error('unknown user');
-          return ok(result.user.uid);
+          user = result.user;
+          return ok(user.uid);
         },
       )
       .catch((e): Err<Error, string> => err(e, ''));
