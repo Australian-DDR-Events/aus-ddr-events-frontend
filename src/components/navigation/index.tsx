@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Layout, Menu, Image } from 'antd';
 import { useLocation } from 'wouter';
-import { UserOutlined, SmileOutlined, LoginOutlined } from '@ant-design/icons';
+import { UserOutlined, SmileOutlined, LoginOutlined, HomeOutlined } from '@ant-design/icons';
 import { AuthenticationRepositoryContext } from '../../context/authentication';
 
 const { Sider } = Layout;
@@ -34,6 +34,15 @@ const Navigation = () => {
         defaultSelectedKeys={[currentSelectKey]}
         mode="inline"
       >
+        <Menu.Item 
+          key="home" 
+          icon={<HomeOutlined />}
+          onClick={() => {
+            setLocation('/');
+          }}
+        >
+          Home
+        </Menu.Item>
         <Menu.Item key="about" icon={<SmileOutlined />}>
           About
         </Menu.Item>
