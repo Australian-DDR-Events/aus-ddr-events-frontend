@@ -73,7 +73,7 @@ const authenticationFirebaseDao = (
       );
   };
 
-  const signUp = async (
+  const register = async (
     email: string,
     password: string,
   ): Promise<Result<Error, void>> => {
@@ -97,7 +97,14 @@ const authenticationFirebaseDao = (
     onAuthStateChangedCallbacks.push(callback);
   };
 
-  return { login, logout, get, updatePassword, signUp, onAuthStateChanged };
+  return {
+    login,
+    logout,
+    get,
+    updatePassword,
+    register,
+    onAuthStateChanged,
+  };
 };
 
 export default authenticationFirebaseDao;
