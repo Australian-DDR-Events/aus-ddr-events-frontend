@@ -33,7 +33,7 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
         try {
           const profilePictureSnap = await storage
             .ref(
-              `${currentAuthUser.displayName} - ${id} - images/ProfilePicture`,
+              `${id} - images/ProfilePicture`,
             )
             .getDownloadURL();
           user.profilePicture = profilePictureSnap;

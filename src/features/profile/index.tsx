@@ -37,7 +37,7 @@ const Profile = () => {
 
         {!loading && (
           <>
-            <Avatar size={80} icon={<UserOutlined />} />
+            <Avatar size={80} src={user.profilePicture} />
             <ProfileHeader level={2}>@{user.displayName}</ProfileHeader>
             <Typography.Text type="secondary">
               Profiessional player since the dawn of time lmao
