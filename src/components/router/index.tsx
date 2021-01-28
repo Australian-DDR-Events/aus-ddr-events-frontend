@@ -8,6 +8,7 @@ import {
 import Profile from '../../features/profile';
 import Settings from '../../features/settings';
 import Register from '../../features/register';
+import Home from '../../features/home';
 
 const ProtectedRoute = (props: RouteProps) => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
@@ -26,37 +27,27 @@ const ProtectedRoute = (props: RouteProps) => {
   return <Route {...props}>{props.children}</Route>;
 };
 
-const Router = () => {
-  const authRepo = useContext<AuthenticationRepositoryContextInterface>(
-    AuthenticationRepositoryContext,
-  );
-
-  const loggedInUserId = authRepo.authenticationRepositoryInstance
-    .get()
-    .okOrDefault();
-
-  return (
-    <Switch>
-      <Route path="/">
-        <p>hello {loggedInUserId}</p>
-      </Route>
-      <Route path="/login">
-        <Login />
-      </Route>
-      <Route path="/register">
-        <Register />
-      </Route>
-      <ProtectedRoute path="/profile">
-        <Profile />
-      </ProtectedRoute>
-      <ProtectedRoute path="/settings">
-        <Settings />
-      </ProtectedRoute>
-      <Route>
-        <p>Error</p>
-      </Route>
-    </Switch>
-  );
-};
+const Router = () => (
+  <Switch>
+    <Route path="/">
+      <Home />
+    </Route>
+    <Route path="/login">
+      <Login />
+    </Route>
+    <Route path="/register">
+      <Register />
+    </Route>
+    <ProtectedRoute path="/profile">
+      <Profile />
+    </ProtectedRoute>
+    <ProtectedRoute path="/settings">
+      <Settings />
+    </ProtectedRoute>
+    <Route>
+      <p>Error</p>
+    </Route>
+  </Switch>
+);
 
 export default Router;
