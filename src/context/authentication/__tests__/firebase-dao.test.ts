@@ -7,6 +7,7 @@ describe('firebaseDao', () => {
     onAuthStateChanged: jest.fn(),
     signInWithEmailAndPassword: jest.fn(),
     signOut: jest.fn(),
+    setPersistence: jest.fn(),
   };
 
   const firebaseApp = jest.createMockFromModule<firebase.app.App>('firebase');
@@ -15,10 +16,10 @@ describe('firebaseDao', () => {
   const dao = authenticationFirebaseDao(firebaseApp);
   test('should run onAuthStateChanged callbacks', () => {});
 
-  test('should call signInWithEmailAndPassword when login is called', () => {
+  test('should call signInWithEmailAndPassword when login is called', async () => {
     firebaseAuth.signInWithEmailAndPassword.mockResolvedValue(undefined);
     firebaseAuth.signInWithEmailAndPassword.mockRejectedValue(undefined);
-    dao.login('testUser', 'testPassword');
+    await dao.login('testUser', 'testPassword', true);
 
     expect(firebaseAuth.signInWithEmailAndPassword).toHaveBeenCalledWith(
       'testUser',
@@ -26,10 +27,10 @@ describe('firebaseDao', () => {
     );
   });
 
-  test('should call signOut when logout is called', () => {
+  test('should call signOut when logout is called', async () => {
     firebaseAuth.signOut.mockResolvedValue(undefined);
     firebaseAuth.signOut.mockRejectedValue(undefined);
-    dao.logout();
+    await dao.logout();
 
     expect(firebaseAuth.signOut).toHaveBeenCalled();
   });

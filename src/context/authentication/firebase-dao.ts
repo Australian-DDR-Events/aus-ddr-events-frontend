@@ -19,7 +19,12 @@ const authenticationFirebaseDao = (
   const login = async (
     username: string,
     password: string,
+    remember: boolean,
   ): Promise<Result<Error, string>> => {
+    const persistenceLevel = remember
+      ? firebase.auth.Auth.Persistence.LOCAL
+      : firebase.auth.Auth.Persistence.SESSION;
+    await firebaseApp.auth().setPersistence(persistenceLevel);
     return firebaseApp
       .auth()
       .signInWithEmailAndPassword(username, password)

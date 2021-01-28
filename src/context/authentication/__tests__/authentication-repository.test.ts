@@ -17,8 +17,12 @@ describe('authenticationRepository', () => {
   });
 
   test('should call DAO login', () => {
-    authRepo.login('test email', 'test password');
-    expect(firebaseDaoMock.login).toBeCalledWith('test email', 'test password');
+    authRepo.login('test email', 'test password', true);
+    expect(firebaseDaoMock.login).toBeCalledWith(
+      'test email',
+      'test password',
+      true,
+    );
   });
 
   test('should call DAO logout', () => {

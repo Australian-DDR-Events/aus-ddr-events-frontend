@@ -11,7 +11,8 @@ const authenticationRepository = (
   const login = (
     username: string,
     password: string,
-  ): Promise<Result<Error, string>> => dao.login(username, password);
+    remember: boolean,
+  ): Promise<Result<Error, string>> => dao.login(username, password, remember);
   const logout = (): Promise<Result<Error, void>> => dao.logout();
   const get = (): Result<Error, string> => dao.get();
   const register = async (

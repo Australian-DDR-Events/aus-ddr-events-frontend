@@ -2,7 +2,11 @@ import { ReactNode } from 'react';
 import { Result } from '../../types/Result';
 
 export type AuthenticationRepository = {
-  login: (username: string, password: string) => Promise<Result<Error, string>>;
+  login: (
+    username: string,
+    password: string,
+    remember: boolean,
+  ) => Promise<Result<Error, string>>;
   logout: () => Promise<Result<Error, void>>;
   get: () => Result<Error, string>;
   register: (email: string, password: string) => Promise<Result<Error, void>>;
@@ -14,7 +18,9 @@ export type AuthenticationRepository = {
 };
 
 export interface Login {
-  (username: string, password: string): Promise<Result<Error, string>>;
+  (username: string, password: string, remember: boolean): Promise<
+    Result<Error, string>
+  >;
 }
 
 export interface Logout {

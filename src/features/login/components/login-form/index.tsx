@@ -31,7 +31,7 @@ const LoginForm = () => {
 
   const onFinish = (values: any) => {
     authRepo.authenticationRepositoryInstance
-      ?.login(values.email, values.password)
+      ?.login(values.email, values.password, values.remember)
       .then((result) => {
         if (result.isOk()) {
           setLocation('/');
