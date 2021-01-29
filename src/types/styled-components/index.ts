@@ -5,6 +5,7 @@ const {
   css,
   keyframes,
   ThemeProvider,
+  // eslint-disable-next-line max-len
 } = styledComponents as styledComponents.ThemedStyledComponentsModule<IThemeInterface>;
 
 export interface IThemeInterface {}
