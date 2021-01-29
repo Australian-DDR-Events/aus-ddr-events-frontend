@@ -48,7 +48,7 @@ jobs:
           at: ~/aus-ddr-poc
       - run: yarn add firebase-tools
       - run: yarn build:prod
-      - run: yarn firebase deploy --token $FIREBASE_TOKEN_STAGING
+      - run: yarn firebase hosting:channel:deploy ausddrevents-staging --token $FIREBASE_TOKEN_STAGING
 
 workflows:
   build_and_test:
