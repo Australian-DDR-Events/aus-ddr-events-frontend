@@ -1,19 +1,16 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from '../../context/authentication';
-import { Space, Typography, Image, Button } from 'antd';
-import { ArrowLeftOutlined } from '@ant-design/icons';
-import { HomeWrapper } from './styled';
-import HomeHowto from './components/home-howto';
-import HomeAboutUs from './components/home-about';
-import HomeContactUs from './components/home-contactus';
-import RegistrationForm from '../register';
-
+import { Typography, Button } from 'antd';
+import { HomeWrapper, LargeWidthImage, DarkBackgroundSpace, WhiteBackgroundSpace } from './styled';
+import HomeHowto from './components/how-to';
+import HomeAboutUs from './components/about-us';
+import HomeContactUs from './components/contact-us';
 
 const Home = () => {
-  const [isSigningUp, setSigningUp] = useState(false);
+  const { Link } = Typography
 
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
     AuthenticationRepositoryContext,
@@ -23,38 +20,34 @@ const Home = () => {
     .get()
     .okOrDefault();
 
-  return !isSigningUp ? (
+  return (
     <HomeWrapper>
-      <Space className='whitebg' direction='vertical'>
+      <WhiteBackgroundSpace direction='vertical'>
         <Typography.Title>Coming Soon...</Typography.Title>
-        <Image 
-          src='https://i.imgur.com/vgn9VFo.png' 
-          alt='Summer BBQ Logo' 
-          className='imagewidth'
-        />
+        <LargeWidthImage src='https://i.imgur.com/vgn9VFo.png' alt='Summer BBQ Logo' />
         <Typography.Title level={4}>
           Show off your moves and join in on the hottest DDR seasonal event starting February 2021. Pre-register your account today!
         </Typography.Title>
-        <Button type="primary" onClick={() => { setSigningUp(true)}}>Sign Up</Button>
-      </Space>
-    
-      <Space className='darkbg' direction='vertical'>
-        <HomeAboutUs />
-      </Space>
-      <Space className='whitebg' direction='vertical'>
-        <HomeHowto />
-      </Space>
-      <Space className='darkbg' direction='vertical'> 
-        <HomeContactUs />
-        <Button type="primary" onClick={() => { setSigningUp(true)}}>Sign Up</Button>
-      </Space>
-    </HomeWrapper>
+        <Link href='/register'>
+          <Button type="primary">Sign Up</Button>
+        </Link>
+      </WhiteBackgroundSpace>
 
-        ) : (
-          <>
-          <ArrowLeftOutlined onClick={() => { setSigningUp(false)}} />
-          <RegistrationForm />
-          </>
+      <DarkBackgroundSpace direction='vertical'>
+        <HomeAboutUs />
+      </DarkBackgroundSpace>
+
+      <WhiteBackgroundSpace direction='vertical'>
+        <HomeHowto />
+      </WhiteBackgroundSpace>
+      
+      <DarkBackgroundSpace direction='vertical'> 
+        <HomeContactUs />
+        <Link href='/register'>
+          <Button type="primary">Sign Up</Button>
+        </Link>
+      </DarkBackgroundSpace>
+    </HomeWrapper>
         )
 };
 
