@@ -18,12 +18,6 @@ export const WhiteBackgroundSpace = styled(Space)`
   width: 100%;
   padding: 20px;
 `;
-export const SmallWidthImage = styled(Image)`
-  max-width: 200px;
-`;
-export const MediumWidthImage = styled(Image)`
-  max-width: 500px;
-`;
 export const LargeWidthImage = styled(Image)`
   max-width: 600px;
 `;

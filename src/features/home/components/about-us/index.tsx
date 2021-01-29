@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Space } from 'antd';
-import { SmallWidthImage, MediumWidthImage } from '../../styled';
+import { SmallWidthImage, MediumWidthImage } from './styled';
 
 const AboutUs = () => {
   return (

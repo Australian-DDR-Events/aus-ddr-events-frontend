@@ -6,9 +6,9 @@ import {
   DarkBackgroundSpace,
   WhiteBackgroundSpace,
 } from './styled';
-import HomeHowto from './components/how-to';
-import HomeAboutUs from './components/about-us';
-import HomeContactUs from './components/contact-us';
+import HowTo from './components/how-to';
+import AboutUs from './components/about-us';
+import ContactUs from './components/contact-us';
 
 const Home = () => {
   const { Link } = Typography;
@@ -31,15 +31,15 @@ const Home = () => {
       </WhiteBackgroundSpace>
 
       <DarkBackgroundSpace direction="vertical">
-        <HomeAboutUs />
+        <AboutUs />
       </DarkBackgroundSpace>
 
       <WhiteBackgroundSpace direction="vertical">
-        <HomeHowto />
+        <HowTo />
       </WhiteBackgroundSpace>
 
       <DarkBackgroundSpace direction="vertical">
-        <HomeContactUs />
+        <ContactUs />
         <Link href="/register">
           <Button type="primary">Sign Up</Button>
         </Link>

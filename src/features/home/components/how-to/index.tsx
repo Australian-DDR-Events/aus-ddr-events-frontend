@@ -1,6 +1,6 @@
 import React from 'react';
 import { Space, Typography } from 'antd';
-import { SmallWidthImage, MediumWidthImage } from '../../styled';
+import { SmallWidthImage, MediumWidthImage } from './styled';
 
 const HowTo = () => {
   return (

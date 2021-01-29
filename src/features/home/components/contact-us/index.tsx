@@ -1,6 +1,6 @@
 import React from 'react';
 import { Space, Typography } from 'antd';
-import { SmallWidthImage } from '../../styled';
+import { SmallWidthImage } from './styled';
 
 const ContactUs = () => {
   const { Link } = Typography;
