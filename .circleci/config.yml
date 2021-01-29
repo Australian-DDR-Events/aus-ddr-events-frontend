@@ -46,9 +46,8 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/aus-ddr-poc
-      - run: yarn add parcel-bundler --dev
       - run: yarn add firebase-tools
-      - run: yarn build
+      - run: yarn build:prod
       - run: yarn firebase deploy --token $FIREBASE_TOKEN_STAGING
 
 workflows:
