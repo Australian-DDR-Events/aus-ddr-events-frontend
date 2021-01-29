@@ -53,6 +53,7 @@ module.exports = {
           '**/types/*',
           '**/types/*/index*',
           '**/components/*/index*',
+          '**/utils/*/index*',
         ],
       },
     ],
