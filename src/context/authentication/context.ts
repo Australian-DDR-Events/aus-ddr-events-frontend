@@ -13,6 +13,8 @@ const initialContext = {
       err(new Error('authentication repository not initialized'), undefined),
     updatePassword: async () =>
       err(new Error('authentication repository not initialized'), undefined),
+    sendPasswordResetEmail: async () =>
+      err(new Error('authentication repository not initialized'), undefined),
     onAuthStateChanged: () => {},
   },
 };

@@ -8,12 +8,16 @@
     "start:prod": "parcel build src/index.html",
     "test": "yarn jest",
     "lint": "yarn eslint .",
-    "lint:fix": "yarn eslint . -- fix"
+    "lint:fix": "yarn eslint . -- fix",
+    "clean": "rm -rf dist"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@ant-design/icons": "^4.4.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "antd": "^4.11.1",
     "dotenv": "^8.2.0",
     "firebase": "^8.2.4",

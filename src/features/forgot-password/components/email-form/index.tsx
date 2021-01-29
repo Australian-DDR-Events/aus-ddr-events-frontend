@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Typography } from 'antd';
 import { useLocation } from 'wouter';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from '../../../../context/authentication';
-import { StyledForm, LoginFormForgot } from './styled';
+import { StyledForm } from './styled';
 
-const LoginForm = () => {
+const EmailForm = ({ onSubmit }: { onSubmit: Function }) => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
     AuthenticationRepositoryContext,
   );
@@ -24,11 +24,9 @@ const LoginForm = () => {
 
   const onFinish = (values: any) => {
     authRepo.authenticationRepositoryInstance
-      ?.login(values.email, values.password, values.remember)
+      .sendPasswordResetEmail(values.email)
       .then((result) => {
-        if (result.isOk()) {
-          setLocation('/');
-        }
+        if (result.isOk()) onSubmit();
       });
   };
 
@@ -39,39 +37,29 @@ const LoginForm = () => {
       initialValues={{ remember: true }}
       onFinish={onFinish}
     >
+      <Typography.Title>Reset password</Typography.Title>
+      <Typography.Paragraph type="secondary">
+        Enter the email associated with your account and we&apos;ll send an
+        email with instructions to reset your password.
+      </Typography.Paragraph>
       <Form.Item
-        label="Email"
+        label="Email address"
         name="email"
-        rules={[{ required: true, message: 'Please input your username!' }]}
+        rules={[
+          { required: true, message: 'Please input your username!' },
+          { type: 'email', message: 'Please enter a valid email address' },
+        ]}
       >
         <Input />
       </Form.Item>
 
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[{ required: true, message: 'Please input your password!' }]}
-      >
-        <Input.Password />
-      </Form.Item>
-
-      <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-        <LoginFormForgot href="/forgot-password">
-          Forgot password?
-        </LoginFormForgot>
-      </Form.Item>
-
       <Form.Item>
         <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-          Log in
+          Continue
         </Button>
-        Or <a href="/register">register now!</a>
       </Form.Item>
     </StyledForm>
   );
 };
 
-export default LoginForm;
+export default EmailForm;

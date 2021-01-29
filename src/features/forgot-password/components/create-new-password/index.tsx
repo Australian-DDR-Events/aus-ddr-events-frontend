@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Typography } from 'antd';
 import { useLocation } from 'wouter';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from '../../../../context/authentication';
-import { StyledForm, LoginFormForgot } from './styled';
+import { StyledForm } from './styled';
 
-const LoginForm = () => {
+const CreateNewPassword = () => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
     AuthenticationRepositoryContext,
   );
@@ -39,14 +39,10 @@ const LoginForm = () => {
       initialValues={{ remember: true }}
       onFinish={onFinish}
     >
-      <Form.Item
-        label="Email"
-        name="email"
-        rules={[{ required: true, message: 'Please input your username!' }]}
-      >
-        <Input />
-      </Form.Item>
-
+      <Typography.Title>Create new password</Typography.Title>
+      <Typography.Paragraph type="secondary">
+        Your new password must be different from previously used passwords.
+      </Typography.Paragraph>
       <Form.Item
         label="Password"
         name="password"
@@ -55,23 +51,21 @@ const LoginForm = () => {
         <Input.Password />
       </Form.Item>
 
-      <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-        <LoginFormForgot href="/forgot-password">
-          Forgot password?
-        </LoginFormForgot>
+      <Form.Item
+        label="Confirm password"
+        name="password"
+        rules={[{ required: true, message: 'Please input your password!' }]}
+      >
+        <Input.Password />
       </Form.Item>
 
       <Form.Item>
         <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-          Log in
+          Continue
         </Button>
-        Or <a href="/register">register now!</a>
       </Form.Item>
     </StyledForm>
   );
 };
 
-export default LoginForm;
+export default CreateNewPassword;
