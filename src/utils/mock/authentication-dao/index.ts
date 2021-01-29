@@ -1,7 +1,7 @@
-import { err, Result } from '../../types/result';
-import { AuthStateChangedCallbackType } from '../../context/authentication';
+import { err, Result } from '../../../types/result';
+import { AuthStateChangedCallbackType } from '../../../context/authentication';
 
-const authenticationTestingDao = () => {
+const authenticationDao = () => {
   let loginHook: (
     username: string,
     password: string,
@@ -118,4 +118,4 @@ const authenticationTestingDao = () => {
   };
 };
 
-export default authenticationTestingDao;
+export default authenticationDao;

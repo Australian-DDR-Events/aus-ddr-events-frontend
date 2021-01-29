@@ -1,7 +1,7 @@
-import { err, Result } from '../../types/result';
-import { User, DefaultUser } from '../../context/user';
+import { err, Result } from '../../../types/result';
+import { User, DefaultUser } from '../../../context/user';
 
-const userTestingDao = () => {
+const userDao = () => {
   let getHook: (id: string) => Promise<Result<Error, User>> = async (): Promise<
     Result<Error, User>
   > => {
@@ -41,4 +41,4 @@ const userTestingDao = () => {
   };
 };
 
-export default userTestingDao;
+export default userDao;
