@@ -1,13 +1,14 @@
 import styled from '../../types/styled-components';
 
+// eslint-disable-next-line import/prefer-default-export
 export const HomeWrapper = styled.div`
   width: 100%;
   text-align: center;
   margin: 0 auto;
 
   .imagewidth {
-      max-width: 400px;
-      width: 100%;
+    max-width: 400px;
+    width: 100%;
   }
 
   .smallimagewidth {
