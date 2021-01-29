@@ -43,8 +43,6 @@ jobs:
     docker:
       - image: cimg/node:15.6.0
     resource_class: medium
-    environment:
-      NODE_ENV: staging
     steps:
       - attach_workspace:
           at: ~/aus-ddr-poc
@@ -75,10 +73,12 @@ workflows:
           requires:
             - install
       - deploy_staging:
-            post-steps:
-              - jira/notify
-            requires:
-              - test
-            filters:
-              branches:
-                only: master
+          context:
+            - aus-ddr-events-staging
+          post-steps:
+            - jira/notify
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
