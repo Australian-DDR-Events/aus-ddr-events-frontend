@@ -9,8 +9,6 @@ const {
 } = styledComponents as styledComponents.ThemedStyledComponentsModule<IThemeInterface>;
 
 export interface IThemeInterface {}
-
-export const theme = {};
-
-export default styled;
+export const defaultSpacing = 8;
 export { css, keyframes, ThemeProvider };
+export default styled;

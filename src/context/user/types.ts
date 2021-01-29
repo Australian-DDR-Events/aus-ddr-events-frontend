@@ -6,7 +6,6 @@ export type User = {
   dancerId: string;
   profilePicture: string;
   userName: string;
-  displayName: string;
   state: string;
   primaryMachine: string;
 };

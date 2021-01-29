@@ -9,6 +9,7 @@ import Profile from '../../features/profile';
 import Settings from '../../features/settings';
 import Register from '../../features/register';
 import Home from '../../features/home';
+import ForgotPassword from '../../features/forgot-password';
 
 const ProtectedRoute = (props: RouteProps) => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
@@ -38,8 +39,14 @@ const Router = () => (
     <Route path="/register">
       <Register />
     </Route>
+    <Route path="/forgot-password">
+      <ForgotPassword />
+    </Route>
     <ProtectedRoute path="/profile">
       <Profile />
+    </ProtectedRoute>
+    <ProtectedRoute path="/profile/:id">
+      {(params) => <Profile id={params.id} />}
     </ProtectedRoute>
     <ProtectedRoute path="/settings">
       <Settings />

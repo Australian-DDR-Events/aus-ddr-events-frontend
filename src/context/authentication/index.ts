@@ -1,6 +1,9 @@
 import AuthenticationRepositoryProvider from './provider';
 import AuthenticationRepositoryContext from './context';
-import { AuthenticationRepositoryContextInterface } from './types';
+import {
+  AuthenticationRepositoryContextInterface,
+  AuthStateChangedCallback,
+} from './types';
 import authenticationFirebaseDao from './firebase-dao';
 import authenticationRepository from './authentication-repository';
 
@@ -11,3 +14,5 @@ export {
   authenticationFirebaseDao,
   authenticationRepository,
 };
+
+export type AuthStateChangedCallbackType = AuthStateChangedCallback;

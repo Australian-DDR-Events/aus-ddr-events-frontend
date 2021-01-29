@@ -4,7 +4,6 @@ import { User } from './types';
 export const DefaultUser: User = {
   dancerId: '',
   dancerName: '',
-  displayName: '',
   primaryMachine: '',
   profilePicture: '',
   state: '',
