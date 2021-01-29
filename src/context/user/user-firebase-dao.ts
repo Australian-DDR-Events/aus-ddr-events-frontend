@@ -9,7 +9,6 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
     const user: User = {
       dancerId: '',
       dancerName: '',
-      displayName: '',
       primaryMachine: '',
       profilePicture: '',
       state: '',
@@ -26,9 +25,7 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
         user.dancerId = snap.child('dancerId').val();
         user.state = snap.child('state').val();
         user.primaryMachine = snap.child('pmachine').val();
-
-        user.userName = id;
-        user.displayName = currentAuthUser.displayName ?? '';
+        user.userName = snap.child('username').val();
 
         try {
           const profilePictureSnap = await storage
@@ -54,10 +51,7 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
       dancerId: user.dancerId,
       state: user.state,
       pmachine: user.primaryMachine,
-    });
-
-    await currentAuthUser.updateProfile({
-      displayName: user.displayName,
+      userName: user.userName,
     });
 
     await storage
