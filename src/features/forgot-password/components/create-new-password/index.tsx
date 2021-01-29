@@ -7,6 +7,8 @@ import {
 } from '../../../../context/authentication';
 import { StyledForm } from './styled';
 
+/* This component is currently not being used as 
+Firebase has its own password reset form */
 const CreateNewPassword = () => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
     AuthenticationRepositoryContext,

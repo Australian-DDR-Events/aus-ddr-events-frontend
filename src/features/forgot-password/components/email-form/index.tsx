@@ -1,6 +1,5 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Form, Input, Button, Typography } from 'antd';
-import { useLocation } from 'wouter';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
@@ -11,16 +10,6 @@ const EmailForm = ({ onSubmit }: { onSubmit: Function }) => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
     AuthenticationRepositoryContext,
   );
-  const [, setLocation] = useLocation();
-
-  useEffect(() => {
-    const loggedInUserId = authRepo.authenticationRepositoryInstance
-      .get()
-      .okOrDefault();
-    if (loggedInUserId) {
-      setLocation('/');
-    }
-  }, []);
 
   const onFinish = (values: any) => {
     authRepo.authenticationRepositoryInstance
