@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
-import { useLocation } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
@@ -59,16 +59,19 @@ const LoginForm = () => {
         <Form.Item name="remember" valuePropName="checked" noStyle>
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
-        <LoginFormForgot href="/forgot-password">
-          Forgot password?
-        </LoginFormForgot>
+        <Link href="/forgot-password">
+          <LoginFormForgot>Forgot password?</LoginFormForgot>
+        </Link>
       </Form.Item>
 
       <Form.Item>
         <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
           Log in
         </Button>
-        Or <a href="/register">register now!</a>
+        Or{' '}
+        <Link href="/register" className="active">
+          register now!
+        </Link>
       </Form.Item>
     </StyledForm>
   );
