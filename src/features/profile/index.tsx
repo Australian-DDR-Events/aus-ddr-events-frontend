@@ -17,15 +17,20 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const loggedInUserId = authRepo.authenticationRepositoryInstance
+    .get()
+    .okOrDefault();
+  const isEditable = !id || loggedInUserId === id;
+
   useEffect(() => {
-    const lookupId =
-      id ?? authRepo.authenticationRepositoryInstance.get().okOrDefault();
+    setLoading(true);
+    const lookupId = id ?? loggedInUserId;
 
     userRepo.userRepositoryInstance.get(lookupId).then((u) => {
       setUser(u.okOrDefault());
       setLoading(false);
     });
-  }, []);
+  }, [id]);
 
   return !isEditing ? (
     <ProfileWrapper>
@@ -41,17 +46,19 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
         {!loading && (
           <>
             <Avatar size={80} icon={<UserOutlined />} />
-            <ProfileHeader level={2}>@{user.displayName}</ProfileHeader>
+            <ProfileHeader level={2}>@{user.userName}</ProfileHeader>
             <Typography.Text type="secondary">
               Profiessional player since the dawn of time lmao
             </Typography.Text>
-            <Button
-              onClick={() => {
-                setIsEditing(true);
-              }}
-            >
-              Edit
-            </Button>
+            {isEditable && (
+              <Button
+                onClick={() => {
+                  setIsEditing(true);
+                }}
+              >
+                Edit
+              </Button>
+            )}
           </>
         )}
       </Space>

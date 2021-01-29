@@ -33,7 +33,7 @@ const ProfileForm = ({
       style={{ textAlign: 'left' }}
     >
       <Form.Item label="Username">
-        <Form.Item name="displayName" noStyle>
+        <Form.Item name="userName" noStyle>
           <Input />
         </Form.Item>
       </Form.Item>
