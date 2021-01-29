@@ -38,6 +38,17 @@ jobs:
       - attach_workspace:
           at: ~/aus-ddr-poc
       - run: yarn test
+  deploy_staging:
+    working_directory: ~/aus-ddr-poc
+    docker:
+      - image: cimg/node:15.6.0
+    resource_class: medium
+    steps:
+      - attach_workspace:
+          at: ~/aus-ddr-poc
+      - run: yarn add firebase-tools
+      - run: yarn build:prod
+      - run: yarn firebase hosting:channel:deploy ausddrevents-staging --token $FIREBASE_TOKEN_STAGING
 
 workflows:
   build_and_test:
@@ -53,3 +64,11 @@ workflows:
             - jira/notify
           requires:
             - install
+      - deploy_staging:
+            post-steps:
+              - jira/notify
+            requires:
+              - test
+            filters:
+              branches:
+                only: master
