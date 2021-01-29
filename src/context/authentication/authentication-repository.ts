@@ -24,6 +24,9 @@ const authenticationRepository = (
     newPassword: string,
   ): Promise<Result<Error, void>> =>
     dao.updatePassword(currentPassword, newPassword);
+  const sendPasswordResetEmail = async (
+    email: string,
+  ): Promise<Result<Error, void>> => dao.sendPasswordResetEmail(email);
   const onAuthStateChanged = (cb: AuthStateChangedCallback): void =>
     dao.onAuthStateChanged(cb);
 
@@ -33,6 +36,7 @@ const authenticationRepository = (
     get,
     updatePassword,
     register,
+    sendPasswordResetEmail,
     onAuthStateChanged,
   };
 };
