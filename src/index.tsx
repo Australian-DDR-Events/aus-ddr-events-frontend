@@ -1,4 +1,3 @@
-import dotenv from 'dotenv';
 import firebase from 'firebase';
 import React, { useContext, useState } from 'react';
 import ReactDOM from 'react-dom';
@@ -19,8 +18,6 @@ import Wrapper from './components/wrapper';
 import Router from './components/router';
 // eslint-disable-next-line import/no-internal-modules
 import 'antd/dist/antd.css';
-
-dotenv.config();
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,

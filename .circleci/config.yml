@@ -43,9 +43,19 @@ jobs:
     docker:
       - image: cimg/node:15.6.0
     resource_class: medium
+    environment:
+      NODE_ENV: staging
     steps:
       - attach_workspace:
           at: ~/aus-ddr-poc
+      - run: printf "FIREBASE_API_KEY=$FIREBASE_API_KEY\r\n" >> .env.$NODE_ENV
+      - run: printf "FIREBASE_AUTH_DOMAIN=$FIREBASE_AUTH_DOMAIN\r\n" >> .env.$NODE_ENV
+      - run: printf "FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID\r\n" >> .env.$NODE_ENV
+      - run: printf "FIREBASE_DATABASE_URL=$FIREBASE_DATABASE_URL\r\n" >> .env.$NODE_ENV
+      - run: printf "FIREBASE_STORAGE_BUCKET=$FIREBASE_STORAGE_BUCKET\r\n" >> .env.$NODE_ENV
+      - run: printf "FIREBASE_MESSAGE_SENDER_ID=$FIREBASE_MESSAGE_SENDER_ID\r\n" >> .env.$NODE_ENV
+      - run: printf "FIREBASE_APP_ID=$FIREBASE_APP_ID\r\n" >> .env.$NODE_ENV
+      - run: printf "FIREBASE_MEASUREMENT_ID=$FIREBASE_MEASUREMENT_ID\r\n" >> .env.$NODE_ENV
       - run: yarn add firebase-tools
       - run: yarn build:prod
       - run: yarn firebase hosting:channel:deploy ausddrevents-staging --token $FIREBASE_TOKEN_STAGING
