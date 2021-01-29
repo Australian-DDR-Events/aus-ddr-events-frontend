@@ -38,6 +38,17 @@ jobs:
       - attach_workspace:
           at: ~/aus-ddr-poc
       - run: yarn test
+  deploy:
+    working_directory: ~/aus-ddr-poc
+    docker:
+      - image: cimg/node:15.6.0
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: ~/aus-ddr-poc
+      - run: npm install -g firebase-tools
+      - run: firebase deploy --token << parameters.firebase-token >>
+
 
 workflows:
   build_and_test:
@@ -53,3 +64,16 @@ workflows:
             - jira/notify
           requires:
             - install
+
+  deploy_staging:
+    jobs:
+      - install
+      - test:
+          requires:
+            - install
+      - deploy:
+          post-steps:
+            - jira/notify
+          requires:
+            - test
+          firebase-token: $FIREBASE_TOKEN_STAGING
