@@ -5,7 +5,6 @@ import { UserRepositoryContext } from '../../../../context/user';
 import { StateOptions } from './constants';
 import { ProfileFormData } from './types';
 import { FormWrapper } from './styled';
-import ProfilePictureUploader from '../profile-picture-uploader';
 
 const ProfileForm = ({
   formData,
