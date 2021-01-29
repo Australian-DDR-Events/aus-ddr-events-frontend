@@ -5,6 +5,7 @@ export type User = {
   dancerName: string;
   dancerId: string;
   profilePicture: string;
+  newProfilePicture: File;
   userName: string;
   displayName: string;
   state: string;

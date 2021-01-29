@@ -12,6 +12,7 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
       displayName: '',
       primaryMachine: '',
       profilePicture: '',
+      newProfilePicture: new File([""], "filename"),
       state: '',
       userName: '',
     };
@@ -59,10 +60,12 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
     await currentAuthUser.updateProfile({
       displayName: user.displayName,
     });
-
-    await storage
-      .ref(`${currentAuthUser.uid} - images/ProfilePicture`)
-      .putString(user.profilePicture);
+    
+    if (user.newProfilePicture.size !== 0) {
+      await storage
+        .ref(`${currentAuthUser.uid} - images/ProfilePicture`)
+        .put(user.newProfilePicture);
+    }
 
     return ok(true);
   };

@@ -37,7 +37,10 @@ const Profile = () => {
 
         {!loading && (
           <>
-            <Avatar size={80} src={user.profilePicture} />
+            <Avatar
+              size={80}
+              shape="square"
+              src={user.profilePicture || "https://i.imgur.com/o0ulS6k.png"} />
             <ProfileHeader level={2}>@{user.displayName}</ProfileHeader>
             <Typography.Text type="secondary">
               Profiessional player since the dawn of time lmao
@@ -58,6 +61,9 @@ const Profile = () => {
       formData={user}
       onSuccessfulSubmit={(formData: User) => {
         setUser(formData);
+        setIsEditing(false);
+      }}
+      onCancelSubmit={() => {
         setIsEditing(false);
       }}
     />

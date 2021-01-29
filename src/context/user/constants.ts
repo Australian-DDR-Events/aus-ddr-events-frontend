@@ -7,6 +7,7 @@ export const DefaultUser: User = {
   displayName: '',
   primaryMachine: '',
   profilePicture: '',
+  newProfilePicture: new File([""], "filename"),
   state: '',
   userName: '',
 };
