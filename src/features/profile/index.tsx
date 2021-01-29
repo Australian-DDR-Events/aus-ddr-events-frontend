@@ -45,7 +45,10 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
 
         {!loading && (
           <>
-            <Avatar size={80} src={user.profilePicture} />
+            <Avatar
+              size={80}
+              shape="square"
+              src={user.profilePicture || "https://i.imgur.com/o0ulS6k.png"} />
             <ProfileHeader level={2}>@{user.userName}</ProfileHeader>
             <Typography.Text type="secondary">
               Profiessional player since the dawn of time lmao

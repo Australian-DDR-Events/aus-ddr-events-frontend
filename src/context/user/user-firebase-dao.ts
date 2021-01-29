@@ -11,6 +11,7 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
       dancerName: '',
       primaryMachine: '',
       profilePicture: '',
+      newProfilePicture: new File([""], "filename"),
       state: '',
       userName: '',
     };
@@ -53,10 +54,12 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
       pmachine: user.primaryMachine,
       userName: user.userName,
     });
-
-    await storage
-      .ref(`${currentAuthUser.uid} - images/ProfilePicture`)
-      .putString(user.profilePicture);
+    
+    if (user.newProfilePicture.size !== 0) {
+      await storage
+        .ref(`${currentAuthUser.uid} - images/ProfilePicture`)
+        .put(user.newProfilePicture);
+    }
 
     return ok(true);
   };
