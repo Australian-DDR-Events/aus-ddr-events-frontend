@@ -48,7 +48,7 @@ jobs:
           at: ~/aus-ddr-poc
       - run: yarn add parcel-bundler --dev
       - run: yarn add firebase-tools
-      - run: yarn
+      - run: yarn build
       - run: yarn firebase deploy --token $FIREBASE_TOKEN_STAGING
 
 workflows:
