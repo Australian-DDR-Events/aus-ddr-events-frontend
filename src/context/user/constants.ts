@@ -6,7 +6,7 @@ export const DefaultUser: User = {
   dancerName: '',
   primaryMachine: '',
   profilePicture: '',
-  newProfilePicture: new File([""], "filename"),
+  newProfilePicture: new File([''], 'filename'),
   state: '',
   userName: '',
 };

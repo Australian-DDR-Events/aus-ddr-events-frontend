@@ -11,7 +11,7 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
       dancerName: '',
       primaryMachine: '',
       profilePicture: '',
-      newProfilePicture: new File([""], "filename"),
+      newProfilePicture: new File([''], 'filename'),
       state: '',
       userName: '',
     };
@@ -30,9 +30,7 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
 
         try {
           const profilePictureSnap = await storage
-            .ref(
-              `${id} - images/ProfilePicture`,
-            )
+            .ref(`${id} - images/ProfilePicture`)
             .getDownloadURL();
           user.profilePicture = profilePictureSnap;
         } catch {
@@ -54,7 +52,7 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
       pmachine: user.primaryMachine,
       userName: user.userName,
     });
-    
+
     if (user.newProfilePicture.size !== 0) {
       await storage
         .ref(`${currentAuthUser.uid} - images/ProfilePicture`)
