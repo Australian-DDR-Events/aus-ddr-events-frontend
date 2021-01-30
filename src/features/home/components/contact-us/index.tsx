@@ -1,9 +1,15 @@
 import React from 'react';
 import { Space, Typography } from 'antd';
-import { SmallWidthImage } from './styled';
+import {
+  faFacebook,
+  faDiscord,
+  faTwitter,
+} from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeButton } from './styled';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ContactUs = () => {
-  const { Link } = Typography;
   return (
     <>
       <Typography.Title style={{ color: '#f2f2f2' }}>
@@ -14,25 +20,35 @@ const ContactUs = () => {
         AUSDDREvents team, feel free to get in touch with us via the following
         services:
       </Typography.Paragraph>
-      <Space direction="horizontal">
-        <Link href="https://www.facebook.com/groups/2053507828081261">
-          <SmallWidthImage
-            src="https://i.imgur.com/DG4HgJn.png"
-            preview={false}
-          />
-        </Link>
-        <Link href="https://discord.gg/DsKWPxY4V7" title="discord">
-          <SmallWidthImage
-            src="https://i.imgur.com/zGzeQ7G.png"
-            preview={false}
-          />
-        </Link>
-        <Link href="mailto:ausddrevents@gmail.com" title="gmail">
-          <SmallWidthImage
-            src="https://i.imgur.com/j1aQgYK.png"
-            preview={false}
-          />
-        </Link>
+      <Space size="large" direction="horizontal">
+        <FontAwesomeButton
+          iconColor="#3b5998"
+          target="_blank"
+          href="https://www.facebook.com/groups/2053507828081261"
+        >
+          <FontAwesomeIcon icon={faFacebook} size="5x" />
+        </FontAwesomeButton>
+        <FontAwesomeButton
+          iconColor="#7289da"
+          target="_blank"
+          href="https://discord.gg/DsKWPxY4V7"
+        >
+          <FontAwesomeIcon icon={faDiscord} size="5x" />
+        </FontAwesomeButton>
+        <FontAwesomeButton
+          iconColor="#00aced"
+          target="_blank"
+          href="https://twitter.com/AusddrE"
+        >
+          <FontAwesomeIcon icon={faTwitter} size="5x" />
+        </FontAwesomeButton>
+        <FontAwesomeButton
+          iconColor="white"
+          target="_blank"
+          href="mailto:ausddrevents@gmail.com"
+        >
+          <FontAwesomeIcon icon={faEnvelope} size="5x" />
+        </FontAwesomeButton>
       </Space>
       <Typography.Paragraph style={{ color: '#f2f2f2' }}>
         We’re looking forward to seeing your moves on the dance floor!
