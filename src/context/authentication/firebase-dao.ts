@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import { Result, Ok, Err, ok, err } from '../../types/result';
+import { Result, Ok, Err, ok, err } from 'types/result';
 import { AuthenticationDao, AuthStateChangedCallback } from './types';
 import EmailAuthProvider = firebase.auth.EmailAuthProvider;
 

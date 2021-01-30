@@ -1,5 +1,5 @@
-import { err, Result } from '../../../types/result';
-import { AuthStateChangedCallbackType } from '../../../context/authentication';
+import { err, Result } from 'types/result';
+import { AuthStateChangedCallbackType } from 'context/authentication';
 
 const authenticationDao = () => {
   let loginHook: (

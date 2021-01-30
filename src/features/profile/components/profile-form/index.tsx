@@ -1,6 +1,6 @@
 import { Button, Form, Input, Select } from 'antd';
 import React, { useContext } from 'react';
-import { UserRepositoryContext } from '../../../../context/user';
+import { UserRepositoryContext } from 'context/user';
 import { StateOptions } from './constants';
 import { ProfileFormData } from './types';
 

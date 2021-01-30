@@ -10,7 +10,7 @@
     "moduleResolution": "node",
     "baseUrl": "./src",
     "paths": {
-      "~/*": ["./*"]
+      "~/*": ["./src/*"]
     },
     "noImplicitReturns": true,
     "noImplicitThis": true,

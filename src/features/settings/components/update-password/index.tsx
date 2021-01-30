@@ -1,6 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { Button, Form, Input, Spin } from 'antd';
-import { AuthenticationRepositoryContext } from '../../../../context/authentication';
+import {
+  AuthenticationRepositoryContextInterface,
+  AuthenticationRepositoryContext,
+} from 'context/authentication';
 
 const layout = {
   labelCol: { span: 8 },
@@ -10,7 +13,9 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 const UpdatePassword = () => {
-  const authRepo = useContext(AuthenticationRepositoryContext);
+  const authRepo = useContext<AuthenticationRepositoryContextInterface>(
+    AuthenticationRepositoryContext,
+  );
   const [submitEnabled, setSubmitEnabled] = useState<boolean>(true);
 
   const onFinish = (values: any) => {
