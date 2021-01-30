@@ -1,5 +1,5 @@
 import { Form } from 'antd';
-import styled, { defaultSpacing } from '../../../../types/styled-components';
+import styled, { defaultSpacing } from 'types/styled-components';
 
 export const LoginFormForgot = styled.a`
   float: right;

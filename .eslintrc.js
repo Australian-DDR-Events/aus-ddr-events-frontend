@@ -47,13 +47,14 @@ module.exports = {
       'error',
       {
         allow: [
-          '**/features/*/index*',
-          '**!(features)/*/components/*/index*',
-          '**/context/*/index*',
-          '**/types/*',
-          '**/types/*/index*',
-          '**/components/*/index*',
-          '**/utils/*/index*',
+          'features/*',
+          'context/*',
+          'types/*',
+          'types/*',
+          'components/*',
+          '**/components/*',
+          'utils/*',
+          '!features/*/components/*', // don't allow import from components within a feature
         ],
       },
     ],

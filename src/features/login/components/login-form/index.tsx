@@ -4,7 +4,7 @@ import { Link, useLocation } from 'wouter';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
-} from '../../../../context/authentication';
+} from 'context/authentication';
 import { StyledForm, LoginFormForgot } from './styled';
 
 const LoginForm = () => {

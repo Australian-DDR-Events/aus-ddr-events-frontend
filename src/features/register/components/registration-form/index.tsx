@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import { Form, Input, Tooltip, Button } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useLocation } from 'wouter';
-import { DefaultUser, UserRepositoryContext } from '~/context/user';
+import { DefaultUser, UserRepositoryContext } from 'context/user';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
-} from '~/context/authentication';
+} from 'context/authentication';
 
 const formItemLayout = {
   labelCol: {
@@ -27,7 +27,6 @@ const RegistrationForm = () => {
   const [form] = Form.useForm();
   const [, setLocation] = useLocation();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onFinish = (values: any) => {
     authRepo.authenticationRepositoryInstance
       .register(values.email, values.password)
@@ -41,7 +40,7 @@ const RegistrationForm = () => {
             setLocation('/');
           });
       });
-  }; // todo: remove the eslint disable and properly implement this
+  };
 
   return (
     <Form

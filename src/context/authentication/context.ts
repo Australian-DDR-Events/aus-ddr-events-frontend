@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { err } from '../../types/result';
+import { err } from 'types/result';
 import { AuthenticationRepositoryContextInterface } from './types';
 
 const initialContext = {
