@@ -13,6 +13,14 @@
   },
   "author": "",
   "license": "ISC",
+  "alias": {
+    "assets": "./src/assets",
+    "components": "./src/components",
+    "context": "./src/context",
+    "features": "./src/features",
+    "types": "./src/types",
+    "utils": "./src/utils"
+  },
   "dependencies": {
     "@ant-design/icons": "^4.4.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
