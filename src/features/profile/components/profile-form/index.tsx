@@ -1,13 +1,8 @@
 import { Button, Form, Input, Select, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import React, { useContext } from 'react';
-<<<<<<< HEAD
 import { UserRepositoryContext } from '../../../../context/user';
 import { StateOptions } from '../../constants';
-=======
-import { UserRepositoryContext } from 'context/user';
-import { StateOptions } from './constants';
->>>>>>> master
 import { ProfileFormData } from './types';
 import { FormWrapper } from './styled';
 
