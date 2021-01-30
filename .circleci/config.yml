@@ -2,6 +2,7 @@ version: 2.1
 orbs:
   jira: circleci/jira@1.3.0
   build-tools: circleci/build-tools@2.7.1
+  aws-cli: circleci/aws-cli@1.3.2
 jobs:
   install:
     working_directory: ~/aus-ddr-poc
@@ -60,6 +61,31 @@ jobs:
       - run: yarn add firebase-tools
       - run: yarn build:prod
       - run: yarn firebase hosting:channel:deploy ausddrevents-staging --token $FIREBASE_TOKEN
+  run_cloudformation:
+    working_directory: ~/aus-ddr-poc
+    docker:
+      - image: cimg/node:15.6.0
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: ~/aus-ddr-poc
+      - aws-cli/setup:
+          aws-access-key-id: $AWS_ACCESS_KEY_ID
+          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
+          aws-region: $AWS_REGION
+      - run:
+          name: Deploy CloudFormation template
+          command: |
+            aws cloudformation deploy \
+              --template-file infrastructure/cloudformation.yaml \
+              --stack-name AUS-DDR-EVENTS-STACK-${NODE_ENV} \
+              --parameter-overrides \
+                DBInstanceID=aus-ddr-events-db-${NODE_ENV} \
+                DBName=aus-ddr-events \
+                DBUsername=${AWS_DB_USERNAME} \
+                DBPassword=${AWS_DB_PASSWORD} \
+              --no-fail-on-empty-changeset
+
 
 workflows:
   build_and_test:
@@ -85,3 +111,6 @@ workflows:
           filters:
             branches:
               only: master
+      - run_cloudformation:
+          context:
+            - aus-ddr-events-staging
