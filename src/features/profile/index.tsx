@@ -43,8 +43,8 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
               {loading && (
                 <>
                   <Skeleton.Avatar active size={80} shape="square" />
+                  <Skeleton active paragraph={{ rows: 5 }}/>
                   <Skeleton.Button active size="default" shape="square" />
-                  <Skeleton.Input style={{ width: 200 }} active size="small" />
                 </>
               )}
 
@@ -61,6 +61,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                     if (option.value === user.state) {
                       return <Typography.Text>State: {option.label}</Typography.Text>
                     }
+                    return <></>
                   })}
                   <Typography.Text>Primary Machine: {user.primaryMachine}</Typography.Text>
                   {isEditable && (
@@ -90,6 +91,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
       onSuccessfulSubmit={(formData: User) => {
         setUser(formData);
         setIsEditing(false);
+        window.location.reload();
       }}
       onCancelSubmit={() => {
         setIsEditing(false);
