@@ -76,14 +76,15 @@ jobs:
       - run:
           name: Deploy CloudFormation template
           command: |
+            printf "aus-ddr-events-db-${NODE_ENV}"
             aws cloudformation deploy \
               --template-file "infrastructure/cloudformation.yaml" \
               --stack-name "AUS-DDR-EVENTS-STACK-${NODE_ENV}" \
               --parameter-overrides \
-                DBInstanceID=aus-ddr-events-db-${NODE_ENV} \
-                DBName=aus-ddr-events \
-                DBUsername=${AWS_DB_USERNAME} \
-                DBPassword=${AWS_DB_PASSWORD} \
+                "DBInstanceID=aus-ddr-events-db-${NODE_ENV}" \
+                "DBName=aus-ddr-events" \
+                "DBUsername=${AWS_DB_USERNAME}" \
+                "DBPassword=${AWS_DB_PASSWORD}" \
               --no-fail-on-empty-changeset
 
 
