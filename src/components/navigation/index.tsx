@@ -7,8 +7,8 @@ import {
   LoginOutlined,
   HomeOutlined,
 } from '@ant-design/icons';
-import { AuthenticationRepositoryContext } from '~/context/authentication';
-import logo from '~/assets/logo.png';
+import { AuthenticationRepositoryContext } from 'context/authentication';
+import logo from 'assets/logo.png';
 
 const { Sider } = Layout;
 

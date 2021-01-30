@@ -1,8 +1,8 @@
 import { Avatar, Button, Skeleton, Space, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
-import { AuthenticationRepositoryContext } from '~/context/authentication';
-import { DefaultUser, UserRepositoryContext, User } from '~/context/user';
+import { AuthenticationRepositoryContext } from 'context/authentication';
+import { DefaultUser, UserRepositoryContext, User } from 'context/user';
 import ProfileForm from './components/profile-form';
 import { ProfileHeader, ProfileWrapper } from './styled';
 

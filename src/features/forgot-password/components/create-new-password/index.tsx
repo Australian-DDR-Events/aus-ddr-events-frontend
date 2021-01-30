@@ -4,7 +4,7 @@ import { useLocation } from 'wouter';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
-} from '~/context/authentication';
+} from 'context/authentication';
 import { StyledForm } from './styled';
 
 /* This component is currently not being used as 

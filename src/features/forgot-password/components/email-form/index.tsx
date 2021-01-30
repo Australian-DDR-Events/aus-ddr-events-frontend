@@ -3,7 +3,7 @@ import { Form, Input, Button, Typography } from 'antd';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
-} from '~/context/authentication';
+} from 'context/authentication';
 import { StyledForm } from './styled';
 
 const EmailForm = ({ onSubmit }: { onSubmit: Function }) => {
