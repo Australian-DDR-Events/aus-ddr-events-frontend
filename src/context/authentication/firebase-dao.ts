@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import { Result, Ok, Err, ok, err } from '../../types/Result';
+import { Result, Ok, Err, ok, err } from '../../types/result';
 import { AuthenticationDao, AuthStateChangedCallback } from './types';
 import EmailAuthProvider = firebase.auth.EmailAuthProvider;
 
@@ -98,6 +98,26 @@ const authenticationFirebaseDao = (
       );
   };
 
+  const sendPasswordResetEmail = async (
+    email: string,
+  ): Promise<Result<Error, void>> => {
+    return firebaseApp
+      .auth()
+      .sendPasswordResetEmail(email, {
+        url: `${process.env.BASE_URL}/login`,
+      })
+      .then(
+        (): Result<Error, void> => {
+          return ok(undefined);
+        },
+      )
+      .catch(
+        (e): Result<Error, void> => {
+          return err(e, undefined);
+        },
+      );
+  };
+
   const onAuthStateChanged = (callback: AuthStateChangedCallback) => {
     onAuthStateChangedCallbacks.push(callback);
   };
@@ -108,6 +128,7 @@ const authenticationFirebaseDao = (
     get,
     updatePassword,
     register,
+    sendPasswordResetEmail,
     onAuthStateChanged,
   };
 };

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Result } from '../../types/Result';
+import { Result } from '../../types/result';
 
 export type AuthenticationRepository = {
   login: (
@@ -14,6 +14,7 @@ export type AuthenticationRepository = {
     currentPassword: string,
     newPassword: string,
   ) => Promise<Result<Error, void>>;
+  sendPasswordResetEmail: (email: string) => Promise<Result<Error, void>>;
   onAuthStateChanged: (cb: AuthStateChangedCallback) => void;
 };
 
@@ -39,6 +40,10 @@ export interface UpdatePassword {
   (currentPassword: string, newPassword: string): Promise<Result<Error, void>>;
 }
 
+export interface SendPasswordResetEmail {
+  (email: string): Promise<Result<Error, void>>;
+}
+
 export interface OnAuthStateChanged {
   (cb: AuthStateChangedCallback): void;
 }
@@ -49,6 +54,7 @@ export interface AuthenticationDao {
   get: Get;
   register: Register;
   updatePassword: UpdatePassword;
+  sendPasswordResetEmail: SendPasswordResetEmail;
   onAuthStateChanged: OnAuthStateChanged;
 }
 

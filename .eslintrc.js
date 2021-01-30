@@ -53,9 +53,13 @@ module.exports = {
           '**/types/*',
           '**/types/*/index*',
           '**/components/*/index*',
+          '**/utils/*/index*',
         ],
       },
     ],
     'react/destructuring-assignment': 'off',
+    'react/props-types': 'off',
+    'react/require-default-props': 'off',
+    'import/extensions': 'off',
   },
 };

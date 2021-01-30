@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Form, Input, Tooltip, Button } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
+import { useLocation } from 'wouter';
+import { DefaultUser, UserRepositoryContext } from '~/context/user';
+import {
+  AuthenticationRepositoryContext,
+  AuthenticationRepositoryContextInterface,
+} from '~/context/authentication';
 
 const formItemLayout = {
   labelCol: {
@@ -14,10 +20,28 @@ const formItemLayout = {
 };
 
 const RegistrationForm = () => {
+  const authRepo = useContext<AuthenticationRepositoryContextInterface>(
+    AuthenticationRepositoryContext,
+  );
+  const userRepo = useContext(UserRepositoryContext);
   const [form] = Form.useForm();
+  const [, setLocation] = useLocation();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onFinish = (values: any) => {}; // todo: remove the eslint disable and properly implement this
+  const onFinish = (values: any) => {
+    authRepo.authenticationRepositoryInstance
+      .register(values.email, values.password)
+      .then(() => {
+        userRepo.userRepositoryInstance
+          .update({
+            ...DefaultUser,
+            userName: values.displayName,
+          })
+          .then(() => {
+            setLocation('/');
+          });
+      });
+  }; // todo: remove the eslint disable and properly implement this
 
   return (
     <Form
@@ -88,7 +112,7 @@ const RegistrationForm = () => {
       </Form.Item>
 
       <Form.Item
-        name="nickname"
+        name="displayName"
         label={
           <span>
             Display Name&nbsp;

@@ -1,13 +1,15 @@
 import React, { useContext, useEffect } from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
-import { Link, useLocation } from 'wouter';
+import { Form, Input, Button, Typography } from 'antd';
+import { useLocation } from 'wouter';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from '../../../../context/authentication';
-import { StyledForm, LoginFormForgot } from './styled';
+import { StyledForm } from './styled';
 
-const LoginForm = () => {
+/* This component is currently not being used as 
+Firebase has its own password reset form */
+const CreateNewPassword = () => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
     AuthenticationRepositoryContext,
   );
@@ -39,14 +41,10 @@ const LoginForm = () => {
       initialValues={{ remember: true }}
       onFinish={onFinish}
     >
-      <Form.Item
-        label="Email"
-        name="email"
-        rules={[{ required: true, message: 'Please input your username!' }]}
-      >
-        <Input />
-      </Form.Item>
-
+      <Typography.Title>Create new password</Typography.Title>
+      <Typography.Paragraph type="secondary">
+        Your new password must be different from previously used passwords.
+      </Typography.Paragraph>
       <Form.Item
         label="Password"
         name="password"
@@ -55,26 +53,21 @@ const LoginForm = () => {
         <Input.Password />
       </Form.Item>
 
-      <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-        <Link href="/forgot-password">
-          <LoginFormForgot>Forgot password?</LoginFormForgot>
-        </Link>
+      <Form.Item
+        label="Confirm password"
+        name="password"
+        rules={[{ required: true, message: 'Please input your password!' }]}
+      >
+        <Input.Password />
       </Form.Item>
 
       <Form.Item>
         <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-          Log in
+          Continue
         </Button>
-        Or{' '}
-        <Link href="/register" className="active">
-          register now!
-        </Link>
       </Form.Item>
     </StyledForm>
   );
 };
 
-export default LoginForm;
+export default CreateNewPassword;

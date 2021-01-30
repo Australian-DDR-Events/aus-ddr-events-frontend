@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { err } from '../../types/Result';
+import { err } from '../../types/result';
 import { AuthenticationRepositoryContextInterface } from './types';
 
 const initialContext = {
@@ -12,6 +12,8 @@ const initialContext = {
     register: async () =>
       err(new Error('authentication repository not initialized'), undefined),
     updatePassword: async () =>
+      err(new Error('authentication repository not initialized'), undefined),
+    sendPasswordResetEmail: async () =>
       err(new Error('authentication repository not initialized'), undefined),
     onAuthStateChanged: () => {},
   },

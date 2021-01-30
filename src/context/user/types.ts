@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Result } from '../../types/Result';
+import { Result } from '../../types/result';
 
 export type User = {
   dancerName: string;
@@ -7,7 +7,6 @@ export type User = {
   profilePicture: string;
   newProfilePicture: File;
   userName: string;
-  displayName: string;
   state: string;
   primaryMachine: string;
 };

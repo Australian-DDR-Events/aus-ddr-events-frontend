@@ -6,7 +6,7 @@ const { Header, Content } = Layout;
 export const WhiteBackgroundLayout = styled.div`
   background: #fff;
   padding: 24px;
-  minheight: 360px;
+  min-height: 360px;
 `;
 
 export const StyledContent = styled(Content)`

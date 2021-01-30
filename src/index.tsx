@@ -17,6 +17,7 @@ import {
 } from './context/user';
 import Wrapper from './components/wrapper';
 import Router from './components/router';
+// eslint-disable-next-line import/no-internal-modules
 import 'antd/dist/antd.css';
 
 dotenv.config();
