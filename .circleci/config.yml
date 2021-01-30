@@ -77,8 +77,8 @@ jobs:
           name: Deploy CloudFormation template
           command: |
             aws cloudformation deploy \
-              --template-file infrastructure/cloudformation.yaml \
-              --stack-name AUS-DDR-EVENTS-STACK-${NODE_ENV} \
+              --template-file "infrastructure/cloudformation.yaml" \
+              --stack-name "AUS-DDR-EVENTS-STACK-${NODE_ENV}" \
               --parameter-overrides \
                 DBInstanceID=aus-ddr-events-db-${NODE_ENV} \
                 DBName=aus-ddr-events \
@@ -114,3 +114,4 @@ workflows:
       - run_cloudformation:
           context:
             - aus-ddr-events-staging
+          type: approval
