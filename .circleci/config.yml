@@ -81,7 +81,7 @@ jobs:
               --template-file "infrastructure/cloudformation.yaml" \
               --stack-name "AUS-DDR-EVENTS-STACK-${NODE_ENV}" \
               --parameter-overrides \
-                "DBInstanceID=aus-ddr-events-db-${NODE_ENV}" \
+                "DBInstanceID=ausddreventsdb${NODE_ENV}" \
                 "DBName=aus-ddr-events" \
                 "DBUsername=${AWS_DB_USERNAME}" \
                 "DBPassword=${AWS_DB_PASSWORD}" \
