@@ -21,22 +21,15 @@ const UpdatePassword = () => {
   const onFinish = (values: any) => {
     setSubmitEnabled(false);
     const { currentPassword, newPassword, confirmNewPassword } = values;
+
     if (newPassword !== confirmNewPassword) {
       setSubmitEnabled(true);
       return;
     }
+
     authRepo.authenticationRepositoryInstance
       .updatePassword(currentPassword, newPassword)
-      .then((result) => {
-        if (result.isOk()) {
-          // woo success
-          setSubmitEnabled(true);
-        } else {
-          // not woo failure
-          setSubmitEnabled(true);
-        }
-      })
-      .catch(() => {
+      .finally(() => {
         setSubmitEnabled(true);
       });
   };
