@@ -2,7 +2,7 @@ import { Button, Form, Input, Select, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import React, { useContext } from 'react';
 import { UserRepositoryContext } from '../../../../context/user';
-import { StateOptions } from './constants';
+import { StateOptions } from '../../constants';
 import { ProfileFormData } from './types';
 import { FormWrapper } from './styled';
 
@@ -65,7 +65,7 @@ const ProfileForm = ({
           </Form.Item>
         </Form.Item>
         <Form.Item label="Username">
-          <Form.Item name="displayName" noStyle>
+          <Form.Item name="userName" noStyle>
             <Input />
           </Form.Item>
         </Form.Item>

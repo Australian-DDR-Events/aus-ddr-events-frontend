@@ -1,9 +1,11 @@
-import { Avatar, Button, Skeleton, Space, Typography } from 'antd';
+import { Avatar, Button, Skeleton, Space, Typography, Card, Row, Col } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthenticationRepositoryContext } from '../../context/authentication';
 import { DefaultUser, UserRepositoryContext, User } from '../../context/user';
+import { StateOptions } from './constants';
 import ProfileForm from './components/profile-form';
+import CollectionContainer from './components/collection-container'
 import { ProfileHeader, ProfileWrapper } from './styled';
 
 interface ProfileProps {
@@ -34,37 +36,53 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
 
   return !isEditing ? (
     <ProfileWrapper>
-      <Space align="center" size={16} direction="vertical">
-        {loading && (
-          <>
-            <Skeleton.Avatar active size={80} shape="circle" />
-            <Skeleton.Button active size="default" shape="square" />
-            <Skeleton.Input style={{ width: 200 }} active size="small" />
-          </>
-        )}
+      <Row gutter={16}>
+        <Col span={8}>
+          <Card style={{width: 360}}>
+            <Space align="center" size={16} direction="vertical">
+              {loading && (
+                <>
+                  <Skeleton.Avatar active size={80} shape="square" />
+                  <Skeleton.Button active size="default" shape="square" />
+                  <Skeleton.Input style={{ width: 200 }} active size="small" />
+                </>
+              )}
 
-        {!loading && (
-          <>
-            <Avatar
-              size={80}
-              shape="square"
-              src={user.profilePicture || "https://i.imgur.com/o0ulS6k.png"} />
-            <ProfileHeader level={2}>@{user.userName}</ProfileHeader>
-            <Typography.Text type="secondary">
-              Profiessional player since the dawn of time lmao
-            </Typography.Text>
-            {isEditable && (
-              <Button
-                onClick={() => {
-                  setIsEditing(true);
-                }}
-              >
-                Edit
-              </Button>
-            )}
-          </>
-        )}
-      </Space>
+              {!loading && (
+                <>
+                  <Avatar
+                    size={80}
+                    shape="square"
+                    src={user.profilePicture || "https://i.imgur.com/o0ulS6k.png"} />
+                  <ProfileHeader level={2}>{user.userName}</ProfileHeader>
+                  <Typography.Text>Dancer Name: {user.dancerName}</Typography.Text>
+                  <Typography.Text>DDR Code: {user.dancerId}</Typography.Text>
+                  {StateOptions.map((option) => {
+                    if (option.value === user.state) {
+                      return <Typography.Text>State: {option.label}</Typography.Text>
+                    }
+                  })}
+                  <Typography.Text>Primary Machine: {user.primaryMachine}</Typography.Text>
+                  {isEditable && (
+                    <Button
+                      onClick={() => {
+                        setIsEditing(true);
+                      }}
+                    >
+                      Edit
+                    </Button>
+                  )}
+                </>
+              )}
+            </Space>
+          </Card>
+        </Col>
+        <Col span={16}>
+          <CollectionContainer 
+            user={user}
+          />
+        </Col>
+      </Row>
     </ProfileWrapper>
   ) : (
     <ProfileForm

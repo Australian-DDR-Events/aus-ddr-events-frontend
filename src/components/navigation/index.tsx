@@ -28,6 +28,7 @@ const Navigation = () => {
       .then((result) => {
         if (result.isOk()) {
           setLocation('/');
+          window.location.reload();
         }
       })
   }
