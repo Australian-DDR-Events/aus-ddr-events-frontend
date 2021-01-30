@@ -5,9 +5,9 @@ import {
   faDiscord,
   faTwitter,
 } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeButton } from './styled';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeButton } from './styled';
 
 const ContactUs = () => {
   return (
