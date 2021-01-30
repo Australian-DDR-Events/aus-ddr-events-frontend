@@ -76,6 +76,7 @@ jobs:
       - run:
           name: Deploy CloudFormation template
           command: |
+            ls -la
             aws cloudformation deploy \
               --template-file "infrastructure/cloudformation.yaml" \
               --stack-name "AUS-DDR-EVENTS-STACK-${NODE_ENV}" \
