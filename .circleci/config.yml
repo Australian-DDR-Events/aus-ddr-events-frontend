@@ -82,7 +82,7 @@ jobs:
               --stack-name "AUS-DDR-EVENTS-STACK-${NODE_ENV}" \
               --parameter-overrides \
                 "DBInstanceID=ausddreventsdb${NODE_ENV}" \
-                "DBName=aus-ddr-events" \
+                "DBName=${NODE_ENV}" \
                 "DBUsername=${AWS_DB_USERNAME}" \
                 "DBPassword=${AWS_DB_PASSWORD}" \
               --no-fail-on-empty-changeset
