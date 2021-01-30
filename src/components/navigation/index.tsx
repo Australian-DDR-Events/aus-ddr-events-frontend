@@ -23,11 +23,7 @@ const Navigation = () => {
       }}
       theme="light"
     >
-      <Menu
-        theme="light"
-        defaultSelectedKeys={[currentSelectKey]}
-        mode="horizontal"
-      >
+      <Menu theme="light" defaultSelectedKeys={[currentSelectKey]}>
         <Image
           style={{ marginLeft: '28px', marginTop: '16px' }}
           width={24}
