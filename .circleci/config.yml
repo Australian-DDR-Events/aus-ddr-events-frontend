@@ -111,7 +111,10 @@ workflows:
           filters:
             branches:
               only: master
+      - deploy_aws:
+          type: approval
       - run_cloudformation:
           context:
             - aus-ddr-events-staging
-          type: approval
+          requires:
+            - deploy_aws
