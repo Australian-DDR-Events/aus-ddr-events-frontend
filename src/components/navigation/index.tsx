@@ -20,19 +20,17 @@ const Navigation = () => {
   const [siderWidth, setSiderWidth] = useState(200);
   const authRepo = useContext(AuthenticationRepositoryContext)
     .authenticationRepositoryInstance;
-  const loggedInUserId = authRepo.get()
-    .okOrDefault();
+  const loggedInUserId = authRepo.get().okOrDefault();
   const currentSelectKey = location.substring(1);
 
   const onLogout = () => {
-    authRepo.logout()
-      .then((result) => {
-        if (result.isOk()) {
-          setLocation('/');
-          window.location.reload();
-        }
-      })
-  }
+    authRepo.logout().then((result) => {
+      if (result.isOk()) {
+        setLocation('/');
+        window.location.reload();
+      }
+    });
+  };
 
   return (
     <Sider
@@ -100,11 +98,7 @@ const Navigation = () => {
             Login
           </Menu.Item>
         ) : (
-          <Menu.Item
-            key="logout"
-            icon={<LogoutOutlined />}
-            onClick={onLogout}
-          >
+          <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={onLogout}>
             Logout
           </Menu.Item>
         )}

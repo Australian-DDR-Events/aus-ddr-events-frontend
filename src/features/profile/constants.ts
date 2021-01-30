@@ -16,20 +16,20 @@ export const StateOptions = [
     label: 'Western Australia',
     value: 'wa',
   },
-  { 
+  {
     label: 'South Australia',
-    value: 'sa'
+    value: 'sa',
   },
-  { 
+  {
     label: 'Tasmania',
-    value: 'tas'
+    value: 'tas',
   },
-  { 
+  {
     label: 'Australian Capital Territory',
-    value: 'act'
+    value: 'act',
   },
-  { 
+  {
     label: 'Northern Territory',
-    value: 'nt'
+    value: 'nt',
   },
 ];

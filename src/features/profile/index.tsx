@@ -1,10 +1,19 @@
-import { Avatar, Button, Skeleton, Space, Typography, Card, Row, Col } from 'antd';
+import {
+  Avatar,
+  Button,
+  Skeleton,
+  Space,
+  Typography,
+  Card,
+  Row,
+  Col,
+} from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthenticationRepositoryContext } from '../../context/authentication';
 import { DefaultUser, UserRepositoryContext, User } from '../../context/user';
 import { StateOptions } from './constants';
 import ProfileForm from './components/profile-form';
-import CollectionContainer from './components/collection-container'
+import CollectionContainer from './components/collection-container';
 import { ProfileHeader, ProfileWrapper } from './styled';
 
 interface ProfileProps {
@@ -46,7 +55,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                     active
                     paragraph={{
                       rows: 4,
-                      width: "100%"
+                      width: '100%',
                     }}
                   />
                   <Skeleton.Button active size="default" shape="square" />
@@ -58,17 +67,26 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                   <Avatar
                     size={80}
                     shape="square"
-                    src={user.profilePicture || "https://i.imgur.com/o0ulS6k.png"} />
+                    src={
+                      user.profilePicture || 'https://i.imgur.com/o0ulS6k.png'
+                    }
+                  />
                   <ProfileHeader level={2}>{user.userName}</ProfileHeader>
-                  <Typography.Text>Dancer Name: {user.dancerName}</Typography.Text>
+                  <Typography.Text>
+                    Dancer Name: {user.dancerName}
+                  </Typography.Text>
                   <Typography.Text>DDR Code: {user.dancerId}</Typography.Text>
                   {StateOptions.map((option) => {
                     if (option.value === user.state) {
-                      return <Typography.Text>State: {option.label}</Typography.Text>
+                      return (
+                        <Typography.Text>State: {option.label}</Typography.Text>
+                      );
                     }
-                    return <></>
+                    return <></>;
                   })}
-                  <Typography.Text>Primary Machine: {user.primaryMachine}</Typography.Text>
+                  <Typography.Text>
+                    Primary Machine: {user.primaryMachine}
+                  </Typography.Text>
                   {isEditable && (
                     <Button
                       onClick={() => {
@@ -84,9 +102,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
           </Card>
         </Col>
         <Col xs={24} xl={16}>
-          <CollectionContainer 
-            user={user}
-          />
+          <CollectionContainer />
         </Col>
       </Row>
     </ProfileWrapper>

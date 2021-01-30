@@ -16,7 +16,7 @@ const ProfileForm = ({
   onCancelSubmit: Function;
 }) => {
   const userRepo = useContext(UserRepositoryContext);
-  
+
   const onFinish = (values: ProfileFormData) => {
     userRepo.userRepositoryInstance
       .update({
@@ -32,18 +32,17 @@ const ProfileForm = ({
   };
 
   const uploadProps = {
-    beforeUpload: (file: File) => {
+    beforeUpload: () => {
       return false;
     },
-  }
+  };
 
   const normFile = (e: any) => {
-    console.log('Upload event:', e);
     if (Array.isArray(e)) {
       return e[0].file;
     }
     return e.file;
-  }
+  };
 
   return (
     <FormWrapper>
@@ -57,7 +56,8 @@ const ProfileForm = ({
           <Form.Item
             name="newProfilePicture"
             valuePropName="file"
-            getValueFromEvent={normFile}>
+            getValueFromEvent={normFile}
+          >
             <Upload {...uploadProps} listType="picture">
               <Button icon={<UploadOutlined />}>Upload picture</Button>
             </Upload>
@@ -74,7 +74,11 @@ const ProfileForm = ({
           </Form.Item>
         </Form.Item>
 
-        <Form.Item label="State" name="state" extra="Which state do you live in?">
+        <Form.Item
+          label="State"
+          name="state"
+          extra="Which state do you live in?"
+        >
           <Select>
             {StateOptions.map((option, index) => (
               // todo: add key to option object
@@ -98,7 +102,11 @@ const ProfileForm = ({
           <Button type="primary" htmlType="submit">
             Save
           </Button>
-          <Button type="default" htmlType="button" onClick={() => onCancelSubmit()}>
+          <Button
+            type="default"
+            htmlType="button"
+            onClick={() => onCancelSubmit()}
+          >
             Cancel
           </Button>
         </Form.Item>
