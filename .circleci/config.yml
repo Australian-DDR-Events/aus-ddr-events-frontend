@@ -48,7 +48,7 @@ jobs:
       - attach_workspace:
           at: ~/aus-ddr-poc
       - run:
-          name: Populate .env.$NODE_ENV
+          name: Populate .env.${NODE_ENV}
           command: |
             printf "FIREBASE_API_KEY=$FIREBASE_API_KEY\r\n" >> .env.$NODE_ENV
             printf "FIREBASE_AUTH_DOMAIN=$FIREBASE_AUTH_DOMAIN\r\n" >> .env.$NODE_ENV
@@ -70,9 +70,9 @@ jobs:
       - attach_workspace:
           at: ~/aus-ddr-poc
       - aws-cli/setup:
-          aws-access-key-id: $AWS_ACCESS_KEY_ID
-          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
-          aws-region: $AWS_REGION
+          aws-access-key-id: ${AWS_ACCESS_KEY_ID}
+          aws-secret-access-key: ${AWS_SECRET_ACCESS_KEY}
+          aws-region: ${AWS_REGION}
       - run:
           name: Deploy CloudFormation template
           command: |
