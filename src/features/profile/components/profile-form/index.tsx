@@ -18,7 +18,6 @@ const ProfileForm = ({
   const userRepo = useContext(UserRepositoryContext);
   
   const onFinish = (values: ProfileFormData) => {
-    // console.log(values);
     userRepo.userRepositoryInstance
       .update({
         ...formData,

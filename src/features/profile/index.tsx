@@ -1,5 +1,4 @@
 import { Avatar, Button, Skeleton, Space, Typography, Card, Row, Col } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import { DefaultUser, UserRepositoryContext, User } from 'context/user';
@@ -36,13 +35,19 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
   return !isEditing ? (
     <ProfileWrapper>
       <Row gutter={16}>
-        <Col span={8}>
-          <Card style={{width: 360}}>
+        <Col xs={24} xl={8}>
+          <Card>
             <Space align="center" size={16} direction="vertical">
               {loading && (
                 <>
                   <Skeleton.Avatar active size={80} shape="square" />
-                  <Skeleton active paragraph={{ rows: 5 }}/>
+                  <Skeleton
+                    active
+                    paragraph={{
+                      rows: 4,
+                      width: "100%"
+                    }}
+                  />
                   <Skeleton.Button active size="default" shape="square" />
                 </>
               )}
@@ -77,8 +82,8 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
             </Space>
           </Card>
         </Col>
-        <Col span={16}>
-          <CollectionContainer
+        <Col xs={24} xl={16}>
+          <CollectionContainer 
             user={user}
           />
         </Col>

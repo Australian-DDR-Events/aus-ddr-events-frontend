@@ -14,7 +14,9 @@ const { Sider } = Layout;
 
 const Navigation = () => {
   const [collapsed, setCollapsed] = useState<boolean>(true);
+  const [collapseWidth, setCollapseWidth] = useState(80);
   const [location, setLocation] = useLocation();
+  const [siderWidth, setSiderWidth] = useState(200);
   const authRepo = useContext(AuthenticationRepositoryContext)
     .authenticationRepositoryInstance;
   const loggedInUserId = authRepo.get().okOrDefault();
@@ -30,12 +32,24 @@ const Navigation = () => {
 
   return (
     <Sider
+      breakpoint="xs"
       collapsible
       collapsed={collapsed}
+      collapsedWidth={collapseWidth}
+      onBreakpoint={(broken) => {
+        if (broken) {
+          setCollapseWidth(0);
+          setSiderWidth(120);
+        } else {
+          setCollapseWidth(80);
+          setSiderWidth(200);
+        }
+      }}
       onCollapse={() => {
         setCollapsed(!collapsed);
       }}
       theme="light"
+      width={siderWidth}
     >
       <Image
         style={{ marginLeft: '28px', marginTop: '16px' }}
