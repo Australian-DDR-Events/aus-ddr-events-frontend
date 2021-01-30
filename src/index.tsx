@@ -9,14 +9,14 @@ import {
   AuthenticationRepositoryProvider,
   AuthenticationRepositoryContextInterface,
   AuthenticationRepositoryContext,
-} from './context/authentication';
+} from 'context/authentication';
 import {
   UserRepositoryContextProvider,
   userFirebaseDao,
   userRepository,
-} from './context/user';
-import Wrapper from './components/wrapper';
-import Router from './components/router';
+} from 'context/user';
+import Wrapper from 'components/wrapper';
+import Router from 'components/router';
 // eslint-disable-next-line import/no-internal-modules
 import 'antd/dist/antd.css';
 

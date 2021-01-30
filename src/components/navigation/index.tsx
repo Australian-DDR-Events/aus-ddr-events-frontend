@@ -8,9 +8,8 @@ import {
   LogoutOutlined,
   HomeOutlined,
 } from '@ant-design/icons';
-import { AuthenticationRepositoryContext } from '../../context/authentication';
-// eslint-disable-next-line import/no-internal-modules
-import logo from '../../assets/logo.png';
+import { AuthenticationRepositoryContext } from 'context/authentication';
+import logo from 'assets/logo.png';
 
 const { Sider } = Layout;
 

@@ -1,15 +1,15 @@
 import React, { useContext, useEffect } from 'react';
 import { Route, RouteProps, Switch, useLocation } from 'wouter';
-import Login from '../../features/login';
+import Login from 'features/login';
 import {
   AuthenticationRepositoryContextInterface,
   AuthenticationRepositoryContext,
-} from '../../context/authentication';
-import Profile from '../../features/profile';
-import Settings from '../../features/settings';
-import Register from '../../features/register';
-import Home from '../../features/home';
-import ForgotPassword from '../../features/forgot-password';
+} from 'context/authentication';
+import Profile from 'features/profile';
+import Settings from 'features/settings';
+import Register from 'features/register';
+import Home from 'features/home';
+import ForgotPassword from 'features/forgot-password';
 
 const ProtectedRoute = (props: RouteProps) => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
