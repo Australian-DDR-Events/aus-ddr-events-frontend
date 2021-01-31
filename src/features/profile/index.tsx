@@ -10,10 +10,11 @@ import {
 } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
-import { DefaultUser, UserRepositoryContext, User } from 'context/user';
+import { DefaultUser, UserRepositoryContext } from 'context/user';
 import ProfileForm from './components/profile-form';
 import CollectionContainer from './components/collection-container';
 import { ProfileHeader, ProfileWrapper } from './styled';
+import { StateOptions } from '~/features/profile/constants';
 
 interface ProfileProps {
   id?: string;
@@ -73,19 +74,23 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                     }
                   />
                   <ProfileHeader level={2}>{user.userName}</ProfileHeader>
-                  <Typography.Text>
+                  <Typography.Text key="dancerName">
                     Dancer Name: {user.dancerName}
                   </Typography.Text>
-                  <Typography.Text>DDR Code: {user.dancerId}</Typography.Text>
+                  <Typography.Text key="dancerId">
+                    DDR Code: {user.dancerId}
+                  </Typography.Text>
                   {StateOptions.map((option) => {
-                    if (option.value === user.state) {
+                    if (option.key === user.state) {
                       return (
-                        <Typography.Text>State: {option.label}</Typography.Text>
+                        <Typography.Text key="dancerState">
+                          State: {option.value}
+                        </Typography.Text>
                       );
                     }
                     return <></>;
                   })}
-                  <Typography.Text>
+                  <Typography.Text key="dancerMachine">
                     Primary Machine: {user.primaryMachine}
                   </Typography.Text>
                   {isEditable && (
@@ -110,7 +115,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
   ) : (
     <ProfileForm
       formData={user}
-      onSuccessfulSubmit={(formData: User) => {
+      onSuccessfulSubmit={() => {
         setIsEditing(false);
       }}
       onCancelSubmit={() => {
