@@ -25,7 +25,7 @@ jobs:
     resource_class: medium
     steps:
       - attach_workspace:
-          at: ~/aus-ddr-poc
+          at: ~/
       - run: yarn lint
   test:
     working_directory: ~/aus-ddr-poc
@@ -34,7 +34,7 @@ jobs:
     resource_class: medium
     steps:
       - attach_workspace:
-          at: ~/aus-ddr-poc
+          at: ~/
       - run: yarn test
   build:
     working_directory: ~/aus-ddr-poc
@@ -43,7 +43,7 @@ jobs:
     resource_class: medium
     steps:
       - attach_workspace:
-          at: ~/aus-ddr-poc
+          at: ~/
       - run:
           name: Populate .env.$NODE_ENV
           command: |
@@ -67,7 +67,7 @@ jobs:
     resource_class: medium
     steps:
       - attach_workspace:
-          at: ~/aus-ddr-poc
+          at: ~/
       - run: yarn firebase hosting:channel:deploy ausddrevents-staging --token $FIREBASE_TOKEN
 
 workflows:
