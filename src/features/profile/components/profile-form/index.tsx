@@ -78,7 +78,7 @@ const ProfileForm = ({
             {StateOptions.map((option) => (
               // todo: add key to option object
               // eslint-disable-next-line react/no-array-index-key
-              <Select.Option key={option.key} value={option.value}>
+              <Select.Option key={option.key} value={option.key}>
                 {option.value}
               </Select.Option>
             ))}
