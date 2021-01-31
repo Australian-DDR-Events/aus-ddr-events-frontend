@@ -6,7 +6,7 @@ jobs:
     working_directory: ~/aus-ddr-poc
     docker:
       - image: cimg/node:15.6.0
-    resource_class: small
+    resource_class: medium
     steps:
       - checkout
       - attach_workspace:
@@ -21,7 +21,7 @@ jobs:
     working_directory: ~/aus-ddr-poc
     docker:
       - image: cimg/node:15.6.0
-    resource_class: small
+    resource_class: medium
     steps:
       - attach_workspace:
           at: ~/aus-ddr-poc
@@ -30,12 +30,12 @@ jobs:
     working_directory: ~/aus-ddr-poc
     docker:
       - image: cimg/node:15.6.0
-    resource_class: small
+    resource_class: medium
     steps:
       - attach_workspace:
           at: ~/aus-ddr-poc
       - run: yarn test
-  deploy:
+  build:
     working_directory: ~/aus-ddr-poc
     docker:
       - image: cimg/node:15.6.0
@@ -43,6 +43,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/aus-ddr-poc
+      - run: yarn add -D parcel-bundler
       - run:
           name: Populate .env.$NODE_ENV
           command: |
@@ -54,9 +55,19 @@ jobs:
             printf "FIREBASE_MESSAGE_SENDER_ID=$FIREBASE_MESSAGE_SENDER_ID\r\n" >> .env.$NODE_ENV
             printf "FIREBASE_APP_ID=$FIREBASE_APP_ID\r\n" >> .env.$NODE_ENV
             printf "FIREBASE_MEASUREMENT_ID=$FIREBASE_MEASUREMENT_ID\r\n" >> .env.$NODE_ENV
-      - run: yarn add firebase-tools
-      - run: yarn add parcel-bundler
       - run: yarn build:prod
+      - persist_to_workspace:
+          root: ~/aus-ddr-poc
+          paths: .
+  deploy:
+    working_directory: ~/aus-ddr-poc
+    docker:
+      - image: cimg/node:15.6.0
+    resource_class: medium
+    steps:
+      - attach_workspace:
+          at: ~/aus-ddr-poc
+      - run: yarn add -D firebase-tools
       - run: yarn firebase hosting:channel:deploy ausddrevents-staging --token $FIREBASE_TOKEN
 
 workflows:
@@ -73,13 +84,19 @@ workflows:
             - jira/notify
           requires:
             - install
+      - build:
+          post-steps:
+            - jira/notify
+          requires:
+            - test
+            - lint
       - deploy:
           context:
             - production
           post-steps:
             - jira/notify
           requires:
-            - test
+            - build
           #filters:
           #  branches:
           #    only: master
