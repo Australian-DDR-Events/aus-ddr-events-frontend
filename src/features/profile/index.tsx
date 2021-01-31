@@ -14,7 +14,7 @@ import { DefaultUser, UserRepositoryContext } from 'context/user';
 import ProfileForm from './components/profile-form';
 import CollectionContainer from './components/collection-container';
 import { ProfileHeader, ProfileWrapper } from './styled';
-import { StateOptions } from '~/features/profile/constants';
+import { StateOptions } from 'features/profile/constants';
 
 interface ProfileProps {
   id?: string;
@@ -44,10 +44,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
   }, [id, isEditing]);
 
   const getStateTextualRepresentation = (): string => {
-    const assignedState = StateOptions.find(
-      (state) => state.key === user.state,
-    );
-    return assignedState ? assignedState.value : '';
+    return StateOptions.find((state) => state.key === user.state)?.value || '';
   };
 
   return !isEditing ? (
