@@ -57,7 +57,7 @@ jobs:
             printf "FIREBASE_MEASUREMENT_ID=$FIREBASE_MEASUREMENT_ID\r\n" >> .env.$NODE_ENV
       - run: yarn build:prod
       - persist_to_workspace:
-          root: ~/aus-ddr-poc
+          root: ~/
           paths:
             - aus-ddr-poc/dist
   deploy:
@@ -74,22 +74,29 @@ workflows:
   build_and_test:
     jobs:
       - install
+
       - lint:
           post-steps:
             - jira/notify
           requires:
             - install
+
       - test:
           post-steps:
             - jira/notify
           requires:
             - install
+
       - build:
           post-steps:
             - jira/notify
           requires:
             - test
             - lint
+          #filters:
+          #  branches:
+          #    only: master
+
       - deploy:
           context:
             - production
