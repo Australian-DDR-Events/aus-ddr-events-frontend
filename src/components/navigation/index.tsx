@@ -23,14 +23,13 @@ const Navigation = () => {
       }}
       theme="light"
     >
+      <Image
+        style={{ marginLeft: '28px', marginTop: '16px' }}
+        width={24}
+        src={logo}
+        preview={false}
+      />
       <Menu theme="light" defaultSelectedKeys={[currentSelectKey]}>
-        <Image
-          style={{ marginLeft: '28px', marginTop: '16px' }}
-          width={24}
-          src={logo}
-          preview={false}
-        />
-
         <Menu.Item
           key="home"
           icon={<HomeOutlined />}
