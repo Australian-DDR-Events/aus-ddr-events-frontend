@@ -15,8 +15,9 @@ jobs:
           name: install
           command: yarn install
       - persist_to_workspace:
-          root: ~/aus-ddr-poc
-          paths: .
+          root: ~/
+          paths:
+            - aus-ddr-poc/node_modules
   lint:
     working_directory: ~/aus-ddr-poc
     docker:
@@ -43,7 +44,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/aus-ddr-poc
-      - run: yarn add -D parcel-bundler
       - run:
           name: Populate .env.$NODE_ENV
           command: |
@@ -58,7 +58,8 @@ jobs:
       - run: yarn build:prod
       - persist_to_workspace:
           root: ~/aus-ddr-poc
-          paths: .
+          paths:
+            - aus-ddr-poc/dist
   deploy:
     working_directory: ~/aus-ddr-poc
     docker:
@@ -67,7 +68,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/aus-ddr-poc
-      - run: yarn add -D firebase-tools
       - run: yarn firebase hosting:channel:deploy ausddrevents-staging --token $FIREBASE_TOKEN
 
 workflows:
