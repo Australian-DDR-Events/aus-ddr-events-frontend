@@ -1,14 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { Layout, Menu, Image } from 'antd';
 import { useLocation } from 'wouter';
-import {
-  UserOutlined,
-  SmileOutlined,
-  LoginOutlined,
-  HomeOutlined,
-} from '@ant-design/icons';
-import { AuthenticationRepositoryContext } from 'context/authentication';
+import { UserOutlined, LoginOutlined, HomeOutlined } from '@ant-design/icons';
 import logo from 'assets/logo.png';
+import { AuthenticationRepositoryContext } from 'context/authentication';
 
 const { Sider } = Layout;
 
@@ -28,19 +23,14 @@ const Navigation = () => {
       }}
       theme="light"
     >
-      <Image
-        style={{ marginLeft: '24px' }}
-        height={24}
-        width={24}
-        src={logo}
-        preview={false}
-      />
+      <Menu theme="light" defaultSelectedKeys={[currentSelectKey]}>
+        <Image
+          style={{ marginLeft: '28px', marginTop: '16px' }}
+          width={24}
+          src={logo}
+          preview={false}
+        />
 
-      <Menu
-        theme="light"
-        defaultSelectedKeys={[currentSelectKey]}
-        mode="inline"
-      >
         <Menu.Item
           key="home"
           icon={<HomeOutlined />}
@@ -50,18 +40,19 @@ const Navigation = () => {
         >
           Home
         </Menu.Item>
-        <Menu.Item key="about" icon={<SmileOutlined />}>
-          About
-        </Menu.Item>
-        <Menu.Item
-          key="profile"
-          icon={<UserOutlined />}
-          onClick={() => {
-            setLocation('/profile');
-          }}
-        >
-          Profile
-        </Menu.Item>
+
+        {loggedInUserId && (
+          <Menu.Item
+            key="profile"
+            icon={<UserOutlined />}
+            onClick={() => {
+              setLocation('/profile');
+            }}
+          >
+            Profile
+          </Menu.Item>
+        )}
+
         {!loggedInUserId && (
           <Menu.Item
             key="10"
