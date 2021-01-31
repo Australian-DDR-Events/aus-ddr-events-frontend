@@ -93,9 +93,9 @@ workflows:
           requires:
             - test
             - lint
-          #filters:
-          #  branches:
-          #    only: master
+          filters:
+            branches:
+              only: master
 
       - deploy:
           context:
@@ -104,6 +104,6 @@ workflows:
             - jira/notify
           requires:
             - build
-          #filters:
-          #  branches:
-          #    only: master
+          filters:
+            branches:
+              only: master
