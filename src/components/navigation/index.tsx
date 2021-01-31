@@ -3,7 +3,6 @@ import { Layout, Menu, Image } from 'antd';
 import { useLocation } from 'wouter';
 import {
   UserOutlined,
-  SmileOutlined,
   LoginOutlined,
   LogoutOutlined,
   HomeOutlined,
@@ -27,7 +26,6 @@ const Navigation = () => {
     authRepo.logout().then((result) => {
       if (result.isOk()) {
         setLocation('/');
-        window.location.reload();
       }
     });
   };
@@ -54,18 +52,12 @@ const Navigation = () => {
       width={siderWidth}
     >
       <Image
-        style={{ marginLeft: '24px' }}
-        height={24}
+        style={{ marginLeft: '28px', marginTop: '16px' }}
         width={24}
         src={logo}
         preview={false}
       />
-
-      <Menu
-        theme="light"
-        defaultSelectedKeys={[currentSelectKey]}
-        mode="inline"
-      >
+      <Menu theme="light" defaultSelectedKeys={[currentSelectKey]}>
         <Menu.Item
           key="home"
           icon={<HomeOutlined />}
@@ -75,18 +67,19 @@ const Navigation = () => {
         >
           Home
         </Menu.Item>
-        <Menu.Item key="about" icon={<SmileOutlined />}>
-          About
-        </Menu.Item>
-        <Menu.Item
-          key="profile"
-          icon={<UserOutlined />}
-          onClick={() => {
-            setLocation('/profile');
-          }}
-        >
-          Profile
-        </Menu.Item>
+
+        {loggedInUserId && (
+          <Menu.Item
+            key="profile"
+            icon={<UserOutlined />}
+            onClick={() => {
+              setLocation('/profile');
+            }}
+          >
+            Profile
+          </Menu.Item>
+        )}
+
         {!loggedInUserId ? (
           <Menu.Item
             key="10"

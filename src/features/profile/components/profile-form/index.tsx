@@ -2,7 +2,7 @@ import { Button, Form, Input, Select, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import React, { useContext } from 'react';
 import { UserRepositoryContext } from 'context/user';
-import { StateOptions } from '../../constants';
+import { StateOptions } from 'features/profile/constants';
 import { ProfileFormData } from './types';
 import { FormWrapper } from './styled';
 
@@ -23,12 +23,7 @@ const ProfileForm = ({
         ...formData,
         ...values,
       })
-      .then(() =>
-        onSuccessfulSubmit({
-          ...formData,
-          ...values,
-        }),
-      );
+      .then(() => onSuccessfulSubmit());
   };
 
   const uploadProps = {
@@ -80,11 +75,11 @@ const ProfileForm = ({
           extra="Which state do you live in?"
         >
           <Select>
-            {StateOptions.map((option, index) => (
+            {StateOptions.map((option) => (
               // todo: add key to option object
               // eslint-disable-next-line react/no-array-index-key
-              <Select.Option key={index + 1} value={option.value}>
-                {option.label}
+              <Select.Option key={option.key} value={option.key}>
+                {option.value}
               </Select.Option>
             ))}
           </Select>
