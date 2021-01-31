@@ -1,27 +1,55 @@
 import React, { useContext, useState } from 'react';
 import { Layout, Menu, Image } from 'antd';
 import { useLocation } from 'wouter';
-import { UserOutlined, LoginOutlined, HomeOutlined } from '@ant-design/icons';
-import logo from 'assets/logo.png';
+import {
+  UserOutlined,
+  LoginOutlined,
+  LogoutOutlined,
+  HomeOutlined,
+} from '@ant-design/icons';
 import { AuthenticationRepositoryContext } from 'context/authentication';
+import logo from 'assets/logo.png';
 
 const { Sider } = Layout;
 
 const Navigation = () => {
   const [collapsed, setCollapsed] = useState<boolean>(true);
+  const [collapseWidth, setCollapseWidth] = useState(80);
   const [location, setLocation] = useLocation();
-  const loggedInUserId = useContext(AuthenticationRepositoryContext)
-    .authenticationRepositoryInstance.get()
-    .okOrDefault();
+  const [siderWidth, setSiderWidth] = useState(200);
+  const authRepo = useContext(AuthenticationRepositoryContext)
+    .authenticationRepositoryInstance;
+  const loggedInUserId = authRepo.get().okOrDefault();
   const currentSelectKey = location.substring(1);
+
+  const onLogout = () => {
+    authRepo.logout().then((result) => {
+      if (result.isOk()) {
+        setLocation('/');
+      }
+    });
+  };
+
   return (
     <Sider
+      breakpoint="xs"
       collapsible
       collapsed={collapsed}
+      collapsedWidth={collapseWidth}
+      onBreakpoint={(broken) => {
+        if (broken) {
+          setCollapseWidth(0);
+          setSiderWidth(120);
+        } else {
+          setCollapseWidth(80);
+          setSiderWidth(200);
+        }
+      }}
       onCollapse={() => {
         setCollapsed(!collapsed);
       }}
       theme="light"
+      width={siderWidth}
     >
       <Image
         style={{ marginLeft: '28px', marginTop: '16px' }}
@@ -52,7 +80,7 @@ const Navigation = () => {
           </Menu.Item>
         )}
 
-        {!loggedInUserId && (
+        {!loggedInUserId ? (
           <Menu.Item
             key="10"
             icon={<LoginOutlined />}
@@ -61,6 +89,10 @@ const Navigation = () => {
             }}
           >
             Login
+          </Menu.Item>
+        ) : (
+          <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={onLogout}>
+            Logout
           </Menu.Item>
         )}
       </Menu>

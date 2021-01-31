@@ -88,6 +88,8 @@ workflows:
             - install
 
       - build:
+          context:
+            - production
           post-steps:
             - jira/notify
           requires:

@@ -1,9 +1,19 @@
-import { Avatar, Button, Skeleton, Space, Typography } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import {
+  Avatar,
+  Button,
+  Skeleton,
+  Space,
+  Typography,
+  Card,
+  Row,
+  Col,
+} from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
-import { DefaultUser, UserRepositoryContext, User } from 'context/user';
+import { DefaultUser, UserRepositoryContext } from 'context/user';
+import { StateOptions } from 'features/profile/constants';
 import ProfileForm from './components/profile-form';
+import CollectionContainer from './components/collection-container';
 import { ProfileHeader, ProfileWrapper } from './styled';
 
 interface ProfileProps {
@@ -23,51 +33,88 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
   const isEditable = !id || loggedInUserId === id;
 
   useEffect(() => {
-    setLoading(true);
-    const lookupId = id ?? loggedInUserId;
+    if (!isEditing) {
+      setLoading(true);
+      const lookupId = id ?? loggedInUserId;
+      userRepo.userRepositoryInstance.get(lookupId).then((u) => {
+        setUser(u.okOrDefault());
+        setLoading(false);
+      });
+    }
+  }, [id, isEditing]);
 
-    userRepo.userRepositoryInstance.get(lookupId).then((u) => {
-      setUser(u.okOrDefault());
-      setLoading(false);
-    });
-  }, [id]);
+  const getStateTextualRepresentation = (): string => {
+    return StateOptions.find((state) => state.key === user.state)?.value || '';
+  };
 
   return !isEditing ? (
     <ProfileWrapper>
-      <Space align="center" size={16} direction="vertical">
-        {loading && (
-          <>
-            <Skeleton.Avatar active size={80} shape="circle" />
-            <Skeleton.Button active size="default" shape="square" />
-            <Skeleton.Input style={{ width: 200 }} active size="small" />
-          </>
-        )}
+      <Row gutter={16}>
+        <Col xs={24} xl={8}>
+          <Card>
+            <Space align="center" size={16} direction="vertical">
+              {loading && (
+                <>
+                  <Skeleton.Avatar active size={80} shape="square" />
+                  <Skeleton
+                    active
+                    paragraph={{
+                      rows: 4,
+                      width: '100%',
+                    }}
+                  />
+                  <Skeleton.Button active size="default" shape="square" />
+                </>
+              )}
 
-        {!loading && (
-          <>
-            <Avatar size={80} icon={<UserOutlined />} />
-            <ProfileHeader level={2}>@{user.userName}</ProfileHeader>
-            <Typography.Text type="secondary">
-              Profiessional player since the dawn of time lmao
-            </Typography.Text>
-            {isEditable && (
-              <Button
-                onClick={() => {
-                  setIsEditing(true);
-                }}
-              >
-                Edit
-              </Button>
-            )}
-          </>
-        )}
-      </Space>
+              {!loading && (
+                <>
+                  <Avatar
+                    size={80}
+                    shape="square"
+                    src={
+                      user.profilePicture || 'https://i.imgur.com/o0ulS6k.png'
+                    }
+                  />
+                  <ProfileHeader level={2}>{user.userName}</ProfileHeader>
+                  <Typography.Text key="dancerName">
+                    Dancer Name: {user.dancerName}
+                  </Typography.Text>
+                  <Typography.Text key="dancerId">
+                    DDR Code: {user.dancerId}
+                  </Typography.Text>
+                  <Typography.Text>
+                    State: {getStateTextualRepresentation()}
+                  </Typography.Text>
+                  <Typography.Text key="dancerMachine">
+                    Primary Machine: {user.primaryMachine}
+                  </Typography.Text>
+                  {isEditable && (
+                    <Button
+                      onClick={() => {
+                        setIsEditing(true);
+                      }}
+                    >
+                      Edit
+                    </Button>
+                  )}
+                </>
+              )}
+            </Space>
+          </Card>
+        </Col>
+        <Col xs={24} xl={16}>
+          <CollectionContainer />
+        </Col>
+      </Row>
     </ProfileWrapper>
   ) : (
     <ProfileForm
       formData={user}
-      onSuccessfulSubmit={(formData: User) => {
-        setUser(formData);
+      onSuccessfulSubmit={() => {
+        setIsEditing(false);
+      }}
+      onCancelSubmit={() => {
         setIsEditing(false);
       }}
     />
