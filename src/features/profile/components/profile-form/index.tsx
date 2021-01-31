@@ -1,7 +1,7 @@
 import { Button, Form, Input, Select, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import React, { useContext } from 'react';
-import { UserRepositoryContext } from '../../../../context/user';
+import { UserRepositoryContext } from 'context/user';
 import { StateOptions } from '../../constants';
 import { ProfileFormData } from './types';
 import { FormWrapper } from './styled';
@@ -37,7 +37,7 @@ const ProfileForm = ({
     },
   };
 
-  const normFile = (e: any) => {
+  const normaliseFile = (e: any) => {
     if (Array.isArray(e)) {
       return e[0].file;
     }
@@ -56,7 +56,7 @@ const ProfileForm = ({
           <Form.Item
             name="newProfilePicture"
             valuePropName="file"
-            getValueFromEvent={normFile}
+            getValueFromEvent={normaliseFile}
           >
             <Upload {...uploadProps} listType="picture">
               <Button icon={<UploadOutlined />}>Upload picture</Button>
