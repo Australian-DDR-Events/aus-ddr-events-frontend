@@ -32,14 +32,16 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
   const isEditable = !id || loggedInUserId === id;
 
   useEffect(() => {
-    setLoading(true);
-    const lookupId = id ?? loggedInUserId;
+    if (!isEditing) {
+      setLoading(true);
+      const lookupId = id ?? loggedInUserId;
 
-    userRepo.userRepositoryInstance.get(lookupId).then((u) => {
-      setUser(u.okOrDefault());
-      setLoading(false);
-    });
-  }, [id]);
+      userRepo.userRepositoryInstance.get(lookupId).then((u) => {
+        setUser(u.okOrDefault());
+        setLoading(false);
+      });
+    }
+  }, [id, isEditing]);
 
   return !isEditing ? (
     <ProfileWrapper>
@@ -109,9 +111,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
     <ProfileForm
       formData={user}
       onSuccessfulSubmit={(formData: User) => {
-        setUser(formData);
         setIsEditing(false);
-        window.location.reload();
       }}
       onCancelSubmit={() => {
         setIsEditing(false);

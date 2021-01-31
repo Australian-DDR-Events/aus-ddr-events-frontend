@@ -37,7 +37,7 @@ const ProfileForm = ({
     },
   };
 
-  const normFile = (e: any) => {
+  const normaliseFile = (e: any) => {
     if (Array.isArray(e)) {
       return e[0].file;
     }
@@ -56,7 +56,7 @@ const ProfileForm = ({
           <Form.Item
             name="newProfilePicture"
             valuePropName="file"
-            getValueFromEvent={normFile}
+            getValueFromEvent={normaliseFile}
           >
             <Upload {...uploadProps} listType="picture">
               <Button icon={<UploadOutlined />}>Upload picture</Button>
