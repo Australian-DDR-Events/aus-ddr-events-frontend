@@ -1,9 +1,9 @@
 import React from 'react';
 import { Layout } from 'antd';
 import Navigation from '../navigation';
-import { StyledContent, WhiteBackgroundLayout } from './styled';
+import { WhiteBackgroundLayout } from './styled';
 
-const { Footer } = Layout;
+const { Content } = Layout;
 
 const Wrapper = ({
   children,
@@ -13,10 +13,9 @@ const Wrapper = ({
   <Layout style={{ minHeight: '100vh' }}>
     <Navigation />
     <Layout>
-      <StyledContent>
+      <Content>
         <WhiteBackgroundLayout>{children}</WhiteBackgroundLayout>
-      </StyledContent>
-      <Footer style={{ textAlign: 'center' }}>Created by your truly</Footer>
+      </Content>
     </Layout>
   </Layout>
 );

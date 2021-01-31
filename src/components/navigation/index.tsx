@@ -3,7 +3,6 @@ import { Layout, Menu, Image } from 'antd';
 import { useLocation } from 'wouter';
 import {
   UserOutlined,
-  SmileOutlined,
   LoginOutlined,
   HomeOutlined,
   InfoCircleOutlined,
@@ -29,19 +28,14 @@ const Navigation = () => {
       }}
       theme="light"
     >
-      <Image
-        style={{ marginLeft: '24px' }}
-        height={24}
-        width={24}
-        src={logo}
-        preview={false}
-      />
+      <Menu theme="light" defaultSelectedKeys={[currentSelectKey]}>
+        <Image
+          style={{ marginLeft: '28px', marginTop: '16px' }}
+          width={24}
+          src={logo}
+          preview={false}
+        />
 
-      <Menu
-        theme="light"
-        defaultSelectedKeys={[currentSelectKey]}
-        mode="inline"
-      >
         <Menu.Item
           key="home"
           icon={<HomeOutlined />}
@@ -51,18 +45,19 @@ const Navigation = () => {
         >
           Home
         </Menu.Item>
-        <Menu.Item key="about" icon={<SmileOutlined />}>
-          About
-        </Menu.Item>
-        <Menu.Item
-          key="profile"
-          icon={<UserOutlined />}
-          onClick={() => {
-            setLocation('/profile');
-          }}
-        >
-          Profile
-        </Menu.Item>
+
+        {loggedInUserId && (
+          <Menu.Item
+            key="profile"
+            icon={<UserOutlined />}
+            onClick={() => {
+              setLocation('/profile');
+            }}
+          >
+            Profile
+          </Menu.Item>
+        )}
+
         <Menu.Item
           key="howTo"
           icon={<InfoCircleOutlined />}
@@ -72,6 +67,7 @@ const Navigation = () => {
         >
           How to Participate
         </Menu.Item>
+
         {!loggedInUserId && (
           <Menu.Item
             key="10"
