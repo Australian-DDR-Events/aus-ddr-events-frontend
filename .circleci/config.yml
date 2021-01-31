@@ -55,6 +55,7 @@ jobs:
             printf "FIREBASE_APP_ID=$FIREBASE_APP_ID\r\n" >> .env.$NODE_ENV
             printf "FIREBASE_MEASUREMENT_ID=$FIREBASE_MEASUREMENT_ID\r\n" >> .env.$NODE_ENV
       - run: yarn add firebase-tools
+      - run: yarn add parcel-bundler
       - run: yarn build:prod
       - run: yarn firebase hosting:channel:deploy ausddrevents-staging --token $FIREBASE_TOKEN
 
