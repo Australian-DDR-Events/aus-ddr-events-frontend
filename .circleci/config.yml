@@ -1,51 +1,49 @@
 version: 2.1
 orbs:
   jira: circleci/jira@1.3.0
-  build-tools: circleci/build-tools@2.7.1
 jobs:
   install:
     working_directory: ~/aus-ddr-poc
     docker:
       - image: cimg/node:15.6.0
-    resource_class: small
+    resource_class: medium
     steps:
       - checkout
-      - build-tools/merge-with-parent:
-          parent: master
       - attach_workspace:
           at: ~/aus-ddr-poc
       - run:
           name: install
           command: yarn install
       - persist_to_workspace:
-          root: ~/aus-ddr-poc
-          paths: .
+          root: ~/
+          paths:
+            - aus-ddr-poc
   lint:
-    working_directory: ~/aus-ddr-poc
-    docker:
-      - image: cimg/node:15.6.0
-    resource_class: small
-    steps:
-      - attach_workspace:
-          at: ~/aus-ddr-poc
-      - run: yarn lint
-  test:
-    working_directory: ~/aus-ddr-poc
-    docker:
-      - image: cimg/node:15.6.0
-    resource_class: small
-    steps:
-      - attach_workspace:
-          at: ~/aus-ddr-poc
-      - run: yarn test
-  deploy:
     working_directory: ~/aus-ddr-poc
     docker:
       - image: cimg/node:15.6.0
     resource_class: medium
     steps:
       - attach_workspace:
-          at: ~/aus-ddr-poc
+          at: ~/
+      - run: yarn lint
+  test:
+    working_directory: ~/aus-ddr-poc
+    docker:
+      - image: cimg/node:15.6.0
+    resource_class: medium
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: yarn test
+  build:
+    working_directory: ~/aus-ddr-poc
+    docker:
+      - image: cimg/node:15.6.0
+    resource_class: medium
+    steps:
+      - attach_workspace:
+          at: ~/
       - run:
           name: Populate .env.$NODE_ENV
           command: |
@@ -57,31 +55,55 @@ jobs:
             printf "FIREBASE_MESSAGE_SENDER_ID=$FIREBASE_MESSAGE_SENDER_ID\r\n" >> .env.$NODE_ENV
             printf "FIREBASE_APP_ID=$FIREBASE_APP_ID\r\n" >> .env.$NODE_ENV
             printf "FIREBASE_MEASUREMENT_ID=$FIREBASE_MEASUREMENT_ID\r\n" >> .env.$NODE_ENV
-      - run: yarn add firebase-tools
       - run: yarn build:prod
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - aus-ddr-poc/dist
+  deploy:
+    working_directory: ~/aus-ddr-poc
+    docker:
+      - image: cimg/node:15.6.0
+    resource_class: medium
+    steps:
+      - attach_workspace:
+          at: ~/
       - run: yarn firebase hosting:channel:deploy ausddrevents-staging --token $FIREBASE_TOKEN
 
 workflows:
   build_and_test:
     jobs:
       - install
+
       - lint:
           post-steps:
             - jira/notify
           requires:
             - install
+
       - test:
           post-steps:
             - jira/notify
           requires:
             - install
+
+      - build:
+          post-steps:
+            - jira/notify
+          requires:
+            - test
+            - lint
+          filters:
+            branches:
+              only: master
+
       - deploy:
           context:
             - production
           post-steps:
             - jira/notify
           requires:
-            - test
+            - build
           filters:
             branches:
               only: master
