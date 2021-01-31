@@ -19,7 +19,7 @@ const Step4 = () => {
         </Space>
         <SmallWidthImage src="https://i.imgur.com/ChYOL3K.png" />
         <ArrowDownOutlined style={{ fontSize: '24px' }} />
-        <SmallWidthImage src="https://i.imgur.com/gCFdSQP.png" />
+        <SmallWidthImage src="https://i.imgur.com/oEce6Gv.png" />
         <ArrowDownOutlined style={{ fontSize: '24px' }} />
         <MediumWidthImage src="https://i.imgur.com/nGWCDfu.png" />
       </Space>

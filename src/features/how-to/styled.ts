@@ -1,7 +1,7 @@
 import styled from '../../types/styled-components';
 
 export const HowToWrapper = styled.div`
-  width: 100%;
+  width: 90%;
   text-align: center;
   margin: 0 auto;
 `;

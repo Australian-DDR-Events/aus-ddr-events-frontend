@@ -10,7 +10,7 @@ import Settings from 'features/settings';
 import Register from 'features/register';
 import Home from 'features/home';
 import ForgotPassword from 'features/forgot-password';
-import HowTo from '~/features/how-to';
+import HowTo from 'features/how-to';
 
 const ProtectedRoute = (props: RouteProps) => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(

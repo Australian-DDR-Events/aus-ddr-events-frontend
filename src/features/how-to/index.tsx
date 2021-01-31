@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Space, Steps, Button } from 'antd';
+import { Typography, Steps, Button } from 'antd';
 import { HowToWrapper, StepsContent, StepsAction } from './styled';
 import Step1 from './components/step-1';
 import Step2 from './components/step-2';
@@ -15,11 +15,7 @@ const HowTo = () => {
   const steps = [
     {
       title: 'Step 1',
-      content: (
-        <Space>
-          <Step1 />
-        </Space>
-      ),
+      content: <Step1 />,
     },
     {
       title: 'Step 2',
@@ -58,12 +54,16 @@ const HowTo = () => {
       <StepsContent>{steps[current].content}</StepsContent>
       <StepsAction className="steps-action">
         {current < steps.length - 1 && (
-          <Button type="primary" onClick={() => next()}>
+          <Button
+            style={{ margin: '16px' }}
+            type="primary"
+            onClick={() => next()}
+          >
             Next
           </Button>
         )}
         {current > 0 && (
-          <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+          <Button style={{ margin: '16px' }} onClick={() => prev()}>
             Previous
           </Button>
         )}
