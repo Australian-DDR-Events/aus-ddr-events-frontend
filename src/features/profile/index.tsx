@@ -44,6 +44,13 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
     }
   }, [id, isEditing]);
 
+  const getStateTextualRepresentation = (): string => {
+    const assignedState = StateOptions.find(
+      (state) => state.key === user.state,
+    );
+    return assignedState ? assignedState.value : '';
+  };
+
   return !isEditing ? (
     <ProfileWrapper>
       <Row gutter={16}>
@@ -80,16 +87,9 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                   <Typography.Text key="dancerId">
                     DDR Code: {user.dancerId}
                   </Typography.Text>
-                  {StateOptions.map((option) => {
-                    if (option.key === user.state) {
-                      return (
-                        <Typography.Text key="dancerState">
-                          State: {option.value}
-                        </Typography.Text>
-                      );
-                    }
-                    return <></>;
-                  })}
+                  <Typography.Text>
+                    State: {getStateTextualRepresentation()}
+                  </Typography.Text>
                   <Typography.Text key="dancerMachine">
                     Primary Machine: {user.primaryMachine}
                   </Typography.Text>
