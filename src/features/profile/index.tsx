@@ -11,10 +11,10 @@ import {
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import { DefaultUser, UserRepositoryContext } from 'context/user';
+import { StateOptions } from 'features/profile/constants';
 import ProfileForm from './components/profile-form';
 import CollectionContainer from './components/collection-container';
 import { ProfileHeader, ProfileWrapper } from './styled';
-import { StateOptions } from 'features/profile/constants';
 
 interface ProfileProps {
   id?: string;
