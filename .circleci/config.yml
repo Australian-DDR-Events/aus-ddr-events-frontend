@@ -1,7 +1,6 @@
 version: 2.1
 orbs:
   jira: circleci/jira@1.3.0
-  build-tools: circleci/build-tools@2.7.1
 jobs:
   install:
     working_directory: ~/aus-ddr-poc
@@ -10,8 +9,6 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      - build-tools/merge-with-parent:
-          parent: master
       - attach_workspace:
           at: ~/aus-ddr-poc
       - run:
@@ -49,7 +46,7 @@ jobs:
       - run:
           name: Populate .env.$NODE_ENV
           command: |
-            ls -la
+            ls ./node_modules/.bin
             printf "FIREBASE_API_KEY=$FIREBASE_API_KEY\r\n" >> .env.$NODE_ENV
             printf "FIREBASE_AUTH_DOMAIN=$FIREBASE_AUTH_DOMAIN\r\n" >> .env.$NODE_ENV
             printf "FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID\r\n" >> .env.$NODE_ENV
