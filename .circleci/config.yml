@@ -46,7 +46,6 @@ jobs:
       - run:
           name: Populate .env.$NODE_ENV
           command: |
-            ls ./node_modules/.bin
             printf "FIREBASE_API_KEY=$FIREBASE_API_KEY\r\n" >> .env.$NODE_ENV
             printf "FIREBASE_AUTH_DOMAIN=$FIREBASE_AUTH_DOMAIN\r\n" >> .env.$NODE_ENV
             printf "FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID\r\n" >> .env.$NODE_ENV
