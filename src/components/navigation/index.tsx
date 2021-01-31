@@ -6,6 +6,7 @@ import {
   SmileOutlined,
   LoginOutlined,
   HomeOutlined,
+  InfoCircleOutlined,
 } from '@ant-design/icons';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import logo from 'assets/logo.png';
@@ -61,6 +62,15 @@ const Navigation = () => {
           }}
         >
           Profile
+        </Menu.Item>
+        <Menu.Item
+          key="howTo"
+          icon={<InfoCircleOutlined />}
+          onClick={() => {
+            setLocation('/how-to');
+          }}
+        >
+          How to Participate
         </Menu.Item>
         {!loggedInUserId && (
           <Menu.Item
