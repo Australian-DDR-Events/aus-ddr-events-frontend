@@ -17,7 +17,7 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - aus-ddr-poc/node_modules
+            - aus-ddr-poc
   lint:
     working_directory: ~/aus-ddr-poc
     docker:
