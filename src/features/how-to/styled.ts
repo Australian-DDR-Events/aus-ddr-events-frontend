@@ -1,4 +1,4 @@
-import styled from '../../types/styled-components';
+import styled from 'types/styled-components';
 
 export const HowToWrapper = styled.div`
   width: 90%;

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Typography, Space } from 'antd';
-import { MediumWidthImage, List, ListItem } from './styled';
+import { Typography, Space, List } from 'antd';
+import { MediumWidthImage } from './styled';
 
 const Step3 = () => {
   const { Title } = Typography;
@@ -20,22 +20,22 @@ const Step3 = () => {
         <Typography.Paragraph>
           Ingredients, cooking order and efforts in cooking matter!
         </Typography.Paragraph>
-        <Typography.Paragraph style={{ textAlign: 'left' }}>
+        <Title level={5} style={{ textAlign: 'left' }}>
           The quality of the resulting dish relies on a number of factors:
-        </Typography.Paragraph>
+        </Title>
         <List>
-          <ListItem>
+          <List.Item>
             Dish quality will be affected by your total EX score for the cooking
             process.
-          </ListItem>
-          <ListItem>
+          </List.Item>
+          <List.Item>
             Better quality ingredients will help make a better dish. Level up
             your ingredients as much as you can before cooking.
-          </ListItem>
-          <ListItem>
+          </List.Item>
+          <List.Item>
             The dish cooking order is also up to you! Experiment and choose the
             correct order of the cooking procedure for bonus cooking points.
-          </ListItem>
+          </List.Item>
         </List>
         <MediumWidthImage src="https://i.imgur.com/I3DsXkT.png" />
       </Space>

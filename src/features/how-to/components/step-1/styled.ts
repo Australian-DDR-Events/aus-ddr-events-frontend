@@ -1,5 +1,5 @@
 import { Space, Image } from 'antd';
-import styled from '../../../../types/styled-components';
+import styled from 'types/styled-components';
 
 export const DarkBackgroundSpace = styled(Space)`
   background: rgb(48, 48, 48, 0.7);
