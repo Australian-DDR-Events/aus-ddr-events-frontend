@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select, Upload } from 'antd';
+import { Button, Form, Input, Select, Upload, Typography } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import React, { useContext } from 'react';
 import { UserRepositoryContext } from 'context/user';
@@ -41,6 +41,7 @@ const ProfileForm = ({
 
   return (
     <FormWrapper>
+      <Typography.Title>Edit Profile</Typography.Title>
       <Form
         layout="vertical"
         initialValues={formData}
@@ -94,7 +95,11 @@ const ProfileForm = ({
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button
+            style={{ marginRight: '8px' }}
+            type="primary"
+            htmlType="submit"
+          >
             Save
           </Button>
           <Button

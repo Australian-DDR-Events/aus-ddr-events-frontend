@@ -49,7 +49,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
 
   return !isEditing ? (
     <ProfileWrapper>
-      <Row gutter={16}>
+      <Row>
         <Col xs={24} xl={8}>
           <Card>
             <Space align="center" size={16} direction="vertical">
