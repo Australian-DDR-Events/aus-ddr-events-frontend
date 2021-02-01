@@ -7,7 +7,11 @@ import {
   InfoCircleOutlined,
   LogoutOutlined,
   HomeOutlined,
+<<<<<<< HEAD
   UploadOutlined,
+=======
+  PieChartOutlined,
+>>>>>>> f56df7c (DDR-42 Add scores/songs page)
 } from '@ant-design/icons';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import logo from 'assets/logo.png';
@@ -104,7 +108,19 @@ const Navigation = () => {
           </Menu.Item>
         )}
 
-        {!loggedInUser.id ? (
+        {!loggedInUser.id && (
+          <Menu.Item
+            key="score"
+            icon={<PieChartOutlined />}
+            onClick={() => {
+              setLocation('/scores');
+            }}
+          >
+            Scores
+          </Menu.Item>
+        )}
+
+        {!loggedInUser ? (
           <Menu.Item
             key="10"
             icon={<LoginOutlined />}
