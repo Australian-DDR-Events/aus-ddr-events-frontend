@@ -48,111 +48,109 @@ const RegistrationForm = () => {
   };
 
   return (
-    <>
-      <StyledForm
-        direction="vertical"
-        {...formItemLayout}
-        form={form}
-        name="register"
-        onFinish={onFinish}
-        scrollToFirstError
+    <StyledForm
+      direction="vertical"
+      {...formItemLayout}
+      form={form}
+      name="register"
+      onFinish={onFinish}
+      scrollToFirstError
+    >
+      <Typography.Title>Registration</Typography.Title>
+      <Form.Item
+        name="email"
+        label="E-mail"
+        rules={[
+          {
+            type: 'email',
+            message: 'The input is not valid E-mail!',
+          },
+          {
+            required: true,
+            message: 'Please input your E-mail!',
+          },
+        ]}
       >
-        <Typography.Title>Registration</Typography.Title>
-        <Form.Item
-          name="email"
-          label="E-mail"
-          rules={[
-            {
-              type: 'email',
-              message: 'The input is not valid E-mail!',
-            },
-            {
-              required: true,
-              message: 'Please input your E-mail!',
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
+        <Input />
+      </Form.Item>
 
-        <Form.Item
-          name="password"
-          label="Password"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your password!',
+      <Form.Item
+        name="password"
+        label="Password"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your password!',
+          },
+
+          () => ({
+            validator(_, value) {
+              if (value.length >= 8) {
+                return Promise.resolve();
+              }
+              return Promise.reject(
+                new Error('Must have at least 8 characters!'),
+              );
             },
-          ]}
-          hasFeedback
-        >
-          <Input.Password />
-        </Form.Item>
+          }),
+        ]}
+        hasFeedback
+      >
+        <Input.Password />
+      </Form.Item>
 
-        <Form.Item
-          name="confirm"
-          label="Confirm Password"
-          dependencies={['password']}
-          hasFeedback
-          rules={[
-            {
-              required: true,
-              message: 'Please confirm your password!',
+      <Form.Item
+        name="confirm"
+        label="Confirm Password"
+        dependencies={['password']}
+        hasFeedback
+        rules={[
+          {
+            required: true,
+            message: 'Please confirm your password!',
+          },
+          ({ getFieldValue }) => ({
+            validator(_, value) {
+              if (!value || getFieldValue('password') === value) {
+                return Promise.resolve();
+              }
+              return Promise.reject(
+                new Error('The two passwords that you entered do not match!'),
+              );
             },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue('password') === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(
-                  new Error('The two passwords that you entered do not match!'),
-                );
-              },
-            }),
+          }),
+        ]}
+      >
+        <Input.Password />
+      </Form.Item>
 
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (value.length >= 8 || getFieldValue('password') >= 8) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(
-                  new Error('Must have at least 8 characters!'),
-                );
-              },
-            }),
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
+      <Form.Item
+        name="displayName"
+        label={
+          <span>
+            Display Name&nbsp;
+            <Tooltip title="What do you want others to call you?">
+              <QuestionCircleOutlined />
+            </Tooltip>
+          </span>
+        }
+        rules={[
+          {
+            required: true,
+            message: 'Please input your display name!',
+            whitespace: true,
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
 
-        <Form.Item
-          name="displayName"
-          label={
-            <span>
-              Display Name&nbsp;
-              <Tooltip title="What do you want others to call you?">
-                <QuestionCircleOutlined />
-              </Tooltip>
-            </span>
-          }
-          rules={[
-            {
-              required: true,
-              message: 'Please input your display name!',
-              whitespace: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item {...buttonLayout}>
-          <Button type="primary" htmlType="submit">
-            Register
-          </Button>
-        </Form.Item>
-      </StyledForm>
-    </>
+      <Form.Item {...buttonLayout}>
+        <Button type="primary" htmlType="submit">
+          Register
+        </Button>
+      </Form.Item>
+    </StyledForm>
   );
 };
 
