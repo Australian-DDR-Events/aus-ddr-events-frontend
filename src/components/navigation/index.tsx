@@ -4,6 +4,7 @@ import { useLocation } from 'wouter';
 import {
   UserOutlined,
   LoginOutlined,
+  InfoCircleOutlined,
   LogoutOutlined,
   HomeOutlined,
 } from '@ant-design/icons';
@@ -79,6 +80,16 @@ const Navigation = () => {
             Profile
           </Menu.Item>
         )}
+
+        <Menu.Item
+          key="howTo"
+          icon={<InfoCircleOutlined />}
+          onClick={() => {
+            setLocation('/how-to');
+          }}
+        >
+          How to Participate
+        </Menu.Item>
 
         {!loggedInUserId ? (
           <Menu.Item
