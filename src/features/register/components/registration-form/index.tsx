@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Form, Input, Tooltip, Button } from 'antd';
+import { Form, Input, Tooltip, Button, Typography } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useLocation } from 'wouter';
 import { DefaultUser, UserRepositoryContext } from 'context/user';
@@ -7,16 +7,21 @@ import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from 'context/authentication';
+import { StyledForm } from './styled';
 
 const formItemLayout = {
   labelCol: {
-    xs: { span: 24 },
-    sm: { span: 4 },
+    xs: { span: 8 },
+    sm: { span: 8 },
   },
   wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 24 },
+    xs: { span: 16 },
+    sm: { span: 16 },
   },
+};
+
+const buttonLayout = {
+  wrapperCol: { offset: 8, span: 16 },
 };
 
 const RegistrationForm = () => {
@@ -43,13 +48,15 @@ const RegistrationForm = () => {
   };
 
   return (
-    <Form
+    <StyledForm
+      direction="vertical"
       {...formItemLayout}
       form={form}
       name="register"
       onFinish={onFinish}
       scrollToFirstError
     >
+      <Typography.Title>Registration</Typography.Title>
       <Form.Item
         name="email"
         label="E-mail"
@@ -75,6 +82,17 @@ const RegistrationForm = () => {
             required: true,
             message: 'Please input your password!',
           },
+
+          () => ({
+            validator(_, value) {
+              if (value.length >= 8) {
+                return Promise.resolve();
+              }
+              return Promise.reject(
+                new Error('Must have at least 8 characters!'),
+              );
+            },
+          }),
         ]}
         hasFeedback
       >
@@ -127,12 +145,12 @@ const RegistrationForm = () => {
         <Input />
       </Form.Item>
 
-      <Form.Item>
+      <Form.Item {...buttonLayout}>
         <Button type="primary" htmlType="submit">
           Register
         </Button>
       </Form.Item>
-    </Form>
+    </StyledForm>
   );
 };
 
