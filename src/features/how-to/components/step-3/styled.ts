@@ -7,9 +7,3 @@ export const SmallWidthImage = styled(Image)`
 export const MediumWidthImage = styled(Image)`
   max-width: 500px;
 `;
-
-export const List = styled.ul``;
-
-export const ListItem = styled.li`
-  text-align: left;
-`;
