@@ -6,6 +6,7 @@ import {
   LoginOutlined,
   LogoutOutlined,
   HomeOutlined,
+  PieChartOutlined,
 } from '@ant-design/icons';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import logo from 'assets/logo.png';
@@ -79,6 +80,16 @@ const Navigation = () => {
             Profile
           </Menu.Item>
         )}
+
+        <Menu.Item
+          key="score"
+          icon={<PieChartOutlined />}
+          onClick={() => {
+            setLocation('/scores');
+          }}
+        >
+          Scores
+        </Menu.Item>
 
         {!loggedInUserId ? (
           <Menu.Item
