@@ -26,7 +26,7 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
         user.dancerId = snap.child('dancerId').val();
         user.state = snap.child('state').val();
         user.primaryMachine = snap.child('pmachine').val();
-        user.userName = snap.child('username').val();
+        user.userName = snap.child('userName').val();
 
         try {
           const profilePictureSnap = await storage
