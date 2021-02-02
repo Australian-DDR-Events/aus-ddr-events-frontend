@@ -11,6 +11,7 @@ import Register from 'features/register';
 import Home from 'features/home';
 import ForgotPassword from 'features/forgot-password';
 import HowTo from 'features/how-to';
+import Error from 'features/error';
 
 const ProtectedRoute = (props: RouteProps) => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
@@ -56,7 +57,7 @@ const Router = () => (
       <Settings />
     </ProtectedRoute>
     <Route>
-      <p>Error</p>
+      <Error />
     </Route>
   </Switch>
 );
