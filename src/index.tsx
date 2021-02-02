@@ -12,8 +12,8 @@ import {
 } from 'context/authentication';
 import {
   UserRepositoryContextProvider,
-  userFirebaseDao,
   userRepository,
+  dancerApiDao,
 } from 'context/user';
 import Wrapper from 'components/wrapper';
 import Router from 'components/router';
@@ -38,8 +38,15 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 const authenticationRepositoryInstance = authenticationRepository(
   authenticationFirebaseDao(firebaseApp),
 );
+const tokenFn = async (): Promise<string> => {
+  return (await firebaseApp.auth().currentUser?.getIdToken()) ?? '';
+};
+const userDao = dancerApiDao({
+  getIdTokenFunc: tokenFn,
+  baseApiUrl: 'https://aus-ddr-api.herokuapp.com',
+});
 
-const userRepositoryInstance = userRepository(userFirebaseDao(firebaseApp));
+const userRepositoryInstance = userRepository(userDao);
 
 const App = (): React.ReactElement => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
