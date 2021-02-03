@@ -2,7 +2,7 @@ import { Button, Form, Input, Select, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import React, { useContext } from 'react';
 import { StateOptions } from 'features/profile/constants';
-import { UserRepositoryContext } from '~/context/dancer';
+import { UserRepositoryContext } from 'context/dancer';
 import { ProfileFormData } from './types';
 import { FormWrapper } from './styled';
 

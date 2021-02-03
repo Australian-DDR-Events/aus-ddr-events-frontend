@@ -8,7 +8,7 @@ const dancerApiDao = ({
   getIdTokenFunc: () => Promise<string>;
   baseApiUrl: string;
 }) => {
-  const getHeaders = async (): Promise<Headers> => {
+  const getHeadersWithAuthorization = async (): Promise<Headers> => {
     const headers = new Headers();
 
     const token = await getIdTokenFunc();
@@ -19,18 +19,34 @@ const dancerApiDao = ({
     return headers;
   };
 
-  const get = async (dancerId: string): Promise<Result<Error, User>> => {
-    const token = await getIdTokenFunc();
+  const createRequestInit = ({
+    headers,
+    method,
+    body,
+  }: {
+    headers: Headers;
+    method: string;
+    body?: string;
+  }) => {
+    const bodyMethods: string[] = ['POST', 'PATCH', 'PUT'];
 
-    return fetch(`${baseApiUrl}/dancers/${dancerId}`, {
-      method: 'GET',
+    const request: RequestInit = {
       mode: 'cors',
       cache: 'no-cache',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers,
       redirect: 'follow',
-    })
+    };
+
+    if (bodyMethods.includes(method.toUpperCase())) request.body = body;
+
+    return request;
+  };
+
+  const get = async (dancerId: string): Promise<Result<Error, User>> => {
+    const headers = await getHeadersWithAuthorization();
+    const request = createRequestInit({ headers, method: 'GET' });
+
+    return fetch(`${baseApiUrl}/dancers/${dancerId}`, request)
       .then((response) => response.json())
       .then(
         (jsonData): Result<Error, User> => {
@@ -55,7 +71,7 @@ const dancerApiDao = ({
   };
 
   const update = async (user: User): Promise<Result<Error, boolean>> => {
-    const headers = await getHeaders();
+    const headers = await getHeadersWithAuthorization();
     headers.append('Content-Type', 'application/json');
 
     const dancer = {
@@ -69,14 +85,11 @@ const dancerApiDao = ({
     const requestMethod = user.id ? 'PUT' : 'POST';
     const endpoint = user.id ? `dancers/${user.id}` : 'dancers';
 
-    const request: RequestInit = {
-      method: requestMethod,
-      mode: 'cors',
-      cache: 'no-cache',
+    const request = createRequestInit({
       headers,
-      redirect: 'follow',
+      method: requestMethod,
       body: JSON.stringify(dancer),
-    };
+    });
 
     return fetch(`${baseApiUrl}/${endpoint}`, request)
       .then((): Result<Error, boolean> => ok(true))

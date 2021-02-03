@@ -6,8 +6,8 @@ import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from 'context/authentication';
+import { DefaultUser, UserRepositoryContext } from 'context/dancer';
 import { StyledForm } from './styled';
-import { DefaultUser, UserRepositoryContext } from '~/context/dancer';
 
 const formItemLayout = {
   labelCol: {
