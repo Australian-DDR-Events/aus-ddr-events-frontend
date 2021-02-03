@@ -19,6 +19,7 @@ import {
 } from 'context/dancer';
 // eslint-disable-next-line import/no-internal-modules
 import 'antd/dist/antd.css';
+import { HeadProvider, Title } from 'react-head';
 
 dotenv.config();
 
@@ -68,7 +69,10 @@ ReactDOM.render(
     <UserRepositoryContextProvider
       userRepositoryInstance={userRepositoryInstance}
     >
-      <App />
+      <HeadProvider>
+        <Title>Australian DDR Events</Title>
+        <App />
+      </HeadProvider>
     </UserRepositoryContextProvider>
   </AuthenticationRepositoryProvider>,
   document.getElementById('root'),
