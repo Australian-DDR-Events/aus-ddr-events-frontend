@@ -1,5 +1,5 @@
 import { Typography, Image } from 'antd';
-import styled, { defaultSpacing } from '../../types/styled-components';
+import styled, { defaultSpacing } from 'types/styled-components';
 
 export const ErrorHeader = styled(Typography.Title)`
   font-size: 32px;
