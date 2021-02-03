@@ -46,9 +46,9 @@ const authenticationFirebaseDao = (
       .catch((e): Err<Error, void> => err(e, undefined));
   };
 
-  const get = (): Result<Error, string> => {
+  const get = (): Result<Error, Object> => {
     if (user) {
-      return ok(user.uid);
+      return ok({ uid: user.uid, emailVerified: user.emailVerified });
     }
     return err(new Error('user not logged in'), '');
   };

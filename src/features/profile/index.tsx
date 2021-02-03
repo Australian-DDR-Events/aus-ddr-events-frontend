@@ -7,7 +7,9 @@ import {
   Card,
   Row,
   Col,
+  Popover,
 } from 'antd';
+import { CheckCircleOutlined, CloseOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import { StateOptions } from 'features/profile/constants';
@@ -28,9 +30,12 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const loggedInUserId = authRepo.authenticationRepositoryInstance
+  const loggedInUser = authRepo.authenticationRepositoryInstance
     .get()
     .okOrDefault();
+
+  const loggedInUserId = loggedInUser.uid;
+  const { emailVerified } = loggedInUser;
   const isEditable = !id || loggedInUserId === id;
 
   useEffect(() => {
@@ -81,6 +86,19 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                   <ProfileHeader level={2}>{user.userName}</ProfileHeader>
                   <Typography.Text key="dancerName">
                     Dancer Name: {user.dancerName}
+                    {emailVerified ? (
+                      <Popover content="User is verified.">
+                        <CheckCircleOutlined
+                          style={{ marginLeft: '4px', color: 'green' }}
+                        />
+                      </Popover>
+                    ) : (
+                      <Popover content="User is not verified.">
+                        <CloseOutlined
+                          style={{ marginLeft: '4px', color: 'red' }}
+                        />
+                      </Popover>
+                    )}
                   </Typography.Text>
                   <Typography.Text key="dancerId">
                     DDR Code: {user.dancerId}
@@ -91,6 +109,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                   <Typography.Text key="dancerMachine">
                     Primary Machine: {user.primaryMachine}
                   </Typography.Text>
+
                   {isEditable && (
                     <Button
                       onClick={() => {

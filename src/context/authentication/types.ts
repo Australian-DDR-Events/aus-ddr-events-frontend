@@ -8,7 +8,7 @@ export type AuthenticationRepository = {
     remember: boolean,
   ) => Promise<Result<Error, string>>;
   logout: () => Promise<Result<Error, void>>;
-  get: () => Result<Error, string>;
+  get: () => Result<Error, Object>;
   register: (email: string, password: string) => Promise<Result<Error, void>>;
   updatePassword: (
     currentPassword: string,
