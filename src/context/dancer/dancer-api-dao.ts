@@ -1,4 +1,4 @@
-import { DefaultUser, User } from 'context/user';
+import { DefaultUser, User } from '~/context/dancer';
 import { err, ok, Result } from '~/types/result';
 
 const dancerApiDao = ({
@@ -21,9 +21,10 @@ const dancerApiDao = ({
 
   const get = async (dancerId: string): Promise<Result<Error, User>> => {
     const token = await getIdTokenFunc();
+
     return fetch(`${baseApiUrl}/dancers/${dancerId}`, {
       method: 'GET',
-      mode: 'no-cors',
+      mode: 'cors',
       cache: 'no-cache',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -54,22 +55,23 @@ const dancerApiDao = ({
 
   const update = async (user: User): Promise<Result<Error, boolean>> => {
     const headers = await getHeaders();
+    headers.append('Content-Type', 'application/json');
 
-    const databaseUser = {
-      ddrName: user.dancerName,
-      ddrCode: user.dancerId,
-      primaryMachineLocation: user.primaryMachine,
-      state: user.state,
-      profilePictureUrl: user.profilePicture,
+    const dancer = {
+      ddrName: user.dancerName || '',
+      ddrCode: user.dancerId || '',
+      primaryMachineLocation: user.primaryMachine || '',
+      state: user.state || '',
+      profilePictureUrl: user.profilePicture || '',
     };
 
     const request: RequestInit = {
       method: 'POST',
-      mode: 'no-cors',
+      mode: 'cors',
       cache: 'no-cache',
       headers,
       redirect: 'follow',
-      body: JSON.stringify(databaseUser),
+      body: JSON.stringify(dancer),
     };
 
     return fetch(`${baseApiUrl}/dancers`, request)
@@ -78,8 +80,6 @@ const dancerApiDao = ({
         (): Result<Error, boolean> =>
           err(new Error('failed to update user'), false),
       );
-
-    return ok(true);
   };
 
   return { get, update };

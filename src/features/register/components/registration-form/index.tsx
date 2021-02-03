@@ -2,12 +2,12 @@ import React, { useContext } from 'react';
 import { Form, Input, Tooltip, Button, Typography } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useLocation } from 'wouter';
-import { DefaultUser, UserRepositoryContext } from 'context/user';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from 'context/authentication';
 import { StyledForm } from './styled';
+import { DefaultUser, UserRepositoryContext } from '~/context/dancer';
 
 const formItemLayout = {
   labelCol: {

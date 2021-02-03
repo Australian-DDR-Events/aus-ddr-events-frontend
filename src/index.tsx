@@ -10,13 +10,13 @@ import {
   AuthenticationRepositoryContextInterface,
   AuthenticationRepositoryContext,
 } from 'context/authentication';
+import Wrapper from 'components/wrapper';
+import Router from 'components/router';
 import {
   UserRepositoryContextProvider,
   userRepository,
   dancerApiDao,
-} from 'context/user';
-import Wrapper from 'components/wrapper';
-import Router from 'components/router';
+} from '~/context/dancer';
 // eslint-disable-next-line import/no-internal-modules
 import 'antd/dist/antd.css';
 
