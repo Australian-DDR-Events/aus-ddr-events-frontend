@@ -49,7 +49,6 @@ const RegistrationForm = () => {
 
   return (
     <StyledForm
-      direction="vertical"
       {...formItemLayout}
       form={form}
       name="register"
