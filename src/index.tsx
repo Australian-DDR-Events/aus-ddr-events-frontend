@@ -17,8 +17,8 @@ import {
   userRepository,
   dancerApiDao,
 } from 'context/dancer';
-// eslint-disable-next-line import/no-internal-modules
 import 'antd/dist/antd.css';
+import styled, { defaultSpacing } from 'types/styled-components';
 
 dotenv.config();
 
@@ -48,6 +48,10 @@ const dancerDao = dancerApiDao({
 
 const userRepositoryInstance = userRepository(dancerDao);
 
+const SkeletonWrapper = styled.div`
+  padding: ${defaultSpacing * 2}px;
+`;
+
 const App = (): React.ReactElement => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
     AuthenticationRepositoryContext,
@@ -58,7 +62,17 @@ const App = (): React.ReactElement => {
     setLoading(false);
   });
 
-  return <Wrapper>{loading ? <Skeleton active /> : <Router />}</Wrapper>;
+  return (
+    <Wrapper>
+      {loading ? (
+        <SkeletonWrapper>
+          <Skeleton active />
+        </SkeletonWrapper>
+      ) : (
+        <Router />
+      )}
+    </Wrapper>
+  );
 };
 
 ReactDOM.render(

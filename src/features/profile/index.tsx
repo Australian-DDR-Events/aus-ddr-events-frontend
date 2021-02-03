@@ -76,10 +76,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                       user.profilePicture || 'https://i.imgur.com/o0ulS6k.png'
                     }
                   />
-                  <ProfileHeader level={2}>{user.userName}</ProfileHeader>
-                  <Typography.Text key="dancerName">
-                    Dancer Name: {user.dancerName}
-                  </Typography.Text>
+                  <ProfileHeader level={2}>{user.dancerName}</ProfileHeader>
                   <Typography.Text key="dancerId">
                     DDR Code: {user.dancerId}
                   </Typography.Text>
