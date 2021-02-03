@@ -14,8 +14,10 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
       newProfilePicture: new File([''], 'filename'),
       state: '',
       userName: '',
+      emailVerified: false,
     };
     if (!currentAuthUser) return ok(user);
+    user.emailVerified = currentAuthUser.emailVerified;
 
     return firebaseApp
       .database()

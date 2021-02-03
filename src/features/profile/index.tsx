@@ -7,7 +7,9 @@ import {
   Card,
   Row,
   Col,
+  Popover,
 } from 'antd';
+import { CheckCircleOutlined, CloseOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import { DefaultUser, UserRepositoryContext } from 'context/user';
@@ -79,6 +81,15 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                   <ProfileHeader level={2}>{user.userName}</ProfileHeader>
                   <Typography.Text key="dancerName">
                     Dancer Name: {user.dancerName}
+                    {user.emailVerified ? (
+                      <Popover content="User is verified.">
+                        <CheckCircleOutlined style={{ color: 'green' }} />
+                      </Popover>
+                    ) : (
+                      <Popover content="User is not verified.">
+                        <CloseOutlined style={{ color: 'red' }} />
+                      </Popover>
+                    )}
                   </Typography.Text>
                   <Typography.Text key="dancerId">
                     DDR Code: {user.dancerId}
@@ -89,6 +100,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                   <Typography.Text key="dancerMachine">
                     Primary Machine: {user.primaryMachine}
                   </Typography.Text>
+
                   {isEditable && (
                     <Button
                       onClick={() => {
