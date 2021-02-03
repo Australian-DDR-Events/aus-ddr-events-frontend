@@ -35,6 +35,7 @@ const dancerApiDao = ({
       .then(
         (jsonData): Result<Error, User> => {
           const user: User = {
+            id: jsonData.id,
             dancerId: jsonData.DdrCode,
             dancerName: jsonData.DdrName,
             primaryMachine: jsonData.PrimaryMachineLocation,
@@ -65,8 +66,11 @@ const dancerApiDao = ({
       profilePictureUrl: user.profilePicture || '',
     };
 
+    const requestMethod = user.id ? 'PUT' : 'POST';
+    const endpoint = user.id ? `dancers/${user.id}` : 'dancers';
+
     const request: RequestInit = {
-      method: 'POST',
+      method: requestMethod,
       mode: 'cors',
       cache: 'no-cache',
       headers,
@@ -74,7 +78,7 @@ const dancerApiDao = ({
       body: JSON.stringify(dancer),
     };
 
-    return fetch(`${baseApiUrl}/dancers`, request)
+    return fetch(`${baseApiUrl}/${endpoint}`, request)
       .then((): Result<Error, boolean> => ok(true))
       .catch(
         (): Result<Error, boolean> =>

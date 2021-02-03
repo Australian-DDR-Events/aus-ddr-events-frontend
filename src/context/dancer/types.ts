@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { Result } from 'types/result';
 
 export type User = {
+  id: string;
   dancerName: string;
   dancerId: string;
   profilePicture: string;
