@@ -11,6 +11,7 @@ import Register from 'features/register';
 import Home from 'features/home';
 import ForgotPassword from 'features/forgot-password';
 import HowTo from 'features/how-to';
+import Submission from 'features/submission';
 
 const ProtectedRoute = (props: RouteProps) => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
@@ -51,6 +52,9 @@ const Router = () => (
     </ProtectedRoute>
     <ProtectedRoute path="/profile/:id">
       {(params) => <Profile id={params.id} />}
+    </ProtectedRoute>
+    <ProtectedRoute path="/submission">
+      <Submission />
     </ProtectedRoute>
     <ProtectedRoute path="/settings">
       <Settings />
