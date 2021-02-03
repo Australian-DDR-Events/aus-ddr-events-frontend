@@ -52,12 +52,12 @@ const dancerApiDao = ({
         (jsonData): Result<Error, User> => {
           const user: User = {
             id: jsonData.id,
-            dancerId: jsonData.DdrCode,
-            dancerName: jsonData.DdrName,
-            primaryMachine: jsonData.PrimaryMachineLocation,
-            profilePicture: jsonData.ProfilePictureUrl,
+            dancerId: jsonData.ddrCode,
+            dancerName: jsonData.ddrName,
+            primaryMachine: jsonData.primaryMachineLocation,
+            profilePicture: jsonData.profilePictureUrl,
             newProfilePicture: new File([''], 'filename'),
-            state: jsonData.State,
+            state: jsonData.state,
             userName: '',
           };
           return ok(user);
