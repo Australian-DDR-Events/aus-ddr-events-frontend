@@ -7,6 +7,7 @@ import {
   InfoCircleOutlined,
   LogoutOutlined,
   HomeOutlined,
+  UploadOutlined,
 } from '@ant-design/icons';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import logo from 'assets/logo.png';
@@ -89,6 +90,16 @@ const Navigation = () => {
           }}
         >
           How to Participate
+        </Menu.Item>
+
+        <Menu.Item
+          key="submission"
+          icon={<UploadOutlined />}
+          onClick={() => {
+            setLocation('/submission');
+          }}
+        >
+          Submit Scores
         </Menu.Item>
 
         {!loggedInUserId ? (
