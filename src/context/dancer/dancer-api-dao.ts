@@ -1,5 +1,5 @@
-import { DefaultUser, User } from '~/context/dancer';
-import { err, ok, Result } from '~/types/result';
+import { DefaultUser, User } from 'context/dancer';
+import { err, ok, Result } from 'types/result';
 
 const dancerApiDao = ({
   getIdTokenFunc,

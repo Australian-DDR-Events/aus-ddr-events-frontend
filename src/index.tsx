@@ -43,7 +43,7 @@ const tokenFn = async (): Promise<string> => {
 };
 const userDao = dancerApiDao({
   getIdTokenFunc: tokenFn,
-  baseApiUrl: 'https://aus-ddr-api.herokuapp.com',
+  baseApiUrl: process.env.API_URL ?? '',
 });
 
 const userRepositoryInstance = userRepository(userDao);
