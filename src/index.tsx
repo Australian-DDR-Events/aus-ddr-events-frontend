@@ -10,13 +10,13 @@ import {
   AuthenticationRepositoryContextInterface,
   AuthenticationRepositoryContext,
 } from 'context/authentication';
-import {
-  UserRepositoryContextProvider,
-  userFirebaseDao,
-  userRepository,
-} from 'context/user';
 import Wrapper from 'components/wrapper';
 import Router from 'components/router';
+import {
+  UserRepositoryContextProvider,
+  userRepository,
+  dancerApiDao,
+} from 'context/dancer';
 // eslint-disable-next-line import/no-internal-modules
 import 'antd/dist/antd.css';
 
@@ -38,8 +38,15 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 const authenticationRepositoryInstance = authenticationRepository(
   authenticationFirebaseDao(firebaseApp),
 );
+const tokenFn = async (): Promise<string> => {
+  return (await firebaseApp.auth().currentUser?.getIdToken()) ?? '';
+};
+const dancerDao = dancerApiDao({
+  getIdTokenFunc: tokenFn,
+  baseApiUrl: process.env.API_URL ?? '',
+});
 
-const userRepositoryInstance = userRepository(userFirebaseDao(firebaseApp));
+const userRepositoryInstance = userRepository(dancerDao);
 
 const App = (): React.ReactElement => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
