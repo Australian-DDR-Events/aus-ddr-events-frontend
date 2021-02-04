@@ -5,13 +5,25 @@ import { IngredientWrapper } from "./styled";
 
 const SubmissionSong = ({
   title,
+  setIsSubmitting,
+  setCurrentSong,
 }: {
   title: string;
+  setIsSubmitting: Function;
+  setCurrentSong: Function;
 }) => {
   return (
     <Card
       actions={[
-        <Typography.Title level={5}>Submit</Typography.Title>
+        <Typography.Link
+          strong
+          onClick={() => {
+            setCurrentSong(title);
+            setIsSubmitting(true);
+          }}
+        >
+          Submit
+        </Typography.Link>
       ]}
     >
       <Card.Grid>
