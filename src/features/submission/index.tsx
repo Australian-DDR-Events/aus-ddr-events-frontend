@@ -1,8 +1,7 @@
-import { DownOutlined } from "@ant-design/icons";
-import { Dropdown, Menu, Typography } from "antd";
+import { Col, Menu, Row, Typography } from "antd";
 import React, { useState } from "react";
-import SongSubmission from "./components/song-submission";
-import { SubmissionSelectionWrapper, SubmissionWrapper } from "./styled";
+import SubmissionSong from "./components/submission-song";
+import { SubmissionWrapper } from "./styled";
 
 const Submission = () => {
   const songs = ['BURNIN\' THE FLOOR',
@@ -17,41 +16,21 @@ const Submission = () => {
     'Magnetic',
     'Cosy Catastrophe'
   ]
-  const [ dropdownTitle, setDropdownTitle ] = useState('Select a song');
-  const [ uploadUiDisplay, setUploadUiDisplayed] = useState(false);
-
-  const menu = (
-    <Menu>
-      {
-        songs.map((song, index) => {
-          return (
-            <Menu.Item key={index} onClick={() => updateCurrentSong(song)}>
-              {song}
-            </Menu.Item>
-          )
-        })
-      }
-    </Menu>
-  )
-
-  const updateCurrentSong = (song: string) => {
-    setDropdownTitle(song);
-    setUploadUiDisplayed(true);
-  }
 
   return (
     <SubmissionWrapper>
-      <SubmissionSelectionWrapper>
-        <Typography.Text>Step 1: </Typography.Text>
-        <Dropdown overlay={menu} trigger={['click']}>
-          <a className="ant-dropdown-link">
-            {dropdownTitle} <DownOutlined />
-          </a>
-        </Dropdown>
-      </SubmissionSelectionWrapper>
-      {uploadUiDisplay && (
-        <SongSubmission />
-      )}
+      <Typography.Title level={2}>Individual Song Submission</Typography.Title>
+        <Row gutter={[{xs: 16, xl: 48}, {xs: 16, xl: 24}]}>
+          {
+            songs.map((title) => {
+              return (
+                <Col xs={12} xl={4} className="gutter-row">
+                  <SubmissionSong title={title} />
+                </Col>
+              )
+            })
+          }
+        </Row>
     </SubmissionWrapper>
   );
 }
