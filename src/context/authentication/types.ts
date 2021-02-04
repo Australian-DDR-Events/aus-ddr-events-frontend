@@ -34,7 +34,7 @@ export interface Logout {
 }
 
 export interface Get {
-  (): Result<Error, string>;
+  (): Result<Error, object>;
 }
 
 export interface Register {
