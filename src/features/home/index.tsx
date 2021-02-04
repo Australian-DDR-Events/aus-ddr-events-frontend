@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Typography, Button } from 'antd';
+import { AuthenticationRepositoryContext } from 'context/authentication';
 import {
   HomeWrapper,
   LargeWidthImage,
@@ -13,6 +14,10 @@ import ContactUs from './components/contact-us';
 const Home = () => {
   const { Link } = Typography;
 
+  const authRepo = useContext(AuthenticationRepositoryContext)
+    .authenticationRepositoryInstance;
+  const loggedInUserId = authRepo.get().okOrDefault();
+
   return (
     <HomeWrapper>
       <WhiteBackgroundSpace direction="vertical">
@@ -25,9 +30,11 @@ const Home = () => {
           Show off your moves and join in on the hottest DDR seasonal event
           starting February 2021. Pre-register your account today!
         </Typography.Title>
-        <Link href="/register">
-          <Button type="primary">Sign Up</Button>
-        </Link>
+        {!loggedInUserId && (
+          <Link href="/register">
+            <Button type="primary">Sign Up</Button>
+          </Link>
+        )}
       </WhiteBackgroundSpace>
 
       <DarkBackgroundSpace direction="vertical">
@@ -40,9 +47,11 @@ const Home = () => {
 
       <DarkBackgroundSpace direction="vertical">
         <ContactUs />
-        <Link href="/register">
-          <Button type="primary">Sign Up</Button>
-        </Link>
+        {!loggedInUserId && (
+          <Link href="/register">
+            <Button type="primary">Sign Up</Button>
+          </Link>
+        )}
       </DarkBackgroundSpace>
     </HomeWrapper>
   );

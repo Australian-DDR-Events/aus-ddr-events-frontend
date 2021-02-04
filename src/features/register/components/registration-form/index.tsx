@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import { Form, Input, Tooltip, Button, Typography } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useLocation } from 'wouter';
-import { DefaultUser, UserRepositoryContext } from 'context/user';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from 'context/authentication';
+import { DefaultUser, UserRepositoryContext } from 'context/dancer';
 import { StyledForm } from './styled';
 
 const formItemLayout = {
@@ -49,7 +49,6 @@ const RegistrationForm = () => {
 
   return (
     <StyledForm
-      direction="vertical"
       {...formItemLayout}
       form={form}
       name="register"

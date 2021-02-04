@@ -10,8 +10,9 @@ import {
 } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
-import { DefaultUser, UserRepositoryContext } from 'context/user';
 import { StateOptions } from 'features/profile/constants';
+import { DefaultUser, UserRepositoryContext } from 'context/dancer';
+import { Title } from 'react-head';
 import ProfileForm from './components/profile-form';
 import CollectionContainer from './components/collection-container';
 import { ProfileHeader, ProfileWrapper } from './styled';
@@ -49,7 +50,8 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
 
   return !isEditing ? (
     <ProfileWrapper>
-      <Row>
+      {!loading && <Title>{user.dancerName} | Australian DDR Events</Title>}
+      <Row gutter={16}>
         <Col xs={24} xl={8}>
           <Card>
             <Space align="center" size={16} direction="vertical">
@@ -76,10 +78,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                       user.profilePicture || 'https://i.imgur.com/o0ulS6k.png'
                     }
                   />
-                  <ProfileHeader level={2}>{user.userName}</ProfileHeader>
-                  <Typography.Text key="dancerName">
-                    Dancer Name: {user.dancerName}
-                  </Typography.Text>
+                  <ProfileHeader level={2}>{user.dancerName}</ProfileHeader>
                   <Typography.Text key="dancerId">
                     DDR Code: {user.dancerId}
                   </Typography.Text>
