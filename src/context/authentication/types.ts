@@ -1,6 +1,11 @@
 import { ReactNode } from 'react';
 import { Result } from 'types/result';
 
+export type AuthenticationUser = {
+  id: string;
+  hasVerifiedEmail: boolean;
+};
+
 export type AuthenticationRepository = {
   login: (
     username: string,
