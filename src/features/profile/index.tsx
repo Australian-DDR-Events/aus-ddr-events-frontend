@@ -12,6 +12,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import { StateOptions } from 'features/profile/constants';
 import { DefaultUser, UserRepositoryContext } from 'context/dancer';
+import { Title } from 'react-head';
 import ProfileForm from './components/profile-form';
 import CollectionContainer from './components/collection-container';
 import { ProfileHeader, ProfileWrapper } from './styled';
@@ -49,6 +50,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
 
   return !isEditing ? (
     <ProfileWrapper>
+      {!loading && <Title>{user.dancerName} | Australian DDR Events</Title>}
       <Row gutter={16}>
         <Col xs={24} xl={8}>
           <Card>

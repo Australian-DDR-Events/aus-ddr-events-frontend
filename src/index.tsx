@@ -19,6 +19,7 @@ import {
 } from 'context/dancer';
 import 'antd/dist/antd.css';
 import styled, { defaultSpacing } from 'types/styled-components';
+import { HeadProvider, Title } from 'react-head';
 
 dotenv.config();
 
@@ -82,7 +83,10 @@ ReactDOM.render(
     <UserRepositoryContextProvider
       userRepositoryInstance={userRepositoryInstance}
     >
-      <App />
+      <HeadProvider>
+        <Title>Australian DDR Events</Title>
+        <App />
+      </HeadProvider>
     </UserRepositoryContextProvider>
   </AuthenticationRepositoryProvider>,
   document.getElementById('root'),
