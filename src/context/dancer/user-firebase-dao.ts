@@ -9,7 +9,6 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
     const currentAuthUser = firebaseApp.auth().currentUser;
     const user: User = { ...DefaultUser };
     if (!currentAuthUser) return ok(user);
-    user.emailVerified = currentAuthUser.emailVerified;
 
     return firebaseApp
       .database()
