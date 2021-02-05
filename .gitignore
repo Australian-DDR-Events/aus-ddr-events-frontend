@@ -18,12 +18,3 @@ npm-debug.log
 .vscode
 dist
 yarn-error.log
-
-# Yarn 2 Zero-Installs
-# https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
-.yarn/*
-!.yarn/cache
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
