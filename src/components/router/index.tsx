@@ -12,6 +12,7 @@ import Home from 'features/home';
 import ForgotPassword from 'features/forgot-password';
 import HowTo from 'features/how-to';
 import Submission from 'features/submission';
+import Error from 'features/error';
 import { Title } from 'react-head';
 
 const ProtectedRoute = (props: RouteProps) => {
@@ -70,8 +71,7 @@ const Router = () => (
       <Settings />
     </ProtectedRoute>
     <Route>
-      <Title>Error | Australian DDR Events</Title>
-      <p>Error</p>
+      <Error />
     </Route>
   </Switch>
 );
