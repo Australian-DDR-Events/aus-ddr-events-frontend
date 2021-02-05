@@ -22,9 +22,6 @@ jobs:
           command: |
             npm install -g yarn
             yarn set version berry
-      - run:
-          name: install
-          command: yarn install
       - persist_to_workspace:
           root: ~/
           paths:
