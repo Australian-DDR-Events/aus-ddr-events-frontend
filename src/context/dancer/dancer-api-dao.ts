@@ -1,5 +1,6 @@
 import { DefaultUser, User } from 'context/dancer';
 import { err, ok, Result } from 'types/result';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const dancerApiDao = ({
   getIdTokenFunc,
@@ -8,16 +9,10 @@ const dancerApiDao = ({
   getIdTokenFunc: () => Promise<string>;
   baseApiUrl: string;
 }) => {
-  const getHeadersWithAuthorization = async (): Promise<Headers> => {
-    const headers = new Headers();
-
-    const token = await getIdTokenFunc();
-    if (token) {
-      headers.append('Authorization', `Bearer ${token}`);
-    }
-
-    return headers;
-  };
+  const axiosClient = axios.create({
+    baseURL: baseApiUrl,
+    timeout: 6000,
+  });
 
   const createRequestInit = ({
     headers,
@@ -43,21 +38,24 @@ const dancerApiDao = ({
   };
 
   const get = async (dancerId: string): Promise<Result<Error, User>> => {
-    const headers = await getHeadersWithAuthorization();
-    const request = createRequestInit({ headers, method: 'GET' });
+    const request: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${await getIdTokenFunc()}`,
+      },
+    };
 
-    return fetch(`${baseApiUrl}/dancers/${dancerId}`, request)
-      .then((response) => response.json())
+    return axiosClient
+      .get(`/dancers/${dancerId}`, request)
       .then(
-        (jsonData): Result<Error, User> => {
+        (response: AxiosResponse): Result<Error, User> => {
           const user: User = {
-            id: jsonData.id,
-            dancerId: jsonData.ddrCode,
-            dancerName: jsonData.ddrName,
-            primaryMachine: jsonData.primaryMachineLocation,
-            profilePicture: jsonData.profilePictureUrl,
+            id: response.data.id,
+            dancerId: response.data.ddrCode,
+            dancerName: response.data.ddrName,
+            primaryMachine: response.data.primaryMachineLocation,
+            profilePicture: response.data.profilePictureUrl,
             newProfilePicture: new File([''], 'filename'),
-            state: jsonData.state,
+            state: response.data.state,
             userName: '',
           };
           return ok(user);
@@ -70,10 +68,32 @@ const dancerApiDao = ({
       );
   };
 
-  const update = async (user: User): Promise<Result<Error, boolean>> => {
-    const headers = await getHeadersWithAuthorization();
-    headers.append('Content-Type', 'application/json');
+  const uploadProfilePicture = async (
+    file: File,
+  ): Promise<Result<Error, boolean>> => {
+    const data = new FormData();
+    data.append('profilePicture', file);
 
+    const request: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${await getIdTokenFunc()}`,
+        'Content-Type': 'multipart/form-data',
+      },
+      method: 'POST',
+      url: `${baseApiUrl}/dancers/profilepicture`,
+      data,
+    };
+
+    return axiosClient
+      .request(request)
+      .then((): Result<Error, boolean> => ok(true))
+      .catch(
+        (): Result<Error, boolean> =>
+          err(new Error('failed to update user'), false),
+      );
+  };
+
+  const update = async (user: User): Promise<Result<Error, boolean>> => {
     const dancer = {
       ddrName: user.dancerName || '',
       ddrCode: user.dancerId || '',
@@ -82,21 +102,28 @@ const dancerApiDao = ({
       profilePictureUrl: user.profilePicture || '',
     };
 
-    const requestMethod = user.id ? 'PUT' : 'POST';
-    const endpoint = user.id ? `dancers/${user.id}` : 'dancers';
+    const request: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${await getIdTokenFunc()}`,
+        'Content-Type': 'application/json',
+      },
+      method: user.id ? 'PUT' : 'POST',
+      url: user.id ? `dancers/${user.id}` : 'dancers',
+      data: dancer,
+    };
 
-    const request = createRequestInit({
-      headers,
-      method: requestMethod,
-      body: JSON.stringify(dancer),
-    });
-
-    return fetch(`${baseApiUrl}/${endpoint}`, request)
+    let result = axiosClient
+      .request(request)
       .then((): Result<Error, boolean> => ok(true))
       .catch(
         (): Result<Error, boolean> =>
           err(new Error('failed to update user'), false),
       );
+
+    if (user.newProfilePicture.size > 0) {
+      result = uploadProfilePicture(user.newProfilePicture);
+    }
+    return result;
   };
 
   return { get, update };

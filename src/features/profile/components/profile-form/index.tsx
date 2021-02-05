@@ -59,17 +59,16 @@ const ProfileForm = ({
             </Upload>
           </Form.Item>
         </Form.Item>
-        <Form.Item label="Username">
-          <Form.Item name="userName" noStyle>
-            <Input />
-          </Form.Item>
-        </Form.Item>
         <Form.Item label="Dancer name">
           <Form.Item name="dancerName" noStyle>
             <Input />
           </Form.Item>
         </Form.Item>
-
+        <Form.Item label="Dancer ID">
+          <Form.Item name="dancerId" noStyle>
+            <Input />
+          </Form.Item>
+        </Form.Item>
         <Form.Item
           label="State"
           name="state"
