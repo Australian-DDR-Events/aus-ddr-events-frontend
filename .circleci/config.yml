@@ -5,7 +5,7 @@ jobs:
   install:
     working_directory: ~/aus-ddr-poc
     docker:
-      image: cimg/node:15.6.0
+      - image: cimg/node:15.6.0
     resource_class: medium
     steps:
       - checkout
@@ -21,7 +21,7 @@ jobs:
   lint:
     working_directory: ~/aus-ddr-poc
     docker:
-      image: cimg/node:15.6.0
+      - image: cimg/node:15.6.0
     resource_class: medium
     steps:
       - attach_workspace:
@@ -30,7 +30,7 @@ jobs:
   test:
     working_directory: ~/aus-ddr-poc
     docker:
-      image: cimg/node:15.6.0
+      - image: cimg/node:15.6.0
     resource_class: medium
     steps:
       - attach_workspace:
@@ -39,7 +39,7 @@ jobs:
   build:
     working_directory: ~/aus-ddr-poc
     docker:
-      image: cimg/node:15.6.0
+      - image: cimg/node:15.6.0
     resource_class: medium
     steps:
       - attach_workspace:
@@ -64,7 +64,7 @@ jobs:
   deploy:
     working_directory: ~/aus-ddr-poc
     docker:
-      image: cimg/node:15.6.0
+      - image: cimg/node:15.6.0
     resource_class: medium
     steps:
       - attach_workspace:
