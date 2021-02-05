@@ -18,7 +18,7 @@ jobs:
             nvm use node
       - run:
           command: |
-            node install -g yarn
+            npm install -g yarn
       - run:
           name: install
           command: yarn install
