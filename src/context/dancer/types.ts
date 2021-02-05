@@ -10,7 +10,6 @@ export type User = {
   userName: string;
   state: string;
   primaryMachine: string;
-  emailVerified: boolean;
 };
 
 export type UserRepository = {

@@ -13,7 +13,7 @@ export type AuthenticationRepository = {
     remember: boolean,
   ) => Promise<Result<Error, string>>;
   logout: () => Promise<Result<Error, void>>;
-  get: () => Result<Error, Object>;
+  get: () => Result<Error, AuthenticationUser>;
   register: (email: string, password: string) => Promise<Result<Error, void>>;
   updatePassword: (
     currentPassword: string,
@@ -34,7 +34,7 @@ export interface Logout {
 }
 
 export interface Get {
-  (): Result<Error, object>;
+  (): Result<Error, AuthenticationUser>;
 }
 
 export interface Register {
