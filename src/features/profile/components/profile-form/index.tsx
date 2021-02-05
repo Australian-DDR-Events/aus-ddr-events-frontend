@@ -1,10 +1,10 @@
 import { Button, Form, Input, Select, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import React, { useContext } from 'react';
-import { UserRepositoryContext } from 'context/user';
 import { StateOptions } from 'features/profile/constants';
+import { UserRepositoryContext } from 'context/dancer';
 import { ProfileFormData } from './types';
-import { FormWrapper } from './styled';
+import { FormWrapper, StyledButton } from './styled';
 
 const ProfileForm = ({
   formData,
@@ -76,8 +76,6 @@ const ProfileForm = ({
         >
           <Select>
             {StateOptions.map((option) => (
-              // todo: add key to option object
-              // eslint-disable-next-line react/no-array-index-key
               <Select.Option key={option.key} value={option.key}>
                 {option.value}
               </Select.Option>
@@ -94,9 +92,9 @@ const ProfileForm = ({
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <StyledButton type="primary" htmlType="submit">
             Save
-          </Button>
+          </StyledButton>
           <Button
             type="default"
             htmlType="button"

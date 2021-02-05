@@ -3,9 +3,8 @@ import { Space, Typography } from 'antd';
 import logo from 'assets/logo.png';
 import { ErrorWrapper, ErrorHeader, LargeWidthImage } from './styled';
 
+const { Title, Link } = Typography;
 const Error = () => {
-  const { Title, Link } = Typography;
-
   return (
     <ErrorWrapper>
       <Space>

@@ -1,5 +1,5 @@
 import { err, Result } from 'types/result';
-import { User, DefaultUser } from 'context/user';
+import { User, DefaultUser } from 'context/dancer';
 
 const userDao = () => {
   let getHook: (id: string) => Promise<Result<Error, User>> = async (): Promise<

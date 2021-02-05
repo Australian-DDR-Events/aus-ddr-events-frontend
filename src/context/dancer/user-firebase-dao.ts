@@ -1,20 +1,13 @@
 import firebase from 'firebase';
 import { ok, Result } from 'types/result';
 import { User, UserDao } from './types';
+import { DefaultUser } from './constants';
 
 const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
   const storage = firebaseApp.storage();
   const get = async (id: string): Promise<Result<Error, User>> => {
     const currentAuthUser = firebaseApp.auth().currentUser;
-    const user: User = {
-      dancerId: '',
-      dancerName: '',
-      primaryMachine: '',
-      profilePicture: '',
-      newProfilePicture: new File([''], 'filename'),
-      state: '',
-      userName: '',
-    };
+    const user: User = { ...DefaultUser };
     if (!currentAuthUser) return ok(user);
 
     return firebaseApp
