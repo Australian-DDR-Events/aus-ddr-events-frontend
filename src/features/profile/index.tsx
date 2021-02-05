@@ -34,8 +34,8 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
     .get()
     .okOrDefault();
 
-  const loggedInUserId = loggedInUser.uid;
-  const { emailVerified } = loggedInUser;
+  const loggedInUserId = loggedInUser.id;
+  const emailVerified = loggedInUser.hasVerifiedEmail;
   const isEditable = !id || loggedInUserId === id;
 
   useEffect(() => {
