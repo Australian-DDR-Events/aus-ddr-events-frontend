@@ -56,13 +56,10 @@ const dancerApiDao = ({
         Authorization: `Bearer ${await getIdTokenFunc()}`,
         'Content-Type': 'multipart/form-data',
       },
-      method: 'POST',
-      url: `${baseApiUrl}/dancers/profilepicture`,
-      data,
     };
 
     return axiosClient
-      .request(request)
+      .post(`${baseApiUrl}/dancers/profilepicture`, data, request)
       .then((): Result<Error, boolean> => ok(true))
       .catch(
         (): Result<Error, boolean> =>
