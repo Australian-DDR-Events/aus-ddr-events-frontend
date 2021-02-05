@@ -1,6 +1,10 @@
 import firebase from 'firebase';
 import { Result, Ok, Err, ok, err } from 'types/result';
-import { AuthenticationDao, AuthStateChangedCallback } from './types';
+import {
+  AuthenticationDao,
+  AuthenticationUser,
+  AuthStateChangedCallback,
+} from './types';
 import EmailAuthProvider = firebase.auth.EmailAuthProvider;
 
 const authenticationFirebaseDao = (
@@ -46,9 +50,9 @@ const authenticationFirebaseDao = (
       .catch((e): Err<Error, void> => err(e, undefined));
   };
 
-  const get = (): Result<Error, Object> => {
+  const get = (): Result<Error, AuthenticationUser> => {
     if (user) {
-      return ok({ uid: user.uid, emailVerified: user.emailVerified });
+      return ok({ id: user.uid, hasVerifiedEmail: user.emailVerified }: AuthenticationUser);
     }
     return err(new Error('user not logged in'), '');
   };
