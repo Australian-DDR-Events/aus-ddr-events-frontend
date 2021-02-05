@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select, Upload } from 'antd';
+import { Button, Form, Input, Select, Upload, Typography } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import React, { useContext } from 'react';
 import { StateOptions } from 'features/profile/constants';
@@ -41,6 +41,7 @@ const ProfileForm = ({
 
   return (
     <FormWrapper>
+      <Typography.Title>Edit Profile</Typography.Title>
       <Form
         layout="vertical"
         initialValues={formData}
