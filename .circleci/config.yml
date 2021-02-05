@@ -12,9 +12,10 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/aus-ddr-poc
-      - node/install:
-          install-npm: false
-          install-yarn: true
+      - run:
+          command: |
+            nvm install --lts
+            nvm use --lts
       - run:
           name: install
           command: yarn install
