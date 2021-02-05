@@ -11,6 +11,7 @@ import Register from 'features/register';
 import Home from 'features/home';
 import ForgotPassword from 'features/forgot-password';
 import HowTo from 'features/how-to';
+import Submission from 'features/submission';
 import Error from 'features/error';
 import { Title } from 'react-head';
 
@@ -60,6 +61,10 @@ const Router = () => (
     <ProtectedRoute path="/profile/:id">
       <Title>Profile | Australian DDR Events</Title>
       {(params) => <Profile id={params.id} />}
+    </ProtectedRoute>
+    <ProtectedRoute path="/submission">
+      <Title>Submit Scores | Australian DDR Events</Title>
+      <Submission />
     </ProtectedRoute>
     <ProtectedRoute path="/settings">
       <Title>Settings | Australian DDR Events</Title>
