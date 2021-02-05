@@ -14,29 +14,6 @@ const dancerApiDao = ({
     timeout: 6000,
   });
 
-  const createRequestInit = ({
-    headers,
-    method,
-    body,
-  }: {
-    headers: Headers;
-    method: string;
-    body?: string;
-  }) => {
-    const bodyMethods: string[] = ['POST', 'PATCH', 'PUT'];
-
-    const request: RequestInit = {
-      mode: 'cors',
-      cache: 'no-cache',
-      headers,
-      redirect: 'follow',
-    };
-
-    if (bodyMethods.includes(method.toUpperCase())) request.body = body;
-
-    return request;
-  };
-
   const get = async (dancerId: string): Promise<Result<Error, User>> => {
     const request: AxiosRequestConfig = {
       headers: {
