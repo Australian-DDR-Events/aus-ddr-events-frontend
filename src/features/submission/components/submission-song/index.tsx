@@ -1,7 +1,6 @@
-import { UploadOutlined } from "@ant-design/icons";
-import { Button, Card, Image, Typography } from "antd";
-import React from "react";
-import { IngredientWrapper } from "./styled";
+import { Card, Image, Typography } from 'antd';
+import React from 'react';
+import { IngredientWrapper } from './styled';
 
 const SubmissionSong = ({
   title,
@@ -23,7 +22,7 @@ const SubmissionSong = ({
           }}
         >
           Submit
-        </Typography.Link>
+        </Typography.Link>,
       ]}
     >
       <Card.Grid>
@@ -40,6 +39,6 @@ const SubmissionSong = ({
       </Card.Grid>
     </Card>
   );
-}
+};
 
 export default SubmissionSong;

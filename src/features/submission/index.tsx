@@ -1,12 +1,12 @@
-import { Button, Col, Form, Image, Modal, Result, Row, Typography } from "antd";
-import React, { useState } from "react";
-import SubmissionForm from "./components/submission-form";
-import SubmissionSong from "./components/submission-song";
-import { SubmissionFormWrapper, SubmissionWrapper } from "./styled";
+import { Button, Col, Form, Image, Modal, Result, Row, Typography } from 'antd';
+import React, { useState } from 'react';
+import SubmissionForm from './components/submission-form';
+import SubmissionSong from './components/submission-song';
+import { SubmissionFormWrapper, SubmissionWrapper } from './styled';
 
 const Submission = () => {
-
-  const songs = ['BURNIN\' THE FLOOR',
+  const songs = [
+    "BURNIN' THE FLOOR",
     'Holic',
     'Heron',
     'Eternal Summer',
@@ -16,40 +16,41 @@ const Submission = () => {
     'PRANA',
     'out of focus',
     'Magnetic',
-    'Cosy Catastrophe'
-  ]
-  
-  const [ form ] = Form.useForm();
+    'Cosy Catastrophe',
+  ];
 
-  const [ isSubmitting, setIsSubmitting ] = useState(false);
-  const [ submitted, setSubmitted ] = useState(false);
-  const [ currentSong, setCurrentSong ] = useState('');
+  const [form] = Form.useForm();
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [currentSong, setCurrentSong] = useState('');
 
   const onSubmit = () => {
-    form.validateFields()
-      .then((values => {
-        console.log(values);
-        setSubmitted(true);
-      }));
-  }
+    form.validateFields().then(() => {
+      setSubmitted(true);
+    });
+  };
 
   return (
     <SubmissionWrapper>
       <Typography.Title level={2}>Individual Song Submission</Typography.Title>
-      <Row gutter={[{xs: 16, xl: 48}, {xs: 16, xl: 24}]}>
-        {
-          songs.map((title) => {
-            return (
-              <Col xs={12} xl={4} className="gutter-row">
-                <SubmissionSong
-                  title={title}
-                  setIsSubmitting={setIsSubmitting}
-                  setCurrentSong={setCurrentSong}
-                />
-              </Col>
-            )
-          })
-        }
+      <Row
+        gutter={[
+          { xs: 16, xl: 48 },
+          { xs: 16, xl: 24 },
+        ]}
+      >
+        {songs.map((title) => {
+          return (
+            <Col xs={12} xl={4} className="gutter-row">
+              <SubmissionSong
+                title={title}
+                setIsSubmitting={setIsSubmitting}
+                setCurrentSong={setCurrentSong}
+              />
+            </Col>
+          );
+        })}
       </Row>
       <Modal
         title={currentSong}
@@ -58,18 +59,25 @@ const Submission = () => {
           setIsSubmitting(false);
           setSubmitted(false);
         }}
-        footer={!submitted ? ([
-          <Button key="submit" type="primary" loading={false} onClick={onSubmit}>
-            Submit
-          </Button>
-        ]) : ([
-          null
-        ])}
+        footer={
+          !submitted
+            ? [
+                <Button
+                  key="submit"
+                  type="primary"
+                  loading={false}
+                  onClick={onSubmit}
+                >
+                  Submit
+                </Button>,
+              ]
+            : [null]
+        }
       >
         {!submitted ? (
           <SubmissionFormWrapper>
-            <Image src="https://i.imgur.com/QgffZNl.png"/>
-            <SubmissionForm form={form}/>
+            <Image src="https://i.imgur.com/QgffZNl.png" />
+            <SubmissionForm form={form} />
           </SubmissionFormWrapper>
         ) : (
           <Result
@@ -79,10 +87,9 @@ const Submission = () => {
             subTitle="You have obtained 5-star bread!"
           />
         )}
-        
       </Modal>
     </SubmissionWrapper>
   );
-}
+};
 
 export default Submission;

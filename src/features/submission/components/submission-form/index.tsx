@@ -1,17 +1,8 @@
-import { UploadOutlined } from "@ant-design/icons";
-import { Button, Form, FormInstance, Input, InputNumber, Upload } from "antd";
-import React from "react";
+import { UploadOutlined } from '@ant-design/icons';
+import { Button, Form, FormInstance, InputNumber, Upload } from 'antd';
+import React from 'react';
 
-const SubmissionForm = ({
-  form,
-} : {
-  form: FormInstance;
-}) => {
-
-  const onFinish = () => {
-    console.log('Form submitted');
-  }
-
+const SubmissionForm = ({ form }: { form: FormInstance }) => {
   const uploadProps = {
     beforeUpload: () => {
       return false;
@@ -29,7 +20,6 @@ const SubmissionForm = ({
     <Form
       form={form}
       layout="vertical"
-      onFinish={onFinish}
       style={{ textAlign: 'left', padding: '16px 0 0' }}
     >
       <Form.Item
@@ -37,7 +27,12 @@ const SubmissionForm = ({
         name="photo"
         valuePropName="file"
         getValueFromEvent={normaliseFile}
-        rules={[{ required: true, message: 'Please upload a photograph of your score!' }]}
+        rules={[
+          {
+            required: true,
+            message: 'Please upload a photograph of your score!',
+          },
+        ]}
       >
         <Upload {...uploadProps} listType="picture">
           <Button icon={<UploadOutlined />}>Upload photograph</Button>
@@ -46,14 +41,17 @@ const SubmissionForm = ({
       <Form.Item
         label="EX Score"
         name="ex"
-        rules={[{ 
-          required: true,
-          message: 'Please input a valid EX score!' }]}
+        rules={[
+          {
+            required: true,
+            message: 'Please input a valid EX score!',
+          },
+        ]}
       >
         <InputNumber min={0} max={9999} />
       </Form.Item>
     </Form>
-  )
-}
+  );
+};
 
 export default SubmissionForm;
