@@ -92,15 +92,17 @@ const Navigation = () => {
           How to Participate
         </Menu.Item>
 
-        <Menu.Item
-          key="submission"
-          icon={<UploadOutlined />}
-          onClick={() => {
-            setLocation('/submission');
-          }}
-        >
-          Submit Scores
-        </Menu.Item>
+        {loggedInUserId && (
+          <Menu.Item
+            key="submission"
+            icon={<UploadOutlined />}
+            onClick={() => {
+              setLocation('/submission');
+            }}
+          >
+            Submit Scores
+          </Menu.Item>
+        )}
 
         {!loggedInUserId ? (
           <Menu.Item
