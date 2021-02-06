@@ -21,7 +21,7 @@ const Navigation = () => {
   const [siderWidth, setSiderWidth] = useState(200);
   const authRepo = useContext(AuthenticationRepositoryContext)
     .authenticationRepositoryInstance;
-  const loggedInUserId = authRepo.get().okOrDefault();
+  const loggedInUser = authRepo.get().okOrDefault();
   const currentSelectKey = location.substring(1);
 
   const onLogout = () => {
@@ -70,7 +70,7 @@ const Navigation = () => {
           Home
         </Menu.Item>
 
-        {loggedInUserId && (
+        {loggedInUser.id && (
           <Menu.Item
             key="profile"
             icon={<UserOutlined />}
@@ -92,7 +92,7 @@ const Navigation = () => {
           How to Participate
         </Menu.Item>
 
-        {loggedInUserId && (
+        {loggedInUser.id && (
           <Menu.Item
             key="submission"
             icon={<UploadOutlined />}
@@ -104,7 +104,7 @@ const Navigation = () => {
           </Menu.Item>
         )}
 
-        {!loggedInUserId ? (
+        {!loggedInUser.id ? (
           <Menu.Item
             key="10"
             icon={<LoginOutlined />}
