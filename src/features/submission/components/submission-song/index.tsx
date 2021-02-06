@@ -1,4 +1,4 @@
-import { Card, Image, Typography } from 'antd';
+import { Image, Typography } from 'antd';
 import React from 'react';
 import { IngredientWrapper, StyledCard, StyledCardGrid } from './styled';
 
