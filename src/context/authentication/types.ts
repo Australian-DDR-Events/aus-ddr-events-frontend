@@ -1,6 +1,11 @@
 import { ReactNode } from 'react';
 import { Result } from 'types/result';
 
+export type AuthenticationUser = {
+  id: string;
+  hasVerifiedEmail: boolean;
+};
+
 export type AuthenticationRepository = {
   login: (
     username: string,
@@ -8,7 +13,7 @@ export type AuthenticationRepository = {
     remember: boolean,
   ) => Promise<Result<Error, string>>;
   logout: () => Promise<Result<Error, void>>;
-  get: () => Result<Error, string>;
+  get: () => Result<Error, AuthenticationUser>;
   register: (email: string, password: string) => Promise<Result<Error, void>>;
   updatePassword: (
     currentPassword: string,
@@ -29,7 +34,7 @@ export interface Logout {
 }
 
 export interface Get {
-  (): Result<Error, string>;
+  (): Result<Error, AuthenticationUser>;
 }
 
 export interface Register {

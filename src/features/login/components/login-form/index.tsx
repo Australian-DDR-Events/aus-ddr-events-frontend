@@ -14,10 +14,10 @@ const LoginForm = () => {
   const [, setLocation] = useLocation();
 
   useEffect(() => {
-    const loggedInUserId = authRepo.authenticationRepositoryInstance
+    const loggedInUser = authRepo.authenticationRepositoryInstance
       .get()
       .okOrDefault();
-    if (loggedInUserId) {
+    if (loggedInUser.id) {
       setLocation('/');
     }
   }, []);

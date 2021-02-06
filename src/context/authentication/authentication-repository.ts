@@ -2,6 +2,7 @@ import { Result } from 'types/result';
 import {
   AuthenticationDao,
   AuthenticationRepository,
+  AuthenticationUser,
   AuthStateChangedCallback,
 } from './types';
 
@@ -14,7 +15,7 @@ const authenticationRepository = (
     remember: boolean,
   ): Promise<Result<Error, string>> => dao.login(username, password, remember);
   const logout = (): Promise<Result<Error, void>> => dao.logout();
-  const get = (): Result<Error, string> => dao.get();
+  const get = (): Result<Error, AuthenticationUser> => dao.get();
   const register = async (
     email: string,
     password: string,
