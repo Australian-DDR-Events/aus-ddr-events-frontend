@@ -5,7 +5,7 @@ import {
   AuthenticationUser,
   AuthStateChangedCallback,
 } from './types';
-import { DefaultAuthenticationUser } from '~/context/authentication/constants';
+import { DefaultAuthenticationUser } from './constants';
 import EmailAuthProvider = firebase.auth.EmailAuthProvider;
 
 const authenticationFirebaseDao = (
