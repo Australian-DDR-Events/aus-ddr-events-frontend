@@ -1,6 +1,6 @@
 import { Card, Image, Typography } from 'antd';
 import React from 'react';
-import { IngredientWrapper } from './styled';
+import { IngredientWrapper, StyledCard, StyledCardGrid } from './styled';
 
 const SubmissionSong = ({
   title,
@@ -12,7 +12,12 @@ const SubmissionSong = ({
   setCurrentSong: Function;
 }) => {
   return (
-    <Card
+    <StyledCard
+      bodyStyle={{
+        margin: '-1px 0 0 -1px',
+        padding: '0',
+        border: '0',
+      }}
       actions={[
         <Typography.Link
           strong
@@ -25,19 +30,19 @@ const SubmissionSong = ({
         </Typography.Link>,
       ]}
     >
-      <Card.Grid>
+      <StyledCardGrid hoverable={false}>
         <Typography.Text strong>{title}</Typography.Text>
-      </Card.Grid>
-      <Card.Grid hoverable={false}>
+      </StyledCardGrid>
+      <StyledCardGrid hoverable={false}>
         <Image src="https://i.imgur.com/QgffZNl.png" />
-      </Card.Grid>
-      <Card.Grid hoverable={false}>
+      </StyledCardGrid>
+      <StyledCardGrid hoverable={false}>
         <IngredientWrapper>
           <Image src="https://i.imgur.com/woOvNJ0.png" />
         </IngredientWrapper>
         <Typography.Text strong>Bread</Typography.Text>
-      </Card.Grid>
-    </Card>
+      </StyledCardGrid>
+    </StyledCard>
   );
 };
 
