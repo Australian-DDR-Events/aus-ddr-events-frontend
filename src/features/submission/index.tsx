@@ -60,18 +60,16 @@ const Submission = () => {
           setSubmitted(false);
         }}
         footer={
-          !submitted
-            ? [
-                <Button
-                  key="submit"
-                  type="primary"
-                  loading={false}
-                  onClick={onSubmit}
-                >
-                  Submit
-                </Button>,
-              ]
-            : [null]
+          !submitted && (
+            <Button
+              key="submit"
+              type="primary"
+              loading={false}
+              onClick={onSubmit}
+            >
+              Submit
+            </Button>
+          )
         }
       >
         {!submitted ? (
