@@ -16,7 +16,7 @@ const Home = () => {
 
   const authRepo = useContext(AuthenticationRepositoryContext)
     .authenticationRepositoryInstance;
-  const loggedInUserId = authRepo.get().okOrDefault();
+  const loggedInUser = authRepo.get().okOrDefault();
 
   return (
     <HomeWrapper>
@@ -30,7 +30,7 @@ const Home = () => {
           Show off your moves and join in on the hottest DDR seasonal event
           starting February 2021. Pre-register your account today!
         </Typography.Title>
-        {!loggedInUserId && (
+        {!loggedInUser.id && (
           <Link href="/register">
             <Button type="primary">Sign Up</Button>
           </Link>
@@ -47,7 +47,7 @@ const Home = () => {
 
       <DarkBackgroundSpace direction="vertical">
         <ContactUs />
-        {!loggedInUserId && (
+        {!loggedInUser.id && (
           <Link href="/register">
             <Button type="primary">Sign Up</Button>
           </Link>
