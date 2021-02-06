@@ -5,6 +5,7 @@ import {
   AuthenticationUser,
   AuthStateChangedCallback,
 } from './types';
+import { DefaultAuthenticationUser } from '~/context/authentication/constants';
 import EmailAuthProvider = firebase.auth.EmailAuthProvider;
 
 const authenticationFirebaseDao = (
@@ -52,9 +53,13 @@ const authenticationFirebaseDao = (
 
   const get = (): Result<Error, AuthenticationUser> => {
     if (user) {
-      return ok({ id: user.uid, hasVerifiedEmail: user.emailVerified }: AuthenticationUser);
+      const authUser: AuthenticationUser = {
+        id: user.uid,
+        hasVerifiedEmail: user.emailVerified,
+      };
+      return ok(authUser);
     }
-    return err(new Error('user not logged in'), '');
+    return err(new Error('user not logged in'), DefaultAuthenticationUser);
   };
 
   const updatePassword = async (
