@@ -1,8 +1,10 @@
-import styled from '../../../../types/styled-components';
+import { Button } from 'antd';
+import styled, { defaultSpacing } from '../../../../types/styled-components';
 
-/* eslint-disable import/prefer-default-export */
 export const FormWrapper = styled.div`
-  .ant-btn {
-    margin-right: 8px;
-  }
+  padding: ${defaultSpacing * 2}px;
+`;
+
+export const StyledButton = styled(Button)`
+  margin-right: ${defaultSpacing}px;
 `;

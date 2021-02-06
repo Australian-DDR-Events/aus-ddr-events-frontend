@@ -10,15 +10,16 @@ import {
   AuthenticationRepositoryContextInterface,
   AuthenticationRepositoryContext,
 } from 'context/authentication';
-import {
-  UserRepositoryContextProvider,
-  userFirebaseDao,
-  userRepository,
-} from 'context/user';
 import Wrapper from 'components/wrapper';
 import Router from 'components/router';
-// eslint-disable-next-line import/no-internal-modules
+import {
+  UserRepositoryContextProvider,
+  userRepository,
+  dancerApiDao,
+} from 'context/dancer';
 import 'antd/dist/antd.css';
+import styled, { defaultSpacing } from 'types/styled-components';
+import { HeadProvider, Title } from 'react-head';
 
 dotenv.config();
 
@@ -38,8 +39,19 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 const authenticationRepositoryInstance = authenticationRepository(
   authenticationFirebaseDao(firebaseApp),
 );
+const tokenFn = async (): Promise<string> => {
+  return (await firebaseApp.auth().currentUser?.getIdToken()) ?? '';
+};
+const dancerDao = dancerApiDao({
+  getIdTokenFunc: tokenFn,
+  baseApiUrl: process.env.API_URL ?? '',
+});
 
-const userRepositoryInstance = userRepository(userFirebaseDao(firebaseApp));
+const userRepositoryInstance = userRepository(dancerDao);
+
+const SkeletonWrapper = styled.div`
+  padding: ${defaultSpacing * 2}px;
+`;
 
 const App = (): React.ReactElement => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
@@ -51,7 +63,17 @@ const App = (): React.ReactElement => {
     setLoading(false);
   });
 
-  return <Wrapper>{loading ? <Skeleton active /> : <Router />}</Wrapper>;
+  return (
+    <Wrapper>
+      {loading ? (
+        <SkeletonWrapper>
+          <Skeleton active />
+        </SkeletonWrapper>
+      ) : (
+        <Router />
+      )}
+    </Wrapper>
+  );
 };
 
 ReactDOM.render(
@@ -61,7 +83,10 @@ ReactDOM.render(
     <UserRepositoryContextProvider
       userRepositoryInstance={userRepositoryInstance}
     >
-      <App />
+      <HeadProvider>
+        <Title>Australian DDR Events</Title>
+        <App />
+      </HeadProvider>
     </UserRepositoryContextProvider>
   </AuthenticationRepositoryProvider>,
   document.getElementById('root'),
