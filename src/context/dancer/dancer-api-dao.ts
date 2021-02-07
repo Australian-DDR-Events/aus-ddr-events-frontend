@@ -1,7 +1,7 @@
 import { DefaultUser, User } from 'context/dancer';
 import { err, ok, Result } from 'types/result';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { ScoreSubmissionRequest, Song } from 'context/dancer/types';
+import { ScoreSubmissionRequest, Song, UserDao } from 'context/dancer/types';
 
 const dancerApiDao = ({
   getIdTokenFunc,
@@ -9,7 +9,7 @@ const dancerApiDao = ({
 }: {
   getIdTokenFunc: () => Promise<string>;
   baseApiUrl: string;
-}) => {
+}): UserDao => {
   const axiosClient = axios.create({
     baseURL: baseApiUrl,
     timeout: 6000,
