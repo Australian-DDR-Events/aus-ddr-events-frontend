@@ -139,12 +139,12 @@ const dancerApiDao = ({
           return response.data.map(
             (song: any): Song => {
               return {
-                id: song.Id,
-                name: song.Name,
-                artist: song.Artist,
-                imageUrl: song.ImageUrl,
-                difficulty: song.Difficulty,
-                level: song.Level,
+                id: song.id,
+                name: song.name,
+                artist: song.artist,
+                imageUrl: song.imageUrl,
+                difficulty: song.difficulty,
+                level: song.level,
               };
             },
           );
