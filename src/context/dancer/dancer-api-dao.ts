@@ -1,6 +1,7 @@
 import { DefaultUser, User } from 'context/dancer';
 import { err, ok, Result } from 'types/result';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { ScoreSubmissionRequest } from 'context/dancer/types';
 
 const dancerApiDao = ({
   getIdTokenFunc,
@@ -100,7 +101,31 @@ const dancerApiDao = ({
     return result;
   };
 
-  return { get, update };
+  const submitScore = async (
+    scoreSubmission: ScoreSubmissionRequest,
+  ): Promise<Result<Error, boolean>> => {
+    const data = new FormData();
+    data.append('Score', `${scoreSubmission.score}`);
+    data.append('ScoreImage', scoreSubmission.scoreImage);
+    data.append('SongId', scoreSubmission.songId);
+
+    const request: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${await getIdTokenFunc()}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+
+    return axiosClient
+      .post(`${baseApiUrl}/scores/submit`, data, request)
+      .then((): Result<Error, boolean> => ok(true))
+      .catch(
+        (): Result<Error, boolean> =>
+          err(new Error('failed to post score'), false),
+      );
+  };
+
+  return { get, update, submitScore };
 };
 
 export default dancerApiDao;

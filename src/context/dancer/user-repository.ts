@@ -1,5 +1,5 @@
 import { Result } from 'types/result';
-import { User, UserRepository, UserDao } from './types';
+import { User, UserRepository, UserDao, ScoreSubmissionRequest } from './types';
 
 const userRepository = (dao: UserDao): UserRepository => {
   const get = (id: string): Promise<Result<Error, User>> => dao.get(id);
@@ -7,7 +7,11 @@ const userRepository = (dao: UserDao): UserRepository => {
   const update = (user: User): Promise<Result<Error, boolean>> =>
     dao.update(user);
 
-  return { get, update };
+  const submitScore = (
+    scoreSubmission: ScoreSubmissionRequest,
+  ): Promise<Result<Error, boolean>> => dao.submitScore(scoreSubmission);
+
+  return { get, update, submitScore };
 };
 
 export default userRepository;

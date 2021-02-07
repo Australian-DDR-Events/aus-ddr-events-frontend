@@ -1,4 +1,8 @@
-import { UserRepositoryContextInterface, User } from './types';
+import {
+  UserRepositoryContextInterface,
+  User,
+  ScoreSubmissionRequest,
+} from './types';
 import UserRepositoryContextProvider from './provider';
 import dancerApiDao from './dancer-api-dao';
 import userFirebaseDao from './user-firebase-dao';
@@ -15,4 +19,5 @@ export {
   userRepository,
   DefaultUser,
   User,
+  ScoreSubmissionRequest,
 };

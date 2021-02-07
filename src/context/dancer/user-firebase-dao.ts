@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import { ok, Result } from 'types/result';
+import { err, ok, Result } from 'types/result';
 import { User, UserDao } from './types';
 import { DefaultUser } from './constants';
 
@@ -55,9 +55,13 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
     return ok(true);
   };
 
+  const submitScore = async (): Promise<Result<Error, boolean>> =>
+    err(new Error('not implemented'), false);
+
   return {
     get,
     update,
+    submitScore,
   };
 };
 
