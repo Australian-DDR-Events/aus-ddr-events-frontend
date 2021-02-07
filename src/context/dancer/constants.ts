@@ -1,6 +1,5 @@
-import { User } from './types';
+import { Song, User } from './types';
 
-// eslint-disable-next-line import/prefer-default-export
 export const DefaultUser: User = {
   id: '',
   dancerId: '',
@@ -10,4 +9,13 @@ export const DefaultUser: User = {
   newProfilePicture: new File([''], 'filename'),
   state: '',
   userName: '',
+};
+
+export const DefaultSong: Song = {
+  id: '',
+  name: '',
+  artist: '',
+  imageUrl: '',
+  difficulty: '',
+  level: 0,
 };

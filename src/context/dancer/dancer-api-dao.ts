@@ -1,7 +1,7 @@
 import { DefaultUser, User } from 'context/dancer';
 import { err, ok, Result } from 'types/result';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { ScoreSubmissionRequest } from 'context/dancer/types';
+import { ScoreSubmissionRequest, Song } from 'context/dancer/types';
 
 const dancerApiDao = ({
   getIdTokenFunc,
@@ -125,7 +125,39 @@ const dancerApiDao = ({
       );
   };
 
-  return { get, update, submitScore };
+  const getSongs = async (): Promise<Result<Error, Array<Song>>> => {
+    const request: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${await getIdTokenFunc()}`,
+      },
+    };
+
+    return axiosClient
+      .get(`/songs`, request)
+      .then(
+        (response: AxiosResponse): Result<Error, Array<Song>> => {
+          return response.data.map(
+            (song: any): Song => {
+              return {
+                id: song.Id,
+                name: song.Name,
+                artist: song.Artist,
+                imageUrl: song.ImageUrl,
+                difficulty: song.Difficulty,
+                level: song.Level,
+              };
+            },
+          );
+        },
+      )
+      .catch(
+        (): Result<Error, Array<Song>> => {
+          return err(new Error('failed to get songs'), new Array<Song>());
+        },
+      );
+  };
+
+  return { get, update, submitScore, getSongs };
 };
 
 export default dancerApiDao;

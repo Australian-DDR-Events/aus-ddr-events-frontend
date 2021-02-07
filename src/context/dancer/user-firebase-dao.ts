@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import { err, ok, Result } from 'types/result';
-import { User, UserDao } from './types';
+import { Song, User, UserDao } from './types';
 import { DefaultUser } from './constants';
 
 const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
@@ -58,10 +58,14 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
   const submitScore = async (): Promise<Result<Error, boolean>> =>
     err(new Error('not implemented'), false);
 
+  const getSongs = async (): Promise<Result<Error, Array<Song>>> =>
+    err(new Error('not implemented'), new Array<Song>());
+
   return {
     get,
     update,
     submitScore,
+    getSongs,
   };
 };
 
