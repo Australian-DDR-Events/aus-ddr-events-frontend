@@ -1,13 +1,18 @@
 import { err, Result } from 'types/result';
-import { Dancer, DefaultUser } from 'context/dancer';
+import { Dancer, DefaultDancer, DancersDao } from 'context/dancer';
 
-const userDao = () => {
+interface TestingDancersDao extends DancersDao {
+  setGetHook: (f: (id: string) => Promise<Result<Error, Dancer>>) => void;
+  setUpdateHook: (f: (user: Dancer) => Promise<Result<Error, boolean>>) => void;
+}
+
+const dancersTestingDao = (): TestingDancersDao => {
   let getHook: (
     id: string,
   ) => Promise<Result<Error, Dancer>> = async (): Promise<
     Result<Error, Dancer>
   > => {
-    return err(new Error('get hook not overridden'), DefaultUser);
+    return err(new Error('get hook not overridden'), DefaultDancer);
   };
 
   let updateHook: (
@@ -43,4 +48,4 @@ const userDao = () => {
   };
 };
 
-export default userDao;
+export default dancersTestingDao;

@@ -1,4 +1,4 @@
-import { DancersRepositoryContextInterface, Dancer } from './types';
+import { DancersRepositoryContextInterface, Dancer, DancersDao } from './types';
 import DancersRepositoryContextProvider from './provider';
 import dancersApiDao from './api-dao';
 import userFirebaseDao from './user-firebase-dao';
@@ -15,4 +15,5 @@ export {
   dancersRepository,
   DefaultDancer,
   Dancer,
+  DancersDao,
 };
