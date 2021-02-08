@@ -12,32 +12,9 @@ export type User = {
   primaryMachine: string;
 };
 
-export type Song = {
-  id: string;
-  name: string;
-  artist: string;
-  imageUrl: string;
-  difficulty: string;
-  level: number;
-};
-
-export type ScoreSubmissionRequest = {
-  score: number;
-  scoreImage: File;
-  songId: string;
-};
-
-export type Score = {
-  id: string;
-};
-
 export type UserRepository = {
   get: (id: string) => Promise<Result<Error, User>>;
   update: (user: User) => Promise<Result<Error, boolean>>;
-  submitScore: (
-    scoreSubmission: ScoreSubmissionRequest,
-  ) => Promise<Result<Error, boolean>>;
-  getSongs: () => Promise<Result<Error, Array<Song>>>;
 };
 
 export interface Get {
@@ -48,19 +25,9 @@ export interface Update {
   (user: User): Promise<Result<Error, boolean>>;
 }
 
-export interface SubmitScore {
-  (scoreSubmission: ScoreSubmissionRequest): Promise<Result<Error, boolean>>;
-}
-
-export interface GetSongs {
-  (): Promise<Result<Error, Array<Song>>>;
-}
-
 export interface UserDao {
   get: Get;
   update: Update;
-  submitScore: SubmitScore;
-  getSongs: GetSongs;
 }
 
 export interface UserRepositoryContextInterface {

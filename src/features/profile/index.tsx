@@ -39,6 +39,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
   const isEditable = !id || loggedInUserId === id;
 
   useEffect(() => {
+    console.log(userRepo.userRepositoryInstance.getSongs().then((s) => s));
     if (!isEditing) {
       setLoading(true);
       const lookupId = id ?? loggedInUserId;

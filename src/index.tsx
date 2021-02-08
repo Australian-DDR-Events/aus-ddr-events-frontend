@@ -20,6 +20,16 @@ import {
 import 'antd/dist/antd.css';
 import styled, { defaultSpacing } from 'types/styled-components';
 import { HeadProvider, Title } from 'react-head';
+import {
+  songsApiDao,
+  songsRepository,
+  SongsRepositoryProvider,
+} from 'context/songs';
+import {
+  scoresApiDao,
+  scoresRepository,
+  ScoresRepositoryProvider,
+} from 'context/scores';
 
 dotenv.config();
 
@@ -48,6 +58,20 @@ const dancerDao = dancerApiDao({
 });
 
 const userRepositoryInstance = userRepository(dancerDao);
+
+const songsRepositoryInstance = songsRepository(
+  songsApiDao({
+    getIdTokenFunc: tokenFn,
+    baseApiUrl: process.env.API_URL ?? '',
+  }),
+);
+
+const scoresRepositoryInterface = scoresRepository(
+  scoresApiDao({
+    getIdTokenFunc: tokenFn,
+    baseApiUrl: process.env.API_URL ?? '',
+  }),
+);
 
 const SkeletonWrapper = styled.div`
   padding: ${defaultSpacing * 2}px;
@@ -83,10 +107,18 @@ ReactDOM.render(
     <UserRepositoryContextProvider
       userRepositoryInstance={userRepositoryInstance}
     >
-      <HeadProvider>
-        <Title>Australian DDR Events</Title>
-        <App />
-      </HeadProvider>
+      <SongsRepositoryProvider
+        songsRepositoryInstance={songsRepositoryInstance}
+      >
+        <ScoresRepositoryProvider
+          scoresRepositoryInstance={scoresRepositoryInterface}
+        >
+          <HeadProvider>
+            <Title>Australian DDR Events</Title>
+            <App />
+          </HeadProvider>
+        </ScoresRepositoryProvider>
+      </SongsRepositoryProvider>
     </UserRepositoryContextProvider>
   </AuthenticationRepositoryProvider>,
   document.getElementById('root'),

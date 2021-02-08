@@ -1,7 +1,7 @@
 import { DefaultUser, User } from 'context/dancer';
 import { err, ok, Result } from 'types/result';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { ScoreSubmissionRequest, Song, UserDao } from 'context/dancer/types';
+import { UserDao } from 'context/dancer/types';
 
 const dancerApiDao = ({
   getIdTokenFunc,
@@ -101,63 +101,7 @@ const dancerApiDao = ({
     return result;
   };
 
-  const submitScore = async (
-    scoreSubmission: ScoreSubmissionRequest,
-  ): Promise<Result<Error, boolean>> => {
-    const data = new FormData();
-    data.append('Score', `${scoreSubmission.score}`);
-    data.append('ScoreImage', scoreSubmission.scoreImage);
-    data.append('SongId', scoreSubmission.songId);
-
-    const request: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    };
-
-    return axiosClient
-      .post(`${baseApiUrl}/scores/submit`, data, request)
-      .then((): Result<Error, boolean> => ok(true))
-      .catch(
-        (): Result<Error, boolean> =>
-          err(new Error('failed to post score'), false),
-      );
-  };
-
-  const getSongs = async (): Promise<Result<Error, Array<Song>>> => {
-    const request: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-      },
-    };
-
-    return axiosClient
-      .get(`/songs`, request)
-      .then(
-        (response: AxiosResponse): Result<Error, Array<Song>> => {
-          return response.data.map(
-            (song: any): Song => {
-              return {
-                id: song.id,
-                name: song.name,
-                artist: song.artist,
-                imageUrl: song.imageUrl,
-                difficulty: song.difficulty,
-                level: song.level,
-              };
-            },
-          );
-        },
-      )
-      .catch(
-        (): Result<Error, Array<Song>> => {
-          return err(new Error('failed to get songs'), new Array<Song>());
-        },
-      );
-  };
-
-  return { get, update, submitScore, getSongs };
+  return { get, update };
 };
 
 export default dancerApiDao;
