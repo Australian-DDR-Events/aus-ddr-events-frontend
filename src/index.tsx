@@ -13,9 +13,9 @@ import {
 import Wrapper from 'components/wrapper';
 import Router from 'components/router';
 import {
-  UserRepositoryContextProvider,
-  userRepository,
-  dancerApiDao,
+  DancersRepositoryContextProvider,
+  dancersRepository,
+  dancersApiDao,
 } from 'context/dancer';
 import 'antd/dist/antd.css';
 import styled, { defaultSpacing } from 'types/styled-components';
@@ -52,12 +52,12 @@ const authenticationRepositoryInstance = authenticationRepository(
 const tokenFn = async (): Promise<string> => {
   return (await firebaseApp.auth().currentUser?.getIdToken()) ?? '';
 };
-const dancerDao = dancerApiDao({
-  getIdTokenFunc: tokenFn,
-  baseApiUrl: process.env.API_URL ?? '',
-});
-
-const userRepositoryInstance = userRepository(dancerDao);
+const dancersRepositoryInstance = dancersRepository(
+  dancersApiDao({
+    getIdTokenFunc: tokenFn,
+    baseApiUrl: process.env.API_URL ?? '',
+  }),
+);
 
 const songsRepositoryInstance = songsRepository(
   songsApiDao({
@@ -104,8 +104,8 @@ ReactDOM.render(
   <AuthenticationRepositoryProvider
     authenticationRepositoryInstance={authenticationRepositoryInstance}
   >
-    <UserRepositoryContextProvider
-      userRepositoryInstance={userRepositoryInstance}
+    <DancersRepositoryContextProvider
+      dancersRepositoryInstance={dancersRepositoryInstance}
     >
       <SongsRepositoryProvider
         songsRepositoryInstance={songsRepositoryInstance}
@@ -119,7 +119,7 @@ ReactDOM.render(
           </HeadProvider>
         </ScoresRepositoryProvider>
       </SongsRepositoryProvider>
-    </UserRepositoryContextProvider>
+    </DancersRepositoryContextProvider>
   </AuthenticationRepositoryProvider>,
   document.getElementById('root'),
 );

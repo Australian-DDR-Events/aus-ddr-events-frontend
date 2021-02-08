@@ -1,3 +1,3 @@
-import { User } from 'context/dancer/types';
+import { Dancer } from 'context/dancer/types';
 
-export type ProfileFormData = User;
+export type ProfileFormData = Dancer;

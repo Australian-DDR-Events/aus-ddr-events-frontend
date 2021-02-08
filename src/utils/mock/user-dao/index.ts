@@ -1,35 +1,37 @@
 import { err, Result } from 'types/result';
-import { User, DefaultUser } from 'context/dancer';
+import { Dancer, DefaultUser } from 'context/dancer';
 
 const userDao = () => {
-  let getHook: (id: string) => Promise<Result<Error, User>> = async (): Promise<
-    Result<Error, User>
+  let getHook: (
+    id: string,
+  ) => Promise<Result<Error, Dancer>> = async (): Promise<
+    Result<Error, Dancer>
   > => {
     return err(new Error('get hook not overridden'), DefaultUser);
   };
 
   let updateHook: (
-    user: User,
+    user: Dancer,
   ) => Promise<Result<Error, boolean>> = async (): Promise<
     Result<Error, boolean>
   > => {
     return err(new Error('update hook not overridden'), false);
   };
 
-  const setGetHook = (f: (id: string) => Promise<Result<Error, User>>) => {
+  const setGetHook = (f: (id: string) => Promise<Result<Error, Dancer>>) => {
     getHook = f;
   };
   const setUpdateHook = (
-    f: (user: User) => Promise<Result<Error, boolean>>,
+    f: (user: Dancer) => Promise<Result<Error, boolean>>,
   ) => {
     updateHook = f;
   };
 
-  const get = async (id: string): Promise<Result<Error, User>> => {
+  const get = async (id: string): Promise<Result<Error, Dancer>> => {
     return getHook(id);
   };
 
-  const update = async (user: User): Promise<Result<Error, boolean>> => {
+  const update = async (user: Dancer): Promise<Result<Error, boolean>> => {
     return updateHook(user);
   };
 

@@ -1,18 +1,18 @@
-import { UserRepositoryContextInterface, User } from './types';
-import UserRepositoryContextProvider from './provider';
-import dancerApiDao from './dancer-api-dao';
+import { DancersRepositoryContextInterface, Dancer } from './types';
+import DancersRepositoryContextProvider from './provider';
+import dancersApiDao from './api-dao';
 import userFirebaseDao from './user-firebase-dao';
-import UserRepositoryContext from './context';
-import userRepository from './user-repository';
-import { DefaultUser } from './constants';
+import DancersRepositoryContext from './context';
+import dancersRepository from './repository';
+import { DefaultDancer } from './constants';
 
 export {
-  UserRepositoryContext,
-  UserRepositoryContextProvider,
-  UserRepositoryContextInterface,
+  DancersRepositoryContext,
+  DancersRepositoryContextProvider,
+  DancersRepositoryContextInterface,
   userFirebaseDao,
-  dancerApiDao,
-  userRepository,
-  DefaultUser,
-  User,
+  dancersApiDao,
+  dancersRepository,
+  DefaultDancer,
+  Dancer,
 };

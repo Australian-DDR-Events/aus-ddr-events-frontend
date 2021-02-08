@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Result } from 'types/result';
 
-export type User = {
+export type Dancer = {
   id: string;
   dancerName: string;
   dancerId: string;
@@ -12,29 +12,29 @@ export type User = {
   primaryMachine: string;
 };
 
-export type UserRepository = {
-  get: (id: string) => Promise<Result<Error, User>>;
-  update: (user: User) => Promise<Result<Error, boolean>>;
+export type DancersRepository = {
+  get: (id: string) => Promise<Result<Error, Dancer>>;
+  update: (user: Dancer) => Promise<Result<Error, boolean>>;
 };
 
 export interface Get {
-  (id: string): Promise<Result<Error, User>>;
+  (id: string): Promise<Result<Error, Dancer>>;
 }
 
 export interface Update {
-  (user: User): Promise<Result<Error, boolean>>;
+  (user: Dancer): Promise<Result<Error, boolean>>;
 }
 
-export interface UserDao {
+export interface DancersDao {
   get: Get;
   update: Update;
 }
 
-export interface UserRepositoryContextInterface {
-  userRepositoryInstance: UserRepository;
+export interface DancersRepositoryContextInterface {
+  dancersRepositoryInstance: DancersRepository;
 }
 
-export interface UserRepositoryProviderOptions {
+export interface DancersRepositoryProviderOptions {
   children?: ReactNode;
-  userRepositoryInstance: UserRepository;
+  dancersRepositoryInstance: DancersRepository;
 }

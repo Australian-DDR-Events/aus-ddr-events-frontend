@@ -2,7 +2,7 @@ import { Button, Form, Input, Select, Upload, Typography } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import React, { useContext } from 'react';
 import { StateOptions } from 'features/profile/constants';
-import { UserRepositoryContext } from 'context/dancer';
+import { DancersRepositoryContext } from 'context/dancer';
 import { ProfileFormData } from './types';
 import { FormWrapper, StyledButton } from './styled';
 
@@ -15,10 +15,10 @@ const ProfileForm = ({
   onSuccessfulSubmit: Function;
   onCancelSubmit: Function;
 }) => {
-  const userRepo = useContext(UserRepositoryContext);
+  const dancersRepository = useContext(DancersRepositoryContext);
 
   const onFinish = (values: ProfileFormData) => {
-    userRepo.userRepositoryInstance
+    dancersRepository.dancersRepositoryInstance
       .update({
         ...formData,
         ...values,

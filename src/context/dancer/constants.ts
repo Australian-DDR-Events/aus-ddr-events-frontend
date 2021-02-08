@@ -1,7 +1,7 @@
-import { User } from './types';
+import { Dancer } from './types';
 
 // eslint-disable-next-line import/prefer-default-export
-export const DefaultUser: User = {
+export const DefaultDancer: Dancer = {
   id: '',
   dancerId: '',
   dancerName: '',

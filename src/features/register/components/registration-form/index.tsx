@@ -6,7 +6,7 @@ import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from 'context/authentication';
-import { DefaultUser, UserRepositoryContext } from 'context/dancer';
+import { DefaultDancer, DancersRepositoryContext } from 'context/dancer';
 import { StyledForm } from './styled';
 
 const formItemLayout = {
@@ -28,7 +28,7 @@ const RegistrationForm = () => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
     AuthenticationRepositoryContext,
   );
-  const userRepo = useContext(UserRepositoryContext);
+  const dancersRepository = useContext(DancersRepositoryContext);
   const [form] = Form.useForm();
   const [, setLocation] = useLocation();
 
@@ -36,9 +36,9 @@ const RegistrationForm = () => {
     authRepo.authenticationRepositoryInstance
       .register(values.email, values.password)
       .then(() => {
-        userRepo.userRepositoryInstance
+        dancersRepository.dancersRepositoryInstance
           .update({
-            ...DefaultUser,
+            ...DefaultDancer,
             userName: values.displayName,
           })
           .then(() => {
