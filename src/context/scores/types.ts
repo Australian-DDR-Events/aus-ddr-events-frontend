@@ -16,11 +16,11 @@ export type Score = {
   id: string;
 };
 
-export interface GetScore {
+export interface GetById {
   (id: string): Promise<Result<Error, Score>>;
 }
 
-export interface GetScores {
+export interface GetAll {
   (request: GetScoresRequest): Promise<Result<Error, Array<Score>>>;
 }
 
@@ -29,14 +29,14 @@ export interface PostScore {
 }
 
 export type ScoresRepository = {
-  getScore: GetScore;
-  getScores: GetScores;
+  getById: GetById;
+  getAll: GetAll;
   postScore: PostScore;
 };
 
 export interface ScoresDao {
-  getScore: GetScore;
-  getScores: GetScores;
+  getById: GetById;
+  getAll: GetAll;
   postScore: PostScore;
 }
 

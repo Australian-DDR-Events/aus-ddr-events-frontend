@@ -15,7 +15,7 @@ const songsApiDao = ({
     timeout: 6000,
   });
 
-  const getSongs = async (): Promise<Result<Error, Array<Song>>> => {
+  const getAll = async (): Promise<Result<Error, Array<Song>>> => {
     const request: AxiosRequestConfig = {
       headers: {
         Authorization: `Bearer ${await getIdTokenFunc()}`,
@@ -37,7 +37,7 @@ const songsApiDao = ({
       );
   };
 
-  const getSong = async (id: string): Promise<Result<Error, Song>> => {
+  const getById = async (id: string): Promise<Result<Error, Song>> => {
     const request: AxiosRequestConfig = {
       headers: {
         Authorization: `Bearer ${await getIdTokenFunc()}`,
@@ -57,7 +57,7 @@ const songsApiDao = ({
       );
   };
 
-  return { getSongs, getSong };
+  return { getAll, getById };
 };
 
 export default songsApiDao;

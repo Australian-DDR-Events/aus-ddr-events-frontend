@@ -8,16 +8,16 @@ import {
 } from './types';
 
 const scoresRepository = (dao: ScoresDao): ScoresRepository => {
-  const getScore = (id: string): Promise<Result<Error, Score>> =>
-    dao.getScore(id);
-  const getScores = (
+  const getById = (id: string): Promise<Result<Error, Score>> =>
+    dao.getById(id);
+  const getAll = (
     request: GetScoresRequest,
-  ): Promise<Result<Error, Array<Score>>> => dao.getScores(request);
+  ): Promise<Result<Error, Array<Score>>> => dao.getAll(request);
   const postScore = (
     submission: ScoreSubmissionRequest,
   ): Promise<Result<Error, boolean>> => dao.postScore(submission);
 
-  return { getScore, getScores, postScore };
+  return { getById, getAll, postScore };
 };
 
 export default scoresRepository;

@@ -20,7 +20,7 @@ const scoresApiDao = ({
     timeout: 6000,
   });
 
-  const getScore = async (id: string): Promise<Result<Error, Score>> => {
+  const getById = async (id: string): Promise<Result<Error, Score>> => {
     const request: AxiosRequestConfig = {
       headers: {
         Authorization: `Bearer ${await getIdTokenFunc()}`,
@@ -40,7 +40,7 @@ const scoresApiDao = ({
       );
   };
 
-  const getScores = async (
+  const getAll = async (
     request: GetScoresRequest,
   ): Promise<Result<Error, Array<Score>>> => {
     const axiosRequest: AxiosRequestConfig = {
@@ -89,7 +89,7 @@ const scoresApiDao = ({
       );
   };
 
-  return { getScore, getScores, postScore };
+  return { getById, getAll, postScore };
 };
 
 export default scoresApiDao;

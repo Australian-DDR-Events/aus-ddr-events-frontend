@@ -5,9 +5,9 @@ import { Score, ScoresRepositoryContextInterface } from './types';
 
 const initialContext = {
   scoresRepositoryInstance: {
-    getScore: async () =>
+    getById: async () =>
       err(new Error('scores repository not initialized'), DefaultScore),
-    getScores: async () =>
+    getAll: async () =>
       err(new Error('scores repository not initialized'), new Array<Score>()),
     postScore: async () =>
       err(new Error('scores repository not initialized'), false),

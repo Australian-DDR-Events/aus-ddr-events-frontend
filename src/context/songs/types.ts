@@ -11,20 +11,20 @@ export type Song = {
 };
 
 export type SongsRepository = {
-  getSongs: () => Promise<Result<Error, Array<Song>>>;
-  getSong: (id: string) => Promise<Result<Error, Song>>;
+  getAll: () => Promise<Result<Error, Array<Song>>>;
+  getById: (id: string) => Promise<Result<Error, Song>>;
 };
 
-export interface GetSongs {
+export interface GetAll {
   (): Promise<Result<Error, Array<Song>>>;
 }
-export interface GetSong {
+export interface GetById {
   (id: string): Promise<Result<Error, Song>>;
 }
 
 export interface SongsDao {
-  getSongs: GetSongs;
-  getSong: GetSong;
+  getAll: GetAll;
+  getById: GetById;
 }
 
 export interface SongsRepositoryContextInterface {
