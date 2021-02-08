@@ -1,7 +1,41 @@
 import { err, Result } from 'types/result';
-import { AuthStateChangedCallbackType } from 'context/authentication';
+import {
+  AuthStateChangedCallbackType,
+  DefaultAuthenticationUser,
+} from 'context/authentication';
+import {
+  AuthenticationDao,
+  AuthenticationUser,
+} from 'context/authentication/types';
 
-const authenticationDao = () => {
+interface TestingAuthenticationDao extends AuthenticationDao {
+  setLoginHook: (
+    f: (
+      username: string,
+      password: string,
+      remember: boolean,
+    ) => Promise<Result<Error, string>>,
+  ) => void;
+  setLogoutHook: (f: () => Promise<Result<Error, void>>) => void;
+  setGetHook: (f: () => Result<Error, AuthenticationUser>) => void;
+  setRegisterHook: (
+    f: (email: string, password: string) => Promise<Result<Error, void>>,
+  ) => void;
+  setUpdatePasswordHook: (
+    f: (
+      oldPassword: string,
+      newPassword: string,
+    ) => Promise<Result<Error, void>>,
+  ) => void;
+  setOnAuthStateChangedHook: (
+    f: (cb: AuthStateChangedCallbackType) => void,
+  ) => void;
+  setSendPasswordResetEmailHook: (
+    f: (email: string) => Promise<Result<Error, void>>,
+  ) => void;
+}
+
+const authenticationTestingDao = (): TestingAuthenticationDao => {
   let loginHook: (
     username: string,
     password: string,
@@ -18,8 +52,11 @@ const authenticationDao = () => {
     return err(new Error('logout hook not overridden'), undefined);
   };
 
-  let getHook: () => Result<Error, string> = (): Result<Error, string> => {
-    return err(new Error('get hook not overridden'), '');
+  let getHook: () => Result<Error, AuthenticationUser> = (): Result<
+    Error,
+    AuthenticationUser
+  > => {
+    return err(new Error('get hook not overridden'), DefaultAuthenticationUser);
   };
 
   let registerHook: (
@@ -40,6 +77,17 @@ const authenticationDao = () => {
     return err(new Error('updatePassword hook not overridden'), undefined);
   };
 
+  let sendPasswordResetEmailHook: (
+    email: string,
+  ) => Promise<Result<Error, void>> = async (): Promise<
+    Result<Error, void>
+  > => {
+    return err(
+      new Error('sendPasswordResetEmail hook not overridden'),
+      undefined,
+    );
+  };
+
   let onAuthStateChangedHook: (
     cb: AuthStateChangedCallbackType,
   ) => void = (): void => {};
@@ -58,7 +106,7 @@ const authenticationDao = () => {
     logoutHook = f;
   };
 
-  const setGetHook = (f: () => Result<Error, string>) => {
+  const setGetHook = (f: () => Result<Error, AuthenticationUser>) => {
     getHook = f;
   };
 
@@ -77,6 +125,12 @@ const authenticationDao = () => {
     updatePasswordHook = f;
   };
 
+  const setSendPasswordResetEmailHook = (
+    f: (email: string) => Promise<Result<Error, void>>,
+  ) => {
+    sendPasswordResetEmailHook = f;
+  };
+
   const setOnAuthStateChangedHook = (
     f: (cb: AuthStateChangedCallbackType) => void,
   ) => {
@@ -89,7 +143,7 @@ const authenticationDao = () => {
     remember: boolean,
   ): Promise<Result<Error, string>> => loginHook(username, password, remember);
   const logout = (): Promise<Result<Error, void>> => logoutHook();
-  const get = (): Result<Error, string> => getHook();
+  const get = (): Result<Error, AuthenticationUser> => getHook();
   const register = async (
     email: string,
     password: string,
@@ -99,6 +153,9 @@ const authenticationDao = () => {
     newPassword: string,
   ): Promise<Result<Error, void>> =>
     updatePasswordHook(currentPassword, newPassword);
+  const sendPasswordResetEmail = (
+    email: string,
+  ): Promise<Result<Error, void>> => sendPasswordResetEmailHook(email);
   const onAuthStateChanged = (cb: AuthStateChangedCallbackType): void =>
     onAuthStateChangedHook(cb);
 
@@ -113,9 +170,11 @@ const authenticationDao = () => {
     setRegisterHook,
     updatePassword,
     setUpdatePasswordHook,
+    sendPasswordResetEmail,
+    setSendPasswordResetEmailHook,
     onAuthStateChanged,
     setOnAuthStateChangedHook,
   };
 };
 
-export default authenticationDao;
+export default authenticationTestingDao;

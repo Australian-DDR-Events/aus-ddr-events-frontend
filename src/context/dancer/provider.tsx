@@ -1,13 +1,15 @@
 import React from 'react';
-import UserRepositoryContext from './context';
-import { UserRepositoryProviderOptions } from './types';
+import DancersRepositoryContext from './context';
+import { DancersRepositoryProviderOptions } from './types';
 
-const UserRepositoryProvider = (options: UserRepositoryProviderOptions) => (
-  <UserRepositoryContext.Provider
-    value={{ userRepositoryInstance: options.userRepositoryInstance }}
+const DancersRepositoryProvider = (
+  options: DancersRepositoryProviderOptions,
+) => (
+  <DancersRepositoryContext.Provider
+    value={{ dancersRepositoryInstance: options.dancersRepositoryInstance }}
   >
     {options.children}
-  </UserRepositoryContext.Provider>
+  </DancersRepositoryContext.Provider>
 );
 
-export default UserRepositoryProvider;
+export default DancersRepositoryProvider;

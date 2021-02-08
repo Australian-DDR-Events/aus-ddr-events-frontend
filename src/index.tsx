@@ -13,13 +13,23 @@ import {
 import Wrapper from 'components/wrapper';
 import Router from 'components/router';
 import {
-  UserRepositoryContextProvider,
-  userRepository,
-  dancerApiDao,
+  DancersRepositoryContextProvider,
+  dancersRepository,
+  dancersApiDao,
 } from 'context/dancer';
 import 'antd/dist/antd.css';
 import styled, { defaultSpacing } from 'types/styled-components';
 import { HeadProvider, Title } from 'react-head';
+import {
+  songsApiDao,
+  songsRepository,
+  SongsRepositoryProvider,
+} from 'context/songs';
+import {
+  scoresApiDao,
+  scoresRepository,
+  ScoresRepositoryProvider,
+} from 'context/scores';
 
 dotenv.config();
 
@@ -42,12 +52,26 @@ const authenticationRepositoryInstance = authenticationRepository(
 const tokenFn = async (): Promise<string> => {
   return (await firebaseApp.auth().currentUser?.getIdToken()) ?? '';
 };
-const dancerDao = dancerApiDao({
-  getIdTokenFunc: tokenFn,
-  baseApiUrl: process.env.API_URL ?? '',
-});
+const dancersRepositoryInstance = dancersRepository(
+  dancersApiDao({
+    getIdTokenFunc: tokenFn,
+    baseApiUrl: process.env.API_URL ?? '',
+  }),
+);
 
-const userRepositoryInstance = userRepository(dancerDao);
+const songsRepositoryInstance = songsRepository(
+  songsApiDao({
+    getIdTokenFunc: tokenFn,
+    baseApiUrl: process.env.API_URL ?? '',
+  }),
+);
+
+const scoresRepositoryInterface = scoresRepository(
+  scoresApiDao({
+    getIdTokenFunc: tokenFn,
+    baseApiUrl: process.env.API_URL ?? '',
+  }),
+);
 
 const SkeletonWrapper = styled.div`
   padding: ${defaultSpacing * 2}px;
@@ -80,14 +104,22 @@ ReactDOM.render(
   <AuthenticationRepositoryProvider
     authenticationRepositoryInstance={authenticationRepositoryInstance}
   >
-    <UserRepositoryContextProvider
-      userRepositoryInstance={userRepositoryInstance}
+    <DancersRepositoryContextProvider
+      dancersRepositoryInstance={dancersRepositoryInstance}
     >
-      <HeadProvider>
-        <Title>Australian DDR Events</Title>
-        <App />
-      </HeadProvider>
-    </UserRepositoryContextProvider>
+      <SongsRepositoryProvider
+        songsRepositoryInstance={songsRepositoryInstance}
+      >
+        <ScoresRepositoryProvider
+          scoresRepositoryInstance={scoresRepositoryInterface}
+        >
+          <HeadProvider>
+            <Title>Australian DDR Events</Title>
+            <App />
+          </HeadProvider>
+        </ScoresRepositoryProvider>
+      </SongsRepositoryProvider>
+    </DancersRepositoryContextProvider>
   </AuthenticationRepositoryProvider>,
   document.getElementById('root'),
 );

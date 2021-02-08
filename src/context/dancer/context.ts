@@ -1,19 +1,19 @@
 import { createContext } from 'react';
 import { err } from 'types/result';
-import { DefaultUser } from './constants';
-import { UserRepositoryContextInterface } from './types';
+import { DefaultDancer } from './constants';
+import { DancersRepositoryContextInterface } from './types';
 
 const initialContext = {
-  userRepositoryInstance: {
+  dancersRepositoryInstance: {
     get: async () =>
-      err(new Error('user repository not initialized'), DefaultUser),
+      err(new Error('dancers repository not initialized'), DefaultDancer),
     update: async () =>
-      err(new Error('user repository not initialized'), false),
+      err(new Error('dancers repository not initialized'), false),
   },
 };
 
-const UserRepositoryContext = createContext<UserRepositoryContextInterface>(
+const DancersRepositoryContext = createContext<DancersRepositoryContextInterface>(
   initialContext,
 );
 
-export default UserRepositoryContext;
+export default DancersRepositoryContext;
