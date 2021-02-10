@@ -1,7 +1,7 @@
 import React from 'react';
 import { Space, Card, Typography, Image } from 'antd';
 
-const Ingredients = () => {
+const Dishes = () => {
   return (
     <>
       <Space>
@@ -18,4 +18,4 @@ const Ingredients = () => {
     </>
   );
 };
-export default Ingredients;
+export default Dishes;

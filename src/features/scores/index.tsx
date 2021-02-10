@@ -1,7 +1,7 @@
 import React from 'react';
+import { Divider, Typography } from 'antd';
 import Ingredients from './components/ingredients';
 import Dishes from './components/dishes';
-import { Divider, Typography } from 'antd';
 import { SongsWrapper } from './styled';
 
 const Scores = () => {
