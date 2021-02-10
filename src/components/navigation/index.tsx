@@ -7,7 +7,10 @@ import {
   InfoCircleOutlined,
   LogoutOutlined,
   HomeOutlined,
+<<<<<<< HEAD
   UploadOutlined,
+=======
+>>>>>>> f56df7cf5b526f9b2d72e2447a523ba4e5c004d7
   PieChartOutlined,
 } from '@ant-design/icons';
 import { AuthenticationRepositoryContext } from 'context/authentication';
