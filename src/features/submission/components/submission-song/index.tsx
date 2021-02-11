@@ -1,13 +1,16 @@
-import { Image, Typography } from 'antd';
+import { Image, Skeleton, Typography } from 'antd';
 import React from 'react';
+import { Song } from 'context/songs/types';
 import { IngredientWrapper, StyledCard, StyledCardGrid } from './styled';
 
 const SubmissionSong = ({
-  title,
+  song,
+  loading,
   setIsSubmitting,
   setCurrentSong,
 }: {
-  title: string;
+  song: Song;
+  loading: boolean;
   setIsSubmitting: Function;
   setCurrentSong: Function;
 }) => {
@@ -22,7 +25,7 @@ const SubmissionSong = ({
         <Typography.Link
           strong
           onClick={() => {
-            setCurrentSong(title);
+            setCurrentSong(song);
             setIsSubmitting(true);
           }}
         >
@@ -30,18 +33,20 @@ const SubmissionSong = ({
         </Typography.Link>,
       ]}
     >
-      <StyledCardGrid hoverable={false}>
-        <Typography.Text strong>{title}</Typography.Text>
-      </StyledCardGrid>
-      <StyledCardGrid hoverable={false}>
-        <Image src="https://i.imgur.com/QgffZNl.png" />
-      </StyledCardGrid>
-      <StyledCardGrid hoverable={false}>
-        <IngredientWrapper>
-          <Image src="https://i.imgur.com/woOvNJ0.png" />
-        </IngredientWrapper>
-        <Typography.Text strong>Bread</Typography.Text>
-      </StyledCardGrid>
+      <Skeleton loading={loading}>
+        <StyledCardGrid hoverable={false}>
+          <Typography.Text strong>{song.name}</Typography.Text>
+        </StyledCardGrid>
+        <StyledCardGrid hoverable={false}>
+          <Image src={song.imageUrl} />
+        </StyledCardGrid>
+        <StyledCardGrid hoverable={false}>
+          <IngredientWrapper>
+            <Image src="https://i.imgur.com/woOvNJ0.png" />
+          </IngredientWrapper>
+          <Typography.Text strong>Bread</Typography.Text>
+        </StyledCardGrid>
+      </Skeleton>
     </StyledCard>
   );
 };

@@ -1,35 +1,34 @@
 import { Button, Col, Form, Image, Modal, Result, Row, Typography } from 'antd';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SubmissionForm from './components/submission-form';
 import SubmissionSong from './components/submission-song';
 import { SubmissionFormWrapper, SubmissionWrapper } from './styled';
+import { SongsRepositoryContext } from 'context/songs';
+import { DefaultSong } from 'context/songs/constants';
 
 const Submission = () => {
-  const songs = [
-    "BURNIN' THE FLOOR",
-    'Holic',
-    'Heron',
-    'Eternal Summer',
-    'RIGHT ON TIME',
-    'Pierce The Sky',
-    'nightbird lost wing',
-    'PRANA',
-    'out of focus',
-    'Magnetic',
-    'Cosy Catastrophe',
-  ];
+  const songsRepository = useContext(SongsRepositoryContext);
 
   const [form] = Form.useForm();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [currentSong, setCurrentSong] = useState('');
+  const [currentSong, setCurrentSong] = useState(DefaultSong);
+  const [songs, setSongs] = useState(Array(12).fill(DefaultSong));
+  const [loading, setLoading] = useState(true);
 
   const onSubmit = () => {
     form.validateFields().then(() => {
       setSubmitted(true);
     });
   };
+
+  useEffect(() => {
+    songsRepository.songsRepositoryInstance.getAll().then((songs) => {
+      setSongs(songs.okOrDefault());
+      setLoading(false);
+    })
+  })
 
   return (
     <SubmissionWrapper>
@@ -40,11 +39,12 @@ const Submission = () => {
           { xs: 16, xl: 24 },
         ]}
       >
-        {songs.map((title) => {
+        {songs.map((song) => {
           return (
             <Col xs={12} xl={4} className="gutter-row">
               <SubmissionSong
-                title={title}
+                song={song}
+                loading={loading}
                 setIsSubmitting={setIsSubmitting}
                 setCurrentSong={setCurrentSong}
               />
@@ -53,7 +53,7 @@ const Submission = () => {
         })}
       </Row>
       <Modal
-        title={currentSong}
+        title={currentSong.name}
         visible={isSubmitting}
         onCancel={() => {
           setIsSubmitting(false);
@@ -74,7 +74,7 @@ const Submission = () => {
       >
         {!submitted ? (
           <SubmissionFormWrapper>
-            <Image src="https://i.imgur.com/QgffZNl.png" />
+            <Image src={currentSong.imageUrl} />
             <SubmissionForm form={form} />
           </SubmissionFormWrapper>
         ) : (
