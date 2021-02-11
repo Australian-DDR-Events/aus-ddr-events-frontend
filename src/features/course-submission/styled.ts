@@ -5,3 +5,7 @@ export const CourseSubmissionWrapper = styled.div`
   text-align: center;
   padding: 16px 64px;
 `;
+
+export const CourseSubmissionFormWrapper = styled.div`
+  text-align: center;
+`;

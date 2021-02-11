@@ -1,12 +1,24 @@
 import { Card, Image, Typography } from "antd";
 import React from "react";
 
-const CourseSubmissionDish = ({ dish }: { dish: string }) => {
+const CourseSubmissionDish = ({
+  dish,
+  setIsSubmitting,
+  setCurrentCourse,
+}: {
+  dish: string;
+  setIsSubmitting: Function;
+  setCurrentCourse: Function;
+}) => {
   return (
     <Card
       actions={[
         <Typography.Link
           strong
+          onClick={() => {
+            setIsSubmitting(true);
+            setCurrentCourse(dish);
+          }}
         >
           Cook Dish
         </Typography.Link>,
