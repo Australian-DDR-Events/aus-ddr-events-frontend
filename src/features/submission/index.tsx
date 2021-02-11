@@ -4,10 +4,12 @@ import SubmissionForm from './components/submission-form';
 import SubmissionSong from './components/submission-song';
 import { SubmissionFormWrapper, SubmissionWrapper } from './styled';
 import { SongsRepositoryContext } from 'context/songs';
+import { ScoresRepositoryContext } from 'context/scores';
 import { DefaultSong } from 'context/songs/constants';
 
 const Submission = () => {
   const songsRepository = useContext(SongsRepositoryContext);
+  const scoresRepository = useContext(ScoresRepositoryContext);
 
   const [form] = Form.useForm();
 
@@ -17,18 +19,25 @@ const Submission = () => {
   const [songs, setSongs] = useState(Array(12).fill(DefaultSong));
   const [loading, setLoading] = useState(true);
 
-  const onSubmit = () => {
-    form.validateFields().then(() => {
-      setSubmitted(true);
-    });
+  const onSubmit = async () => {
+    const values = await form.validateFields();
+    const response = await scoresRepository.scoresRepositoryInstance.postScore({
+      ...values,
+      songId: currentSong.id,
+    })
+    console.log(response);
+    // Still need to retrieve ingredient score
+    setSubmitted(true);
   };
 
   useEffect(() => {
-    songsRepository.songsRepositoryInstance.getAll().then((songs) => {
-      setSongs(songs.okOrDefault());
-      setLoading(false);
-    })
-  })
+    if (loading) {
+      songsRepository.songsRepositoryInstance.getAll().then((songs) => {
+        setSongs(songs.okOrDefault());
+        setLoading(false);
+      });
+    }
+  }, [submitted]);
 
   return (
     <SubmissionWrapper>

@@ -23,7 +23,10 @@ const ProfileForm = ({
         ...formData,
         ...values,
       })
-      .then(() => onSuccessfulSubmit());
+      .then((response) => {
+        console.log(response);
+        onSuccessfulSubmit()
+      });
   };
 
   const uploadProps = {
