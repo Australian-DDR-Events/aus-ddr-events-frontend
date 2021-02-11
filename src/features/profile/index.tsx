@@ -13,7 +13,7 @@ import { CheckCircleOutlined, CloseOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import { StateOptions } from 'features/profile/constants';
-import { DefaultUser, UserRepositoryContext } from 'context/dancer';
+import { DefaultDancer, DancersRepositoryContext } from 'context/dancer';
 import { Title } from 'react-head';
 import ProfileForm from './components/profile-form';
 import CollectionContainer from './components/collection-container';
@@ -24,9 +24,9 @@ interface ProfileProps {
 }
 
 const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
-  const userRepo = useContext(UserRepositoryContext);
+  const dancersRepository = useContext(DancersRepositoryContext);
   const authRepo = useContext(AuthenticationRepositoryContext);
-  const [user, setUser] = useState(DefaultUser);
+  const [dancer, setDancer] = useState(DefaultDancer);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -42,20 +42,22 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
     if (!isEditing) {
       setLoading(true);
       const lookupId = id ?? loggedInUserId;
-      userRepo.userRepositoryInstance.get(lookupId).then((u) => {
-        setUser(u.okOrDefault());
+      dancersRepository.dancersRepositoryInstance.get(lookupId).then((u) => {
+        setDancer(u.okOrDefault());
         setLoading(false);
       });
     }
   }, [id, isEditing]);
 
   const getStateTextualRepresentation = (): string => {
-    return StateOptions.find((state) => state.key === user.state)?.value || '';
+    return (
+      StateOptions.find((state) => state.key === dancer.state)?.value || ''
+    );
   };
 
   return !isEditing ? (
     <ProfileWrapper>
-      {!loading && <Title>{user.dancerName} | Australian DDR Events</Title>}
+      {!loading && <Title>{dancer.dancerName} | Australian DDR Events</Title>}
       <Row gutter={16}>
         <Col xs={24} xl={8}>
           <Card>
@@ -80,12 +82,12 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                     size={80}
                     shape="square"
                     src={
-                      user.profilePicture || 'https://i.imgur.com/o0ulS6k.png'
+                      dancer.profilePicture || 'https://i.imgur.com/o0ulS6k.png'
                     }
                   />
-                  <ProfileHeader level={2}>{user.userName}</ProfileHeader>
+                  <ProfileHeader level={2}>{dancer.userName}</ProfileHeader>
                   <Typography.Text key="dancerName">
-                    Dancer Name: {user.dancerName}
+                    Dancer Name: {dancer.dancerName}
                     {emailVerified ? (
                       <Popover content="User is verified.">
                         <CheckCircleOutlined
@@ -101,13 +103,13 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                     )}
                   </Typography.Text>
                   <Typography.Text key="dancerId">
-                    DDR Code: {user.dancerId}
+                    DDR Code: {dancer.dancerId}
                   </Typography.Text>
                   <Typography.Text>
                     State: {getStateTextualRepresentation()}
                   </Typography.Text>
                   <Typography.Text key="dancerMachine">
-                    Primary Machine: {user.primaryMachine}
+                    Primary Machine: {dancer.primaryMachine}
                   </Typography.Text>
 
                   {isEditable && (
@@ -131,7 +133,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
     </ProfileWrapper>
   ) : (
     <ProfileForm
-      formData={user}
+      formData={dancer}
       onSuccessfulSubmit={() => {
         setIsEditing(false);
       }}

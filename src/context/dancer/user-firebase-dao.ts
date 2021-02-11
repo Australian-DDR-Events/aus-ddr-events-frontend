@@ -1,13 +1,13 @@
 import firebase from 'firebase';
 import { ok, Result } from 'types/result';
-import { User, UserDao } from './types';
-import { DefaultUser } from './constants';
+import { Dancer, DancersDao } from './types';
+import { DefaultDancer } from './constants';
 
-const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
+const userFirebaseDao = (firebaseApp: firebase.app.App): DancersDao => {
   const storage = firebaseApp.storage();
-  const get = async (id: string): Promise<Result<Error, User>> => {
+  const get = async (id: string): Promise<Result<Error, Dancer>> => {
     const currentAuthUser = firebaseApp.auth().currentUser;
-    const user: User = { ...DefaultUser };
+    const user: Dancer = { ...DefaultDancer };
     if (!currentAuthUser) return ok(user);
 
     return firebaseApp
@@ -34,7 +34,7 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): UserDao => {
       });
   };
 
-  const update = async (user: User): Promise<Result<Error, boolean>> => {
+  const update = async (user: Dancer): Promise<Result<Error, boolean>> => {
     const currentAuthUser = firebaseApp.auth().currentUser;
     if (!currentAuthUser) return ok(false);
 

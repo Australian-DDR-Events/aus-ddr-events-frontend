@@ -1,20 +1,21 @@
-import { DefaultUser, User } from 'context/dancer';
+import { DefaultDancer, Dancer } from 'context/dancer';
 import { err, ok, Result } from 'types/result';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { DancersDao } from 'context/dancer/types';
 
-const dancerApiDao = ({
+const dancersApiDao = ({
   getIdTokenFunc,
   baseApiUrl,
 }: {
   getIdTokenFunc: () => Promise<string>;
   baseApiUrl: string;
-}) => {
+}): DancersDao => {
   const axiosClient = axios.create({
     baseURL: baseApiUrl,
     timeout: 6000,
   });
 
-  const get = async (dancerId: string): Promise<Result<Error, User>> => {
+  const get = async (dancerId: string): Promise<Result<Error, Dancer>> => {
     const request: AxiosRequestConfig = {
       headers: {
         Authorization: `Bearer ${await getIdTokenFunc()}`,
@@ -24,8 +25,8 @@ const dancerApiDao = ({
     return axiosClient
       .get(`/dancers/${dancerId}`, request)
       .then(
-        (response: AxiosResponse): Result<Error, User> => {
-          const user: User = {
+        (response: AxiosResponse): Result<Error, Dancer> => {
+          const dancer: Dancer = {
             id: response.data.id,
             dancerId: response.data.ddrCode,
             dancerName: response.data.ddrName,
@@ -35,12 +36,12 @@ const dancerApiDao = ({
             state: response.data.state,
             userName: '',
           };
-          return ok(user);
+          return ok(dancer);
         },
       )
       .catch(
-        (): Result<Error, User> => {
-          return err(new Error('failed to get user'), DefaultUser);
+        (): Result<Error, Dancer> => {
+          return err(new Error('failed to get user'), DefaultDancer);
         },
       );
   };
@@ -67,13 +68,13 @@ const dancerApiDao = ({
       );
   };
 
-  const update = async (user: User): Promise<Result<Error, boolean>> => {
-    const dancer = {
-      ddrName: user.dancerName || '',
-      ddrCode: user.dancerId || '',
-      primaryMachineLocation: user.primaryMachine || '',
-      state: user.state || '',
-      profilePictureUrl: user.profilePicture || '',
+  const update = async (dancer: Dancer): Promise<Result<Error, boolean>> => {
+    const dancerSubmission = {
+      ddrName: dancer.dancerName || '',
+      ddrCode: dancer.dancerId || '',
+      primaryMachineLocation: dancer.primaryMachine || '',
+      state: dancer.state || '',
+      profilePictureUrl: dancer.profilePicture || '',
     };
 
     const request: AxiosRequestConfig = {
@@ -81,9 +82,9 @@ const dancerApiDao = ({
         Authorization: `Bearer ${await getIdTokenFunc()}`,
         'Content-Type': 'application/json',
       },
-      method: user.id ? 'PUT' : 'POST',
-      url: user.id ? `dancers/${user.id}` : 'dancers',
-      data: dancer,
+      method: dancer.id ? 'PUT' : 'POST',
+      url: dancer.id ? `dancers/${dancer.id}` : 'dancers',
+      data: dancerSubmission,
     };
 
     let result = axiosClient
@@ -91,11 +92,11 @@ const dancerApiDao = ({
       .then((): Result<Error, boolean> => ok(true))
       .catch(
         (): Result<Error, boolean> =>
-          err(new Error('failed to update user'), false),
+          err(new Error('failed to update dancer'), false),
       );
 
-    if (user.newProfilePicture.size > 0) {
-      result = uploadProfilePicture(user.newProfilePicture);
+    if (dancer.newProfilePicture.size > 0) {
+      result = uploadProfilePicture(dancer.newProfilePicture);
     }
     return result;
   };
@@ -103,4 +104,4 @@ const dancerApiDao = ({
   return { get, update };
 };
 
-export default dancerApiDao;
+export default dancersApiDao;
