@@ -25,7 +25,11 @@ const CourseSubmission = () => {
   const [currentCourse, setCurrentCourse] = useState('');
 
   const onSubmit = () => {
-    console.log("submitted");
+    form.validateFields().then((values) => {
+      console.log(values);
+    }).catch((e) => {
+      console.log("error");
+    })
   }
   
   return (
@@ -54,7 +58,7 @@ const CourseSubmission = () => {
       <Modal
         title={currentCourse}
         visible={isSubmitting}
-        width={720}
+        // width={720}
         onCancel={() => {
           setIsSubmitting(false);
           setSubmitted(false);

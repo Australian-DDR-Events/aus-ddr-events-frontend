@@ -1,5 +1,5 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Col, Divider, Form, FormInstance, InputNumber, Row, Select, Switch, Upload } from "antd";
+import { Button, Col, Collapse, Form, FormInstance, InputNumber, Row, Select, Switch, Tabs, Upload } from "antd";
 import React, { useState } from "react";
 
 const CourseSubmissionForm = ({ form }: { form: FormInstance }) => {
@@ -30,15 +30,25 @@ const CourseSubmissionForm = ({ form }: { form: FormInstance }) => {
       layout="vertical"
       style={{ textAlign: 'left', padding: '16px 0 0' }}
     >
-      <Row
+      {/* <Row
         gutter={[
           { xs: 0, xl: 24 },
           { xs: 0, xl: 24 },
         ]}
-      >
+      > */}
+      {/* <Collapse> */}
+      <Tabs defaultActiveKey="0">
         {songs.map((song, index) => {
           return (
-            <Col xs={24} xl={8} className="gutter-row">
+            // <Col xs={24} xl={8} className="gutter-row">
+            // <Collapse.Panel
+            //   header={`Song ${index+1}`}
+            //   key={index}
+            // >
+            <Tabs.TabPane
+              tab={`Song ${index+1}`}
+              key={index}
+            >
               <Form.Item
                 name={`song${index}`}
                 label={`Song ${index+1}`}
@@ -85,44 +95,50 @@ const CourseSubmissionForm = ({ form }: { form: FormInstance }) => {
               >
                 <InputNumber min={0} max={9999} />
               </Form.Item>
-            </Col>
+            {/* </Col> */}
+            {/* </Collapse.Panel> */}
+            </Tabs.TabPane>
           );
         })}
         
-        <Col xs={0} xl={8} className="gutter-row" />
+        {/* <Col xs={0} xl={8} className="gutter-row" /> */}
 
-        <Col xs={24} xl={8} className="gutter-row">
-          <Form.Item
-            name="team"
-            label="Team Cooking Bonus"
-            valuePropName="checked"
-          >
-            <Switch
-              onChange={(checked) => setIsTeamCookingBonus(checked)}
-            />
-          </Form.Item>
+        {/* <Col xs={24} xl={8} className="gutter-row"> */}
 
-          {isTeamCookingBonus && (
-            <Form.Item
-              label={`End of Session Photograph`}
-              name={`sessionImage`}
-              valuePropName="file"
-              getValueFromEvent={normaliseFile}
-              rules={[
-                {
-                  required: isTeamCookingBonus,
-                  message: 'Please upload a photograph of your session!',
-                },
-              ]}
-            >
-              <Upload {...uploadProps} listType="picture">
-                <Button icon={<UploadOutlined />}>Upload photograph</Button>
-              </Upload>
-            </Form.Item>
-          )}
-        </Col>
+        {/* </Col> */}
 
-      </Row>
+      {/* </Row> */}
+      {/* </Collapse> */}
+      </Tabs>
+
+      <Form.Item
+        name="team"
+        label="Team Cooking Bonus"
+        valuePropName="checked"
+      >
+        <Switch
+          onChange={(checked) => setIsTeamCookingBonus(checked)}
+        />
+      </Form.Item>
+
+      {isTeamCookingBonus && (
+        <Form.Item
+          label={`End of Session Photograph`}
+          name={`sessionImage`}
+          valuePropName="file"
+          getValueFromEvent={normaliseFile}
+          rules={[
+            {
+              required: isTeamCookingBonus,
+              message: 'Please upload a photograph of your session!',
+            },
+          ]}
+        >
+          <Upload {...uploadProps} listType="picture">
+            <Button icon={<UploadOutlined />}>Upload photograph</Button>
+          </Upload>
+        </Form.Item>
+      )}
 
     </Form>
   )
