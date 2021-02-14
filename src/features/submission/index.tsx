@@ -21,6 +21,7 @@ const Submission = () => {
 
   const onSubmit = async () => {
     const values = await form.validateFields();
+    console.log(values);
     const response = await scoresRepository.scoresRepositoryInstance.postScore({
       ...values,
       songId: currentSong.id,

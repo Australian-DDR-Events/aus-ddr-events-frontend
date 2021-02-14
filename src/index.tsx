@@ -56,6 +56,7 @@ const dancersRepositoryInstance = dancersRepository(
   dancersApiDao({
     getIdTokenFunc: tokenFn,
     baseApiUrl: process.env.API_URL ?? '',
+    awsUrl: process.env.AWS_URL ?? '',
   }),
 );
 
