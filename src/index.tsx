@@ -30,6 +30,11 @@ import {
   scoresRepository,
   ScoresRepositoryProvider,
 } from 'context/scores';
+import {
+  ingredientsApiDao,
+  ingredientsRepository,
+  IngredientsRepositoryProvider,
+} from 'context/ingredients';
 
 dotenv.config();
 
@@ -69,6 +74,13 @@ const songsRepositoryInstance = songsRepository(
 
 const scoresRepositoryInterface = scoresRepository(
   scoresApiDao({
+    getIdTokenFunc: tokenFn,
+    baseApiUrl: process.env.API_URL ?? '',
+  }),
+);
+
+const ingredientsRepositoryInterface = ingredientsRepository(
+  ingredientsApiDao({
     getIdTokenFunc: tokenFn,
     baseApiUrl: process.env.API_URL ?? '',
   }),
@@ -114,10 +126,14 @@ ReactDOM.render(
         <ScoresRepositoryProvider
           scoresRepositoryInstance={scoresRepositoryInterface}
         >
-          <HeadProvider>
-            <Title>Australian DDR Events</Title>
-            <App />
-          </HeadProvider>
+          <IngredientsRepositoryProvider
+            ingredientsRepositoryInstance={ingredientsRepositoryInterface}
+          >
+            <HeadProvider>
+              <Title>Australian DDR Events</Title>
+              <App />
+            </HeadProvider>
+          </IngredientsRepositoryProvider>
         </ScoresRepositoryProvider>
       </SongsRepositoryProvider>
     </DancersRepositoryContextProvider>

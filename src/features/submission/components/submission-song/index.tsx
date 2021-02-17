@@ -1,18 +1,19 @@
 import { Image, Skeleton, Typography } from 'antd';
 import React from 'react';
 import { Song } from 'context/songs/types';
+import { Ingredient } from 'context/ingredients/types';
 import { IngredientWrapper, StyledCard, StyledCardGrid } from './styled';
 
-const SubmissionSong = ({
-  song,
+const SubmissionIngredient = ({
+  ingredient,
   loading,
   setIsSubmitting,
-  setCurrentSong,
+  setCurrentIngredient,
 }: {
-  song: Song;
+  ingredient: Ingredient;
   loading: boolean;
   setIsSubmitting: Function;
-  setCurrentSong: Function;
+  setCurrentIngredient: Function;
 }) => {
   return (
     <StyledCard
@@ -25,7 +26,7 @@ const SubmissionSong = ({
         <Typography.Link
           strong
           onClick={() => {
-            setCurrentSong(song);
+            setCurrentIngredient(ingredient);
             setIsSubmitting(true);
           }}
         >
@@ -35,20 +36,20 @@ const SubmissionSong = ({
     >
       <Skeleton loading={loading}>
         <StyledCardGrid hoverable={false}>
-          <Typography.Text strong>{song.name}</Typography.Text>
+          <Typography.Text strong>{ingredient.song.name}</Typography.Text>
         </StyledCardGrid>
         <StyledCardGrid hoverable={false}>
-          <Image src={song.imageUrl} />
+          <Image src={ingredient.song.imageUrl} />
         </StyledCardGrid>
         <StyledCardGrid hoverable={false}>
           <IngredientWrapper>
-            <Image src="https://i.imgur.com/woOvNJ0.png" />
+            <Image src={`${process.env.AWS_URL}/Summer2021/Ingredients/${ingredient.id}.png`} />
           </IngredientWrapper>
-          <Typography.Text strong>Bread</Typography.Text>
+          <Typography.Text strong>{ingredient.name}</Typography.Text>
         </StyledCardGrid>
       </Skeleton>
     </StyledCard>
   );
 };
 
-export default SubmissionSong;
+export default SubmissionIngredient;

@@ -1,40 +1,41 @@
 import { Button, Col, Form, Image, Modal, Result, Row, Typography } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import SubmissionForm from './components/submission-form';
-import SubmissionSong from './components/submission-song';
+import SubmissionIngredient from './components/submission-song';
 import { SubmissionFormWrapper, SubmissionWrapper } from './styled';
-import { SongsRepositoryContext } from 'context/songs';
+import { IngredientsRepositoryContext } from 'context/ingredients';
 import { ScoresRepositoryContext } from 'context/scores';
-import { DefaultSong } from 'context/songs/constants';
+import { DefaultIngredient } from 'context/ingredients/constants';
 
 const Submission = () => {
-  const songsRepository = useContext(SongsRepositoryContext);
+  const ingredientsRepository = useContext(IngredientsRepositoryContext);
   const scoresRepository = useContext(ScoresRepositoryContext);
 
   const [form] = Form.useForm();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [currentSong, setCurrentSong] = useState(DefaultSong);
-  const [songs, setSongs] = useState(Array(12).fill(DefaultSong));
+  const [currentIngredient, setCurrentIngredient] = useState(DefaultIngredient);
+  const [ingredients, setIngredients] = useState(Array(12).fill(DefaultIngredient));
   const [loading, setLoading] = useState(true);
 
   const onSubmit = async () => {
-    const values = await form.validateFields();
-    console.log(values);
-    const response = await scoresRepository.scoresRepositoryInstance.postScore({
-      ...values,
-      songId: currentSong.id,
-    })
-    console.log(response);
-    // Still need to retrieve ingredient score
-    setSubmitted(true);
+    // const values = await form.validateFields();
+    // console.log(values);
+    // const response = await scoresRepository.scoresRepositoryInstance.postScore({
+    //   ...values,
+    //   songId: currentSong.id,
+    // })
+    // console.log(response);
+    // // Still need to retrieve ingredient score
+    // setSubmitted(true);
   };
 
   useEffect(() => {
     if (loading) {
-      songsRepository.songsRepositoryInstance.getAll().then((songs) => {
-        setSongs(songs.okOrDefault());
+      ingredientsRepository.ingredientsRepositoryInstance.getAll().then((ingredients) => {
+        console.log(ingredients);
+        setIngredients(ingredients.okOrDefault());
         setLoading(false);
       });
     }
@@ -49,21 +50,21 @@ const Submission = () => {
           { xs: 16, xl: 24 },
         ]}
       >
-        {songs.map((song) => {
+        {ingredients.map((ingredient) => {
           return (
             <Col xs={12} xl={4} className="gutter-row">
-              <SubmissionSong
-                song={song}
+              <SubmissionIngredient
+                ingredient={ingredient}
                 loading={loading}
                 setIsSubmitting={setIsSubmitting}
-                setCurrentSong={setCurrentSong}
+                setCurrentIngredient={setCurrentIngredient}
               />
             </Col>
           );
         })}
       </Row>
       <Modal
-        title={currentSong.name}
+        title={`Obtain ${currentIngredient.name} by playing "${currentIngredient.song.name}"`}
         visible={isSubmitting}
         onCancel={() => {
           setIsSubmitting(false);
@@ -84,7 +85,7 @@ const Submission = () => {
       >
         {!submitted ? (
           <SubmissionFormWrapper>
-            <Image src={currentSong.imageUrl} />
+            <Image src={currentIngredient.song.imageUrl} />
             <SubmissionForm form={form} />
           </SubmissionFormWrapper>
         ) : (
