@@ -1,6 +1,5 @@
 import { Image, Skeleton, Typography } from 'antd';
 import React from 'react';
-import { Song } from 'context/songs/types';
 import { Ingredient } from 'context/ingredients/types';
 import { IngredientWrapper, StyledCard, StyledCardGrid } from './styled';
 
@@ -43,7 +42,9 @@ const SubmissionIngredient = ({
         </StyledCardGrid>
         <StyledCardGrid hoverable={false}>
           <IngredientWrapper>
-            <Image src={`${process.env.AWS_URL}/Summer2021/Ingredients/${ingredient.id}.png`} />
+            <Image
+              src={`${process.env.AWS_URL}/Summer2021/Ingredients/${ingredient.id}.png`}
+            />
           </IngredientWrapper>
           <Typography.Text strong>{ingredient.name}</Typography.Text>
         </StyledCardGrid>

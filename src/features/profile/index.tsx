@@ -82,7 +82,8 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                     size={80}
                     shape="square"
                     src={
-                      `${dancer.profilePicture}?${new Date()}` || 'https://i.imgur.com/o0ulS6k.png'
+                      `${dancer.profilePicture}?${new Date()}` ||
+                      'https://i.imgur.com/o0ulS6k.png'
                     }
                   />
                   <ProfileHeader level={2}>{dancer.userName}</ProfileHeader>

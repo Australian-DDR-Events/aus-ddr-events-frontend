@@ -1,22 +1,22 @@
 import { Button, Col, Form, Image, Modal, Result, Row, Typography } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
+import { IngredientsRepositoryContext } from 'context/ingredients';
+import { DefaultIngredient } from 'context/ingredients/constants';
 import SubmissionForm from './components/submission-form';
 import SubmissionIngredient from './components/submission-song';
 import { SubmissionFormWrapper, SubmissionWrapper } from './styled';
-import { IngredientsRepositoryContext } from 'context/ingredients';
-import { ScoresRepositoryContext } from 'context/scores';
-import { DefaultIngredient } from 'context/ingredients/constants';
 
 const Submission = () => {
   const ingredientsRepository = useContext(IngredientsRepositoryContext);
-  const scoresRepository = useContext(ScoresRepositoryContext);
 
   const [form] = Form.useForm();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [currentIngredient, setCurrentIngredient] = useState(DefaultIngredient);
-  const [ingredients, setIngredients] = useState(Array(12).fill(DefaultIngredient));
+  const [ingredients, setIngredients] = useState(
+    Array(12).fill(DefaultIngredient),
+  );
   const [loading, setLoading] = useState(true);
 
   const onSubmit = async () => {
@@ -33,11 +33,12 @@ const Submission = () => {
 
   useEffect(() => {
     if (loading) {
-      ingredientsRepository.ingredientsRepositoryInstance.getAll().then((ingredients) => {
-        console.log(ingredients);
-        setIngredients(ingredients.okOrDefault());
-        setLoading(false);
-      });
+      ingredientsRepository.ingredientsRepositoryInstance
+        .getAll()
+        .then((ingredientsRes) => {
+          setIngredients(ingredientsRes.okOrDefault());
+          setLoading(false);
+        });
     }
   }, [submitted]);
 

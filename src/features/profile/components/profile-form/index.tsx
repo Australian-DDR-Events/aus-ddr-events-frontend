@@ -23,9 +23,8 @@ const ProfileForm = ({
         ...formData,
         ...values,
       })
-      .then((response) => {
-        console.log(response);
-        onSuccessfulSubmit()
+      .then(() => {
+        onSuccessfulSubmit();
       });
   };
 
