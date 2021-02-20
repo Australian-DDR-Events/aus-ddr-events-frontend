@@ -43,7 +43,7 @@ const SubmissionIngredient = ({
         <StyledCardGrid hoverable={false}>
           <IngredientWrapper>
             <Image
-              src={`${process.env.AWS_URL}/Summer2021/Ingredients/${ingredient.id}.png`}
+              src={`${process.env.ASSETS_URL}/Summer2021/Ingredients/${ingredient.id}.png`}
             />
           </IngredientWrapper>
           <Typography.Text strong>{ingredient.name}</Typography.Text>

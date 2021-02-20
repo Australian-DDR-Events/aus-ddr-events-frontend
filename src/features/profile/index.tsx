@@ -47,7 +47,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
         setLoading(false);
       });
     }
-  }, [isEditing]);
+  }, [id, isEditing]);
 
   const getStateTextualRepresentation = (): string => {
     return (
