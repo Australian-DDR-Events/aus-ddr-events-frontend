@@ -69,9 +69,9 @@ const scoresApiDao = ({
     submission: ScoreSubmissionRequest,
   ): Promise<Result<Error, boolean>> => {
     const data = new FormData();
-    data.append('Score', `${submission.score}`);
-    data.append('ScoreImage', submission.scoreImage);
-    data.append('SongId', submission.songId);
+    data.append('score', `${submission.score}`);
+    data.append('scoreImage', submission.scoreImage);
+    data.append('songId', submission.songId);
 
     const request: AxiosRequestConfig = {
       headers: {

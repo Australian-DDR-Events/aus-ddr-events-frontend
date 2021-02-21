@@ -1,15 +1,18 @@
-import { Image, Typography } from 'antd';
+import { Image, Skeleton, Typography } from 'antd';
 import React from 'react';
+import { Ingredient } from 'context/ingredients/types';
 import { IngredientWrapper, StyledCard, StyledCardGrid } from './styled';
 
-const SubmissionSong = ({
-  title,
+const SubmissionIngredient = ({
+  ingredient,
+  loading,
   setIsSubmitting,
-  setCurrentSong,
+  setCurrentIngredient,
 }: {
-  title: string;
+  ingredient: Ingredient;
+  loading: boolean;
   setIsSubmitting: Function;
-  setCurrentSong: Function;
+  setCurrentIngredient: Function;
 }) => {
   return (
     <StyledCard
@@ -22,7 +25,7 @@ const SubmissionSong = ({
         <Typography.Link
           strong
           onClick={() => {
-            setCurrentSong(title);
+            setCurrentIngredient(ingredient);
             setIsSubmitting(true);
           }}
         >
@@ -30,20 +33,24 @@ const SubmissionSong = ({
         </Typography.Link>,
       ]}
     >
-      <StyledCardGrid hoverable={false}>
-        <Typography.Text strong>{title}</Typography.Text>
-      </StyledCardGrid>
-      <StyledCardGrid hoverable={false}>
-        <Image src="https://i.imgur.com/QgffZNl.png" />
-      </StyledCardGrid>
-      <StyledCardGrid hoverable={false}>
-        <IngredientWrapper>
-          <Image src="https://i.imgur.com/woOvNJ0.png" />
-        </IngredientWrapper>
-        <Typography.Text strong>Bread</Typography.Text>
-      </StyledCardGrid>
+      <Skeleton loading={loading}>
+        <StyledCardGrid hoverable={false}>
+          <Typography.Text strong>{ingredient.song.name}</Typography.Text>
+        </StyledCardGrid>
+        <StyledCardGrid hoverable={false}>
+          <Image src={ingredient.song.imageUrl} />
+        </StyledCardGrid>
+        <StyledCardGrid hoverable={false}>
+          <IngredientWrapper>
+            <Image
+              src={`${process.env.ASSETS_URL}/Summer2021/Ingredients/${ingredient.id}.png`}
+            />
+          </IngredientWrapper>
+          <Typography.Text strong>{ingredient.name}</Typography.Text>
+        </StyledCardGrid>
+      </Skeleton>
     </StyledCard>
   );
 };
 
-export default SubmissionSong;
+export default SubmissionIngredient;
