@@ -6,11 +6,11 @@ import { DancersDao } from 'context/dancer/types';
 const dancersApiDao = ({
   getIdTokenFunc,
   baseApiUrl,
-  awsUrl,
+  assetsUrl,
 }: {
   getIdTokenFunc: () => Promise<string>;
   baseApiUrl: string;
-  awsUrl: string;
+  assetsUrl: string;
 }): DancersDao => {
   const axiosClient = axios.create({
     baseURL: baseApiUrl,
@@ -33,7 +33,11 @@ const dancersApiDao = ({
             dancerId: response.data.ddrCode,
             dancerName: response.data.ddrName,
             primaryMachine: response.data.primaryMachineLocation,
+<<<<<<< HEAD
             profilePicture: awsUrl + response.data.profilePictureUrl,
+=======
+            profilePicture: assetsUrl + response.data.profilePictureUrl,
+>>>>>>> master
             newProfilePicture: new File([''], 'filename'),
             state: response.data.state,
             userName: '',

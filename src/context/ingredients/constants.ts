@@ -5,5 +5,5 @@ import { Ingredient } from './types';
 export const DefaultIngredient: Ingredient = {
   id: '',
   name: '',
-  song: DefaultSong
+  song: DefaultSong,
 };

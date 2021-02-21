@@ -26,13 +26,21 @@ const ingredientsApiDao = ({
       .get(`/summer2021/ingredients`, request)
       .then(
         (response: AxiosResponse): Array<Ingredient> => {
-          return response.data.map((ingredient: Ingredient): Ingredient => ingredient);
+          return response.data.map(
+            (ingredient: Ingredient): Ingredient => ingredient,
+          );
         },
       )
-      .then((ingredients: Array<Ingredient>): Result<Error, Array<Ingredient>> => ok(ingredients))
+      .then(
+        (ingredients: Array<Ingredient>): Result<Error, Array<Ingredient>> =>
+          ok(ingredients),
+      )
       .catch(
         (): Result<Error, Array<Ingredient>> => {
-          return err(new Error('failed to get ingredients'), new Array<Ingredient>());
+          return err(
+            new Error('failed to get ingredients'),
+            new Array<Ingredient>(),
+          );
         },
       );
   };

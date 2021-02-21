@@ -6,9 +6,15 @@ import { Ingredient, IngredientsRepositoryContextInterface } from './types';
 const initialContext = {
   ingredientsRepositoryInstance: {
     getAll: async () =>
-      err(new Error('ingredients repository not initialized'), new Array<Ingredient>()),
+      err(
+        new Error('ingredients repository not initialized'),
+        new Array<Ingredient>(),
+      ),
     getById: async () =>
-      err(new Error('ingredients repository not initialized'), DefaultIngredient),
+      err(
+        new Error('ingredients repository not initialized'),
+        DefaultIngredient,
+      ),
   },
 };
 
