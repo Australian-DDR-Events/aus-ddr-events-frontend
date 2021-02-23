@@ -8,4 +8,5 @@ export const LoginFormForgot = styled.a`
 export const StyledForm = styled(Form)`
   max-width: ${defaultSpacing * 40}px;
   margin: auto;
+  padding-top: 32px;
 `;
