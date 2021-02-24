@@ -32,19 +32,18 @@ const SubmissionIngredient = ({
           Submit
         </Typography.Link>,
       ]}
+      title={ingredient.name}
     >
       <Skeleton loading={loading}>
         <StyledCardGrid hoverable={false}>
-          <Typography.Text strong>{ingredient.song.name}</Typography.Text>
+          <Typography.Text strong>{ingredient.name}</Typography.Text>
         </StyledCardGrid>
         <StyledCardGrid hoverable={false}>
-          <Image src={ingredient.song.imageUrl} />
+          <Image src={ingredient.image128} />
         </StyledCardGrid>
         <StyledCardGrid hoverable={false}>
           <IngredientWrapper>
-            <Image
-              src={`${process.env.ASSETS_URL}/Summer2021/Ingredients/${ingredient.id}.png`}
-            />
+            <Image src={`${process.env.ASSETS_URL}${ingredient.image128}`} />
           </IngredientWrapper>
           <Typography.Text strong>{ingredient.name}</Typography.Text>
         </StyledCardGrid>

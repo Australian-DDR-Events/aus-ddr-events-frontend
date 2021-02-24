@@ -33,11 +33,7 @@ const dancersApiDao = ({
             dancerId: response.data.ddrCode,
             dancerName: response.data.ddrName,
             primaryMachine: response.data.primaryMachineLocation,
-<<<<<<< HEAD
-            profilePicture: awsUrl + response.data.profilePictureUrl,
-=======
             profilePicture: assetsUrl + response.data.profilePictureUrl,
->>>>>>> master
             newProfilePicture: new File([''], 'filename'),
             state: response.data.state,
             userName: '',

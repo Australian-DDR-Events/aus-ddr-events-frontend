@@ -1,16 +1,11 @@
 import { Button, Col, Form, Image, Modal, Result, Row, Typography } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
-<<<<<<< HEAD
-=======
 import { IngredientsRepositoryContext } from 'context/ingredients';
 import { DefaultIngredient } from 'context/ingredients/constants';
->>>>>>> master
+import { ScoresRepositoryContext } from 'context/scores';
 import SubmissionForm from './components/submission-form';
 import SubmissionIngredient from './components/submission-song';
 import { SubmissionFormWrapper, SubmissionWrapper } from './styled';
-import { IngredientsRepositoryContext } from 'context/ingredients';
-import { ScoresRepositoryContext } from 'context/scores';
-import { DefaultIngredient } from 'context/ingredients/constants';
 
 const Submission = () => {
   const ingredientsRepository = useContext(IngredientsRepositoryContext);
@@ -71,7 +66,7 @@ const Submission = () => {
         })}
       </Row>
       <Modal
-        title={`Obtain ${currentIngredient.name} by playing "${currentIngredient.song.name}"`}
+        title={`Obtain ${currentIngredient.name} by playing "${currentIngredient.name}"`}
         visible={isSubmitting}
         onCancel={() => {
           setIsSubmitting(false);
@@ -92,7 +87,7 @@ const Submission = () => {
       >
         {!submitted ? (
           <SubmissionFormWrapper>
-            <Image src={currentIngredient.song.imageUrl} />
+            <Image src={currentIngredient.image128} />
             <SubmissionForm form={form} />
           </SubmissionFormWrapper>
         ) : (

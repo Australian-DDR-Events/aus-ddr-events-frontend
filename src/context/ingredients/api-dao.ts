@@ -1,6 +1,6 @@
 import { err, ok, Result } from 'types/result';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Ingredient, IngredientsDao } from './types';
+import { Ingredient, IngredientGrade, IngredientsDao } from './types';
 import { DefaultIngredient } from './constants';
 
 const ingredientsApiDao = ({
@@ -65,7 +65,41 @@ const ingredientsApiDao = ({
       );
   };
 
-  return { getAll, getById };
+  const getGrades = async (
+    id: string,
+  ): Promise<Result<Error, Array<IngredientGrade>>> => {
+    const request: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${await getIdTokenFunc()}`,
+      },
+    };
+
+    return axiosClient
+      .get(`/summer2021/ingredients/${id}/grades`, request)
+      .then(
+        (response: AxiosResponse): Array<IngredientGrade> => {
+          return response.data.map(
+            (ingredientGrade: IngredientGrade): IngredientGrade =>
+              ingredientGrade,
+          );
+        },
+      )
+      .then(
+        (
+          ingredientGrades: Array<IngredientGrade>,
+        ): Result<Error, Array<IngredientGrade>> => ok(ingredientGrades),
+      )
+      .catch(
+        (): Result<Error, Array<IngredientGrade>> => {
+          return err(
+            new Error('failed to get ingredient grades'),
+            new Array<IngredientGrade>(),
+          );
+        },
+      );
+  };
+
+  return { getAll, getById, getGrades };
 };
 
 export default ingredientsApiDao;
