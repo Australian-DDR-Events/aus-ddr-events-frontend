@@ -33,5 +33,5 @@ export interface SongsRepositoryContextInterface {
 
 export interface SongsRepositoryProviderOptions {
   children?: ReactNode;
-  songsRepositoryInstance: SongsRepository;
+  instance: SongsRepository;
 }
