@@ -1,19 +1,39 @@
 import { Image, Skeleton, Typography } from 'antd';
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Ingredient } from 'context/ingredients/types';
 import { IngredientWrapper, StyledCard, StyledCardGrid } from './styled';
+import { SongsRepositoryContext } from 'context/songs';
+import { DefaultSong } from 'context/songs/constants';
 
 const SubmissionIngredient = ({
   ingredient,
   loading,
   setIsSubmitting,
   setCurrentIngredient,
+  setCurrentSong,
 }: {
   ingredient: Ingredient;
   loading: boolean;
   setIsSubmitting: Function;
   setCurrentIngredient: Function;
+  setCurrentSong: Function;
 }) => {
+  const songsRepository = useContext(SongsRepositoryContext);
+
+  const [jacketLoading, setJacketLoading] = useState(true);
+  const [song, setSong] = useState(DefaultSong)
+
+  useEffect(() => {
+    if (jacketLoading) {
+      songsRepository.songsRepositoryInstance
+        .getById(ingredient.songId)
+        .then((songRes) => {
+          setSong(songRes.okOrDefault);
+          setJacketLoading(false);
+        })
+    }
+  });
+
   return (
     <StyledCard
       bodyStyle={{
@@ -26,20 +46,24 @@ const SubmissionIngredient = ({
           strong
           onClick={() => {
             setCurrentIngredient(ingredient);
+            setCurrentSong(song)
             setIsSubmitting(true);
           }}
         >
           Submit
         </Typography.Link>,
       ]}
-      title={ingredient.name}
     >
       <Skeleton loading={loading}>
         <StyledCardGrid hoverable={false}>
           <Typography.Text strong>{ingredient.name}</Typography.Text>
         </StyledCardGrid>
         <StyledCardGrid hoverable={false}>
-          <Image src={ingredient.image128} />
+          {jacketLoading ? (
+            <Skeleton.Image />
+          ) : (
+            <Image src={ingredient.image128} />
+          )}
         </StyledCardGrid>
         <StyledCardGrid hoverable={false}>
           <IngredientWrapper>

@@ -4,8 +4,9 @@ import { IngredientsRepositoryContext } from 'context/ingredients';
 import { DefaultIngredient } from 'context/ingredients/constants';
 import { ScoresRepositoryContext } from 'context/scores';
 import SubmissionForm from './components/submission-form';
-import SubmissionIngredient from './components/submission-song';
+import SubmissionIngredient from './components/submission-ingredient';
 import { SubmissionFormWrapper, SubmissionWrapper } from './styled';
+import { DefaultSong } from 'context/songs/constants';
 
 const Submission = () => {
   const ingredientsRepository = useContext(IngredientsRepositoryContext);
@@ -18,6 +19,7 @@ const Submission = () => {
   const [ingredients, setIngredients] = useState(
     Array(12).fill(DefaultIngredient),
   );
+  const [currentSong, setCurrentSong] = useState(DefaultSong);
   const [loading, setLoading] = useState(true);
 
   const onSubmit = async () => {
@@ -60,6 +62,7 @@ const Submission = () => {
                 loading={loading}
                 setIsSubmitting={setIsSubmitting}
                 setCurrentIngredient={setCurrentIngredient}
+                setCurrentSong={setCurrentSong}
               />
             </Col>
           );
