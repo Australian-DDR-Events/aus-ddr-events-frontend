@@ -6,8 +6,11 @@ const compose = (
   children: React.ReactElement,
 ) =>
   providers.reduceRight(
-    (acc: React.ReactElement, { Provider, instance }: ComposeProps): React.ReactElement =>
-      Boolean(instance) ? (
+    (
+      acc: React.ReactElement,
+      { Provider, instance }: ComposeProps,
+    ): React.ReactElement =>
+      instance ? (
         <Provider instance={instance}>{acc}</Provider>
       ) : (
         <Provider>{acc}</Provider>

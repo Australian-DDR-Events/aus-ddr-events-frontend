@@ -137,7 +137,7 @@ const providers: Array<ComposeProps> = [
   },
   {
     Provider: HeadProvider,
-  }
+  },
 ];
 
 ReactDOM.render(
