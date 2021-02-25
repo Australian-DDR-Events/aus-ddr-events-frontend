@@ -4,7 +4,7 @@ import SongsRepositoryContext from './context';
 
 const SongsRepositoryProvider = (options: SongsRepositoryProviderOptions) => (
   <SongsRepositoryContext.Provider
-    value={{ songsRepositoryInstance: options.songsRepositoryInstance }}
+    value={{ songsRepositoryInstance: options.instance }}
   >
     {options.children}
   </SongsRepositoryContext.Provider>
