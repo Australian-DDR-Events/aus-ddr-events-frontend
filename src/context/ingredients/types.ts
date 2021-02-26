@@ -65,5 +65,5 @@ export interface IngredientsRepositoryContextInterface {
 
 export interface IngredientsRepositoryProviderOptions {
   children?: ReactNode;
-  ingredientsRepositoryInstance: IngredientsRepository;
+  instance: IngredientsRepository;
 }

@@ -88,5 +88,5 @@ export interface ScoresRepositoryContextInterface {
 
 export interface ScoresRepositoryProviderOptions {
   children?: ReactNode;
-  scoresRepositoryInstance: ScoresRepository;
+  instance: ScoresRepository;
 }
