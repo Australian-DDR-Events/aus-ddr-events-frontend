@@ -2,15 +2,13 @@ import { Button, Col, Form, Image, Modal, Result, Row, Typography } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { IngredientsRepositoryContext } from 'context/ingredients';
 import { DefaultIngredient } from 'context/ingredients/constants';
-import { ScoresRepositoryContext } from 'context/scores';
+import { DefaultSong } from 'context/songs/constants';
 import SubmissionForm from './components/submission-form';
 import SubmissionIngredient from './components/submission-ingredient';
 import { SubmissionFormWrapper, SubmissionWrapper } from './styled';
-import { DefaultSong } from 'context/songs/constants';
 
 const Submission = () => {
   const ingredientsRepository = useContext(IngredientsRepositoryContext);
-  // const scoresRepository = useContext(ScoresRepositoryContext);
 
   const [form] = Form.useForm();
 
@@ -25,19 +23,17 @@ const Submission = () => {
 
   const onSubmit = async () => {
     const values = await form.validateFields();
-    console.log(values);
     // const response = await scoresRepository.scoresRepositoryInstance.postScore({
     //   ...values,
     //   songId: currentSong.id
     // })
-    const response = await ingredientsRepository.ingredientsRepositoryInstance.postScoreSubmission(
+    /* const response = */ await ingredientsRepository.ingredientsRepositoryInstance.postScoreSubmission(
       currentIngredient.id,
       {
         ...values,
-        songId: currentSong.id
-      }
-    )
-    console.log(response);
+        songId: currentSong.id,
+      },
+    );
     // Still need to retrieve ingredient score
     setSubmitted(true);
   };

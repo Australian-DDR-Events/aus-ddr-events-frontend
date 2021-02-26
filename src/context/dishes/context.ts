@@ -1,7 +1,7 @@
-import { createContext } from "react";
-import { err } from "types/result";
-import { DefaultDish, DefaultDishSubmissionResponse } from "./constants";
-import { Dish, DishesRepositoryContextInterface, DishGrade } from "./types";
+import { createContext } from 'react';
+import { err } from 'types/result';
+import { DefaultDish, DefaultDishSubmissionResponse } from './constants';
+import { Dish, DishesRepositoryContextInterface, DishGrade } from './types';
 
 const initialContext = {
   dishesRepositoryInstance: {
@@ -10,9 +10,15 @@ const initialContext = {
     getAll: async () =>
       err(new Error('dishes repository not initialized'), new Array<Dish>()),
     getGrades: async () =>
-      err(new Error('dishes repository not initialized'), new Array<DishGrade>()),
+      err(
+        new Error('dishes repository not initialized'),
+        new Array<DishGrade>(),
+      ),
     postSubmission: async () =>
-      err(new Error('dishes repository not initialized'), DefaultDishSubmissionResponse),
+      err(
+        new Error('dishes repository not initialized'),
+        DefaultDishSubmissionResponse,
+      ),
   },
 };
 

@@ -1,6 +1,12 @@
 import { err, ok, Result } from 'types/result';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Dish, DishesDao, DishGrade, DishSubmissionRequest, DishSubmissionResponse } from './types';
+import {
+  Dish,
+  DishesDao,
+  DishGrade,
+  DishSubmissionRequest,
+  DishSubmissionResponse,
+} from './types';
 import { DefaultDish, DefaultDishSubmissionResponse } from './constants';
 
 const dishesApiDao = ({
@@ -54,7 +60,9 @@ const dishesApiDao = ({
       );
   };
 
-  const getGrades = async (id: string): Promise<Result<Error, Array<DishGrade>>> => {
+  const getGrades = async (
+    id: string,
+  ): Promise<Result<Error, Array<DishGrade>>> => {
     const request: AxiosRequestConfig = {
       headers: {
         Authorization: `Bearer ${await getIdTokenFunc()}`,
@@ -64,8 +72,9 @@ const dishesApiDao = ({
     return axiosClient
       .get(`/summer2021/dishes/${id}/grades`, request)
       .then(
-        (response: AxiosResponse<Array<DishGrade>>): Result<Error, Array<DishGrade>> =>
-          ok(response.data),
+        (
+          response: AxiosResponse<Array<DishGrade>>,
+        ): Result<Error, Array<DishGrade>> => ok(response.data),
       )
       .catch(
         (): Result<Error, Array<DishGrade>> => {
@@ -79,7 +88,7 @@ const dishesApiDao = ({
     submission: DishSubmissionRequest,
   ): Promise<Result<Error, DishSubmissionResponse>> => {
     const data = new FormData();
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i += 1) {
       data.append(`scores[${i}].score`, `${submission.scores[i].score}`);
       data.append(`scores[${i}].scoreImage`, submission.scores[i].scoreImage);
       data.append(`scores[${i}].songId`, submission.scores[i].songId);
@@ -96,8 +105,10 @@ const dishesApiDao = ({
 
     return axiosClient
       .post(`/summer2021/dishes/${id}/submission`, data, request)
-      .then((response: AxiosResponse<DishSubmissionResponse>): Result<Error, DishSubmissionResponse> =>
-        ok(response.data),
+      .then(
+        (
+          response: AxiosResponse<DishSubmissionResponse>,
+        ): Result<Error, DishSubmissionResponse> => ok(response.data),
       )
       .catch(
         (): Result<Error, DishSubmissionResponse> =>

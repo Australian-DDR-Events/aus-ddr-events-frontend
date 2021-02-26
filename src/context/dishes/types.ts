@@ -9,13 +9,13 @@ export type Dish = {
   image64: string;
   image128: string;
   image256: string;
-}
+};
 
 export type DishGrade = {
   id: string;
   description: string;
   grade: string;
-}
+};
 
 export type DishSubmissionRequest = {
   pairBonus: boolean;
@@ -27,7 +27,7 @@ export type DishSubmissionResponse = {
   id: string;
   gradedDishId: string;
   dancerId: string;
-}
+};
 
 export interface GetById {
   (id: string): Promise<Result<Error, Dish>>;
@@ -42,7 +42,9 @@ export interface GetGrades {
 }
 
 export interface PostSubmission {
-  (id: string, dishSubmission: DishSubmissionRequest): Promise<Result<Error, DishSubmissionResponse>>;
+  (id: string, dishSubmission: DishSubmissionRequest): Promise<
+    Result<Error, DishSubmissionResponse>
+  >;
 }
 
 export type DishesRepository = {

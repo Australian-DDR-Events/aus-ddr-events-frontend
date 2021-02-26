@@ -1,6 +1,11 @@
 import { err, ok, Result } from 'types/result';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Ingredient, IngredientGrade, IngredientsDao, ScoreSubmissionRequest } from './types';
+import {
+  Ingredient,
+  IngredientGrade,
+  IngredientsDao,
+  ScoreSubmissionRequest,
+} from './types';
 import { DefaultIngredient } from './constants';
 import { Summer2021Score } from '../scores/types';
 import { DefaultSummer2021Score } from '../scores/constants';
@@ -118,9 +123,11 @@ const ingredientsApiDao = ({
 
     return axiosClient
       .post(`/summer2021/ingredients/${id}`, data, request)
-      .then((
-        response: AxiosResponse<Summer2021Score>,
-      ): Result<Error, Summer2021Score> => ok(response.data))
+      .then(
+        (
+          response: AxiosResponse<Summer2021Score>,
+        ): Result<Error, Summer2021Score> => ok(response.data),
+      )
       .catch(
         (): Result<Error, Summer2021Score> =>
           err(new Error('failed to post score'), DefaultSummer2021Score),

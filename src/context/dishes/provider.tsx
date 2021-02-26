@@ -1,5 +1,5 @@
 import React from 'react';
-import { DishesRepositoryProviderOptions } from "./types";
+import { DishesRepositoryProviderOptions } from './types';
 import DishesRepositoryContext from './context';
 
 const DishesRepositoryProvider = (options: DishesRepositoryProviderOptions) => (
