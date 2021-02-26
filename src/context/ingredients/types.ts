@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Result } from 'types/result';
+import { Score, Summer2021Score } from '../scores/types';
 
 export type Ingredient = {
   id: string;
@@ -18,10 +19,19 @@ export type IngredientGrade = {
   description: string;
 };
 
+export type ScoreSubmissionRequest = {
+  score: number;
+  scoreImage: File;
+}
+
 export type IngredientsRepository = {
   getAll: () => Promise<Result<Error, Array<Ingredient>>>;
   getById: (id: string) => Promise<Result<Error, Ingredient>>;
   getGrades: (id: string) => Promise<Result<Error, Array<IngredientGrade>>>;
+  postScoreSubmission: (
+    id: string,
+    submission: ScoreSubmissionRequest
+  ) => Promise<Result<Error, Summer2021Score>>;
 };
 
 export interface GetAll {
@@ -36,10 +46,18 @@ export interface GetGrades {
   (id: string): Promise<Result<Error, Array<IngredientGrade>>>;
 }
 
+export interface PostScoreSubmission {
+  (
+    id: string,
+    submission: ScoreSubmissionRequest
+  ): Promise<Result<Error, Summer2021Score>>;
+}
+
 export interface IngredientsDao {
   getAll: GetAll;
   getById: GetById;
   getGrades: GetGrades;
+  postScoreSubmission: PostScoreSubmission;
 }
 
 export interface IngredientsRepositoryContextInterface {

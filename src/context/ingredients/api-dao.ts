@@ -1,7 +1,9 @@
 import { err, ok, Result } from 'types/result';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Ingredient, IngredientGrade, IngredientsDao } from './types';
+import { Ingredient, IngredientGrade, IngredientsDao, ScoreSubmissionRequest } from './types';
 import { DefaultIngredient } from './constants';
+import { Summer2021Score } from '../scores/types';
+import { DefaultSummer2021Score } from '../scores/constants';
 
 const ingredientsApiDao = ({
   getIdTokenFunc,
@@ -99,7 +101,33 @@ const ingredientsApiDao = ({
       );
   };
 
-  return { getAll, getById, getGrades };
+  const postScoreSubmission = async (
+    id: string,
+    submission: ScoreSubmissionRequest,
+  ): Promise<Result<Error, Summer2021Score>> => {
+    const data = new FormData();
+    data.append('score', `${submission.score}`);
+    data.append('scoreImage', submission.scoreImage);
+
+    const request: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${await getIdTokenFunc()}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+
+    return axiosClient
+      .post(`/summer2021/ingredients/${id}`, data, request)
+      .then((
+        response: AxiosResponse<Summer2021Score>,
+      ): Result<Error, Summer2021Score> => ok(response.data))
+      .catch(
+        (): Result<Error, Summer2021Score> =>
+          err(new Error('failed to post score'), DefaultSummer2021Score),
+      );
+  };
+
+  return { getAll, getById, getGrades, postScoreSubmission };
 };
 
 export default ingredientsApiDao;

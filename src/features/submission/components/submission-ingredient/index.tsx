@@ -24,7 +24,7 @@ const SubmissionIngredient = ({
   const [song, setSong] = useState(DefaultSong)
 
   useEffect(() => {
-    if (jacketLoading) {
+    if (jacketLoading && ingredient.id) {
       songsRepository.songsRepositoryInstance
         .getById(ingredient.songId)
         .then((songRes) => {
@@ -32,7 +32,7 @@ const SubmissionIngredient = ({
           setJacketLoading(false);
         })
     }
-  });
+  }, [ingredient, jacketLoading]);
 
   return (
     <StyledCard
@@ -54,15 +54,15 @@ const SubmissionIngredient = ({
         </Typography.Link>,
       ]}
     >
-      <Skeleton loading={loading}>
+      <Skeleton active loading={loading}>
         <StyledCardGrid hoverable={false}>
-          <Typography.Text strong>{ingredient.name}</Typography.Text>
+          <Typography.Text strong>{song.name}</Typography.Text>
         </StyledCardGrid>
         <StyledCardGrid hoverable={false}>
           {jacketLoading ? (
             <Skeleton.Image />
           ) : (
-            <Image src={ingredient.image128} />
+            <Image src={song.imageUrl} />
           )}
         </StyledCardGrid>
         <StyledCardGrid hoverable={false}>

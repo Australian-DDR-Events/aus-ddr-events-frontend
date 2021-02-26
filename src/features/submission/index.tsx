@@ -10,6 +10,7 @@ import { DefaultSong } from 'context/songs/constants';
 
 const Submission = () => {
   const ingredientsRepository = useContext(IngredientsRepositoryContext);
+  // const scoresRepository = useContext(ScoresRepositoryContext);
 
   const [form] = Form.useForm();
 
@@ -23,15 +24,22 @@ const Submission = () => {
   const [loading, setLoading] = useState(true);
 
   const onSubmit = async () => {
-    // const values = await form.validateFields();
-    // console.log(values);
+    const values = await form.validateFields();
+    console.log(values);
     // const response = await scoresRepository.scoresRepositoryInstance.postScore({
     //   ...values,
-    //   songId: currentSong.id,
+    //   songId: currentSong.id
     // })
-    // console.log(response);
-    // // Still need to retrieve ingredient score
-    // setSubmitted(true);
+    const response = await ingredientsRepository.ingredientsRepositoryInstance.postScoreSubmission(
+      currentIngredient.id,
+      {
+        ...values,
+        songId: currentSong.id
+      }
+    )
+    console.log(response);
+    // Still need to retrieve ingredient score
+    setSubmitted(true);
   };
 
   useEffect(() => {
@@ -69,7 +77,7 @@ const Submission = () => {
         })}
       </Row>
       <Modal
-        title={`Obtain ${currentIngredient.name} by playing "${currentIngredient.name}"`}
+        title={`Obtain ${currentIngredient.name} by playing "${currentSong.name}"`}
         visible={isSubmitting}
         onCancel={() => {
           setIsSubmitting(false);
@@ -90,7 +98,7 @@ const Submission = () => {
       >
         {!submitted ? (
           <SubmissionFormWrapper>
-            <Image src={currentIngredient.image128} />
+            <Image src={currentSong.imageUrl} />
             <SubmissionForm form={form} />
           </SubmissionFormWrapper>
         ) : (
