@@ -1,59 +1,52 @@
 import React, { useContext } from 'react';
-import { Typography, Button } from 'antd';
+import { Box, Container, Heading, Button, Image } from '@chakra-ui/react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
-import {
-  HomeWrapper,
-  LargeWidthImage,
-  DarkBackgroundSpace,
-  WhiteBackgroundSpace,
-} from './styled';
+import useLocation from 'wouter/use-location';
+
 import HowTo from './components/how-to';
 import AboutUs from './components/about-us';
 import ContactUs from './components/contact-us';
 
 const Home = () => {
-  const { Link } = Typography;
+  const [, setLocation] = useLocation();
 
   const authRepo = useContext(AuthenticationRepositoryContext)
     .authenticationRepositoryInstance;
   const loggedInUser = authRepo.get().okOrDefault();
 
   return (
-    <HomeWrapper>
-      <WhiteBackgroundSpace direction="vertical">
-        <Typography.Title>Coming Soon...</Typography.Title>
-        <LargeWidthImage
+    <Container maxW="container.xl" centerContent p={8}>
+      <Box align="center" mb={8}>
+        <Heading>Coming Soon...</Heading>
+        <Image
+          boxSize="50%"
+          objectFit="cover"
           src="https://i.imgur.com/vgn9VFo.png"
           alt="Summer BBQ Logo"
         />
-        <Typography.Title level={4}>
+        <Heading as="h2" size="md">
           Show off your moves and join in on the hottest DDR seasonal event
           starting February 2021. Pre-register your account today!
-        </Typography.Title>
+        </Heading>
         {!loggedInUser.id && (
-          <Link href="/register">
-            <Button type="primary">Sign Up</Button>
-          </Link>
+          <Button size="sm" onClick={() => setLocation('/register')}>
+            Sign Up
+          </Button>
         )}
-      </WhiteBackgroundSpace>
+      </Box>
 
-      <DarkBackgroundSpace direction="vertical">
+      <Box>
         <AboutUs />
-      </DarkBackgroundSpace>
+      </Box>
 
-      <WhiteBackgroundSpace direction="vertical">
+      <Box>
         <HowTo />
-      </WhiteBackgroundSpace>
+      </Box>
 
-      <DarkBackgroundSpace direction="vertical">
-        <ContactUs />
-        {!loggedInUser.id && (
-          <Link href="/register">
-            <Button type="primary">Sign Up</Button>
-          </Link>
-        )}
-      </DarkBackgroundSpace>
-    </HomeWrapper>
+      <Box>
+        <ContactUs isLoggedIn={Boolean(loggedInUser.id)} />
+      </Box>
+    </Container>
   );
 };
 

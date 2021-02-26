@@ -1,58 +1,41 @@
 import React from 'react';
-import { Space, Typography } from 'antd';
-import {
-  faFacebook,
-  faDiscord,
-  faTwitter,
-} from '@fortawesome/free-brands-svg-icons';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FontAwesomeButton } from './styled';
+import { Center, Heading, HStack, Button, Text } from '@chakra-ui/react';
+import { FaFacebook, FaDiscord, FaTwitter } from 'react-icons/fa';
 
-const ContactUs = () => {
+const ContactUs = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   return (
     <>
-      <Typography.Title style={{ color: '#f2f2f2' }}>
-        Want more information?
-      </Typography.Title>
-      <Typography.Paragraph style={{ color: '#f2f2f2' }}>
+      <Center>
+        <Heading as="h2" mb={8}>
+          Want more information?
+        </Heading>
+      </Center>
+      <Text fontSize="md">
         If you have any inquiries or are interested in getting involved with the
         AUSDDREvents team, feel free to get in touch with us via the following
         services:
-      </Typography.Paragraph>
-      <Space size="large" direction="horizontal">
-        <FontAwesomeButton
-          iconColor="#3b5998"
-          target="_blank"
-          href="https://www.facebook.com/groups/2053507828081261"
-        >
-          <FontAwesomeIcon icon={faFacebook} size="5x" />
-        </FontAwesomeButton>
-        <FontAwesomeButton
-          iconColor="#7289da"
-          target="_blank"
-          href="https://discord.gg/DsKWPxY4V7"
-        >
-          <FontAwesomeIcon icon={faDiscord} size="5x" />
-        </FontAwesomeButton>
-        <FontAwesomeButton
-          iconColor="#00aced"
-          target="_blank"
-          href="https://twitter.com/AusddrE"
-        >
-          <FontAwesomeIcon icon={faTwitter} size="5x" />
-        </FontAwesomeButton>
-        <FontAwesomeButton
-          iconColor="white"
-          target="_blank"
-          href="mailto:ausddrevents@gmail.com"
-        >
-          <FontAwesomeIcon icon={faEnvelope} size="5x" />
-        </FontAwesomeButton>
-      </Space>
-      <Typography.Paragraph style={{ color: '#f2f2f2' }}>
+      </Text>
+      <Center mt={8} mb={8}>
+        <HStack>
+          <Button colorScheme="facebook" leftIcon={<FaFacebook />}>
+            Facebook
+          </Button>
+          <Button colorScheme="twitter" leftIcon={<FaTwitter />}>
+            Twitter
+          </Button>
+          <Button colorScheme="twitter" leftIcon={<FaDiscord />}>
+            Twitter
+          </Button>
+        </HStack>
+      </Center>
+      <Text fontSize="md">
         We’re looking forward to seeing your moves on the dance floor!
-      </Typography.Paragraph>
+      </Text>
+      {!isLoggedIn && (
+        <Center>
+          <Button>Sign up</Button>
+        </Center>
+      )}
     </>
   );
 };

@@ -1,29 +1,54 @@
-import React, { useContext, useState } from 'react';
-import { Layout, Menu, Image } from 'antd';
-import { useLocation } from 'wouter';
+import React, { useContext } from 'react';
 import {
-  UserOutlined,
-  LoginOutlined,
-  InfoCircleOutlined,
-  LogoutOutlined,
-  HomeOutlined,
-  UploadOutlined,
-} from '@ant-design/icons';
-import { AuthenticationRepositoryContext } from 'context/authentication';
+  Box,
+  Flex,
+  Button,
+  Stack,
+  Image,
+  Icon,
+  IconButton,
+  HStack,
+  Tooltip,
+} from '@chakra-ui/react';
+import { useLocation } from 'wouter';
 import logo from 'assets/logo.png';
+import { AuthenticationRepositoryContext } from 'context/authentication';
+import { IoChevronUp, IoChevronDown, IoLogOutOutline } from 'react-icons/io5';
 
-const { Sider } = Layout;
+const MenuToggle = ({ toggle, isOpen }: { toggle: any; isOpen: boolean }) => {
+  return (
+    <Box display={{ base: 'block', md: 'none' }} onClick={toggle}>
+      <Icon as={isOpen ? IoChevronUp : IoChevronDown} w={6} h={6} />
+    </Box>
+  );
+};
 
-const Navigation = () => {
-  const [collapsed, setCollapsed] = useState<boolean>(true);
-  const [collapseWidth, setCollapseWidth] = useState(80);
-  const [location, setLocation] = useLocation();
-  const [siderWidth, setSiderWidth] = useState(200);
+const MenuItem = ({
+  children,
+  onClick,
+}: {
+  children: React.ReactChild;
+  onClick: any;
+}) => {
+  return (
+    <Button
+      variant="link"
+      fontWeight="normal"
+      colorScheme="blue"
+      onClick={onClick}
+    >
+      {children}
+    </Button>
+  );
+};
+
+const Navigation = (props: any) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [, setLocation] = useLocation();
   const authRepo = useContext(AuthenticationRepositoryContext)
     .authenticationRepositoryInstance;
   const loggedInUser = authRepo.get().okOrDefault();
-  const currentSelectKey = location.substring(1);
-
+  const toggle = () => setIsOpen(!isOpen);
   const onLogout = () => {
     authRepo.logout().then((result) => {
       if (result.isOk()) {
@@ -33,94 +58,72 @@ const Navigation = () => {
   };
 
   return (
-    <Sider
-      breakpoint="xs"
-      collapsible
-      collapsed={collapsed}
-      collapsedWidth={collapseWidth}
-      onBreakpoint={(broken) => {
-        if (broken) {
-          setCollapseWidth(0);
-          setSiderWidth(120);
-        } else {
-          setCollapseWidth(80);
-          setSiderWidth(200);
-        }
-      }}
-      onCollapse={() => {
-        setCollapsed(!collapsed);
-      }}
-      theme="light"
-      width={siderWidth}
+    <Flex
+      align="center"
+      justify="space-between"
+      wrap="wrap"
+      w="100%"
+      mb={8}
+      p={8}
+      bg={['primary.500', 'primary.500', 'transparent', 'transparent']}
+      color={['black', 'black', 'primary.700', 'primary.700']}
+      {...props}
     >
       <Image
-        style={{ marginLeft: '28px', marginTop: '16px' }}
-        width={24}
         src={logo}
-        preview={false}
+        w="70px"
+        onClick={() => setLocation('/')}
+        cursor="pointer"
       />
-      <Menu theme="light" defaultSelectedKeys={[currentSelectKey]}>
-        <Menu.Item
-          key="home"
-          icon={<HomeOutlined />}
-          onClick={() => {
-            setLocation('/');
-          }}
+      <MenuToggle toggle={toggle} isOpen={isOpen} />
+      <Box
+        display={{ base: isOpen ? 'block' : 'none', md: 'block' }}
+        flexBasis={{ base: '100%', md: 'auto' }}
+      >
+        <Stack
+          spacing={8}
+          align="center"
+          justify={['center', 'flex-end', 'flex-end', 'flex-end']}
+          direction={['column', 'row', 'row', 'row']}
+          pt={[4, 4, 0, 0]}
         >
-          Home
-        </Menu.Item>
-
-        {loggedInUser.id && (
-          <Menu.Item
-            key="profile"
-            icon={<UserOutlined />}
-            onClick={() => {
-              setLocation('/profile');
-            }}
-          >
-            Profile
-          </Menu.Item>
-        )}
-
-        <Menu.Item
-          key="howTo"
-          icon={<InfoCircleOutlined />}
-          onClick={() => {
-            setLocation('/how-to');
-          }}
-        >
-          How to Participate
-        </Menu.Item>
-
-        {loggedInUser.id && (
-          <Menu.Item
-            key="submission"
-            icon={<UploadOutlined />}
-            onClick={() => {
-              setLocation('/submission');
-            }}
-          >
-            Submit Scores
-          </Menu.Item>
-        )}
-
-        {!loggedInUser.id ? (
-          <Menu.Item
-            key="10"
-            icon={<LoginOutlined />}
-            onClick={() => {
-              setLocation('/login');
-            }}
-          >
-            Login
-          </Menu.Item>
-        ) : (
-          <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={onLogout}>
-            Logout
-          </Menu.Item>
-        )}
-      </Menu>
-    </Sider>
+          <MenuItem onClick={() => setLocation('/how-to')}>
+            How to participate
+          </MenuItem>
+          {loggedInUser.id ? (
+            <HStack>
+              <Button
+                size="md"
+                rounded="md"
+                colorScheme="blue"
+                onClick={() => setLocation('/profile')}
+              >
+                Profile
+              </Button>
+              <Tooltip hasArrow label="Log out">
+                <IconButton
+                  size="md"
+                  aria-label="Log out"
+                  icon={<Icon as={IoLogOutOutline} />}
+                  variant="ghost"
+                  onClick={onLogout}
+                />
+              </Tooltip>
+            </HStack>
+          ) : (
+            <Button
+              size="md"
+              rounded="md"
+              variant="solid"
+              colorScheme="blue"
+              onClick={() => setLocation('/login')}
+            >
+              Sign in
+            </Button>
+          )}
+        </Stack>
+      </Box>
+    </Flex>
   );
 };
 

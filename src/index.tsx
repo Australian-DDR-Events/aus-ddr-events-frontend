@@ -36,6 +36,7 @@ import {
   IngredientsRepositoryProvider,
 } from 'context/ingredients';
 import compose, { ComposeProps } from 'utils/compose';
+import { ChakraProvider } from '@chakra-ui/react';
 
 dotenv.config();
 
@@ -137,6 +138,9 @@ const providers: Array<ComposeProps> = [
   },
   {
     Provider: HeadProvider,
+  },
+  {
+    Provider: ChakraProvider,
   },
 ];
 
