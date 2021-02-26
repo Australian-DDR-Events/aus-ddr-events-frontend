@@ -10,13 +10,10 @@ import Settings from 'features/settings';
 import Register from 'features/register';
 import Home from 'features/home';
 import ForgotPassword from 'features/forgot-password';
-<<<<<<< HEAD
 import HowTo from 'features/how-to';
 import Submission from 'features/submission';
 import Error from 'features/error';
 import { Title } from 'react-head';
-=======
->>>>>>> f56df7cf5b526f9b2d72e2447a523ba4e5c004d7
 import Scores from 'features/scores';
 
 const ProtectedRoute = (props: RouteProps) => {
