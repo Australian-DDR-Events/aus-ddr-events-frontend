@@ -1,7 +1,7 @@
-import { Button, Col, Form, Image, Modal, Result, Row, Typography } from 'antd';
+import { Button, Col, Form, Image, Modal, Rate, Result, Row, Typography } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { IngredientsRepositoryContext } from 'context/ingredients';
-import { DefaultIngredient } from 'context/ingredients/constants';
+import { DefaultGrade, DefaultIngredient } from 'context/ingredients/constants';
 import { DefaultSong } from 'context/songs/constants';
 import SubmissionForm from './components/submission-form';
 import SubmissionIngredient from './components/submission-ingredient';
@@ -14,29 +14,55 @@ const Submission = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
   const [currentIngredient, setCurrentIngredient] = useState(DefaultIngredient);
   const [ingredients, setIngredients] = useState(
     Array(12).fill(DefaultIngredient),
   );
   const [currentSong, setCurrentSong] = useState(DefaultSong);
+  const [currentGrade, setCurrentGrade] = useState(DefaultGrade)
   const [loading, setLoading] = useState(true);
 
   const onSubmit = async () => {
     const values = await form.validateFields();
-    // const response = await scoresRepository.scoresRepositoryInstance.postScore({
-    //   ...values,
-    //   songId: currentSong.id
-    // })
-    /* const response = */ await ingredientsRepository.ingredientsRepositoryInstance.postScoreSubmission(
+    form.resetFields();
+    setSending(true);
+    const gradeResponse = await ingredientsRepository.ingredientsRepositoryInstance.postScoreSubmission(
       currentIngredient.id,
       {
         ...values,
         songId: currentSong.id,
       },
     );
-    // Still need to retrieve ingredient score
+    const grades = await ingredientsRepository.ingredientsRepositoryInstance.getGrades(
+      currentIngredient.id
+    )
+
+    for (const grade of grades.okOrDefault()) {
+      console.log(grade.id);
+      if (grade.id === gradeResponse.okOrDefault().gradedIngredientId) {
+        setCurrentGrade(grade);
+        break;
+      }
+    }
     setSubmitted(true);
+    setSending(false);
   };
+
+  const gradeToInt = (grade: string) => {
+    if (grade === 'E') {
+      return 1;
+    } else if (grade === 'B') {
+      return 2;
+    } else if (grade === 'A') {
+      return 3;
+    } else if (grade === 'AA') {
+      return 4;
+    } else if (grade === 'AAA') {
+      return 5;
+    }
+    return 0;
+  }
 
   useEffect(() => {
     if (loading) {
@@ -84,7 +110,7 @@ const Submission = () => {
             <Button
               key="submit"
               type="primary"
-              loading={false}
+              loading={sending}
               onClick={onSubmit}
             >
               Submit
@@ -99,10 +125,15 @@ const Submission = () => {
           </SubmissionFormWrapper>
         ) : (
           <Result
-            icon={<Image src="https://i.imgur.com/woOvNJ0.png" />}
+            icon={
+              <>
+                <Image src={`${process.env.ASSETS_URL}${currentIngredient.image128}`} />
+                <Rate disabled defaultValue={gradeToInt(currentGrade.grade)}/>
+              </>
+            }
             status="success"
             title="Congratulations!"
-            subTitle="You have obtained 5-star bread!"
+            subTitle={`You have obtained ${currentGrade.description} ${currentIngredient.name}!`}
           />
         )}
       </Modal>
