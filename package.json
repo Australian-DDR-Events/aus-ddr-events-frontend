@@ -2,7 +2,7 @@
   "name": "au-ddr-poc",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/index.html",
+  "main": "dist/main/index.html",
   "scripts": {
     "start": "parcel serve src/index.html",
     "build:prod": "parcel build src/index.html --no-source-maps",
@@ -13,6 +13,9 @@
   },
   "author": "",
   "license": "ISC",
+  "source": [
+    "src/index.html"
+  ],
   "alias": {
     "assets": "./src/assets",
     "components": "./src/components",
