@@ -7,7 +7,7 @@ const IngredientsRepositoryProvider = (
 ) => (
   <IngredientsRepositoryContext.Provider
     value={{
-      ingredientsRepositoryInstance: options.ingredientsRepositoryInstance,
+      ingredientsRepositoryInstance: options.instance,
     }}
   >
     {options.children}

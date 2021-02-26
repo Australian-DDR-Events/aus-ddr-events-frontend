@@ -4,7 +4,7 @@ import ScoresRepositoryContext from './context';
 
 const ScoresRepositoryProvider = (options: ScoresRepositoryProviderOptions) => (
   <ScoresRepositoryContext.Provider
-    value={{ scoresRepositoryInstance: options.scoresRepositoryInstance }}
+    value={{ scoresRepositoryInstance: options.instance }}
   >
     {options.children}
   </ScoresRepositoryContext.Provider>

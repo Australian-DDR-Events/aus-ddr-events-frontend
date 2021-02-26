@@ -69,7 +69,7 @@ export interface AuthenticationRepositoryContextInterface {
 
 export interface AuthenticationRepositoryProviderOptions {
   children?: ReactNode;
-  authenticationRepositoryInstance: AuthenticationRepository;
+  instance: AuthenticationRepository;
 }
 
 export type AuthStateChangedCallback = () => void;
