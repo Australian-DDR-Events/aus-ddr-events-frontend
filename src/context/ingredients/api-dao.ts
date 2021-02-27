@@ -1,5 +1,5 @@
 import { err, ok, Result } from 'types/result';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import {
   Ingredient,
   IngredientGrade,
@@ -12,25 +12,14 @@ import { DefaultSummer2021Score } from '../scores/constants';
 
 const ingredientsApiDao = ({
   getIdTokenFunc,
-  baseApiUrl,
+  axiosClient,
 }: {
   getIdTokenFunc: () => Promise<string>;
-  baseApiUrl: string;
+  axiosClient: AxiosInstance;
 }): IngredientsDao => {
-  const axiosClient = axios.create({
-    baseURL: baseApiUrl,
-    timeout: 6000,
-  });
-
   const getAll = async (): Promise<Result<Error, Array<Ingredient>>> => {
-    const request: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-      },
-    };
-
     return axiosClient
-      .get(`/summer2021/ingredients`, request)
+      .get(`/summer2021/ingredients`)
       .then(
         (response: AxiosResponse): Array<Ingredient> => {
           return response.data.map(
@@ -53,14 +42,8 @@ const ingredientsApiDao = ({
   };
 
   const getById = async (id: string): Promise<Result<Error, Ingredient>> => {
-    const request: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-      },
-    };
-
     return axiosClient
-      .get(`/summer2021/ingredients/${id}`, request)
+      .get(`/summer2021/ingredients/${id}`)
       .then(
         (response: AxiosResponse<Ingredient>): Result<Error, Ingredient> =>
           ok(response.data),
@@ -75,14 +58,8 @@ const ingredientsApiDao = ({
   const getGrades = async (
     id: string,
   ): Promise<Result<Error, Array<IngredientGrade>>> => {
-    const request: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-      },
-    };
-
     return axiosClient
-      .get(`/summer2021/ingredients/${id}/grades`, request)
+      .get(`/summer2021/ingredients/${id}/grades`)
       .then(
         (response: AxiosResponse): Array<IngredientGrade> => {
           return response.data.map(

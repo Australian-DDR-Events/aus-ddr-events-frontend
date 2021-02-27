@@ -36,6 +36,12 @@ import {
   IngredientsRepositoryProvider,
 } from 'context/ingredients';
 import compose, { ComposeProps } from 'utils/compose';
+import {
+  dishesApiDao,
+  dishesRepository,
+  DishesRepositoryProvider,
+} from 'context/dishes';
+import axios from 'axios';
 
 dotenv.config();
 
@@ -51,6 +57,10 @@ const firebaseConfig = {
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
+const axiosClient = axios.create({
+  baseURL: process.env.API_URL ?? '',
+  timeout: 20000,
+});
 
 const authenticationRepositoryInstance = authenticationRepository(
   authenticationFirebaseDao(firebaseApp),
@@ -61,29 +71,34 @@ const getTokenOrDefault = async (): Promise<string> => {
 const dancersRepositoryInstance = dancersRepository(
   dancersApiDao({
     getIdTokenFunc: getTokenOrDefault,
-    baseApiUrl: process.env.API_URL ?? '',
-    assetsUrl: process.env.ASSETS_URL ?? '',
+    axiosClient,
   }),
 );
 
 const songsRepositoryInstance = songsRepository(
   songsApiDao({
-    getIdTokenFunc: getTokenOrDefault,
-    baseApiUrl: process.env.API_URL ?? '',
+    axiosClient,
   }),
 );
 
 const scoresRepositoryInterface = scoresRepository(
   scoresApiDao({
     getIdTokenFunc: getTokenOrDefault,
-    baseApiUrl: process.env.API_URL ?? '',
+    axiosClient,
   }),
 );
 
 const ingredientsRepositoryInterface = ingredientsRepository(
   ingredientsApiDao({
     getIdTokenFunc: getTokenOrDefault,
-    baseApiUrl: process.env.API_URL ?? '',
+    axiosClient,
+  }),
+);
+
+const dishesRepositoryInterface = dishesRepository(
+  dishesApiDao({
+    getIdTokenFunc: getTokenOrDefault,
+    axiosClient,
   }),
 );
 
@@ -134,6 +149,10 @@ const providers: Array<ComposeProps> = [
   {
     Provider: IngredientsRepositoryProvider,
     instance: ingredientsRepositoryInterface,
+  },
+  {
+    Provider: DishesRepositoryProvider,
+    instance: dishesRepositoryInterface,
   },
   {
     Provider: HeadProvider,

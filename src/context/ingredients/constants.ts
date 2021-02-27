@@ -1,4 +1,4 @@
-import { Ingredient } from './types';
+import { Ingredient, IngredientGrade } from './types';
 
 // eslint-disable-next-line import/prefer-default-export
 export const DefaultIngredient: Ingredient = {
@@ -9,4 +9,11 @@ export const DefaultIngredient: Ingredient = {
   image64: '',
   image128: '',
   image256: '',
+};
+
+export const DefaultGrade: IngredientGrade = {
+  id: '',
+  grade: '',
+  requiredScore: 0,
+  description: '',
 };

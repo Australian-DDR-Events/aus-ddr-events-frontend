@@ -1,5 +1,5 @@
 import { err, ok, Result } from 'types/result';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import {
   Dish,
   DishesDao,
@@ -11,25 +11,14 @@ import { DefaultDish, DefaultDishSubmissionResponse } from './constants';
 
 const dishesApiDao = ({
   getIdTokenFunc,
-  baseApiUrl,
+  axiosClient,
 }: {
   getIdTokenFunc: () => Promise<string>;
-  baseApiUrl: string;
+  axiosClient: AxiosInstance;
 }): DishesDao => {
-  const axiosClient = axios.create({
-    baseURL: baseApiUrl,
-    timeout: 6000,
-  });
-
   const getById = async (id: string): Promise<Result<Error, Dish>> => {
-    const request: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-      },
-    };
-
     return axiosClient
-      .get(`/summer2021/dishes/${id}`, request)
+      .get(`/summer2021/dishes/${id}`)
       .then(
         (response: AxiosResponse<Dish>): Result<Error, Dish> =>
           ok(response.data),
@@ -42,14 +31,8 @@ const dishesApiDao = ({
   };
 
   const getAll = async (): Promise<Result<Error, Array<Dish>>> => {
-    const axiosRequest: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-      },
-    };
-
     return axiosClient
-      .get(`/summer2021/dishes`, axiosRequest)
+      .get(`/summer2021/dishes`)
       .then(
         (response: AxiosResponse<Array<Dish>>): Result<Error, Array<Dish>> =>
           ok(response.data),
@@ -63,14 +46,8 @@ const dishesApiDao = ({
   const getGrades = async (
     id: string,
   ): Promise<Result<Error, Array<DishGrade>>> => {
-    const request: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-      },
-    };
-
     return axiosClient
-      .get(`/summer2021/dishes/${id}/grades`, request)
+      .get(`/summer2021/dishes/${id}/grades`)
       .then(
         (
           response: AxiosResponse<Array<DishGrade>>,

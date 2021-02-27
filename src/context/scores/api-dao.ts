@@ -1,5 +1,5 @@
 import { err, ok, Result } from 'types/result';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import {
   GetScoresRequest,
   GetSummer2021Request,
@@ -13,23 +13,12 @@ import { DefaultScore, DefaultSummer2021Score } from './constants';
 
 const scoresApiDao = ({
   getIdTokenFunc,
-  baseApiUrl,
+  axiosClient,
 }: {
   getIdTokenFunc: () => Promise<string>;
-  baseApiUrl: string;
+  axiosClient: AxiosInstance;
 }): ScoresDao => {
-  const axiosClient = axios.create({
-    baseURL: baseApiUrl,
-    timeout: 6000,
-  });
-
   const getById = async (id: string): Promise<Result<Error, Score>> => {
-    const request: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-      },
-    };
-
     return axiosClient
       .get(`/scores/${id}`, request)
       .then(
@@ -47,9 +36,6 @@ const scoresApiDao = ({
     request: GetScoresRequest,
   ): Promise<Result<Error, Array<Score>>> => {
     const axiosRequest: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-      },
       params: {
         dancer_id: request.dancerId,
         song_id: request.songId,
@@ -95,14 +81,8 @@ const scoresApiDao = ({
   const getSummer2021ByDancer = async (
     id: string,
   ): Promise<Result<Error, Array<Summer2021Score>>> => {
-    const request: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-      },
-    };
-
     return axiosClient
-      .get(`/summer2021/scores/${id}`, request)
+      .get(`/summer2021/scores/${id}`)
       .then(
         (
           response: AxiosResponse<Array<Summer2021Score>>,
@@ -122,9 +102,6 @@ const scoresApiDao = ({
     request: GetSummer2021Request,
   ): Promise<Result<Error, Summer2021Score>> => {
     const axiosRequest: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-      },
       params: {
         dancer_id: request.dancerId,
         ingredient_id: request.ingredientId,
