@@ -7,9 +7,5 @@
     "*.{ts,tsx}": [
       "@parcel/transformer-typescript-tsc"
     ]
-  },
-  "reporters": [
-    "@parcel/reporter-cli",
-    "@parcel/reporter-bundle-buddy"
-  ]
+  }
 }
