@@ -24,7 +24,7 @@ const SubmissionForm = ({ form }: { form: FormInstance }) => {
     >
       <Form.Item
         label="Score Photograph"
-        name="photo"
+        name="scoreImage"
         valuePropName="file"
         getValueFromEvent={normaliseFile}
         rules={[
@@ -40,7 +40,7 @@ const SubmissionForm = ({ form }: { form: FormInstance }) => {
       </Form.Item>
       <Form.Item
         label="EX Score"
-        name="ex"
+        name="score"
         rules={[
           {
             required: true,

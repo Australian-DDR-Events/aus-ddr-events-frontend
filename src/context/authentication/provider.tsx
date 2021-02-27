@@ -7,8 +7,7 @@ const AuthenticationRepositoryProvider = (
 ) => (
   <AuthenticationRepositoryContext.Provider
     value={{
-      authenticationRepositoryInstance:
-        options.authenticationRepositoryInstance,
+      authenticationRepositoryInstance: options.instance,
     }}
   >
     {options.children}

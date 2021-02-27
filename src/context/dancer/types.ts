@@ -36,5 +36,5 @@ export interface DancersRepositoryContextInterface {
 
 export interface DancersRepositoryProviderOptions {
   children?: ReactNode;
-  dancersRepositoryInstance: DancersRepository;
+  instance: DancersRepository;
 }

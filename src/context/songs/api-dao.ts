@@ -1,29 +1,16 @@
 import { err, ok, Result } from 'types/result';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosResponse } from 'axios';
 import { Song, SongsDao } from './types';
 import { DefaultSong } from './constants';
 
 const songsApiDao = ({
-  getIdTokenFunc,
-  baseApiUrl,
+  axiosClient,
 }: {
-  getIdTokenFunc: () => Promise<string>;
-  baseApiUrl: string;
+  axiosClient: AxiosInstance;
 }): SongsDao => {
-  const axiosClient = axios.create({
-    baseURL: baseApiUrl,
-    timeout: 6000,
-  });
-
   const getAll = async (): Promise<Result<Error, Array<Song>>> => {
-    const request: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-      },
-    };
-
     return axiosClient
-      .get(`/songs`, request)
+      .get(`/songs`)
       .then(
         (response: AxiosResponse): Array<Song> => {
           return response.data.map((song: Song): Song => song);
@@ -38,14 +25,8 @@ const songsApiDao = ({
   };
 
   const getById = async (id: string): Promise<Result<Error, Song>> => {
-    const request: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-      },
-    };
-
     return axiosClient
-      .get(`/songs/${id}`, request)
+      .get(`/songs/${id}`)
       .then(
         (response: AxiosResponse<Song>): Result<Error, Song> =>
           ok(response.data),

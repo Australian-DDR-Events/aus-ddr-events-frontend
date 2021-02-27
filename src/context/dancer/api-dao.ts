@@ -1,29 +1,18 @@
 import { DefaultDancer, Dancer } from 'context/dancer';
 import { err, ok, Result } from 'types/result';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { DancersDao } from 'context/dancer/types';
 
 const dancersApiDao = ({
   getIdTokenFunc,
-  baseApiUrl,
+  axiosClient,
 }: {
   getIdTokenFunc: () => Promise<string>;
-  baseApiUrl: string;
+  axiosClient: AxiosInstance;
 }): DancersDao => {
-  const axiosClient = axios.create({
-    baseURL: baseApiUrl,
-    timeout: 6000,
-  });
-
   const get = async (dancerId: string): Promise<Result<Error, Dancer>> => {
-    const request: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-      },
-    };
-
     return axiosClient
-      .get(`/dancers/${dancerId}`, request)
+      .get(`/dancers/${dancerId}`)
       .then(
         (response: AxiosResponse): Result<Error, Dancer> => {
           const dancer: Dancer = {
@@ -60,7 +49,7 @@ const dancersApiDao = ({
     };
 
     return axiosClient
-      .post(`${baseApiUrl}/dancers/profilepicture`, data, request)
+      .post('/dancers/profilepicture', data, request)
       .then((): Result<Error, boolean> => ok(true))
       .catch(
         (): Result<Error, boolean> =>

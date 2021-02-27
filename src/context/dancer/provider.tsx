@@ -6,7 +6,7 @@ const DancersRepositoryProvider = (
   options: DancersRepositoryProviderOptions,
 ) => (
   <DancersRepositoryContext.Provider
-    value={{ dancersRepositoryInstance: options.dancersRepositoryInstance }}
+    value={{ dancersRepositoryInstance: options.instance }}
   >
     {options.children}
   </DancersRepositoryContext.Provider>

@@ -30,6 +30,18 @@ import {
   scoresRepository,
   ScoresRepositoryProvider,
 } from 'context/scores';
+import {
+  ingredientsApiDao,
+  ingredientsRepository,
+  IngredientsRepositoryProvider,
+} from 'context/ingredients';
+import compose, { ComposeProps } from 'utils/compose';
+import {
+  dishesApiDao,
+  dishesRepository,
+  DishesRepositoryProvider,
+} from 'context/dishes';
+import axios from 'axios';
 
 dotenv.config();
 
@@ -45,31 +57,48 @@ const firebaseConfig = {
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
+const axiosClient = axios.create({
+  baseURL: process.env.API_URL ?? '',
+  timeout: 20000,
+});
 
 const authenticationRepositoryInstance = authenticationRepository(
   authenticationFirebaseDao(firebaseApp),
 );
-const tokenFn = async (): Promise<string> => {
+const getTokenOrDefault = async (): Promise<string> => {
   return (await firebaseApp.auth().currentUser?.getIdToken()) ?? '';
 };
 const dancersRepositoryInstance = dancersRepository(
   dancersApiDao({
-    getIdTokenFunc: tokenFn,
-    baseApiUrl: process.env.API_URL ?? '',
+    getIdTokenFunc: getTokenOrDefault,
+    axiosClient,
   }),
 );
 
 const songsRepositoryInstance = songsRepository(
   songsApiDao({
-    getIdTokenFunc: tokenFn,
-    baseApiUrl: process.env.API_URL ?? '',
+    axiosClient,
   }),
 );
 
 const scoresRepositoryInterface = scoresRepository(
   scoresApiDao({
-    getIdTokenFunc: tokenFn,
-    baseApiUrl: process.env.API_URL ?? '',
+    getIdTokenFunc: getTokenOrDefault,
+    axiosClient,
+  }),
+);
+
+const ingredientsRepositoryInterface = ingredientsRepository(
+  ingredientsApiDao({
+    getIdTokenFunc: getTokenOrDefault,
+    axiosClient,
+  }),
+);
+
+const dishesRepositoryInterface = dishesRepository(
+  dishesApiDao({
+    getIdTokenFunc: getTokenOrDefault,
+    axiosClient,
   }),
 );
 
@@ -100,26 +129,43 @@ const App = (): React.ReactElement => {
   );
 };
 
+const providers: Array<ComposeProps> = [
+  {
+    Provider: AuthenticationRepositoryProvider,
+    instance: authenticationRepositoryInstance,
+  },
+  {
+    Provider: DancersRepositoryContextProvider,
+    instance: dancersRepositoryInstance,
+  },
+  {
+    Provider: SongsRepositoryProvider,
+    instance: songsRepositoryInstance,
+  },
+  {
+    Provider: ScoresRepositoryProvider,
+    instance: scoresRepositoryInterface,
+  },
+  {
+    Provider: IngredientsRepositoryProvider,
+    instance: ingredientsRepositoryInterface,
+  },
+  {
+    Provider: DishesRepositoryProvider,
+    instance: dishesRepositoryInterface,
+  },
+  {
+    Provider: HeadProvider,
+  },
+];
+
 ReactDOM.render(
-  <AuthenticationRepositoryProvider
-    authenticationRepositoryInstance={authenticationRepositoryInstance}
-  >
-    <DancersRepositoryContextProvider
-      dancersRepositoryInstance={dancersRepositoryInstance}
-    >
-      <SongsRepositoryProvider
-        songsRepositoryInstance={songsRepositoryInstance}
-      >
-        <ScoresRepositoryProvider
-          scoresRepositoryInstance={scoresRepositoryInterface}
-        >
-          <HeadProvider>
-            <Title>Australian DDR Events</Title>
-            <App />
-          </HeadProvider>
-        </ScoresRepositoryProvider>
-      </SongsRepositoryProvider>
-    </DancersRepositoryContextProvider>
-  </AuthenticationRepositoryProvider>,
+  compose(
+    providers,
+    <>
+      <Title>Australian DDR Events</Title>
+      <App />
+    </>,
+  ),
   document.getElementById('root'),
 );
