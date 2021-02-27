@@ -20,7 +20,7 @@ const scoresApiDao = ({
 }): ScoresDao => {
   const getById = async (id: string): Promise<Result<Error, Score>> => {
     return axiosClient
-      .get(`/scores/${id}`, request)
+      .get(`/scores/${id}`)
       .then(
         (response: AxiosResponse<Score>): Result<Error, Score> =>
           ok(response.data),
