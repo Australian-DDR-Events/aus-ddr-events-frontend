@@ -43,7 +43,7 @@ const scoresApiDao = ({
       },
       paramsSerializer: (params) => {
         return qs.stringify(params);
-      }
+      },
     };
 
     return axiosClient

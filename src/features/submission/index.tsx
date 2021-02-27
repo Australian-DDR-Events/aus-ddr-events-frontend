@@ -14,15 +14,20 @@ import React, { useContext, useEffect, useState } from 'react';
 import { IngredientsRepositoryContext } from 'context/ingredients';
 import { DefaultGrade } from 'context/ingredients/constants';
 import { DefaultSong } from 'context/songs/constants';
-import SubmissionForm from './components/submission-form';
-import SubmissionIngredient from './components/submission-ingredient';
-import { ChallengeJacket, ExpertJacket, SubmissionFormWrapper, SubmissionWrapper } from './styled';
 import { SongsRepositoryContext } from 'context/songs';
-import { SongIngredient } from './types';
-import { DefaultSongIngredient } from './constants';
 import { ScoresRepositoryContext } from 'context/scores';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import { DancersRepositoryContext } from 'context/dancer';
+import SubmissionForm from './components/submission-form';
+import SubmissionIngredient from './components/submission-ingredient';
+import {
+  ChallengeJacket,
+  ExpertJacket,
+  SubmissionFormWrapper,
+  SubmissionWrapper,
+} from './styled';
+import { SongIngredient } from './types';
+import { DefaultSongIngredient } from './constants';
 
 const Submission = () => {
   const ingredientsRepository = useContext(IngredientsRepositoryContext);
@@ -40,8 +45,12 @@ const Submission = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
-  const [songIngredients, setSongIngredients] = useState(new Array<SongIngredient>());
-  const [currentSongIngredient, setCurrentSongIngredient] = useState(DefaultSongIngredient);
+  const [songIngredients, setSongIngredients] = useState(
+    new Array<SongIngredient>(),
+  );
+  const [currentSongIngredient, setCurrentSongIngredient] = useState(
+    DefaultSongIngredient,
+  );
   const [currentGrade, setCurrentGrade] = useState(DefaultGrade);
   const [loading, setLoading] = useState(true);
 
@@ -96,37 +105,39 @@ const Submission = () => {
     const asyncFetch = async () => {
       // Get all ingredients
       const ingredientsRes = await ingredientsRepository.ingredientsRepositoryInstance.getAll();
-      ingredientsRes.okOrDefault().map((ingredient) => {
+      ingredientsRes.okOrDefault().forEach((ingredient) => {
         songIngredientMap.set(ingredient.songId, {
-          ingredient: ingredient,
+          ingredient,
           song: DefaultSong,
           submitted: false,
         });
       });
       // Attach corresponding songs to ingredients
       const songsRes = await songsRepository.songsRepositoryInstance.getAll();
-      songsRes.okOrDefault().map((song) => {
+      songsRes.okOrDefault().forEach((song) => {
         const songIngredient = songIngredientMap.get(song.id);
         if (songIngredient) {
           songIngredient.song = song;
         }
       });
-      const dancerRes = await dancersRepository.dancersRepositoryInstance.get(loggedInUser.id);
+      const dancerRes = await dancersRepository.dancersRepositoryInstance.get(
+        loggedInUser.id,
+      );
       // Find existing scores for ingredients
       const scoresRes = await scoresRepository.scoresRepositoryInstance.getAll({
         dancerId: [dancerRes.okOrDefault().id],
         songId: [],
-      })
-      scoresRes.okOrDefault().map((score) => {
-        const songIngredient = songIngredientMap.get(score.songId)
+      });
+      scoresRes.okOrDefault().forEach((score) => {
+        const songIngredient = songIngredientMap.get(score.songId);
         if (songIngredient) {
           songIngredient.submitted = true;
         }
-      })
+      });
 
-      setSongIngredients(Array.from(songIngredientMap.values()))
+      setSongIngredients(Array.from(songIngredientMap.values()));
       setLoading(false);
-    }
+    };
 
     asyncFetch();
   }, [submitted]);
