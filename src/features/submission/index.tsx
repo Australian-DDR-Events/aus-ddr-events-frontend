@@ -1,9 +1,20 @@
-import { Button, Col, Form, Image, Modal, Result, Row, Typography } from 'antd';
+import {
+  Button,
+  Col,
+  Form,
+  Image,
+  Modal,
+  Rate,
+  Result,
+  Row,
+  Typography,
+} from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { IngredientsRepositoryContext } from 'context/ingredients';
-import { DefaultIngredient } from 'context/ingredients/constants';
+import { DefaultGrade, DefaultIngredient } from 'context/ingredients/constants';
+import { DefaultSong } from 'context/songs/constants';
 import SubmissionForm from './components/submission-form';
-import SubmissionIngredient from './components/submission-song';
+import SubmissionIngredient from './components/submission-ingredient';
 import { SubmissionFormWrapper, SubmissionWrapper } from './styled';
 
 const Submission = () => {
@@ -13,22 +24,58 @@ const Submission = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
   const [currentIngredient, setCurrentIngredient] = useState(DefaultIngredient);
   const [ingredients, setIngredients] = useState(
     Array(12).fill(DefaultIngredient),
   );
+  const [currentSong, setCurrentSong] = useState(DefaultSong);
+  const [currentGrade, setCurrentGrade] = useState(DefaultGrade);
   const [loading, setLoading] = useState(true);
 
   const onSubmit = async () => {
-    // const values = await form.validateFields();
-    // console.log(values);
-    // const response = await scoresRepository.scoresRepositoryInstance.postScore({
-    //   ...values,
-    //   songId: currentSong.id,
-    // })
-    // console.log(response);
-    // // Still need to retrieve ingredient score
-    // setSubmitted(true);
+    const values = await form.validateFields();
+    form.resetFields();
+    setSending(true);
+    const gradeResponse = await ingredientsRepository.ingredientsRepositoryInstance.postScoreSubmission(
+      currentIngredient.id,
+      {
+        ...values,
+        songId: currentSong.id,
+      },
+    );
+    const grades = await ingredientsRepository.ingredientsRepositoryInstance.getGrades(
+      currentIngredient.id,
+    );
+
+    grades.okOrDefault().every((grade) => {
+      if (grade.id === gradeResponse.okOrDefault().gradedIngredientId) {
+        setCurrentGrade(grade);
+        return false;
+      }
+      return true;
+    });
+    setSubmitted(true);
+    setSending(false);
+  };
+
+  const gradeToInt = (grade: string) => {
+    if (grade === 'E') {
+      return 1;
+    }
+    if (grade === 'B') {
+      return 2;
+    }
+    if (grade === 'A') {
+      return 3;
+    }
+    if (grade === 'AA') {
+      return 4;
+    }
+    if (grade === 'AAA') {
+      return 5;
+    }
+    return 0;
   };
 
   useEffect(() => {
@@ -59,13 +106,14 @@ const Submission = () => {
                 loading={loading}
                 setIsSubmitting={setIsSubmitting}
                 setCurrentIngredient={setCurrentIngredient}
+                setCurrentSong={setCurrentSong}
               />
             </Col>
           );
         })}
       </Row>
       <Modal
-        title={`Obtain ${currentIngredient.name} by playing "${currentIngredient.song.name}"`}
+        title={`Obtain ${currentIngredient.name} by playing "${currentSong.name}"`}
         visible={isSubmitting}
         onCancel={() => {
           setIsSubmitting(false);
@@ -76,7 +124,7 @@ const Submission = () => {
             <Button
               key="submit"
               type="primary"
-              loading={false}
+              loading={sending}
               onClick={onSubmit}
             >
               Submit
@@ -86,15 +134,23 @@ const Submission = () => {
       >
         {!submitted ? (
           <SubmissionFormWrapper>
-            <Image src={currentIngredient.song.imageUrl} />
+            <Image src={currentSong.imageUrl} />
             <SubmissionForm form={form} />
           </SubmissionFormWrapper>
         ) : (
           <Result
-            icon={<Image src="https://i.imgur.com/woOvNJ0.png" />}
+            icon={
+              <>
+                <Image
+                  src={`${process.env.ASSETS_URL}${currentIngredient.image128}`}
+                />
+                <br />
+                <Rate disabled defaultValue={gradeToInt(currentGrade.grade)} />
+              </>
+            }
             status="success"
             title="Congratulations!"
-            subTitle="You have obtained 5-star bread!"
+            subTitle={`You have obtained ${currentGrade.description} ${currentIngredient.name}!`}
           />
         )}
       </Modal>
