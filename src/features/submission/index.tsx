@@ -1,4 +1,14 @@
-import { Button, Col, Form, Image, Modal, Rate, Result, Row, Typography } from 'antd';
+import {
+  Button,
+  Col,
+  Form,
+  Image,
+  Modal,
+  Rate,
+  Result,
+  Row,
+  Typography,
+} from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { IngredientsRepositoryContext } from 'context/ingredients';
 import { DefaultGrade, DefaultIngredient } from 'context/ingredients/constants';
@@ -20,7 +30,7 @@ const Submission = () => {
     Array(12).fill(DefaultIngredient),
   );
   const [currentSong, setCurrentSong] = useState(DefaultSong);
-  const [currentGrade, setCurrentGrade] = useState(DefaultGrade)
+  const [currentGrade, setCurrentGrade] = useState(DefaultGrade);
   const [loading, setLoading] = useState(true);
 
   const onSubmit = async () => {
@@ -35,16 +45,16 @@ const Submission = () => {
       },
     );
     const grades = await ingredientsRepository.ingredientsRepositoryInstance.getGrades(
-      currentIngredient.id
-    )
+      currentIngredient.id,
+    );
 
-    for (const grade of grades.okOrDefault()) {
-      console.log(grade.id);
+    grades.okOrDefault().every((grade) => {
       if (grade.id === gradeResponse.okOrDefault().gradedIngredientId) {
         setCurrentGrade(grade);
-        break;
+        return false;
       }
-    }
+      return true;
+    });
     setSubmitted(true);
     setSending(false);
   };
@@ -52,17 +62,21 @@ const Submission = () => {
   const gradeToInt = (grade: string) => {
     if (grade === 'E') {
       return 1;
-    } else if (grade === 'B') {
+    }
+    if (grade === 'B') {
       return 2;
-    } else if (grade === 'A') {
+    }
+    if (grade === 'A') {
       return 3;
-    } else if (grade === 'AA') {
+    }
+    if (grade === 'AA') {
       return 4;
-    } else if (grade === 'AAA') {
+    }
+    if (grade === 'AAA') {
       return 5;
     }
     return 0;
-  }
+  };
 
   useEffect(() => {
     if (loading) {
@@ -127,8 +141,11 @@ const Submission = () => {
           <Result
             icon={
               <>
-                <Image src={`${process.env.ASSETS_URL}${currentIngredient.image128}`} />
-                <Rate disabled defaultValue={gradeToInt(currentGrade.grade)}/>
+                <Image
+                  src={`${process.env.ASSETS_URL}${currentIngredient.image128}`}
+                />
+                <br />
+                <Rate disabled defaultValue={gradeToInt(currentGrade.grade)} />
               </>
             }
             status="success"

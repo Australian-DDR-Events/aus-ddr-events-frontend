@@ -57,7 +57,7 @@ const SubmissionIngredient = ({
       <Skeleton active loading={loading}>
         <StyledCardGrid hoverable={false}>
           {jacketLoading ? (
-            <Skeleton.Button active size={'small'} />
+            <Skeleton.Button active size="small" />
           ) : (
             <Typography.Text strong>{song.name}</Typography.Text>
           )}

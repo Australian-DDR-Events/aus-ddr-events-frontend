@@ -15,5 +15,5 @@ export const DefaultGrade: IngredientGrade = {
   id: '',
   grade: '',
   requiredScore: 0,
-  description: ''
-}
+  description: '',
+};
