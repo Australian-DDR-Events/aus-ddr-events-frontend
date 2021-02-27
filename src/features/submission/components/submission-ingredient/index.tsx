@@ -1,7 +1,8 @@
 import { Image, Skeleton, Typography } from 'antd';
 import React from 'react';
-import { IngredientWrapper, StyledCard, StyledCardGrid, SubmittedIngredientWrapper } from './styled';
+import { IngredientWrapper, StyledCard, StyledCardGrid, StyledIngredient } from './styled';
 import { SongIngredient } from '../../types';
+import { ChallengeJacket, ExpertJacket } from '../../styled';
 
 const SubmissionIngredient = ({
   songIngredient,
@@ -38,18 +39,20 @@ const SubmissionIngredient = ({
           <Typography.Text strong>{songIngredient.song.name}</Typography.Text>
         </StyledCardGrid>
         <StyledCardGrid hoverable={false}>
-          <Image src={songIngredient.song.imageUrl} />
+          {songIngredient.song.difficulty === 'Expert' ? (
+            <ExpertJacket src={songIngredient.song.imageUrl} />
+          ) : (
+            <ChallengeJacket src={songIngredient.song.imageUrl} />
+          )}
         </StyledCardGrid>
         <StyledCardGrid hoverable={false}>
-          {!songIngredient.submitted ? (
-            <IngredientWrapper>
+          <IngredientWrapper>
+            {!songIngredient.submitted ? (
+              <StyledIngredient src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image128}`} />
+            ) : (
               <Image src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image128}`} />
-            </IngredientWrapper>
-          ) : (
-            <SubmittedIngredientWrapper>
-              <Image src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image128}`} />
-            </SubmittedIngredientWrapper>
-          )}
+            )}
+          </IngredientWrapper>
           <Typography.Text strong>{songIngredient.ingredient.name}</Typography.Text>
         </StyledCardGrid>
       </Skeleton>

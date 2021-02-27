@@ -16,7 +16,7 @@ import { DefaultGrade } from 'context/ingredients/constants';
 import { DefaultSong } from 'context/songs/constants';
 import SubmissionForm from './components/submission-form';
 import SubmissionIngredient from './components/submission-ingredient';
-import { SubmissionFormWrapper, SubmissionWrapper } from './styled';
+import { ChallengeJacket, ExpertJacket, SubmissionFormWrapper, SubmissionWrapper } from './styled';
 import { SongsRepositoryContext } from 'context/songs';
 import { SongIngredient } from './types';
 import { DefaultSongIngredient } from './constants';
@@ -129,7 +129,6 @@ const Submission = () => {
     }
 
     asyncFetch();
-    console.log(songIngredients);
   }, [submitted]);
 
   return (
@@ -157,7 +156,7 @@ const Submission = () => {
         </Skeleton>
       </Row>
       <Modal
-        title={`Obtain ${currentSongIngredient.ingredient.name} by playing "${currentSongIngredient.song.name}"`}
+        title={`Obtain ${currentSongIngredient.ingredient.name} by playing "${currentSongIngredient.song.name}" on ${currentSongIngredient.song.difficulty}`}
         visible={isSubmitting}
         onCancel={() => {
           setIsSubmitting(false);
@@ -178,7 +177,11 @@ const Submission = () => {
       >
         {!submitted ? (
           <SubmissionFormWrapper>
-            <Image src={currentSongIngredient.song.imageUrl} />
+            {currentSongIngredient.song.difficulty === 'Expert' ? (
+              <ExpertJacket src={currentSongIngredient.song.imageUrl} />
+            ) : (
+              <ChallengeJacket src={currentSongIngredient.song.imageUrl} />
+            )}
             <SubmissionForm form={form} />
           </SubmissionFormWrapper>
         ) : (
