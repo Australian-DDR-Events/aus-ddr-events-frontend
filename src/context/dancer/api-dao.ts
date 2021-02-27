@@ -1,31 +1,18 @@
 import { DefaultDancer, Dancer } from 'context/dancer';
 import { err, ok, Result } from 'types/result';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { DancersDao } from 'context/dancer/types';
 
 const dancersApiDao = ({
   getIdTokenFunc,
-  baseApiUrl,
-  assetsUrl,
+  axiosClient,
 }: {
   getIdTokenFunc: () => Promise<string>;
-  baseApiUrl: string;
-  assetsUrl: string;
+  axiosClient: AxiosInstance;
 }): DancersDao => {
-  const axiosClient = axios.create({
-    baseURL: baseApiUrl,
-    timeout: 6000,
-  });
-
   const get = async (dancerId: string): Promise<Result<Error, Dancer>> => {
-    const request: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-      },
-    };
-
     return axiosClient
-      .get(`/dancers/${dancerId}`, request)
+      .get(`/dancers/${dancerId}`)
       .then(
         (response: AxiosResponse): Result<Error, Dancer> => {
           const dancer: Dancer = {
@@ -33,7 +20,7 @@ const dancersApiDao = ({
             dancerId: response.data.ddrCode,
             dancerName: response.data.ddrName,
             primaryMachine: response.data.primaryMachineLocation,
-            profilePicture: assetsUrl + response.data.profilePictureUrl,
+            profilePicture: response.data.profilePictureUrl,
             newProfilePicture: new File([''], 'filename'),
             state: response.data.state,
             userName: '',
@@ -62,7 +49,7 @@ const dancersApiDao = ({
     };
 
     return axiosClient
-      .post(`${baseApiUrl}/dancers/profilepicture`, data, request)
+      .post('/dancers/profilepicture', data, request)
       .then((): Result<Error, boolean> => ok(true))
       .catch(
         (): Result<Error, boolean> =>
