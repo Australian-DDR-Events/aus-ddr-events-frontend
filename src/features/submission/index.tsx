@@ -20,14 +20,16 @@ import { SubmissionFormWrapper, SubmissionWrapper } from './styled';
 import { SongsRepositoryContext } from 'context/songs';
 import { SongIngredient } from './types';
 import { DefaultSongIngredient } from './constants';
-import { ScoresRepositoryContext } from '~/context/scores';
-import { AuthenticationRepositoryContext } from '~/context/authentication';
+import { ScoresRepositoryContext } from 'context/scores';
+import { AuthenticationRepositoryContext } from 'context/authentication';
+import { DancersRepositoryContext } from 'context/dancer';
 
 const Submission = () => {
   const ingredientsRepository = useContext(IngredientsRepositoryContext);
   const songsRepository = useContext(SongsRepositoryContext);
   const scoresRepository = useContext(ScoresRepositoryContext);
   const authRepo = useContext(AuthenticationRepositoryContext);
+  const dancersRepository = useContext(DancersRepositoryContext);
 
   const loggedInUser = authRepo.authenticationRepositoryInstance
     .get()
@@ -43,7 +45,7 @@ const Submission = () => {
   const [currentGrade, setCurrentGrade] = useState(DefaultGrade);
   const [loading, setLoading] = useState(true);
 
-  const songIngredientMap = new Map<String, SongIngredient>();
+  const songIngredientMap = new Map<string, SongIngredient>();
 
   const onSubmit = async () => {
     const values = await form.validateFields();
@@ -92,6 +94,7 @@ const Submission = () => {
 
   useEffect(() => {
     const asyncFetch = async () => {
+      // Get all ingredients
       const ingredientsRes = await ingredientsRepository.ingredientsRepositoryInstance.getAll();
       ingredientsRes.okOrDefault().map((ingredient) => {
         songIngredientMap.set(ingredient.songId, {
@@ -100,6 +103,7 @@ const Submission = () => {
           submitted: false,
         });
       });
+      // Attach corresponding songs to ingredients
       const songsRes = await songsRepository.songsRepositoryInstance.getAll();
       songsRes.okOrDefault().map((song) => {
         const songIngredient = songIngredientMap.get(song.id);
@@ -107,14 +111,25 @@ const Submission = () => {
           songIngredient.song = song;
         }
       });
+      const dancerRes = await dancersRepository.dancersRepositoryInstance.get(loggedInUser.id);
+      // Find existing scores for ingredients
+      const scoresRes = await scoresRepository.scoresRepositoryInstance.getAll({
+        dancerId: [dancerRes.okOrDefault().id],
+        songId: [],
+      })
+      scoresRes.okOrDefault().map((score) => {
+        const songIngredient = songIngredientMap.get(score.songId)
+        if (songIngredient) {
+          songIngredient.submitted = true;
+        }
+      })
 
       setSongIngredients(Array.from(songIngredientMap.values()))
       setLoading(false);
     }
 
-    if (loading) {
-      asyncFetch();
-    }
+    asyncFetch();
+    console.log(songIngredients);
   }, [submitted]);
 
   return (

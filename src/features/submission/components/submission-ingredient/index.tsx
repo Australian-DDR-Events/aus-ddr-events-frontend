@@ -1,6 +1,6 @@
 import { Image, Skeleton, Typography } from 'antd';
 import React from 'react';
-import { IngredientWrapper, StyledCard, StyledCardGrid } from './styled';
+import { IngredientWrapper, StyledCard, StyledCardGrid, SubmittedIngredientWrapper } from './styled';
 import { SongIngredient } from '../../types';
 
 const SubmissionIngredient = ({
@@ -41,9 +41,15 @@ const SubmissionIngredient = ({
           <Image src={songIngredient.song.imageUrl} />
         </StyledCardGrid>
         <StyledCardGrid hoverable={false}>
-          <IngredientWrapper>
-            <Image src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image128}`} />
-          </IngredientWrapper>
+          {!songIngredient.submitted ? (
+            <IngredientWrapper>
+              <Image src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image128}`} />
+            </IngredientWrapper>
+          ) : (
+            <SubmittedIngredientWrapper>
+              <Image src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image128}`} />
+            </SubmittedIngredientWrapper>
+          )}
           <Typography.Text strong>{songIngredient.ingredient.name}</Typography.Text>
         </StyledCardGrid>
       </Skeleton>

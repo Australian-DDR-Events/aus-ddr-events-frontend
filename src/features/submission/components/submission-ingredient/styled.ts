@@ -8,6 +8,10 @@ export const IngredientWrapper = styled.div`
   padding: 8px;
 `;
 
+export const SubmittedIngredientWrapper = styled.div`
+  padding: 8px;
+`;
+
 export const StyledCard = styled(Card)`
   background-color: rgb(223, 223, 223);
 `;

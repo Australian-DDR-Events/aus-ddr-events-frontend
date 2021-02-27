@@ -1,5 +1,6 @@
 import { err, ok, Result } from 'types/result';
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import qs from 'qs';
 import {
   GetScoresRequest,
   GetSummer2021Request,
@@ -40,6 +41,9 @@ const scoresApiDao = ({
         dancer_id: request.dancerId,
         song_id: request.songId,
       },
+      paramsSerializer: (params) => {
+        return qs.stringify(params);
+      }
     };
 
     return axiosClient
