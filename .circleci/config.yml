@@ -40,7 +40,7 @@ jobs:
     working_directory: ~/aus-ddr-poc
     docker:
       - image: cimg/node:15.6.0
-    resource_class: medium
+    resource_class: large
     steps:
       - attach_workspace:
           at: ~/
