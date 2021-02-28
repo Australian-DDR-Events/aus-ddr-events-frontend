@@ -11,7 +11,8 @@ import { SongsRepositoryContext } from "context/songs";
 import { DancersRepositoryContext } from "context/dancer";
 import { ScoresRepositoryContext } from "context/scores";
 import { AuthenticationRepositoryContext } from "context/authentication";
-import { DefaultRecipe } from "./constants";
+import { DefaultDetailedDishSong, DefaultRecipe } from "./constants";
+import { DefaultSongIngredient } from "../submission/constants";
 
 const CourseSubmission = () => {
   const dishesRepository = useContext(DishesRepositoryContext);
@@ -57,28 +58,34 @@ const CourseSubmission = () => {
         // Get corresponding ingredients
         const ingredientsRes = await dishesRepository.dishesRepositoryInstance.getIngredients(dish.id);
         ingredientsRes.okOrDefault().forEach((ingredient) => {
-          const songIngredient = {
-            ingredient: ingredient,
-            song: DefaultSong,
-            submitted: false,
-          };
-          dishRecipeMap.get(dish.id)?.songIngredients.push(songIngredient);
-          songIngredientMap.set(ingredient.songId, songIngredient);
+          if (songIngredientMap.get(ingredient.songId)) {
+            const songIngredient = songIngredientMap.get(ingredient.songId);
+            dishRecipeMap.get(dish.id)?.songIngredients.push(songIngredient || DefaultSongIngredient);
+          } else {
+            const songIngredient = {
+              ingredient: ingredient,
+              song: DefaultSong,
+              submitted: false,
+            };
+            dishRecipeMap.get(dish.id)?.songIngredients.push(songIngredient);
+            songIngredientMap.set(ingredient.songId, songIngredient);
+          }
         });
         // Get corresponding dish songs
         const songsRes = await dishesRepository.dishesRepositoryInstance.getSongs(dish.id);
         songsRes.okOrDefault().forEach((dishSong) => {
-          // if (dishSongMap.get(dishSong.songId)) {
-          //   const detailedDishSong = dishSongMap.get(dishSong.songId);
-          //   dishRecipeMap.get(dish.id)?.songs.push
-          // }
-          const detailedDishSong = {
-            dishSong: dishSong,
-            songDetails: DefaultSong,
+          if (dishSongMap.get(dishSong.songId)) {
+            const detailedDishSong = dishSongMap.get(dishSong.songId);
+            dishRecipeMap.get(dish.id)?.songs.push(detailedDishSong || DefaultDetailedDishSong);
+          } else {
+            const detailedDishSong = {
+              dishSong: dishSong,
+              songDetails: DefaultSong,
+            }
+            dishRecipeMap.get(dish.id)?.songs.push(detailedDishSong);
+            dishSongMap.set(dishSong.songId, detailedDishSong);
           }
-          dishRecipeMap.get(dish.id)?.songs.push(detailedDishSong);
-          dishSongMap.set(dishSong.songId, detailedDishSong);
-        })
+        });
       });
       await Promise.all(promises);
       // Get dish song details

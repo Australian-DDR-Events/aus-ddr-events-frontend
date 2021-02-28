@@ -1,11 +1,15 @@
-import { DefaultDish } from "context/dishes/constants";
-import { Song } from "context/songs/types";
+import { DefaultDish, DefaultDishSong } from "context/dishes/constants";
+import { DefaultSong } from "context/songs/constants";
 import { SongIngredient } from "../submission/types";
-import { Recipe } from "./types";
+import { DetailedDishSong, Recipe } from "./types";
 
-/* eslint-disable import/prefer-default-export */
 export const DefaultRecipe: Recipe = {
   dish: DefaultDish,
   songIngredients: new Array<SongIngredient>(),
-  songs: new Array<Song>(),
+  songs: new Array<DetailedDishSong>(),
 };
+
+export const DefaultDetailedDishSong: DetailedDishSong = {
+  dishSong: DefaultDishSong,
+  songDetails: DefaultSong,
+}
