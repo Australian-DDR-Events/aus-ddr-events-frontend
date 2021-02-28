@@ -35,11 +35,11 @@ const scoresApiDao = ({
   const getAll = async (
     request: GetScoresRequest,
   ): Promise<Result<Error, Array<Score>>> => {
-    const params: string[] = []
-    request.dancerId?.map((dancerId, i) => {
+    const params: string[] = [];
+    request.dancerId?.forEach((dancerId, i) => {
       params.push(`dancer_id[${i}]=${dancerId}`);
     });
-    request.songId?.map((songId, i) => {
+    request.songId?.forEach((songId, i) => {
       params.push(`song_id[${i}]=${songId}`);
     });
 
