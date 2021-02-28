@@ -7,45 +7,68 @@ import {
   Rate,
   Result,
   Row,
+  Skeleton,
   Typography,
 } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { IngredientsRepositoryContext } from 'context/ingredients';
-import { DefaultGrade, DefaultIngredient } from 'context/ingredients/constants';
+import { DefaultGrade } from 'context/ingredients/constants';
 import { DefaultSong } from 'context/songs/constants';
+import { SongsRepositoryContext } from 'context/songs';
+import { ScoresRepositoryContext } from 'context/scores';
+import { AuthenticationRepositoryContext } from 'context/authentication';
+import { DancersRepositoryContext } from 'context/dancer';
 import SubmissionForm from './components/submission-form';
 import SubmissionIngredient from './components/submission-ingredient';
-import { SubmissionFormWrapper, SubmissionWrapper } from './styled';
+import {
+  ChallengeJacket,
+  ExpertJacket,
+  SubmissionFormWrapper,
+  SubmissionWrapper,
+} from './styled';
+import { SongIngredient } from './types';
+import { DefaultSongIngredient } from './constants';
 
 const Submission = () => {
   const ingredientsRepository = useContext(IngredientsRepositoryContext);
+  const songsRepository = useContext(SongsRepositoryContext);
+  const scoresRepository = useContext(ScoresRepositoryContext);
+  const authRepo = useContext(AuthenticationRepositoryContext);
+  const dancersRepository = useContext(DancersRepositoryContext);
+
+  const loggedInUser = authRepo.authenticationRepositoryInstance
+    .get()
+    .okOrDefault();
 
   const [form] = Form.useForm();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
-  const [currentIngredient, setCurrentIngredient] = useState(DefaultIngredient);
-  const [ingredients, setIngredients] = useState(
-    Array(12).fill(DefaultIngredient),
+  const [songIngredients, setSongIngredients] = useState(
+    new Array<SongIngredient>(),
   );
-  const [currentSong, setCurrentSong] = useState(DefaultSong);
+  const [currentSongIngredient, setCurrentSongIngredient] = useState(
+    DefaultSongIngredient,
+  );
   const [currentGrade, setCurrentGrade] = useState(DefaultGrade);
   const [loading, setLoading] = useState(true);
+
+  const songIngredientMap = new Map<string, SongIngredient>();
 
   const onSubmit = async () => {
     const values = await form.validateFields();
     form.resetFields();
     setSending(true);
     const gradeResponse = await ingredientsRepository.ingredientsRepositoryInstance.postScoreSubmission(
-      currentIngredient.id,
+      currentSongIngredient.ingredient.id,
       {
         ...values,
-        songId: currentSong.id,
+        songId: currentSongIngredient.song.id,
       },
     );
     const grades = await ingredientsRepository.ingredientsRepositoryInstance.getGrades(
-      currentIngredient.id,
+      currentSongIngredient.ingredient.id,
     );
 
     grades.okOrDefault().every((grade) => {
@@ -79,14 +102,44 @@ const Submission = () => {
   };
 
   useEffect(() => {
-    if (loading) {
-      ingredientsRepository.ingredientsRepositoryInstance
-        .getAll()
-        .then((ingredientsRes) => {
-          setIngredients(ingredientsRes.okOrDefault());
-          setLoading(false);
+    const asyncFetch = async () => {
+      // Get all ingredients
+      const ingredientsRes = await ingredientsRepository.ingredientsRepositoryInstance.getAll();
+      ingredientsRes.okOrDefault().forEach((ingredient) => {
+        songIngredientMap.set(ingredient.songId, {
+          ingredient,
+          song: DefaultSong,
+          submitted: false,
         });
-    }
+      });
+      // Attach corresponding songs to ingredients
+      const songsRes = await songsRepository.songsRepositoryInstance.getAll();
+      songsRes.okOrDefault().forEach((song) => {
+        const songIngredient = songIngredientMap.get(song.id);
+        if (songIngredient) {
+          songIngredient.song = song;
+        }
+      });
+      const dancerRes = await dancersRepository.dancersRepositoryInstance.get(
+        loggedInUser.id,
+      );
+      // Find existing scores for ingredients
+      const scoresRes = await scoresRepository.scoresRepositoryInstance.getAll({
+        dancerId: [dancerRes.okOrDefault().id],
+        songId: [],
+      });
+      scoresRes.okOrDefault().forEach((score) => {
+        const songIngredient = songIngredientMap.get(score.songId);
+        if (songIngredient) {
+          songIngredient.submitted = true;
+        }
+      });
+
+      setSongIngredients(Array.from(songIngredientMap.values()));
+      setLoading(false);
+    };
+
+    asyncFetch();
   }, [submitted]);
 
   return (
@@ -98,22 +151,23 @@ const Submission = () => {
           { xs: 16, xl: 24 },
         ]}
       >
-        {ingredients.map((ingredient) => {
-          return (
-            <Col xs={12} xl={4} className="gutter-row">
-              <SubmissionIngredient
-                ingredient={ingredient}
-                loading={loading}
-                setIsSubmitting={setIsSubmitting}
-                setCurrentIngredient={setCurrentIngredient}
-                setCurrentSong={setCurrentSong}
-              />
-            </Col>
-          );
-        })}
+        <Skeleton active loading={loading}>
+          {songIngredients.map((songIngredient) => {
+            return (
+              <Col xs={12} xl={4} className="gutter-row">
+                <SubmissionIngredient
+                  songIngredient={songIngredient}
+                  loading={loading}
+                  setIsSubmitting={setIsSubmitting}
+                  setCurrentSongIngredient={setCurrentSongIngredient}
+                />
+              </Col>
+            );
+          })}
+        </Skeleton>
       </Row>
       <Modal
-        title={`Obtain ${currentIngredient.name} by playing "${currentSong.name}"`}
+        title={`Obtain ${currentSongIngredient.ingredient.name} by playing "${currentSongIngredient.song.name}" on ${currentSongIngredient.song.difficulty}`}
         visible={isSubmitting}
         onCancel={() => {
           setIsSubmitting(false);
@@ -134,7 +188,11 @@ const Submission = () => {
       >
         {!submitted ? (
           <SubmissionFormWrapper>
-            <Image src={currentSong.imageUrl} />
+            {currentSongIngredient.song.difficulty === 'Expert' ? (
+              <ExpertJacket src={currentSongIngredient.song.imageUrl} />
+            ) : (
+              <ChallengeJacket src={currentSongIngredient.song.imageUrl} />
+            )}
             <SubmissionForm form={form} />
           </SubmissionFormWrapper>
         ) : (
@@ -142,7 +200,7 @@ const Submission = () => {
             icon={
               <>
                 <Image
-                  src={`${process.env.ASSETS_URL}${currentIngredient.image128}`}
+                  src={`${process.env.ASSETS_URL}${currentSongIngredient.ingredient.image128}`}
                 />
                 <br />
                 <Rate disabled defaultValue={gradeToInt(currentGrade.grade)} />
@@ -150,7 +208,7 @@ const Submission = () => {
             }
             status="success"
             title="Congratulations!"
-            subTitle={`You have obtained ${currentGrade.description} ${currentIngredient.name}!`}
+            subTitle={`You have obtained ${currentGrade.description} ${currentSongIngredient.ingredient.name}!`}
           />
         )}
       </Modal>

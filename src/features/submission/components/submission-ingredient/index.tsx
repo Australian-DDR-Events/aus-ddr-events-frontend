@@ -1,39 +1,25 @@
 import { Image, Skeleton, Typography } from 'antd';
-import React, { useContext, useEffect, useState } from 'react';
-import { Ingredient } from 'context/ingredients/types';
-import { SongsRepositoryContext } from 'context/songs';
-import { DefaultSong } from 'context/songs/constants';
-import { IngredientWrapper, StyledCard, StyledCardGrid } from './styled';
+import React from 'react';
+import {
+  IngredientWrapper,
+  StyledCard,
+  StyledCardGrid,
+  StyledIngredient,
+} from './styled';
+import { SongIngredient } from '../../types';
+import { ChallengeJacket, ExpertJacket } from '../../styled';
 
 const SubmissionIngredient = ({
-  ingredient,
+  songIngredient,
   loading,
   setIsSubmitting,
-  setCurrentIngredient,
-  setCurrentSong,
+  setCurrentSongIngredient,
 }: {
-  ingredient: Ingredient;
+  songIngredient: SongIngredient;
   loading: boolean;
   setIsSubmitting: Function;
-  setCurrentIngredient: Function;
-  setCurrentSong: Function;
+  setCurrentSongIngredient: Function;
 }) => {
-  const songsRepository = useContext(SongsRepositoryContext);
-
-  const [jacketLoading, setJacketLoading] = useState(true);
-  const [song, setSong] = useState(DefaultSong);
-
-  useEffect(() => {
-    if (jacketLoading && ingredient.id) {
-      songsRepository.songsRepositoryInstance
-        .getById(ingredient.songId)
-        .then((songRes) => {
-          setSong(songRes.okOrDefault);
-          setJacketLoading(false);
-        });
-    }
-  }, [ingredient, jacketLoading]);
-
   return (
     <StyledCard
       bodyStyle={{
@@ -45,8 +31,7 @@ const SubmissionIngredient = ({
         <Typography.Link
           strong
           onClick={() => {
-            setCurrentIngredient(ingredient);
-            setCurrentSong(song);
+            setCurrentSongIngredient(songIngredient);
             setIsSubmitting(true);
           }}
         >
@@ -56,20 +41,30 @@ const SubmissionIngredient = ({
     >
       <Skeleton active loading={loading}>
         <StyledCardGrid hoverable={false}>
-          {jacketLoading ? (
-            <Skeleton.Button active size="small" />
+          <Typography.Text strong>{songIngredient.song.name}</Typography.Text>
+        </StyledCardGrid>
+        <StyledCardGrid hoverable={false}>
+          {songIngredient.song.difficulty === 'Expert' ? (
+            <ExpertJacket src={songIngredient.song.imageUrl} />
           ) : (
-            <Typography.Text strong>{song.name}</Typography.Text>
+            <ChallengeJacket src={songIngredient.song.imageUrl} />
           )}
         </StyledCardGrid>
         <StyledCardGrid hoverable={false}>
-          {jacketLoading ? <Skeleton.Image /> : <Image src={song.imageUrl} />}
-        </StyledCardGrid>
-        <StyledCardGrid hoverable={false}>
           <IngredientWrapper>
-            <Image src={`${process.env.ASSETS_URL}${ingredient.image128}`} />
+            {!songIngredient.submitted ? (
+              <StyledIngredient
+                src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image128}`}
+              />
+            ) : (
+              <Image
+                src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image128}`}
+              />
+            )}
           </IngredientWrapper>
-          <Typography.Text strong>{ingredient.name}</Typography.Text>
+          <Typography.Text strong>
+            {songIngredient.ingredient.name}
+          </Typography.Text>
         </StyledCardGrid>
       </Skeleton>
     </StyledCard>
