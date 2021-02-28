@@ -1,8 +1,17 @@
 import { Button, Col, Form, Image, Modal, Result, Row, Typography } from "antd";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CourseSubmissionDish from "./components/course-submission-dish";
 import CourseSubmissionForm from "./components/course-submission-form";
 import { CourseSubmissionFormWrapper, CourseSubmissionWrapper } from "./styled";
+import { Recipe } from "./types";
+import { SongIngredient } from "../submission/types";
+import { DishesRepositoryContext } from "context/dishes";
+import { DefaultSong } from "context/songs/constants";
+import { SongsRepositoryContext } from "context/songs";
+import { DancersRepositoryContext } from "context/dancer";
+import { ScoresRepositoryContext } from "context/scores";
+import { AuthenticationRepositoryContext } from "context/authentication";
+import { DefaultRecipe } from "./constants";
 
 const CourseSubmission = () => {
   const dishes = [
@@ -17,12 +26,27 @@ const CourseSubmission = () => {
     "Chicken Skewers",
     "Garlic Prawns",
   ]
+  
+  const dishesRepository = useContext(DishesRepositoryContext);
+  const songsRepository = useContext(SongsRepositoryContext);
+  const dancersRepository = useContext(DancersRepositoryContext);
+  const scoresRepository = useContext(ScoresRepositoryContext);
+  const authRepo = useContext(AuthenticationRepositoryContext);
+
+  const loggedInUser = authRepo.authenticationRepositoryInstance
+    .get()
+    .okOrDefault();
 
   const [form] = Form.useForm();
 
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [currentCourse, setCurrentCourse] = useState('');
+  const [currentRecipe, setCurrentRecipe] = useState(DefaultRecipe);
+  const [loading, setLoading] = useState(true);
+  const [recipes, setRecipes] = useState(new Array<Recipe>());
+
+  const dishRecipeMap = new Map<string, Recipe>();
+  const songIngredientMap = new Map<string, SongIngredient>();
 
   const onSubmit = () => {
     form.validateFields().then((values) => {
@@ -31,6 +55,58 @@ const CourseSubmission = () => {
       console.log("error");
     })
   }
+
+  useEffect(() => {
+    const asyncFetch = async () => {
+      // Get all dishes
+      const dishesRes = await dishesRepository.dishesRepositoryInstance.getAll();
+      const promises = dishesRes.okOrDefault().map(async (dish) => {
+        dishRecipeMap.set(dish.id, {
+          dish: dish,
+          songIngredients: new Array<SongIngredient>()
+        });
+        // Get corresponding ingredients
+        const ingredientsRes = await dishesRepository.dishesRepositoryInstance.getIngredients(dish.id);
+        ingredientsRes.okOrDefault().forEach((ingredient) => {
+          const songIngredient = {
+            ingredient: ingredient,
+            song: DefaultSong,
+            submitted: false,
+          };
+          dishRecipeMap.get(dish.id)?.songIngredients.push(songIngredient);
+          songIngredientMap.set(ingredient.songId, songIngredient);
+        });
+      });
+      await Promise.all(promises);
+      // // Get corresponding songs
+      // const songsRes = await songsRepository.songsRepositoryInstance.getAll();
+      // songsRes.okOrDefault().forEach((song) => {
+      //   const songIngredient = songIngredientMap.get(song.id);
+      //   if (songIngredient) {
+      //     songIngredient.song = song;
+      //   };
+      // });
+      const dancerRes = await dancersRepository.dancersRepositoryInstance.get(
+        loggedInUser.id,
+      );
+      // Find existing scores for ingredients
+      const scoresRes = await scoresRepository.scoresRepositoryInstance.getAll({
+        dancerId: [dancerRes.okOrDefault().id],
+        songId: [],
+      });
+      scoresRes.okOrDefault().forEach((score) => {
+        const songIngredient = songIngredientMap.get(score.songId);
+        if (songIngredient) {
+          songIngredient.submitted = true;
+        }
+      });
+      
+      setRecipes(Array.from(dishRecipeMap.values()));
+      setLoading(false);
+    }
+
+    asyncFetch();
+  }, [submitted]);
   
   return (
     <CourseSubmissionWrapper>
@@ -41,13 +117,13 @@ const CourseSubmission = () => {
           { xs: 0, xl: 24 },
         ]}
       >
-        {dishes.map((dish) => {
+        {recipes.map((recipe) => {
           return (
             <Col xs={24} xl={6} className="gutter-row">
               <CourseSubmissionDish
-                dish={dish}
+                recipe={recipe}
                 setIsSubmitting={setIsSubmitting}
-                setCurrentCourse={setCurrentCourse}
+                setCurrentRecipe={setCurrentRecipe}
               />
             </Col>
           )
@@ -56,7 +132,7 @@ const CourseSubmission = () => {
         }
       </Row>
       <Modal
-        title={currentCourse}
+        title={currentRecipe.dish.name}
         visible={isSubmitting}
         // width={720}
         onCancel={() => {
@@ -89,7 +165,7 @@ const CourseSubmission = () => {
             icon={<Image src="https://i.imgur.com/woOvNJ0.png" />}
             status="success"
             title="Congratulations!"
-            subTitle={`You have obtained 5-star ${currentCourse}!`}
+            subTitle={`You have obtained 5-star ${currentRecipe.dish.name}!`}
           />
         )}
       </Modal>

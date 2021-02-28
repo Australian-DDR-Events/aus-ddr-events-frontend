@@ -1,14 +1,15 @@
 import { Card, Image, Typography } from "antd";
 import React from "react";
+import { Recipe } from "../../types";
 
 const CourseSubmissionDish = ({
-  dish,
+  recipe,
   setIsSubmitting,
-  setCurrentCourse,
+  setCurrentRecipe,
 }: {
-  dish: string;
+  recipe: Recipe;
   setIsSubmitting: Function;
-  setCurrentCourse: Function;
+  setCurrentRecipe: Function;
 }) => {
   return (
     <Card
@@ -17,7 +18,7 @@ const CourseSubmissionDish = ({
           strong
           onClick={() => {
             setIsSubmitting(true);
-            setCurrentCourse(dish);
+            setCurrentRecipe(recipe);
           }}
         >
           Cook Dish
@@ -25,7 +26,7 @@ const CourseSubmissionDish = ({
       ]}
     >
       <Card.Grid style={{ width: '100%' }}>
-        {dish}
+        {recipe.dish.name}
       </Card.Grid>
       <Card.Grid style={{ width: '100%' }}>
         <Image src={"https://i.imgur.com/ChYOL3K.png"} />

@@ -1,5 +1,6 @@
 import { createContext } from 'react';
 import { err } from 'types/result';
+import { Ingredient } from '../ingredients/types';
 import { DefaultDish, DefaultDishSubmissionResponse } from './constants';
 import { Dish, DishesRepositoryContextInterface, DishGrade } from './types';
 
@@ -9,6 +10,8 @@ const initialContext = {
       err(new Error('dishes repository not initialized'), DefaultDish),
     getAll: async () =>
       err(new Error('dishes repository not initialized'), new Array<Dish>()),
+    getIngredients: async () =>
+      err(new Error('dishes repository not initialized'), new Array<Ingredient>()),
     getGrades: async () =>
       err(
         new Error('dishes repository not initialized'),

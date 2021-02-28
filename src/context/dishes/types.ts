@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Result } from 'types/result';
+import { Ingredient } from '../ingredients/types';
 import { ScoreSubmissionRequest } from '../scores/types';
 
 export type Dish = {
@@ -37,6 +38,10 @@ export interface GetAll {
   (): Promise<Result<Error, Array<Dish>>>;
 }
 
+export interface GetIngredients {
+  (id: string): Promise<Result<Error, Array<Ingredient>>>;
+}
+
 export interface GetGrades {
   (id: string): Promise<Result<Error, Array<DishGrade>>>;
 }
@@ -50,6 +55,7 @@ export interface PostSubmission {
 export type DishesRepository = {
   getById: GetById;
   getAll: GetAll;
+  getIngredients: GetIngredients;
   getGrades: GetGrades;
   postSubmission: PostSubmission;
 };
@@ -57,6 +63,7 @@ export type DishesRepository = {
 export interface DishesDao {
   getById: GetById;
   getAll: GetAll;
+  getIngredients: GetIngredients;
   getGrades: GetGrades;
   postSubmission: PostSubmission;
 }
@@ -67,5 +74,5 @@ export interface DishesRepositoryContextInterface {
 
 export interface DishesRepositoryProviderOptions {
   children?: ReactNode;
-  dishesRepositoryInstance: DishesRepository;
+  instance: DishesRepository;
 }
