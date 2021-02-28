@@ -105,19 +105,7 @@ const Navigation = () => {
           </Menu.Item>
         )}
 
-        {loggedInUser.id && (
-          <Menu.Item
-            key="score"
-            icon={<PieChartOutlined />}
-            onClick={() => {
-              setLocation('/scores');
-            }}
-          >
-            Scores
-          </Menu.Item>
-        )}
-
-        {!loggedInUser ? (
+        {!loggedInUser.id ? (
           <Menu.Item
             key="10"
             icon={<LoginOutlined />}

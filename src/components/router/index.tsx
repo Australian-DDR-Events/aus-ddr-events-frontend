@@ -14,7 +14,6 @@ import HowTo from 'features/how-to';
 import Submission from 'features/submission';
 import Error from 'features/error';
 import { Title } from 'react-head';
-import Scores from 'features/scores';
 
 const ProtectedRoute = (props: RouteProps) => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
@@ -54,9 +53,6 @@ const Router = () => (
     <Route path="/how-to">
       <Title>How to participate | Australian DDR Events</Title>
       <HowTo />
-    </Route>
-    <Route path="/scores">
-      <Scores />
     </Route>
     <ProtectedRoute path="/profile">
       <Title>Profile | Australian DDR Events</Title>
