@@ -1,6 +1,5 @@
 import { err, ok, Result } from 'types/result';
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import qs from 'qs';
 import {
   GetScoresRequest,
   GetSummer2021Request,
@@ -36,18 +35,16 @@ const scoresApiDao = ({
   const getAll = async (
     request: GetScoresRequest,
   ): Promise<Result<Error, Array<Score>>> => {
-    const axiosRequest: AxiosRequestConfig = {
-      params: {
-        dancer_id: request.dancerId,
-        song_id: request.songId,
-      },
-      paramsSerializer: (params) => {
-        return qs.stringify(params);
-      },
-    };
+    const params: string[] = [];
+    request.dancerId?.forEach((dancerId, i) => {
+      params.push(`dancer_id[${i}]=${dancerId}`);
+    });
+    request.songId?.forEach((songId, i) => {
+      params.push(`song_id[${i}]=${songId}`);
+    });
 
     return axiosClient
-      .get(`/scores`, axiosRequest)
+      .get(`/scores?${params.join('&')}`)
       .then(
         (response: AxiosResponse<Array<Score>>): Result<Error, Array<Score>> =>
           ok(response.data),
