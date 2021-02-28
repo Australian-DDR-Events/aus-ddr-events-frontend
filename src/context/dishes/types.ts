@@ -18,6 +18,13 @@ export type DishGrade = {
   grade: string;
 };
 
+export type DishSong = {
+  id: string;
+  cookingOrder: number;
+  cookingMethod: string;
+  songId: string;
+}
+
 export type DishSubmissionRequest = {
   pairBonus: boolean;
   scores: Array<ScoreSubmissionRequest>;
@@ -42,6 +49,10 @@ export interface GetIngredients {
   (id: string): Promise<Result<Error, Array<Ingredient>>>;
 }
 
+export interface GetSongs {
+  (id: string): Promise<Result<Error, Array<DishSong>>>;
+}
+
 export interface GetGrades {
   (id: string): Promise<Result<Error, Array<DishGrade>>>;
 }
@@ -56,6 +67,7 @@ export type DishesRepository = {
   getById: GetById;
   getAll: GetAll;
   getIngredients: GetIngredients;
+  getSongs: GetSongs;
   getGrades: GetGrades;
   postSubmission: PostSubmission;
 };
@@ -64,6 +76,7 @@ export interface DishesDao {
   getById: GetById;
   getAll: GetAll;
   getIngredients: GetIngredients;
+  getSongs: GetSongs;
   getGrades: GetGrades;
   postSubmission: PostSubmission;
 }

@@ -4,6 +4,7 @@ import {
   Dish,
   DishesDao,
   DishGrade,
+  DishSong,
   DishSubmissionRequest,
   DishSubmissionResponse,
 } from './types';
@@ -57,6 +58,23 @@ const dishesApiDao = ({
       .catch(
         (): Result<Error, Array<Ingredient>> => {
           return err(new Error('failed to get ingredients'), new Array<Ingredient>());
+        },
+      );
+  };
+
+  const getSongs = async (
+    id: string,
+  ): Promise<Result<Error, Array<DishSong>>> => {
+    return axiosClient
+      .get(`/summer2021/dishes/${id}/songs`)
+      .then(
+        (
+          response: AxiosResponse<Array<DishSong>>,
+        ): Result<Error, Array<DishSong>> => ok(response.data),
+      )
+      .catch(
+        (): Result<Error, Array<DishSong>> => {
+          return err(new Error('failed to get songs'), new Array<DishSong>());
         },
       );
   };
@@ -115,6 +133,7 @@ const dishesApiDao = ({
     getById,
     getAll,
     getIngredients,
+    getSongs,
     getGrades,
     postSubmission,
   };

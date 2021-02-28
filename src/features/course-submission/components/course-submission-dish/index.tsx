@@ -1,6 +1,7 @@
-import { Card, Image, Typography } from "antd";
+import { Card, Carousel, Image, message, Typography } from "antd";
 import React from "react";
 import { Recipe } from "../../types";
+import { StyledCard, StyledIngredient } from "./styled";
 
 const CourseSubmissionDish = ({
   recipe,
@@ -12,13 +13,22 @@ const CourseSubmissionDish = ({
   setCurrentRecipe: Function;
 }) => {
   return (
-    <Card
+    <StyledCard
       actions={[
         <Typography.Link
           strong
           onClick={() => {
-            setIsSubmitting(true);
-            setCurrentRecipe(recipe);
+            let cookable = true;
+            recipe.songIngredients.forEach((songIngredient) => {
+              cookable = cookable && songIngredient.submitted;
+            })
+            if (cookable) {
+              setIsSubmitting(true);
+              setCurrentRecipe(recipe);
+            } else {
+              message.error('Ingredients still missing!');
+            }
+            
           }}
         >
           Cook Dish
@@ -26,12 +36,30 @@ const CourseSubmissionDish = ({
       ]}
     >
       <Card.Grid style={{ width: '100%' }}>
-        {recipe.dish.name}
+        <Typography.Text strong>{recipe.dish.name}</Typography.Text>
       </Card.Grid>
       <Card.Grid style={{ width: '100%' }}>
-        <Image src={"https://i.imgur.com/ChYOL3K.png"} />
+        <Image src={`${process.env.ASSETS_URL}${recipe.dish.image128}`} />
       </Card.Grid>
-    </Card>
+      <Card.Grid style={{ width: '100%' }}>
+        <Carousel autoplay>
+          {recipe.songs.map((song) => {
+            return <Image src={song.songDetails.imageUrl} />
+          })}
+        </Carousel>
+      </Card.Grid>
+      {recipe.songIngredients.map((songIngredient) => {
+        return (
+          <Card.Grid style = {{ width: '25%', padding: '8px' }}>
+            {songIngredient.submitted ? (
+              <Image src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image128}`} />
+            ) : (
+              <StyledIngredient src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image128}`} />
+            )}
+          </Card.Grid>
+        );
+      })}
+    </StyledCard>
   )
 }
 

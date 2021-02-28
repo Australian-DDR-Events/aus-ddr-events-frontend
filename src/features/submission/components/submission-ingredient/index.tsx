@@ -41,14 +41,7 @@ const SubmissionIngredient = ({
     >
       <Skeleton active loading={loading}>
         <StyledCardGrid hoverable={false}>
-          <Typography.Text strong>{songIngredient.song.name}</Typography.Text>
-        </StyledCardGrid>
-        <StyledCardGrid hoverable={false}>
-          {songIngredient.song.difficulty === 'Expert' ? (
-            <ExpertJacket src={songIngredient.song.imageUrl} />
-          ) : (
-            <ChallengeJacket src={songIngredient.song.imageUrl} />
-          )}
+          <Typography.Text strong>{songIngredient.ingredient.name}</Typography.Text>
         </StyledCardGrid>
         <StyledCardGrid hoverable={false}>
           <IngredientWrapper>
@@ -62,9 +55,16 @@ const SubmissionIngredient = ({
               />
             )}
           </IngredientWrapper>
-          <Typography.Text strong>
-            {songIngredient.ingredient.name}
-          </Typography.Text>
+        </StyledCardGrid>
+        <StyledCardGrid hoverable={false}>
+          {songIngredient.song.difficulty === 'Expert' ? (
+            <ExpertJacket src={songIngredient.song.imageUrl} />
+          ) : (
+            <ChallengeJacket src={songIngredient.song.imageUrl} />
+          )}
+          {/* <Typography.Text strong>
+            {songIngredient.song.name}
+          </Typography.Text> */}
         </StyledCardGrid>
       </Skeleton>
     </StyledCard>
