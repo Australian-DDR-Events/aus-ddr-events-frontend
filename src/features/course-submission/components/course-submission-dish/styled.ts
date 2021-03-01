@@ -1,5 +1,5 @@
-import { Card, Image } from "antd";
-import styled from "types/styled-components";
+import { Card, Image } from 'antd';
+import styled from 'types/styled-components';
 
 export const StyledCard = styled(Card)`
   background-color: rgb(223, 223, 223);

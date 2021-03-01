@@ -1,20 +1,31 @@
-import { Button, Col, Form, Image, Modal, Rate, Result, Row, Skeleton, Typography } from "antd";
-import React, { useContext, useEffect, useState } from "react";
-import CourseSubmissionDish from "./components/course-submission-dish";
-import CourseSubmissionForm from "./components/course-submission-form";
-import { CourseSubmissionFormWrapper, CourseSubmissionWrapper } from "./styled";
-import { DetailedDishSong, Recipe } from "./types";
-import { SongIngredient } from "../submission/types";
-import { DishesRepositoryContext } from "context/dishes";
-import { DefaultSong } from "context/songs/constants";
-import { SongsRepositoryContext } from "context/songs";
-import { DancersRepositoryContext } from "context/dancer";
-import { ScoresRepositoryContext } from "context/scores";
-import { AuthenticationRepositoryContext } from "context/authentication";
-import { DefaultDetailedDishSong, DefaultRecipe } from "./constants";
-import { DefaultSongIngredient } from "../submission/constants";
-import { DefaultDishGrade } from "context/dishes/constants";
-import { DishSubmissionRequest } from "~/context/dishes/types";
+import {
+  Button,
+  Col,
+  Form,
+  Image,
+  Modal,
+  Rate,
+  Result,
+  Row,
+  Skeleton,
+  Typography,
+} from 'antd';
+import React, { useContext, useEffect, useState } from 'react';
+import { DishesRepositoryContext } from 'context/dishes';
+import { DefaultSong } from 'context/songs/constants';
+import { SongsRepositoryContext } from 'context/songs';
+import { DancersRepositoryContext } from 'context/dancer';
+import { ScoresRepositoryContext } from 'context/scores';
+import { AuthenticationRepositoryContext } from 'context/authentication';
+import { DefaultDishGrade } from 'context/dishes/constants';
+import CourseSubmissionDish from './components/course-submission-dish';
+import CourseSubmissionForm from './components/course-submission-form';
+import { CourseSubmissionFormWrapper, CourseSubmissionWrapper } from './styled';
+import { DetailedDishSong, Recipe } from './types';
+import { SongIngredient } from '../submission/types';
+import { DefaultDetailedDishSong, DefaultRecipe } from './constants';
+import { DefaultSongIngredient } from '../submission/constants';
+import { DishSubmissionRequest } from '~/context/dishes/types';
 
 const CourseSubmission = () => {
   const dishesRepository = useContext(DishesRepositoryContext);
@@ -51,13 +62,13 @@ const CourseSubmission = () => {
       finalImage: values.finalImage,
       scores: [],
     };
-    [0,1,2].forEach((index) => {
+    [0, 1, 2].forEach((index) => {
       request.scores.push({
         score: values[`score${index}`],
         scoreImage: values[`scoreImage${index}`],
         songId: values[`songId${index}`],
-      })
-    })
+      });
+    });
 
     const gradeResponse = await dishesRepository.dishesRepositoryInstance.postSubmission(
       currentRecipe.dish.id,
@@ -80,7 +91,7 @@ const CourseSubmission = () => {
     form.resetFields();
     setSubmitted(true);
     setSending(false);
-  }
+  };
 
   const gradeToInt = (grade: string) => {
     if (grade === 'E') {
@@ -107,19 +118,23 @@ const CourseSubmission = () => {
       const dishesRes = await dishesRepository.dishesRepositoryInstance.getAll();
       const promises = dishesRes.okOrDefault().map(async (dish) => {
         dishRecipeMap.set(dish.id, {
-          dish: dish,
+          dish,
           songIngredients: new Array<SongIngredient>(),
           songs: new Array<DetailedDishSong>(),
         });
         // Get corresponding ingredients
-        const ingredientsRes = await dishesRepository.dishesRepositoryInstance.getIngredients(dish.id);
+        const ingredientsRes = await dishesRepository.dishesRepositoryInstance.getIngredients(
+          dish.id,
+        );
         ingredientsRes.okOrDefault().forEach((ingredient) => {
           if (songIngredientMap.get(ingredient.songId)) {
             const songIngredient = songIngredientMap.get(ingredient.songId);
-            dishRecipeMap.get(dish.id)?.songIngredients.push(songIngredient || DefaultSongIngredient);
+            dishRecipeMap
+              .get(dish.id)
+              ?.songIngredients.push(songIngredient || DefaultSongIngredient);
           } else {
             const songIngredient = {
-              ingredient: ingredient,
+              ingredient,
               song: DefaultSong,
               submitted: false,
             };
@@ -128,16 +143,20 @@ const CourseSubmission = () => {
           }
         });
         // Get corresponding dish songs
-        const songsRes = await dishesRepository.dishesRepositoryInstance.getSongs(dish.id);
+        const songsRes = await dishesRepository.dishesRepositoryInstance.getSongs(
+          dish.id,
+        );
         songsRes.okOrDefault().forEach((dishSong) => {
           if (dishSongMap.get(dishSong.songId)) {
             const detailedDishSong = dishSongMap.get(dishSong.songId);
-            dishRecipeMap.get(dish.id)?.songs.push(detailedDishSong || DefaultDetailedDishSong);
+            dishRecipeMap
+              .get(dish.id)
+              ?.songs.push(detailedDishSong || DefaultDetailedDishSong);
           } else {
             const detailedDishSong = {
-              dishSong: dishSong,
+              dishSong,
               songDetails: DefaultSong,
-            }
+            };
             dishRecipeMap.get(dish.id)?.songs.push(detailedDishSong);
             dishSongMap.set(dishSong.songId, detailedDishSong);
           }
@@ -150,7 +169,7 @@ const CourseSubmission = () => {
         const detailedDishSong = dishSongMap.get(songDetails.id);
         if (detailedDishSong) {
           detailedDishSong.songDetails = songDetails;
-        };
+        }
       });
       const dancerRes = await dancersRepository.dancersRepositoryInstance.get(
         loggedInUser.id,
@@ -166,14 +185,14 @@ const CourseSubmission = () => {
           songIngredient.submitted = true;
         }
       });
-      
+
       setRecipes(Array.from(dishRecipeMap.values()));
       setLoading(false);
-    }
+    };
 
     asyncFetch();
   }, [submitted]);
-  
+
   return (
     <CourseSubmissionWrapper>
       <Typography.Title level={2}>Stamina Course Submission</Typography.Title>
@@ -201,7 +220,6 @@ const CourseSubmission = () => {
       <Modal
         title={currentRecipe.dish.name}
         visible={isSubmitting}
-        // width={720}
         onCancel={() => {
           setIsSubmitting(false);
           setSubmitted(false);
@@ -224,14 +242,15 @@ const CourseSubmission = () => {
             <CourseSubmissionForm
               form={form}
               currentRecipe={currentRecipe}
+              dishSongMap={dishSongMap}
             />
           </CourseSubmissionFormWrapper>
         ) : (
-          <Result 
+          <Result
             icon={
               <>
                 <Image
-                  src={`${process.env.ASSETS_URL}${currentGrade.image128}`}
+                  src={`${process.env.ASSETS_URL}${currentGrade.image256}`}
                 />
                 <br />
                 <Rate disabled defaultValue={gradeToInt(currentGrade.grade)} />
@@ -244,7 +263,7 @@ const CourseSubmission = () => {
         )}
       </Modal>
     </CourseSubmissionWrapper>
-  )
-}
+  );
+};
 
 export default CourseSubmission;

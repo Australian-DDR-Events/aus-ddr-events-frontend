@@ -14,7 +14,7 @@ export const DefaultDishSong: DishSong = {
   cookingOrder: 0,
   cookingMethod: '',
   songId: '',
-}
+};
 
 export const DefaultDishGrade: DishGrade = {
   id: '',
@@ -24,7 +24,7 @@ export const DefaultDishGrade: DishGrade = {
   image64: '',
   image128: '',
   image256: '',
-}
+};
 
 export const DefaultDishSubmissionResponse: DishSubmissionResponse = {
   id: '',

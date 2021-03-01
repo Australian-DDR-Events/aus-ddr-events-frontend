@@ -27,7 +27,7 @@ export type DishSong = {
   cookingOrder: number;
   cookingMethod: string;
   songId: string;
-}
+};
 
 export type DishSubmissionRequest = {
   pairBonus: boolean;

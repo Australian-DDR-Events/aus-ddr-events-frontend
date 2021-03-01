@@ -20,4 +20,4 @@ export const DefaultScoreSubmissionRequest: ScoreSubmissionRequest = {
   score: 0,
   scoreImage: new File([''], 'filename'),
   songId: '',
-}
+};

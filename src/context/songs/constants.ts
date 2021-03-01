@@ -5,7 +5,11 @@ export const DefaultSong: Song = {
   id: '',
   name: '',
   artist: '',
-  imageUrl: '',
   difficulty: '',
   level: 0,
+  image32: '',
+  image64: '',
+  image128: '',
+  image256: '',
+  image512: '',
 };

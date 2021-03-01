@@ -57,7 +57,10 @@ const dishesApiDao = ({
       )
       .catch(
         (): Result<Error, Array<Ingredient>> => {
-          return err(new Error('failed to get ingredients'), new Array<Ingredient>());
+          return err(
+            new Error('failed to get ingredients'),
+            new Array<Ingredient>(),
+          );
         },
       );
   };

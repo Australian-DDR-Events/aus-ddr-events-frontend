@@ -1,7 +1,7 @@
-import { DefaultDish, DefaultDishSong } from "context/dishes/constants";
-import { DefaultSong } from "context/songs/constants";
-import { SongIngredient } from "../submission/types";
-import { DetailedDishSong, Recipe } from "./types";
+import { DefaultDish, DefaultDishSong } from 'context/dishes/constants';
+import { DefaultSong } from 'context/songs/constants';
+import { SongIngredient } from '../submission/types';
+import { DetailedDishSong, Recipe } from './types';
 
 export const DefaultRecipe: Recipe = {
   dish: DefaultDish,
@@ -12,4 +12,4 @@ export const DefaultRecipe: Recipe = {
 export const DefaultDetailedDishSong: DetailedDishSong = {
   dishSong: DefaultDishSong,
   songDetails: DefaultSong,
-}
+};
