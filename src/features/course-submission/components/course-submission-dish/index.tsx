@@ -1,5 +1,6 @@
 import { Card, Carousel, FormInstance, Image, message, Typography } from 'antd';
 import React from 'react';
+import { ChallengeJacket, ExpertJacket } from '../../styled';
 import { Recipe } from '../../types';
 import { StyledCard, StyledIngredient } from './styled';
 
@@ -37,22 +38,26 @@ const CourseSubmissionDish = ({
         </Typography.Link>,
       ]}
     >
-      <Card.Grid style={{ width: '100%' }}>
+      <Card.Grid hoverable={false} style={{ width: '100%' }}>
         <Typography.Text strong>{recipe.dish.name}</Typography.Text>
       </Card.Grid>
-      <Card.Grid style={{ width: '100%' }}>
+      <Card.Grid hoverable={false} style={{ width: '100%' }}>
         <Image src={`${process.env.ASSETS_URL}${recipe.dish.image128}`} />
       </Card.Grid>
-      <Card.Grid style={{ width: '100%' }}>
+      <Card.Grid hoverable={false} style={{ width: '100%' }}>
         <Carousel autoplay>
           {recipe.songs.map((song) => {
-            return <Image src={`${process.env.ASSETS_URL}${song.songDetails.image256}`}/>;
+            if (song.songDetails.difficulty === 'Expert') {
+              return <ExpertJacket preview={false} src={`${process.env.ASSETS_URL}${song.songDetails.image256}`}/>;
+             } else {
+              return <ChallengeJacket preview={false} src={`${process.env.ASSETS_URL}${song.songDetails.image256}`}/>;
+            }
           })}
         </Carousel>
       </Card.Grid>
       {recipe.songIngredients.map((songIngredient) => {
         return (
-          <Card.Grid style={{ width: '25%', padding: '8px' }}>
+          <Card.Grid hoverable={false} style={{ width: '25%', padding: '8px' }}>
             {songIngredient.submitted ? (
               <Image
                 src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image64}`}

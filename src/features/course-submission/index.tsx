@@ -218,7 +218,7 @@ const CourseSubmission = () => {
         </Skeleton>
       </Row>
       <Modal
-        title={currentRecipe.dish.name}
+        title={`Cook ${currentRecipe.dish.name} by choosing the right steps in order!`}
         visible={isSubmitting}
         onCancel={() => {
           setIsSubmitting(false);

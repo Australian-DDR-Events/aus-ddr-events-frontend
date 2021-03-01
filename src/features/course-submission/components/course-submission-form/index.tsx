@@ -8,11 +8,13 @@ import {
   Select,
   Switch,
   Tabs,
+  Typography,
   Upload,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { DefaultSong } from 'context/songs/constants';
 import { DetailedDishSong, Recipe } from '../../types';
+import { ChallengeJacket, ExpertJacket } from '../../styled';
 
 const CourseSubmissionForm = ({
   form,
@@ -25,6 +27,7 @@ const CourseSubmissionForm = ({
 }) => {
   const [isTeamCookingBonus, setIsTeamCookingBonus] = useState(false);
   const [currentJacket, setCurrentJacket] = useState('');
+  const [currentDifficulty, setCurrentDifficulty] = useState('');
 
   const uploadProps = {
     beforeUpload: () => {
@@ -42,11 +45,13 @@ const CourseSubmissionForm = ({
   const updateCurrentSong = (songId: string) => {
     if (!songId) {
       setCurrentJacket('');
+      setCurrentDifficulty('');
       return;
     }
     currentRecipe.songs.every((song) => {
       if (song.dishSong.songId === songId) {
         setCurrentJacket(song.songDetails.image256);
+        setCurrentDifficulty(song.songDetails.difficulty);
         return false;
       }
       return true;
@@ -55,9 +60,15 @@ const CourseSubmissionForm = ({
 
   return (
     <>
-      <Image
-        src={currentJacket ? `${process.env.ASSETS_URL}${currentJacket}` : "https://i.imgur.com/fvFHxnY.png"}
-      />
+      {currentDifficulty ? (
+        currentDifficulty === 'Expert' ? (
+          <ExpertJacket src={`${process.env.ASSETS_URL}${currentJacket}`} />
+        ) : (
+          <ChallengeJacket src={`${process.env.ASSETS_URL}${currentJacket}`} />
+        )
+      ) : (
+        <Image src={"https://i.imgur.com/fvFHxnY.png"} />
+      )}
       <Form
         form={form}
         layout="vertical"
@@ -68,25 +79,28 @@ const CourseSubmissionForm = ({
         }}>
           {[0, 1, 2].map((index) => {
             return (
-              <Tabs.TabPane tab={`Song ${index + 1}`} key={index}>
+              <Tabs.TabPane tab={`Step ${index + 1}`} key={index}>
                 <Form.Item
                   name={`songId${index}`}
-                  label={`Song ${index + 1}`}
+                  label={`Method ${index + 1}`}
                   rules={[
                     {
                       required: true,
-                      message: 'Please select a song!',
+                      message: 'Please select a method/song!',
                     },
                   ]}
                 >
                   <Select
-                    placeholder="Select a song"
+                    placeholder="Select a method/song"
                     onChange={(songId) => {updateCurrentSong(songId.toString())}}
                   >
                     {currentRecipe.songs.map((detailedDishSong) => {
                       return (
                         <Select.Option value={detailedDishSong.dishSong.songId}>
-                          {detailedDishSong.songDetails.name}
+                          <Typography.Text strong>
+                            {detailedDishSong.dishSong.cookingMethod}
+                          </Typography.Text>
+                          {` - ${detailedDishSong.songDetails.name} [${detailedDishSong.songDetails.difficulty}]`}
                         </Select.Option>
                       );
                     })}
@@ -143,7 +157,7 @@ const CourseSubmissionForm = ({
           getValueFromEvent={normaliseFile}
           rules={[
             {
-              required: isTeamCookingBonus,
+              required: true,
               message: 'Please upload a photograph of your session!',
             },
           ]}
