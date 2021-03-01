@@ -20,7 +20,7 @@ const scoresApiDao = ({
 }): ScoresDao => {
   const getById = async (id: string): Promise<Result<Error, Score>> => {
     return axiosClient
-      .get(`/scores/${id}`, request)
+      .get(`/scores/${id}`)
       .then(
         (response: AxiosResponse<Score>): Result<Error, Score> =>
           ok(response.data),
@@ -35,15 +35,16 @@ const scoresApiDao = ({
   const getAll = async (
     request: GetScoresRequest,
   ): Promise<Result<Error, Array<Score>>> => {
-    const axiosRequest: AxiosRequestConfig = {
-      params: {
-        dancer_id: request.dancerId,
-        song_id: request.songId,
-      },
-    };
+    const params: string[] = [];
+    request.dancerId?.forEach((dancerId) => {
+      params.push(`dancer_id=${dancerId}`);
+    });
+    request.songId?.forEach((songId) => {
+      params.push(`song_id=${songId}`);
+    });
 
     return axiosClient
-      .get(`/scores`, axiosRequest)
+      .get(`/scores?${params.join('&')}`)
       .then(
         (response: AxiosResponse<Array<Score>>): Result<Error, Array<Score>> =>
           ok(response.data),

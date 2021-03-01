@@ -56,6 +56,7 @@ jobs:
             printf "FIREBASE_APP_ID=$FIREBASE_APP_ID\r\n" >> .env.$NODE_ENV
             printf "FIREBASE_MEASUREMENT_ID=$FIREBASE_MEASUREMENT_ID\r\n" >> .env.$NODE_ENV
             printf "API_URL=$API_URL\r\n" >> .env.$NODE_ENV
+            printf "ASSETS_URL=$ASSETS_URL\r\n" >> .env.$NODE_ENV
       - run: yarn build:prod
       - persist_to_workspace:
           root: ~/

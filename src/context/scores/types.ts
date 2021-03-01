@@ -13,8 +13,8 @@ export type Summer2021SubmissionRequest = {
 };
 
 export type GetScoresRequest = {
-  songId?: string;
-  dancerId?: string;
+  songId?: string[];
+  dancerId?: string[];
 };
 
 export type GetSummer2021Request = {
