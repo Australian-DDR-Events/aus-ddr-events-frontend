@@ -1,13 +1,13 @@
 import { Tabs } from 'antd';
 import React from 'react';
-import Ingredients from './scores/index';
+import Scores from './scores';
 
 const CollectionContainer = () => {
   return (
     <Tabs style={{ padding: '0px 8px' }} defaultActiveKey="1">
       <Tabs.TabPane tab="Badges" key="1" />
       <Tabs.TabPane tab="Scores" key="2">
-        <Ingredients />
+        <Scores />
       </Tabs.TabPane>
     </Tabs>
   );
