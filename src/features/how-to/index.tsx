@@ -46,7 +46,7 @@ const HowTo = () => {
   return (
     <HowToWrapper>
       <Title>How to Participate</Title>
-      <Steps responsive size="small" current={current}>
+      <Steps responsive="true" size="small" current={current}>
         {steps.map((item) => (
           <Step key={item.title} title={item.title} />
         ))}
