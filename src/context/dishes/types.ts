@@ -16,6 +16,10 @@ export type DishGrade = {
   id: string;
   description: string;
   grade: string;
+  image32: string;
+  image64: string;
+  image128: string;
+  image256: string;
 };
 
 export type DishSong = {

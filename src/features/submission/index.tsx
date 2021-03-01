@@ -58,8 +58,8 @@ const Submission = () => {
 
   const onSubmit = async () => {
     const values = await form.validateFields();
-    form.resetFields();
     setSending(true);
+
     const gradeResponse = await ingredientsRepository.ingredientsRepositoryInstance.postScoreSubmission(
       currentSongIngredient.ingredient.id,
       {
@@ -78,6 +78,8 @@ const Submission = () => {
       }
       return true;
     });
+    
+    form.resetFields();
     setSubmitted(true);
     setSending(false);
   };

@@ -1,14 +1,16 @@
-import { Card, Carousel, Image, message, Typography } from "antd";
+import { Card, Carousel, FormInstance, Image, message, Typography } from "antd";
 import React from "react";
 import { Recipe } from "../../types";
 import { StyledCard, StyledIngredient } from "./styled";
 
 const CourseSubmissionDish = ({
   recipe,
+  form,
   setIsSubmitting,
   setCurrentRecipe,
 }: {
   recipe: Recipe;
+  form: FormInstance;
   setIsSubmitting: Function;
   setCurrentRecipe: Function;
 }) => {
@@ -23,8 +25,9 @@ const CourseSubmissionDish = ({
               cookable = cookable && songIngredient.submitted;
             })
             if (cookable) {
-              setIsSubmitting(true);
               setCurrentRecipe(recipe);
+              form.resetFields();
+              setIsSubmitting(true);
             } else {
               message.error('Ingredients still missing!');
             }

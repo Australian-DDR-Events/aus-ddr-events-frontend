@@ -1,4 +1,4 @@
-import { Button, Col, Form, Image, Modal, Result, Row, Skeleton, Typography } from "antd";
+import { Button, Col, Form, Image, Modal, Rate, Result, Row, Skeleton, Typography } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import CourseSubmissionDish from "./components/course-submission-dish";
 import CourseSubmissionForm from "./components/course-submission-form";
@@ -13,6 +13,8 @@ import { ScoresRepositoryContext } from "context/scores";
 import { AuthenticationRepositoryContext } from "context/authentication";
 import { DefaultDetailedDishSong, DefaultRecipe } from "./constants";
 import { DefaultSongIngredient } from "../submission/constants";
+import { DefaultDishGrade } from "context/dishes/constants";
+import { DishSubmissionRequest } from "~/context/dishes/types";
 
 const CourseSubmission = () => {
   const dishesRepository = useContext(DishesRepositoryContext);
@@ -31,19 +33,73 @@ const CourseSubmission = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentRecipe, setCurrentRecipe] = useState(DefaultRecipe);
   const [loading, setLoading] = useState(true);
+  const [sending, setSending] = useState(false);
   const [recipes, setRecipes] = useState(new Array<Recipe>());
+  const [currentGrade, setCurrentGrade] = useState(DefaultDishGrade);
 
   const dishRecipeMap = new Map<string, Recipe>();
   const songIngredientMap = new Map<string, SongIngredient>();
   const dishSongMap = new Map<string, DetailedDishSong>();
 
-  const onSubmit = () => {
-    form.validateFields().then((values) => {
-      console.log(values);
-    }).catch((e) => {
-      console.log("error");
+  const onSubmit = async () => {
+    const values = await form.validateFields();
+    console.log(values);
+    setSending(true);
+
+    const request: DishSubmissionRequest = {
+      pairBonus: values.pairBonus,
+      finalImage: values.finalImage,
+      scores: [],
+    };
+    [0,1,2].forEach((index) => {
+      request.scores.push({
+        score: values[`score${index}`],
+        scoreImage: values[`scoreImage${index}`],
+        songId: values[`songId${index}`],
+      })
     })
+
+    const gradeResponse = await dishesRepository.dishesRepositoryInstance.postSubmission(
+      currentRecipe.dish.id,
+      {
+        ...request,
+      },
+    );
+    const grades = await dishesRepository.dishesRepositoryInstance.getGrades(
+      currentRecipe.dish.id,
+    );
+
+    grades.okOrDefault().every((grade) => {
+      if (grade.id === gradeResponse.okOrDefault().gradedDishId) {
+        setCurrentGrade(grade);
+        return false;
+      }
+      return true;
+    });
+
+    form.resetFields();
+    setSubmitted(true);
+    setSending(false);
   }
+
+  const gradeToInt = (grade: string) => {
+    if (grade === 'E') {
+      return 1;
+    }
+    if (grade === 'B') {
+      return 2;
+    }
+    if (grade === 'A') {
+      return 3;
+    }
+    if (grade === 'AA') {
+      return 4;
+    }
+    if (grade === 'AAA') {
+      return 5;
+    }
+    return 0;
+  };
 
   useEffect(() => {
     const asyncFetch = async () => {
@@ -111,8 +167,6 @@ const CourseSubmission = () => {
         }
       });
       
-      console.log(Array.from(dishRecipeMap.values()));
-      console.log(Array.from(dishSongMap.values()));
       setRecipes(Array.from(dishRecipeMap.values()));
       setLoading(false);
     }
@@ -135,6 +189,7 @@ const CourseSubmission = () => {
               <Col xs={24} xl={6} className="gutter-row">
                 <CourseSubmissionDish
                   recipe={recipe}
+                  form={form}
                   setIsSubmitting={setIsSubmitting}
                   setCurrentRecipe={setCurrentRecipe}
                 />
@@ -156,7 +211,7 @@ const CourseSubmission = () => {
             <Button
               key="submit"
               type="primary"
-              loading={false}
+              loading={sending}
               onClick={onSubmit}
             >
               Submit
@@ -166,18 +221,25 @@ const CourseSubmission = () => {
       >
         {!submitted ? (
           <CourseSubmissionFormWrapper>
-            <Image
-              src={`${process.env.ASSETS_URL}${currentRecipe.dish.image128}`}
-              width={240}
+            <CourseSubmissionForm
+              form={form}
+              currentRecipe={currentRecipe}
             />
-            <CourseSubmissionForm form={form} />
           </CourseSubmissionFormWrapper>
         ) : (
           <Result 
-            icon={<Image src="https://i.imgur.com/woOvNJ0.png" />}
+            icon={
+              <>
+                <Image
+                  src={`${process.env.ASSETS_URL}${currentGrade.image128}`}
+                />
+                <br />
+                <Rate disabled defaultValue={gradeToInt(currentGrade.grade)} />
+              </>
+            }
             status="success"
             title="Congratulations!"
-            subTitle={`You have obtained 5-star ${currentRecipe.dish.name}!`}
+            subTitle={`You have cooked ${currentGrade.description} ${currentRecipe.dish.name}!`}
           />
         )}
       </Modal>

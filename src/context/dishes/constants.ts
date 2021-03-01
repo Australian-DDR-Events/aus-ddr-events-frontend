@@ -1,4 +1,4 @@
-import { Dish, DishSong, DishSubmissionResponse } from './types';
+import { Dish, DishGrade, DishSong, DishSubmissionResponse } from './types';
 
 export const DefaultDish: Dish = {
   id: '',
@@ -14,6 +14,16 @@ export const DefaultDishSong: DishSong = {
   cookingOrder: 0,
   cookingMethod: '',
   songId: '',
+}
+
+export const DefaultDishGrade: DishGrade = {
+  id: '',
+  description: '',
+  grade: '',
+  image32: '',
+  image64: '',
+  image128: '',
+  image256: '',
 }
 
 export const DefaultDishSubmissionResponse: DishSubmissionResponse = {
