@@ -2,7 +2,7 @@ import { Card, Carousel, FormInstance, Image, message, Typography } from 'antd';
 import React from 'react';
 import { ChallengeJacket, ExpertJacket } from '../../styled';
 import { Recipe } from '../../types';
-import { StyledCard, StyledIngredient } from './styled';
+import { StyledCard, StyledUnsubmitted } from './styled';
 
 const CourseSubmissionDish = ({
   recipe,
@@ -15,6 +15,14 @@ const CourseSubmissionDish = ({
   setIsSubmitting: Function;
   setCurrentRecipe: Function;
 }) => {
+  const dishSubmitted = (recipe: Recipe) => {
+    let submitted = true;
+    recipe.songs.forEach((song) => {
+      submitted = submitted && song.submitted;
+    })
+    return submitted;
+  }
+
   return (
     <StyledCard
       actions={[
@@ -42,7 +50,11 @@ const CourseSubmissionDish = ({
         <Typography.Text strong>{recipe.dish.name}</Typography.Text>
       </Card.Grid>
       <Card.Grid hoverable={false} style={{ width: '100%' }}>
-        <Image src={`${process.env.ASSETS_URL}${recipe.dish.image128}`} />
+        {dishSubmitted(recipe) ? (
+          <Image src={`${process.env.ASSETS_URL}${recipe.dish.image128}`} />
+        ) : (
+          <StyledUnsubmitted src={`${process.env.ASSETS_URL}${recipe.dish.image128}`} />
+        )}
       </Card.Grid>
       <Card.Grid hoverable={false} style={{ width: '100%' }}>
         <Carousel autoplay>
@@ -63,7 +75,7 @@ const CourseSubmissionDish = ({
                 src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image64}`}
               />
             ) : (
-              <StyledIngredient
+              <StyledUnsubmitted
                 src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image64}`}
               />
             )}

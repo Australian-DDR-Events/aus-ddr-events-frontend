@@ -5,7 +5,7 @@ export const StyledCard = styled(Card)`
   background-color: rgb(223, 223, 223);
 `;
 
-export const StyledIngredient = styled(Image)`
+export const StyledUnsubmitted = styled(Image)`
   -webkit-filter: grayscale(1);
   filter: grayscale(1);
 `;

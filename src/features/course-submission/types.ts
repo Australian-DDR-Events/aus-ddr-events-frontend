@@ -11,4 +11,5 @@ export type Recipe = {
 export type DetailedDishSong = {
   dishSong: DishSong;
   songDetails: Song;
+  submitted: boolean;
 };

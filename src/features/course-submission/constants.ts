@@ -12,4 +12,5 @@ export const DefaultRecipe: Recipe = {
 export const DefaultDetailedDishSong: DetailedDishSong = {
   dishSong: DefaultDishSong,
   songDetails: DefaultSong,
+  submitted: false,
 };

@@ -156,6 +156,7 @@ const CourseSubmission = () => {
             const detailedDishSong = {
               dishSong,
               songDetails: DefaultSong,
+              submitted: false,
             };
             dishRecipeMap.get(dish.id)?.songs.push(detailedDishSong);
             dishSongMap.set(dishSong.songId, detailedDishSong);
@@ -174,7 +175,7 @@ const CourseSubmission = () => {
       const dancerRes = await dancersRepository.dancersRepositoryInstance.get(
         loggedInUser.id,
       );
-      // Find existing scores for ingredients
+      // Find existing scores for ingredients/dishes
       const scoresRes = await scoresRepository.scoresRepositoryInstance.getAll({
         dancerId: [dancerRes.okOrDefault().id],
         songId: [],
@@ -183,6 +184,10 @@ const CourseSubmission = () => {
         const songIngredient = songIngredientMap.get(score.songId);
         if (songIngredient) {
           songIngredient.submitted = true;
+        }
+        const detailedDishSong = dishSongMap.get(score.songId);
+        if (detailedDishSong) {
+          detailedDishSong.submitted = true;
         }
       });
 
