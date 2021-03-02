@@ -74,7 +74,7 @@ const CourseSubmissionForm = ({
             updateCurrentSong(form.getFieldValue(`songId${activeKey}`));
           }}
         >
-          {[0, 1, 2].map((index) => {
+          {Array.from(currentRecipe.songs.keys()).map((index) => {
             return (
               <Tabs.TabPane tab={`Step ${index + 1}`} key={index}>
                 <Form.Item

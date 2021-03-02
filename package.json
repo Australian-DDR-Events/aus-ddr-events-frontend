@@ -40,7 +40,6 @@
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-typescript": "^7.12.7",
-    "@parcel/babel-plugin-transform-runtime": "^2.0.0-nightly.1823",
     "@types/enzyme": "^3.10.8",
     "@types/jest": "^26.0.20",
     "@types/react": "^17.0.0",
