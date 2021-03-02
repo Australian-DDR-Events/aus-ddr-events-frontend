@@ -62,7 +62,7 @@ const CourseSubmissionForm = ({
         ) : (
           <ChallengeJacket src={`${process.env.ASSETS_URL}${currentJacket}`} />
         ))}
-      {!currentDifficulty && <Image src="https://i.imgur.com/fvFHxnY.png" />}
+      {!currentDifficulty && <Image src={`${process.env.ASSETS_URL}/songs/default/default.256.png`} />}
       <Form form={form} layout="vertical" style={{ textAlign: 'left' }}>
         <Tabs
           defaultActiveKey="0"
