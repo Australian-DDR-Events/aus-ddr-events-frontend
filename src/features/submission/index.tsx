@@ -191,9 +191,13 @@ const Submission = () => {
         {!submitted ? (
           <SubmissionFormWrapper>
             {currentSongIngredient.song.difficulty === 'Expert' ? (
-              <ExpertJacket src={`${process.env.ASSETS_URL}${currentSongIngredient.song.image256}`} />
+              <ExpertJacket
+                src={`${process.env.ASSETS_URL}${currentSongIngredient.song.image256}`}
+              />
             ) : (
-              <ChallengeJacket src={`${process.env.ASSETS_URL}${currentSongIngredient.song.image256}`} />
+              <ChallengeJacket
+                src={`${process.env.ASSETS_URL}${currentSongIngredient.song.image256}`}
+              />
             )}
             <SubmissionForm form={form} />
           </SubmissionFormWrapper>

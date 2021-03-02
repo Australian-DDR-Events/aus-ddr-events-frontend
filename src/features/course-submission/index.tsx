@@ -54,7 +54,6 @@ const CourseSubmission = () => {
 
   const onSubmit = async () => {
     const values = await form.validateFields();
-    console.log(values);
     setSending(true);
 
     const request: DishSubmissionRequest = {
@@ -244,11 +243,7 @@ const CourseSubmission = () => {
       >
         {!submitted ? (
           <CourseSubmissionFormWrapper>
-            <CourseSubmissionForm
-              form={form}
-              currentRecipe={currentRecipe}
-              dishSongMap={dishSongMap}
-            />
+            <CourseSubmissionForm form={form} currentRecipe={currentRecipe} />
           </CourseSubmissionFormWrapper>
         ) : (
           <Result

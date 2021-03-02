@@ -1,7 +1,7 @@
 import { Card, Carousel, FormInstance, Image, message, Typography } from 'antd';
 import React from 'react';
 import { ChallengeJacket, ExpertJacket } from '../../styled';
-import { Recipe } from '../../types';
+import { DetailedDishSong, Recipe } from '../../types';
 import { StyledCard, StyledUnsubmitted } from './styled';
 
 const CourseSubmissionDish = ({
@@ -15,13 +15,13 @@ const CourseSubmissionDish = ({
   setIsSubmitting: Function;
   setCurrentRecipe: Function;
 }) => {
-  const dishSubmitted = (recipe: Recipe) => {
+  const allSubmitted = (songs: Array<DetailedDishSong>) => {
     let submitted = true;
-    recipe.songs.forEach((song) => {
+    songs.forEach((song) => {
       submitted = submitted && song.submitted;
-    })
+    });
     return submitted;
-  }
+  };
 
   return (
     <StyledCard
@@ -50,20 +50,31 @@ const CourseSubmissionDish = ({
         <Typography.Text strong>{recipe.dish.name}</Typography.Text>
       </Card.Grid>
       <Card.Grid hoverable={false} style={{ width: '100%' }}>
-        {dishSubmitted(recipe) ? (
+        {allSubmitted(recipe.songs) ? (
           <Image src={`${process.env.ASSETS_URL}${recipe.dish.image128}`} />
         ) : (
-          <StyledUnsubmitted src={`${process.env.ASSETS_URL}${recipe.dish.image128}`} />
+          <StyledUnsubmitted
+            src={`${process.env.ASSETS_URL}${recipe.dish.image128}`}
+          />
         )}
       </Card.Grid>
       <Card.Grid hoverable={false} style={{ width: '100%' }}>
         <Carousel autoplay>
           {recipe.songs.map((song) => {
             if (song.songDetails.difficulty === 'Expert') {
-              return <ExpertJacket preview={false} src={`${process.env.ASSETS_URL}${song.songDetails.image256}`}/>;
-             } else {
-              return <ChallengeJacket preview={false} src={`${process.env.ASSETS_URL}${song.songDetails.image256}`}/>;
+              return (
+                <ExpertJacket
+                  preview={false}
+                  src={`${process.env.ASSETS_URL}${song.songDetails.image256}`}
+                />
+              );
             }
+            return (
+              <ChallengeJacket
+                preview={false}
+                src={`${process.env.ASSETS_URL}${song.songDetails.image256}`}
+              />
+            );
           })}
         </Carousel>
       </Card.Grid>

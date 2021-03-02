@@ -11,21 +11,17 @@ import {
   Typography,
   Upload,
 } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { DefaultSong } from 'context/songs/constants';
-import { DetailedDishSong, Recipe } from '../../types';
+import React, { useState } from 'react';
+import { Recipe } from '../../types';
 import { ChallengeJacket, ExpertJacket } from '../../styled';
 
 const CourseSubmissionForm = ({
   form,
   currentRecipe,
-  dishSongMap,
 }: {
   form: FormInstance;
   currentRecipe: Recipe;
-  dishSongMap: Map<string, DetailedDishSong>
 }) => {
-  const [isTeamCookingBonus, setIsTeamCookingBonus] = useState(false);
   const [currentJacket, setCurrentJacket] = useState('');
   const [currentDifficulty, setCurrentDifficulty] = useState('');
 
@@ -55,28 +51,25 @@ const CourseSubmissionForm = ({
         return false;
       }
       return true;
-    })
-  }
+    });
+  };
 
   return (
     <>
-      {currentDifficulty ? (
-        currentDifficulty === 'Expert' ? (
+      {currentDifficulty &&
+        (currentDifficulty === 'Expert' ? (
           <ExpertJacket src={`${process.env.ASSETS_URL}${currentJacket}`} />
         ) : (
           <ChallengeJacket src={`${process.env.ASSETS_URL}${currentJacket}`} />
-        )
-      ) : (
-        <Image src={"https://i.imgur.com/fvFHxnY.png"} />
-      )}
-      <Form
-        form={form}
-        layout="vertical"
-        style={{ textAlign: 'left' }}
-      >
-        <Tabs defaultActiveKey="0" onChange={(activeKey) => {
-          updateCurrentSong(form.getFieldValue(`songId${activeKey}`));
-        }}>
+        ))}
+      {!currentDifficulty && <Image src="https://i.imgur.com/fvFHxnY.png" />}
+      <Form form={form} layout="vertical" style={{ textAlign: 'left' }}>
+        <Tabs
+          defaultActiveKey="0"
+          onChange={(activeKey) => {
+            updateCurrentSong(form.getFieldValue(`songId${activeKey}`));
+          }}
+        >
           {[0, 1, 2].map((index) => {
             return (
               <Tabs.TabPane tab={`Step ${index + 1}`} key={index}>
@@ -92,7 +85,9 @@ const CourseSubmissionForm = ({
                 >
                   <Select
                     placeholder="Select a method/song"
-                    onChange={(songId) => {updateCurrentSong(songId.toString())}}
+                    onChange={(songId) => {
+                      updateCurrentSong(songId.toString());
+                    }}
                   >
                     {currentRecipe.songs.map((detailedDishSong) => {
                       return (
@@ -146,10 +141,9 @@ const CourseSubmissionForm = ({
           label="Team Cooking Bonus"
           valuePropName="checked"
         >
-          <Switch onChange={(checked) => setIsTeamCookingBonus(checked)} />
+          <Switch />
         </Form.Item>
 
-        {/* {isTeamCookingBonus && ( */}
         <Form.Item
           label="End of Session Photograph"
           name="finalImage"
@@ -166,7 +160,6 @@ const CourseSubmissionForm = ({
             <Button icon={<UploadOutlined />}>Upload photograph</Button>
           </Upload>
         </Form.Item>
-        {/* )} */}
       </Form>
     </>
   );

@@ -1,11 +1,6 @@
 import { Image, Skeleton, Typography } from 'antd';
 import React from 'react';
-import {
-  IngredientWrapper,
-  StyledCard,
-  StyledCardGrid,
-  StyledIngredient,
-} from './styled';
+import { StyledCard, StyledCardGrid, StyledIngredient } from './styled';
 import { SongIngredient } from '../../types';
 import { ChallengeJacket, ExpertJacket } from '../../styled';
 
@@ -58,9 +53,13 @@ const SubmissionIngredient = ({
         </StyledCardGrid>
         <StyledCardGrid hoverable={false} style={{ padding: '16px' }}>
           {songIngredient.song.difficulty === 'Expert' ? (
-            <ExpertJacket src={`${process.env.ASSETS_URL}${songIngredient.song.image256}`} />
+            <ExpertJacket
+              src={`${process.env.ASSETS_URL}${songIngredient.song.image256}`}
+            />
           ) : (
-            <ChallengeJacket src={`${process.env.ASSETS_URL}${songIngredient.song.image256}`} />
+            <ChallengeJacket
+              src={`${process.env.ASSETS_URL}${songIngredient.song.image256}`}
+            />
           )}
         </StyledCardGrid>
       </Skeleton>
