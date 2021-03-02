@@ -1,3 +1,4 @@
+import 'core-js';
 import React, { useContext, useState, useEffect } from 'react';
 import { Image, Table, Rate } from 'antd';
 import { IngredientsRepositoryContext } from 'context/ingredients';
@@ -6,6 +7,7 @@ import { DefaultScore, DefaultSummer2021Score } from 'context/scores/constants';
 import { ScoresRepositoryContext } from 'context/scores';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import { DefaultDancer, DancersRepositoryContext } from 'context/dancer';
+import { Summer2021Score } from 'context/scores/types';
 
 const { Column } = Table;
 
@@ -14,13 +16,10 @@ const Ingredients = () => {
   const authRepo = useContext(AuthenticationRepositoryContext);
   const scoresRepo = useContext(ScoresRepositoryContext);
   const dancersRepo = useContext(DancersRepositoryContext);
-  const [ingredients, setIngredients] = useState(
-    Array(12).fill(DefaultIngredient),
-  );
-  const [currentIngredient, setCurrentIngredient] = useState(DefaultIngredient);
+  const [ingredients, setIngredients] = useState(Array(DefaultIngredient));
   const [scores, setScores] = useState(Array(DefaultScore));
-  const [currentScore, setCurrentScore] = useState(
-    Array(DefaultSummer2021Score),
+  const [currentScores, setCurrentScores] = useState(
+    new Array<Summer2021Score>(),
   );
   const [grades, setGrades] = useState(Array(DefaultGrade));
   const [dancer, setDancer] = useState(DefaultDancer);
@@ -37,7 +36,6 @@ const Ingredients = () => {
         .getAll()
         .then((ingredientsRes) => {
           setIngredients(ingredientsRes.okOrDefault());
-          setCurrentIngredient(ingredientsRes.okOrDefault());
           setLoading(false);
         });
 
@@ -50,59 +48,51 @@ const Ingredients = () => {
   }, []);
 
   useEffect(() => {
-    if (currentIngredient || dancer || loading) {
+    if (dancer) {
       scoresRepo.scoresRepositoryInstance
-        .getAll({ dancerId: dancer.id, songId: currentIngredient.songId })
+        .getAll({ dancerId: [dancer.id] })
         .then((scoresRes) => {
           setScores(scoresRes.okOrDefault());
-          setLoading(false);
-        });
-    }
-  }, [dancer, currentIngredient]);
-
-  useEffect(() => {
-    if (dancer || loading) {
-      scoresRepo.scoresRepositoryInstance
-        .getSummer2021ByDancer(dancer.id)
-        .then((scoresRes) => {
-          setCurrentScore(scoresRes.okOrDefault());
           setLoading(false);
         });
     }
   }, [dancer]);
 
   useEffect(() => {
-    if (ingredients || loading) {
-      ingredientsRepo.ingredientsRepositoryInstance
-        .getGrades()
-        .then((gradesRes) => {
-          setGrades(gradesRes.okOrDefault());
-          setLoading(false);
-        });
-    }
-  }, [currentIngredient]);
+    if (ingredients && dancer) {
+      // Get grades -> flat() the results.
+      const gradesPromises = ingredients.map((ingredientId) =>
+        ingredientsRepo.ingredientsRepositoryInstance.getGrades(
+          ingredientId.id,
+        ),
+      );
+      Promise.all(gradesPromises).then((results) => {
+        const GradesResults = Object.values(results).map((gradesRes) =>
+          gradesRes.okOrDefault(),
+        );
+        const flattenGradesArray = GradesResults.flat();
+        setGrades(flattenGradesArray);
+      });
 
-  console.log(currentIngredient.id);
-  console.log(grades);
+      const scoresPromises = ingredients.map((ingredientsId) =>
+        scoresRepo.scoresRepositoryInstance.getSummer2021({
+          dancerId: dancer.id,
+          ingredientId: ingredientsId.id,
+        }),
+      );
 
-  /* const gradeToInt = (grade: string) => {
-    if (grade === 'E') {
-      return 1;
+      Promise.all(scoresPromises).then((results) => {
+        const ScoresResults = Object.values(results).map((scoresRes) =>
+          scoresRes.okOrDefault(),
+        );
+
+        const flattenScoresArray = ScoresResults.flat();
+        setCurrentScores(flattenScoresArray);
+      });
     }
-    if (grade === 'B') {
-      return 2;
-    }
-    if (grade === 'A') {
-      return 3;
-    }
-    if (grade === 'AA') {
-      return 4;
-    }
-    if (grade === 'AAA') {
-      return 5;
-    }
-    return 0;
-  }; */
+  }, [ingredients, dancer]);
+
+  console.log(currentScores);
 
   return (
     <>
@@ -113,31 +103,35 @@ const Ingredients = () => {
             size="middle"
             scroll={{ x: 80, y: 300 }}
             pagination={false}
-            dataSource={ingredients.map(
-              (ingredient: {
-                id: any;
-                name: any;
-                image128: any;
-                songId: any;
-                songScore: any;
-              }) => ({
-                ingredientId: ingredient.id,
-                ingredientName: ingredient.name,
-                ingredientImageUrl: ingredient.image128,
-                ingredientGrade: currentScore.map((cs) => {
-                  grades.map((g) => {
-                    if (cs.gradedIngredientId === g.id) return g.grade;
-                  });
-                }),
-
-                songId: ingredient.songId,
-                songScore: scores.map((score) => {
-                  if (ingredient.songId === score.songId) {
-                    return score.value;
-                  }
-                }),
+            dataSource={ingredients.map((ingredient) => ({
+              ingredientId: ingredient.id,
+              ingredientName: ingredient.name,
+              ingredientImageUrl: ingredient.image128,
+              songId: ingredient.songId,
+              songScore: scores.map((score) => {
+                if (ingredient.songId === score.songId) {
+                  return score.value;
+                }
               }),
-            )}
+              ingredientGrade: scores.map((score) => {
+                if (ingredient.songId === score.songId) {
+                  console.log(score);
+                  return currentScores.map((cs) => {
+                    if (score.id === cs.scoreId) {
+                      console.log(cs);
+                      return grades
+                        .filter((grade) =>
+                          grade.id.includes(cs.gradedIngredientId),
+                        )
+                        .map((filteredName) => {
+                          console.log(filteredName.description);
+                          return filteredName.description;
+                        });
+                    }
+                  });
+                }
+              }),
+            }))}
           >
             <Column
               width={12}
@@ -165,9 +159,9 @@ const Ingredients = () => {
               title="Quality"
               key="exscore"
               dataIndex="ingredientGrade"
-              /* render={(q) => (
+              /*  render={(q) => (
                 <>
-                <Rate disabled defaultValue={gradeToInt(i.currentGrade.grade)} />
+                  <Rate disabled defaultValue={gradeToInt(q.ingredientGrade)} />
                 </>
               )} */
             />

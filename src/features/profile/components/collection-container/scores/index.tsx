@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tabs } from 'antd';
 import Ingredients from './ingredients';
+import Dishes from './dishes';
 
 const { TabPane } = Tabs;
 
@@ -12,7 +13,7 @@ const Scores = () => {
           <Ingredients />
         </TabPane>
         <TabPane tab="Dishes" key="2">
-          Content of Tab Pane 2
+          <Dishes />
         </TabPane>
       </Tabs>
     </>
