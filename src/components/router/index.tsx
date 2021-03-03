@@ -14,6 +14,7 @@ import HowTo from 'features/how-to';
 import Submission from 'features/submission';
 import CourseSubmission from 'features/course-submission';
 import Error from 'features/error';
+import Leaderboard from 'features/leaderboard';
 import { Title } from 'react-head';
 
 const ProtectedRoute = (props: RouteProps) => {
@@ -62,6 +63,11 @@ const Router = () => (
     <ProtectedRoute path="/profile/:id">
       <Title>Profile | Australian DDR Events</Title>
       {(params) => <Profile id={params.id} />}
+    </ProtectedRoute>
+
+    <ProtectedRoute path="/leaderboard">
+      <Title>Leaderboard | Australian DDR Events</Title>
+      <Leaderboard />
     </ProtectedRoute>
     <ProtectedRoute path="/submission">
       <Title>Submit Scores | Australian DDR Events</Title>
