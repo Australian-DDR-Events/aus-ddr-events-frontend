@@ -91,6 +91,17 @@ const Navigation = () => {
         >
           How to Participate
         </Menu.Item>
+        {loggedInUser.id && (
+          <Menu.Item
+            key="leaderboard"
+            // icon={<UploadOutlined />}
+            onClick={() => {
+              setLocation('/leaderboard');
+            }}
+          >
+            Leaderboard
+          </Menu.Item>
+        )}
 
         {loggedInUser.id && (
           <Menu.Item
