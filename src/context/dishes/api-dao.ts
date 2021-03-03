@@ -4,10 +4,12 @@ import {
   Dish,
   DishesDao,
   DishGrade,
+  DishSong,
   DishSubmissionRequest,
   DishSubmissionResponse,
 } from './types';
 import { DefaultDish, DefaultDishSubmissionResponse } from './constants';
+import { Ingredient } from '../ingredients/types';
 
 const dishesApiDao = ({
   getIdTokenFunc,
@@ -40,6 +42,43 @@ const dishesApiDao = ({
       .catch(
         (): Result<Error, Array<Dish>> =>
           err(new Error('failed to get dishes'), new Array<Dish>()),
+      );
+  };
+
+  const getIngredients = async (
+    id: string,
+  ): Promise<Result<Error, Array<Ingredient>>> => {
+    return axiosClient
+      .get(`/summer2021/dishes/${id}/ingredients`)
+      .then(
+        (
+          response: AxiosResponse<Array<Ingredient>>,
+        ): Result<Error, Array<Ingredient>> => ok(response.data),
+      )
+      .catch(
+        (): Result<Error, Array<Ingredient>> => {
+          return err(
+            new Error('failed to get ingredients'),
+            new Array<Ingredient>(),
+          );
+        },
+      );
+  };
+
+  const getSongs = async (
+    id: string,
+  ): Promise<Result<Error, Array<DishSong>>> => {
+    return axiosClient
+      .get(`/summer2021/dishes/${id}/songs`)
+      .then(
+        (
+          response: AxiosResponse<Array<DishSong>>,
+        ): Result<Error, Array<DishSong>> => ok(response.data),
+      )
+      .catch(
+        (): Result<Error, Array<DishSong>> => {
+          return err(new Error('failed to get songs'), new Array<DishSong>());
+        },
       );
   };
 
@@ -96,6 +135,8 @@ const dishesApiDao = ({
   return {
     getById,
     getAll,
+    getIngredients,
+    getSongs,
     getGrades,
     postSubmission,
   };

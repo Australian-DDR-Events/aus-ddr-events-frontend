@@ -105,6 +105,18 @@ const Navigation = ({
           </Menu.Item>
         )}
 
+        {loggedInUser.id && (
+          <Menu.Item
+            key="course-submission"
+            icon={<UploadOutlined />}
+            onClick={() => {
+              setLocation('/course-submission');
+            }}
+          >
+            Submit Courses
+          </Menu.Item>
+        )}
+
         {!loggedInUser.id ? (
           <Menu.Item
             key="10"

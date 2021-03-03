@@ -58,8 +58,8 @@ const Submission = () => {
 
   const onSubmit = async () => {
     const values = await form.validateFields();
-    form.resetFields();
     setSending(true);
+
     const gradeResponse = await ingredientsRepository.ingredientsRepositoryInstance.postScoreSubmission(
       currentSongIngredient.ingredient.id,
       {
@@ -78,6 +78,8 @@ const Submission = () => {
       }
       return true;
     });
+
+    form.resetFields();
     setSubmitted(true);
     setSending(false);
   };
@@ -189,9 +191,13 @@ const Submission = () => {
         {!submitted ? (
           <SubmissionFormWrapper>
             {currentSongIngredient.song.difficulty === 'Expert' ? (
-              <ExpertJacket src={currentSongIngredient.song.imageUrl} />
+              <ExpertJacket
+                src={`${process.env.ASSETS_URL}${currentSongIngredient.song.image256}`}
+              />
             ) : (
-              <ChallengeJacket src={currentSongIngredient.song.imageUrl} />
+              <ChallengeJacket
+                src={`${process.env.ASSETS_URL}${currentSongIngredient.song.image256}`}
+              />
             )}
             <SubmissionForm form={form} />
           </SubmissionFormWrapper>
@@ -200,7 +206,7 @@ const Submission = () => {
             icon={
               <>
                 <Image
-                  src={`${process.env.ASSETS_URL}${currentSongIngredient.ingredient.image128}`}
+                  src={`${process.env.ASSETS_URL}${currentSongIngredient.ingredient.image256}`}
                 />
                 <br />
                 <Rate disabled defaultValue={gradeToInt(currentGrade.grade)} />
