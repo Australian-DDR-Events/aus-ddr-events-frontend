@@ -12,14 +12,24 @@ export type Dancer = {
   primaryMachine: string;
 };
 
+export type AllDancers = {
+  id: string;
+  authenticationId: string;
+  ddrName: string;
+  ddrCode: string;
+  primaryMachineLocation: string;
+  profilePictureUrl: string;
+  state: string;
+};
+
 export type DancersRepository = {
-  getAll: () => Promise<Result<Error, Array<Dancer>>>;
+  getAll: () => Promise<Result<Error, Array<AllDancers>>>;
   get: (id: string) => Promise<Result<Error, Dancer>>;
   update: (user: Dancer) => Promise<Result<Error, boolean>>;
 };
 
 export interface GetAll {
-  (): Promise<Result<Error, Array<Dancer>>>;
+  (): Promise<Result<Error, Array<AllDancers>>>;
 }
 
 export interface Get {

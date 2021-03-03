@@ -1,4 +1,4 @@
-import { Dancer } from './types';
+import { AllDancers, Dancer } from './types';
 
 // eslint-disable-next-line import/prefer-default-export
 export const DefaultDancer: Dancer = {
@@ -10,4 +10,14 @@ export const DefaultDancer: Dancer = {
   newProfilePicture: new File([''], 'filename'),
   state: '',
   userName: '',
+};
+
+export const DefaultAllDancers: AllDancers = {
+  id: '',
+  authenticationId: '',
+  ddrName: '',
+  ddrCode: '',
+  primaryMachineLocation: '',
+  profilePictureUrl: '',
+  state: '',
 };
