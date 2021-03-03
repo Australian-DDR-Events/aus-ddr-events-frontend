@@ -81,21 +81,21 @@ const songsRepositoryInstance = songsRepository(
   }),
 );
 
-const scoresRepositoryInterface = scoresRepository(
+const scoresRepositoryInstance = scoresRepository(
   scoresApiDao({
     getIdTokenFunc: getTokenOrDefault,
     axiosClient,
   }),
 );
 
-const ingredientsRepositoryInterface = ingredientsRepository(
+const ingredientsRepositoryInstance = ingredientsRepository(
   ingredientsApiDao({
     getIdTokenFunc: getTokenOrDefault,
     axiosClient,
   }),
 );
 
-const dishesRepositoryInterface = dishesRepository(
+const dishesRepositoryInstance = dishesRepository(
   dishesApiDao({
     getIdTokenFunc: getTokenOrDefault,
     axiosClient,
@@ -144,15 +144,15 @@ const providers: Array<ComposeProps> = [
   },
   {
     Provider: ScoresRepositoryProvider,
-    instance: scoresRepositoryInterface,
+    instance: scoresRepositoryInstance,
   },
   {
     Provider: IngredientsRepositoryProvider,
-    instance: ingredientsRepositoryInterface,
+    instance: ingredientsRepositoryInstance,
   },
   {
     Provider: DishesRepositoryProvider,
-    instance: dishesRepositoryInterface,
+    instance: dishesRepositoryInstance,
   },
   {
     Provider: HeadProvider,
