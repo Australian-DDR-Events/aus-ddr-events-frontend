@@ -1,5 +1,5 @@
-import React from 'react';
-import { Layout } from 'antd';
+import React, { useState } from 'react';
+import { Drawer, Layout } from 'antd';
 import Navigation from '../navigation';
 import { WhiteBackgroundLayout } from './styled';
 
@@ -9,15 +9,30 @@ const Wrapper = ({
   children,
 }: {
   children: React.ReactElement | React.ReactElement[];
-}) => (
-  <Layout style={{ minHeight: '100vh' }}>
-    <Navigation />
-    <Layout>
-      <Content>
-        <WhiteBackgroundLayout>{children}</WhiteBackgroundLayout>
-      </Content>
+}) => {
+  const [visible, setVisible] = useState(true);
+
+  return (
+    <Layout style={{ minHeight: '100vh' }}>
+      <Navigation
+        collapsible={true}
+      />
+      <Layout>
+        <Drawer
+          placement='left'
+          onClose={() => setVisible(false)}
+          visible={visible}
+        >
+          <Navigation
+            collapsible={false}
+          />
+        </Drawer>
+        <Content>
+          <WhiteBackgroundLayout>{children}</WhiteBackgroundLayout>
+        </Content>
+      </Layout>
     </Layout>
-  </Layout>
-);
+  );
+};
 
 export default Wrapper;
