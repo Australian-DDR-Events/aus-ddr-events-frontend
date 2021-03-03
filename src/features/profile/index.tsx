@@ -79,13 +79,13 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
               {!loading && (
                 <>
                   <Avatar
-                    size={80}
+                    size={96}
                     shape="square"
-                    src={
-                      `${process.env.ASSETS_URL}${
-                        dancer.profilePicture
-                      }?${new Date()}` || 'https://i.imgur.com/o0ulS6k.png'
-                    }
+                    src={dancer.profilePicture ? (
+                      `${process.env.ASSETS_URL}${dancer.profilePicture}?${new Date()}`
+                    ) : (
+                      'https://i.imgur.com/o0ulS6k.png'
+                    )}
                   />
                   <ProfileHeader level={2}>{dancer.userName}</ProfileHeader>
                   <Typography.Text key="dancerName">
