@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Layout, Menu, Image } from 'antd';
+import { Layout, Menu, Image, Affix } from 'antd';
 import { useLocation } from 'wouter';
 import {
   UserOutlined,

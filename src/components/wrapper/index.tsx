@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Drawer, Layout } from 'antd';
+import { Affix, Button, Drawer, Layout } from 'antd';
 import Navigation from '../navigation';
-import { WhiteBackgroundLayout } from './styled';
+import { ResponsiveButton, WhiteBackgroundLayout } from './styled';
+import { MenuUnfoldOutlined } from '@ant-design/icons';
 
 const { Content } = Layout;
 
@@ -10,25 +11,30 @@ const Wrapper = ({
 }: {
   children: React.ReactElement | React.ReactElement[];
 }) => {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Navigation
-        collapsible={true}
-      />
+      <Navigation collapsible={true} />
       <Layout>
         <Drawer
           placement='left'
           onClose={() => setVisible(false)}
           visible={visible}
         >
-          <Navigation
-            collapsible={false}
-          />
+          <Navigation collapsible={false} />
         </Drawer>
         <Content>
-          <WhiteBackgroundLayout>{children}</WhiteBackgroundLayout>
+          <WhiteBackgroundLayout>
+            <Affix offsetTop={16}>
+              <ResponsiveButton>
+                <Button onClick={() => setVisible(true)}>
+                  <MenuUnfoldOutlined />
+                </Button>
+              </ResponsiveButton>
+            </Affix>
+            {children}
+          </WhiteBackgroundLayout>
         </Content>
       </Layout>
     </Layout>
