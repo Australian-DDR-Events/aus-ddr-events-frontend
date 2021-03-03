@@ -1,9 +1,7 @@
 import { Typography } from 'antd';
 import styled, { defaultSpacing } from 'types/styled-components';
 
-export const LeaderboardHeader = styled(Typography.Title)`
-  margin-bottom: -8px !important;
-`;
+export const LeaderboardHeader = styled(Typography.Title)``;
 
 export const LeaderboardWrapper = styled.div`
   width: 100%;
