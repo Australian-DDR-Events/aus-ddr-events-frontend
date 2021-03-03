@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Result } from 'types/result';
+import { Ingredient } from '../ingredients/types';
 import { ScoreSubmissionRequest } from '../scores/types';
 
 export type Dish = {
@@ -15,6 +16,17 @@ export type DishGrade = {
   id: string;
   description: string;
   grade: string;
+  image32: string;
+  image64: string;
+  image128: string;
+  image256: string;
+};
+
+export type DishSong = {
+  id: string;
+  cookingOrder: number;
+  cookingMethod: string;
+  songId: string;
 };
 
 export type DishSubmissionRequest = {
@@ -37,6 +49,14 @@ export interface GetAll {
   (): Promise<Result<Error, Array<Dish>>>;
 }
 
+export interface GetIngredients {
+  (id: string): Promise<Result<Error, Array<Ingredient>>>;
+}
+
+export interface GetSongs {
+  (id: string): Promise<Result<Error, Array<DishSong>>>;
+}
+
 export interface GetGrades {
   (id: string): Promise<Result<Error, Array<DishGrade>>>;
 }
@@ -50,6 +70,8 @@ export interface PostSubmission {
 export type DishesRepository = {
   getById: GetById;
   getAll: GetAll;
+  getIngredients: GetIngredients;
+  getSongs: GetSongs;
   getGrades: GetGrades;
   postSubmission: PostSubmission;
 };
@@ -57,6 +79,8 @@ export type DishesRepository = {
 export interface DishesDao {
   getById: GetById;
   getAll: GetAll;
+  getIngredients: GetIngredients;
+  getSongs: GetSongs;
   getGrades: GetGrades;
   postSubmission: PostSubmission;
 }
@@ -67,5 +91,5 @@ export interface DishesRepositoryContextInterface {
 
 export interface DishesRepositoryProviderOptions {
   children?: ReactNode;
-  dishesRepositoryInstance: DishesRepository;
+  instance: DishesRepository;
 }

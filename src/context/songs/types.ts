@@ -5,9 +5,13 @@ export type Song = {
   id: string;
   name: string;
   artist: string;
-  imageUrl: string;
   difficulty: string;
   level: number;
+  image32: string;
+  image64: string;
+  image128: string;
+  image256: string;
+  image512: string;
 };
 
 export type SongsRepository = {
