@@ -1,4 +1,4 @@
-import { DefaultDancer, Dancer } from 'context/dancer';
+import { DefaultDancer, Dancer, AllDancers } from 'context/dancer';
 import { err, ok, Result } from 'types/result';
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { DancersDao } from 'context/dancer/types';
@@ -10,24 +10,24 @@ const dancersApiDao = ({
   getIdTokenFunc: () => Promise<string>;
   axiosClient: AxiosInstance;
 }): DancersDao => {
-  const getAll = async (): Promise<Result<Error, Array<Dancer>>> => {
+  const getAll = async (): Promise<Result<Error, Array<AllDancers>>> => {
     return axiosClient
       .get(`/dancers`)
       .then(
-        (response: AxiosResponse): Array<Ingredient> => {
+        (response: AxiosResponse): Array<AllDancers> => {
           return response.data.map(
-            (dancer: Dancer): Dancer => dancer,
+            (dancer: AllDancers): AllDancers => dancer,
           );
         },
       )
       .then (
-        (dancers: Array<Dancer>): Result<Error, Array<Dancer>> => ok(dancers),
+        (dancers: Array<AllDancers>): Result<Error, Array<AllDancers>> => ok(dancers),
       )
       .catch(
-        (): Result<Error, Array<Dancer>> => {
+        (): Result<Error, Array<AllDancers>> => {
           return err(
             new Error('failed to get dancers'),
-            new Array<Dancer>(),
+            new Array<AllDancers>(),
           );
         },
       );

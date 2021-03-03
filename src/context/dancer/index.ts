@@ -4,7 +4,7 @@ import dancersApiDao from './api-dao';
 import userFirebaseDao from './user-firebase-dao';
 import DancersRepositoryContext from './context';
 import dancersRepository from './repository';
-import { DefaultDancer } from './constants';
+import { DefaultDancer, DefaultAllDancers } from './constants';
 
 export {
   DancersRepositoryContext,
@@ -14,6 +14,7 @@ export {
   dancersApiDao,
   dancersRepository,
   DefaultDancer,
+  DefaultAllDancers,
   Dancer,
   DancersDao,
 };
