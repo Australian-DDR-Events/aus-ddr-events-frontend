@@ -10,6 +10,30 @@ const dancersApiDao = ({
   getIdTokenFunc: () => Promise<string>;
   axiosClient: AxiosInstance;
 }): DancersDao => {
+  const getAll = async (): Promise<Result<Error, Array<Dancer>>> => {
+    return axiosClient
+      .get(`/dancers`)
+      .then(
+        (response: AxiosResponse): Array<Ingredient> => {
+          return response.data.map(
+            (dancer: Dancer): Dancer => dancer,
+          );
+        },
+      )
+      .then (
+        (dancers: Array<Dancer>): Result<Error, Array<Dancer>> => ok(dancers),
+      )
+      .catch(
+        (): Result<Error, Array<Dancer>> => {
+          return err(
+            new Error('failed to get dancers'),
+            new Array<Dancer>(),
+          );
+        },
+      );
+  };
+
+
   const get = async (dancerId: string): Promise<Result<Error, Dancer>> => {
     return axiosClient
       .get(`/dancers/${dancerId}`)
@@ -90,7 +114,7 @@ const dancersApiDao = ({
     return result;
   };
 
-  return { get, update };
+  return { get, update, getAll };
 };
 
 export default dancersApiDao;

@@ -13,9 +13,14 @@ export type Dancer = {
 };
 
 export type DancersRepository = {
+  getAll: () => Promise<Result<Error, Array<Dancer>>>;
   get: (id: string) => Promise<Result<Error, Dancer>>;
   update: (user: Dancer) => Promise<Result<Error, boolean>>;
 };
+
+export interface GetAll {
+  (): Promise<Result<Error, Array<Dancer>>>;
+}
 
 export interface Get {
   (id: string): Promise<Result<Error, Dancer>>;
@@ -26,6 +31,7 @@ export interface Update {
 }
 
 export interface DancersDao {
+  getAll: GetAll;
   get: Get;
   update: Update;
 }
