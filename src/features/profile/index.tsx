@@ -129,7 +129,9 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
           </Card>
         </Col>
         <Col xs={24} xl={16}>
-          <CollectionContainer />
+          <CollectionContainer
+            dancer={dancer}
+          />
         </Col>
       </Row>
     </ProfileWrapper>
