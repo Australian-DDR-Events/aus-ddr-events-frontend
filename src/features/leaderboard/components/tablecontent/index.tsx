@@ -1,21 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Table } from 'antd';
+import { Table, Typography, Space, Avatar } from 'antd';
 import { ScoresRepositoryContext } from 'context/scores';
 import { DancersRepositoryContext } from 'context/dancer';
 import { DefaultAllDancers } from 'context/dancer/constants';
-import { DefaultScore, DefaultSummer2021Score } from 'context/scores/constants';
-import { Score } from '~/context/scores/types';
+import { DefaultScore } from 'context/scores/constants';
+import { LeaderboardContainer } from './styled';
+import { SongsRepositoryContext } from 'context/songs';
+import { DefaultSong } from '~/context/songs/constants';
 
-const { Column } = Table;
+const { Title } = Typography;
 
 const TableContent = () => {
+  const songsRepo = useContext(SongsRepositoryContext);
   const scoresRepo = useContext(ScoresRepositoryContext);
   const dancersRepo = useContext(DancersRepositoryContext);
-
-  const [summer2021Scores, setSummer2021Scores] = useState(
-    Array(DefaultSummer2021Score),
-  );
   const [scores, setScores] = useState(Array(DefaultScore));
+  const [songs, setSongs] = useState(Array(DefaultSong));
   const [allDancers, setAllDancers] = useState(Array(DefaultAllDancers));
   const [loading, setLoading] = useState(true);
 
@@ -44,49 +44,73 @@ const TableContent = () => {
     }
   }, [allDancers]);
 
+  const columns = [
+    {
+      title: ' Dancer Name',
+      textWrap: 'word-break',
+      ellipsis: true,
+      width: 36,
+      render: (item) => {
+        return (
+          <>
+            <Space>
+              <Avatar
+                size={32}
+                shape="square"
+                src={
+                  `${process.env.ASSETS_URL}${item.dancerImageUrl}` ||
+                  'https://i.imgur.com/o0ulS6k.png'
+                }
+              />
+              <Title level={4}>{item.dancerName}</Title>
+            </Space>
+            <p>{item.dancerState}</p>
+          </>
+        );
+      },
+    },
+    {
+      title: 'Total Score',
+      dataIndex: 'dancerTotalScores',
+      textWrap: 'word-break',
+      ellipsis: true,
+      width: 16,
+      sorter: {
+        compare: (a, b) => a.dancerTotalScores - b.dancerTotalScores,
+        multiple: 3,
+      },
+    },
+  ];
+
   return (
     <>
       {!loading && (
-        <Table
-          bordered
-          size="middle"
-          pagination={false}
-          dataSource={allDancers.map((dancer) => ({
-            dancerName: dancer.ddrName,
-            dancerImageUrl: dancer.profilePictureUrl,
-            dancerScores: scores
-              .map((score) => {
-                if (dancer.id === score.dancerId) {
-                  if (score.value !== undefined) {
-                    return score.value;
+        <LeaderboardContainer>
+          <Table
+            bordered
+            size="middle"
+            pagination={false}
+            dataSource={allDancers.map((dancer) => ({
+              dancerCode: dancer.ddrCode,
+              dancerState: dancer.state,
+              dancerName: dancer.ddrName,
+              dancerImageUrl: dancer.profilePictureUrl,
+              dancerTotalScores: scores
+                .map((score) => {
+                  if (dancer.id === score.dancerId) {
+                    if (score.value !== undefined) {
+                      return score.value;
+                    }
                   }
-                }
-                return 0;
-              })
-              .reduce((acc: number, cur: number) => {
-                return acc + cur;
-              }, 0),
-          }))}
-        >
-          <Column
-            width={24}
-            title="Dancer Name"
-            key="dancerName"
-            dataIndex="dancerName"
+                  return 0;
+                })
+                .reduce((acc: number, cur: number) => {
+                  return acc + cur;
+                }, 0),
+            }))}
+            columns={columns}
           />
-          <Column
-            width={16}
-            title="Total Score"
-            key="dancerScores"
-            dataIndex="dancerScores"
-          />
-          <Column
-            width={16}
-            title="Rank"
-            key="exscore"
-            dataIndex="dancerRank"
-          />
-        </Table>
+        </LeaderboardContainer>
       )}
     </>
   );
