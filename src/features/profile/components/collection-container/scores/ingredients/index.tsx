@@ -115,24 +115,30 @@ const Ingredients = () => {
   return (
     <>
       {!loading && (
-        <Space>
-          <div>
+        <div>
+          <div
+            style={{
+              width: '100%',
+            }}
+          >
             {ingredients.map((ingredient) => {
               return (
-                <Space
-                  style={{
-                    margin: '4px',
-                    width: '240px',
-                  }}
-                >
-                  <Card>
+                <Space>
+                  <Card
+                    style={{
+                      maxWidth: '180px',
+                      minHeight: '380px',
+                      margin: '2px',
+                    }}
+                  >
                     <Image
-                      style={{ padding: '8px' }}
+                      preview={false}
+                      style={{ padding: '4px' }}
                       src={`${process.env.ASSETS_URL}${ingredient.image64}`}
                       alt="ingredientimage"
                     />
                     <Paragraph>
-                      <Title level="4">{ingredient.name}</Title>
+                      <Title level={4}>{ingredient.name}</Title>
                     </Paragraph>
                     <Paragraph>
                       {scores.map((score) => {
@@ -161,6 +167,7 @@ const Ingredients = () => {
                                 .map((filteredName) => {
                                   return (
                                     <Rate
+                                      style={{ width: '100%' }}
                                       disabled
                                       defaultValue={gradeToInt(
                                         filteredName.grade,
@@ -178,7 +185,7 @@ const Ingredients = () => {
               );
             })}
           </div>
-        </Space>
+        </div>
       )}
     </>
   );
