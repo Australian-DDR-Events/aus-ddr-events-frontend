@@ -42,6 +42,11 @@ import {
   DishesRepositoryProvider,
 } from 'context/dishes';
 import axios from 'axios';
+import {
+  badgesApiDao,
+  badgesRepository,
+  BadgesRepositoryProvider
+} from 'context/badges';
 
 dotenv.config();
 
@@ -101,6 +106,11 @@ const dishesRepositoryInstance = dishesRepository(
     axiosClient,
   }),
 );
+const badgesRepositoryInstance = badgesRepository(
+  badgesApiDao({
+    axiosClient,
+  }),
+);
 
 const SkeletonWrapper = styled.div`
   padding: ${defaultSpacing * 2}px;
@@ -153,6 +163,10 @@ const providers: Array<ComposeProps> = [
   {
     Provider: DishesRepositoryProvider,
     instance: dishesRepositoryInstance,
+  },
+  {
+    Provider: BadgesRepositoryProvider,
+    instance: badgesRepositoryInstance,
   },
   {
     Provider: HeadProvider,
