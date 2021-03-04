@@ -45,9 +45,13 @@ import axios from 'axios';
 import {
   badgesApiDao,
   badgesRepository,
-  BadgesRepositoryProvider
+  BadgesRepositoryProvider,
 } from 'context/badges';
-import { eventsApiDao, eventsRepository, EventsRepositoryProvider } from 'context/events';
+import {
+  eventsApiDao,
+  eventsRepository,
+  EventsRepositoryProvider,
+} from 'context/events';
 
 dotenv.config();
 
@@ -117,8 +121,8 @@ const badgesRepositoryInstance = badgesRepository(
 const eventsRepositoryInstance = eventsRepository(
   eventsApiDao({
     axiosClient,
-  })
-)
+  }),
+);
 
 const SkeletonWrapper = styled.div`
   padding: ${defaultSpacing * 2}px;
