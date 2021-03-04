@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Layout, Menu, Image, Affix } from 'antd';
+import { Layout, Menu, Image } from 'antd';
 import { useLocation } from 'wouter';
 import {
   UserOutlined,
@@ -14,11 +14,7 @@ import logo from 'assets/logo.png';
 
 const { Sider } = Layout;
 
-const Navigation = ({
-  collapsible,
-}: {
-  collapsible: boolean;
-}) => {
+const Navigation = ({ collapsible }: { collapsible: boolean }) => {
   const [collapsed, setCollapsed] = useState<boolean>(true);
   const [collapseWidth, setCollapseWidth] = useState(80);
   const [location, setLocation] = useLocation();
