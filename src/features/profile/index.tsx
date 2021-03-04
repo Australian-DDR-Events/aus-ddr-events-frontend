@@ -8,6 +8,7 @@ import {
   Row,
   Col,
   Popover,
+  message,
 } from 'antd';
 import { CheckCircleOutlined, CloseOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
@@ -39,6 +40,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
   const isEditable = !id || loggedInUserId === id;
 
   useEffect(() => {
+    console.log(id);
     if (!isEditing) {
       setLoading(true);
       const lookupId = id ?? loggedInUserId;
@@ -66,13 +68,16 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                 <>
                   <Skeleton.Avatar active size={80} shape="square" />
                   <Skeleton
-                    active
                     paragraph={{
                       rows: 4,
                       width: '100%',
                     }}
                   />
-                  <Skeleton.Button active size="default" shape="square" />
+                  <Space>
+                    <Skeleton.Button active size="default" shape="square" />
+                    <Skeleton.Button active size="default" shape="square" />
+                  </Space>
+
                 </>
               )}
 
@@ -114,15 +119,26 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                     Primary Machine: {dancer.primaryMachine}
                   </Typography.Text>
 
-                  {isEditable && (
+                  <Space>
+                    {isEditable && (
+                      <Button
+                        onClick={() => {
+                          setIsEditing(true);
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    )}
                     <Button
                       onClick={() => {
-                        setIsEditing(true);
+                        navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/dancer/${dancer.id}`);
+                        message.info("Copied to clipboard!")
                       }}
                     >
-                      Edit
+                      Share
                     </Button>
-                  )}
+                  </Space>
+
                 </>
               )}
             </Space>
