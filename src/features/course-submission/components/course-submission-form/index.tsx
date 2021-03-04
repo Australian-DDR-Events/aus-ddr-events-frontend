@@ -14,6 +14,7 @@ import {
 import React, { useState } from 'react';
 import { Recipe } from '../../types';
 import { ChallengeJacket, ExpertJacket } from '../../styled';
+import { DefaultSong } from 'context/songs/constants';
 
 const CourseSubmissionForm = ({
   form,
@@ -22,8 +23,8 @@ const CourseSubmissionForm = ({
   form: FormInstance;
   currentRecipe: Recipe;
 }) => {
-  const [currentJacket, setCurrentJacket] = useState('');
-  const [currentDifficulty, setCurrentDifficulty] = useState('');
+  const [currentSong, setCurrentSong] = useState(DefaultSong);
+  const [currentMaxScores, setCurrentMaxScores] = useState(new Array(currentRecipe.songs.length).fill(0));
 
   const uploadProps = {
     beforeUpload: () => {
@@ -38,16 +39,19 @@ const CourseSubmissionForm = ({
     return e.file;
   };
 
-  const updateCurrentSong = (songId: string) => {
+  const updateCurrentSong = (index: number, songId: string) => {
     if (!songId) {
-      setCurrentJacket('');
-      setCurrentDifficulty('');
+      setCurrentSong(DefaultSong);
       return;
     }
     currentRecipe.songs.every((song) => {
       if (song.dishSong.songId === songId) {
-        setCurrentJacket(song.songDetails.image256);
-        setCurrentDifficulty(song.songDetails.difficulty);
+        setCurrentSong(song.songDetails);
+        setCurrentMaxScores((prevMaxScores) => {
+          prevMaxScores[index] = song.songDetails.maxScore;
+          return prevMaxScores;
+        })
+        console.log(currentMaxScores);
         return false;
       }
       return true;
@@ -56,13 +60,13 @@ const CourseSubmissionForm = ({
 
   return (
     <>
-      {currentDifficulty &&
-        (currentDifficulty === 'Expert' ? (
-          <ExpertJacket src={`${process.env.ASSETS_URL}${currentJacket}`} />
+      {currentSong.difficulty &&
+        (currentSong.difficulty === 'Expert' ? (
+          <ExpertJacket src={`${process.env.ASSETS_URL}${currentSong.image256}`} />
         ) : (
-          <ChallengeJacket src={`${process.env.ASSETS_URL}${currentJacket}`} />
+          <ChallengeJacket src={`${process.env.ASSETS_URL}${currentSong.image256}`} />
         ))}
-      {!currentDifficulty && (
+      {!currentSong.difficulty && (
         <Image
           src={`${process.env.ASSETS_URL}/songs/default/default.256.png`}
         />
@@ -71,7 +75,7 @@ const CourseSubmissionForm = ({
         <Tabs
           defaultActiveKey="0"
           onChange={(activeKey) => {
-            updateCurrentSong(form.getFieldValue(`songId${activeKey}`));
+            updateCurrentSong(Number(activeKey), form.getFieldValue(`songId${activeKey}`));
           }}
         >
           {Array.from(currentRecipe.songs.keys()).map((index) => {
@@ -90,7 +94,7 @@ const CourseSubmissionForm = ({
                   <Select
                     placeholder="Select a method/song"
                     onChange={(songId) => {
-                      updateCurrentSong(songId.toString());
+                      updateCurrentSong(index, songId.toString());
                     }}
                   >
                     {currentRecipe.songs.map((detailedDishSong) => {
@@ -133,7 +137,7 @@ const CourseSubmissionForm = ({
                     },
                   ]}
                 >
-                  <InputNumber min={0} max={9999} />
+                  <InputNumber min={0} max={currentMaxScores[index]} />
                 </Form.Item>
               </Tabs.TabPane>
             );

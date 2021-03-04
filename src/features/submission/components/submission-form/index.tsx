@@ -1,8 +1,15 @@
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, Form, FormInstance, InputNumber, Upload } from 'antd';
 import React from 'react';
+import { SongIngredient } from '../../types';
 
-const SubmissionForm = ({ form }: { form: FormInstance }) => {
+const SubmissionForm = ({
+  form,
+  currentSongIngredient,
+}: {
+  form: FormInstance;
+  currentSongIngredient: SongIngredient;
+}) => {
   const uploadProps = {
     beforeUpload: () => {
       return false;
@@ -48,7 +55,7 @@ const SubmissionForm = ({ form }: { form: FormInstance }) => {
           },
         ]}
       >
-        <InputNumber min={0} max={9999} />
+        <InputNumber min={0} max={currentSongIngredient.song.maxScore} />
       </Form.Item>
     </Form>
   );
