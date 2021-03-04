@@ -39,7 +39,7 @@ const Badges = ({ dancer }: { dancer: Dancer }) => {
           <Col className="gutter-row" xs={12} xl={4}>
             <Tooltip title={badge.description}>
               <Card
-                cover={<Image src={`${process.env.ASSETS_URL}${badge.image256}`}/>}
+                cover={<Image src={`${process.env.ASSETS_URL}${badge.image256}`} preview={false}/>}
               >
                 <Card.Meta
                   title={

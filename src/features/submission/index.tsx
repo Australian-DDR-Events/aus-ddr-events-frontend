@@ -193,10 +193,12 @@ const Submission = () => {
             {currentSongIngredient.song.difficulty === 'Expert' ? (
               <ExpertJacket
                 src={`${process.env.ASSETS_URL}${currentSongIngredient.song.image256}`}
+                preview={false}
               />
             ) : (
               <ChallengeJacket
                 src={`${process.env.ASSETS_URL}${currentSongIngredient.song.image256}`}
+                preview={false}
               />
             )}
             <SubmissionForm form={form} />
@@ -207,6 +209,7 @@ const Submission = () => {
               <>
                 <Image
                   src={`${process.env.ASSETS_URL}${currentSongIngredient.ingredient.image256}`}
+                  preview={false}
                 />
                 <br />
                 <Rate disabled defaultValue={gradeToInt(currentGrade.grade)} />

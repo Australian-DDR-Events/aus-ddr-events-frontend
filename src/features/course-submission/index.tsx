@@ -251,6 +251,7 @@ const CourseSubmission = () => {
               <>
                 <Image
                   src={`${process.env.ASSETS_URL}${currentGrade.image256}`}
+                  preview={false}
                 />
                 <br />
                 <Rate disabled defaultValue={gradeToInt(currentGrade.grade)} />
