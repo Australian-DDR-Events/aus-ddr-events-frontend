@@ -1,7 +1,7 @@
 import { DefaultDancer, Dancer } from 'context/dancer';
 import { err, ok, Result } from 'types/result';
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { DancersDao } from 'context/dancer/types';
+import { DancersDao, DancerUpdateRequest } from 'context/dancer/types';
 
 const dancersApiDao = ({
   getIdTokenFunc,
@@ -58,13 +58,17 @@ const dancersApiDao = ({
   };
 
   const update = async (dancer: Dancer): Promise<Result<Error, boolean>> => {
-    const dancerSubmission = {
+    const dancerSubmission: DancerUpdateRequest = {
       ddrName: dancer.dancerName || '',
-      ddrCode: dancer.dancerId || '',
       primaryMachineLocation: dancer.primaryMachine || '',
-      state: dancer.state || '',
       profilePictureUrl: dancer.profilePicture || '',
     };
+    if (dancer.dancerId) {
+      dancerSubmission.ddrCode = dancer.dancerId || '';
+    }
+    if (dancer.state) {
+      dancerSubmission.state = dancer.state || '';
+    }
 
     const request: AxiosRequestConfig = {
       headers: {

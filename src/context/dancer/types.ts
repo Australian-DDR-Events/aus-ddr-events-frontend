@@ -12,6 +12,13 @@ export type Dancer = {
   primaryMachine: string;
 };
 
+export interface DancerUpdateRequest {
+  ddrName: string;
+  primaryMachineLocation: string;
+  profilePictureUrl: string;
+  [key: string]: any;
+};
+
 export type DancersRepository = {
   get: (id: string) => Promise<Result<Error, Dancer>>;
   update: (user: Dancer) => Promise<Result<Error, boolean>>;
