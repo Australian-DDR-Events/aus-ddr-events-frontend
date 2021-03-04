@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Table, Typography, Space, Avatar } from 'antd';
+import { Table, Typography, Space, Tabs, Spin, Image } from 'antd';
 import { ScoresRepositoryContext } from 'context/scores';
 import { DancersRepositoryContext } from 'context/dancer';
 import { DefaultAllDancers } from 'context/dancer/constants';
 import { DefaultScore } from 'context/scores/constants';
-import { LeaderboardContainer } from './styled';
 import { SongsRepositoryContext } from 'context/songs';
-import { DefaultSong } from '~/context/songs/constants';
+import { DefaultSong } from 'context/songs/constants';
+import { LeaderboardContainer } from './styled';
 
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
+const { TabPane } = Tabs;
 
 const TableContent = () => {
   const songsRepo = useContext(SongsRepositoryContext);
@@ -25,8 +26,13 @@ const TableContent = () => {
         setAllDancers(dancersRes.okOrDefault());
         setLoading(false);
       });
+
+      songsRepo.songsRepositoryInstance.getAll().then((songsRes) => {
+        setSongs(songsRes.okOrDefault());
+        setLoading(false);
+      });
     }
-  });
+  }, []);
 
   useEffect(() => {
     if (allDancers) {
@@ -46,7 +52,7 @@ const TableContent = () => {
 
   const columns = [
     {
-      title: ' Dancer Name',
+      title: 'Dancer Name',
       textWrap: 'word-break',
       ellipsis: true,
       width: 36,
@@ -54,17 +60,14 @@ const TableContent = () => {
         return (
           <>
             <Space>
-              <Avatar
-                size={32}
-                shape="square"
-                src={
-                  `${process.env.ASSETS_URL}${item.dancerImageUrl}` ||
-                  'https://i.imgur.com/o0ulS6k.png'
-                }
+              <Image
+                fallback="https://i.imgur.com/o0ulS6k.png"
+                width={32}
+                src={`${process.env.ASSETS_URL}${item.dancerImageUrl}`}
               />
-              <Title level={4}>{item.dancerName}</Title>
+              <Title level={4}>{item.dancerName.toUpperCase()}</Title>
             </Space>
-            <p>{item.dancerState}</p>
+            <Paragraph>{item.dancerState.toUpperCase()}</Paragraph>
           </>
         );
       },
@@ -84,33 +87,71 @@ const TableContent = () => {
 
   return (
     <>
-      {!loading && (
+      {!loading ? (
         <LeaderboardContainer>
-          <Table
-            bordered
-            size="middle"
-            pagination={false}
-            dataSource={allDancers.map((dancer) => ({
-              dancerCode: dancer.ddrCode,
-              dancerState: dancer.state,
-              dancerName: dancer.ddrName,
-              dancerImageUrl: dancer.profilePictureUrl,
-              dancerTotalScores: scores
-                .map((score) => {
-                  if (dancer.id === score.dancerId) {
-                    if (score.value !== undefined) {
-                      return score.value;
-                    }
-                  }
-                  return 0;
-                })
-                .reduce((acc: number, cur: number) => {
-                  return acc + cur;
-                }, 0),
-            }))}
-            columns={columns}
-          />
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="OVERVIEW" key="1">
+              <Table
+                bordered
+                size="middle"
+                pagination={false}
+                dataSource={allDancers.map((dancer) => ({
+                  dancerCode: dancer.ddrCode,
+                  dancerState: dancer.state,
+                  dancerName: dancer.ddrName,
+                  dancerImageUrl: dancer.profilePictureUrl,
+                  dancerTotalScores: scores
+                    .map((score) => {
+                      if (dancer.id === score.dancerId) {
+                        if (score.value !== undefined) {
+                          return score.value;
+                        }
+                      }
+                      return 0;
+                    })
+                    .reduce((acc: number, cur: number) => {
+                      return acc + cur;
+                    }, 0),
+                }))}
+                columns={columns}
+              />
+            </TabPane>
+            {songs.map((song) => {
+              return (
+                <TabPane tab={song.name} key={song.id}>
+                  <Table
+                    bordered
+                    size="middle"
+                    pagination={false}
+                    dataSource={allDancers.map((dancer) => ({
+                      dancerCode: dancer.ddrCode,
+                      dancerState: dancer.state,
+                      dancerName: dancer.ddrName,
+                      dancerImageUrl: dancer.profilePictureUrl,
+                      dancerTotalScores: scores
+                        .map((score) => {
+                          if (dancer.id === score.dancerId) {
+                            if (score.value !== undefined) {
+                              if (score.songId === song.id) {
+                                return score.value;
+                              }
+                            }
+                          }
+                          return 0;
+                        })
+                        .reduce((acc: number, cur: number) => {
+                          return acc + cur;
+                        }, 0),
+                    }))}
+                    columns={columns}
+                  />
+                </TabPane>
+              );
+            })}
+          </Tabs>
         </LeaderboardContainer>
+      ) : (
+        <Spin tip="Loading..." />
       )}
     </>
   );

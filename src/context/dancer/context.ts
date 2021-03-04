@@ -5,7 +5,7 @@ import { AllDancers, DancersRepositoryContextInterface } from './types';
 
 const initialContext = {
   dancersRepositoryInstance: {
-    getAll: async () => 
+    getAll: async () =>
       err(
         new Error('dancersrepository not initialized'),
         new Array<AllDancers>(),

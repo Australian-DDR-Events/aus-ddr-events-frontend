@@ -15,13 +15,12 @@ const dancersApiDao = ({
       .get(`/dancers`)
       .then(
         (response: AxiosResponse): Array<AllDancers> => {
-          return response.data.map(
-            (dancer: AllDancers): AllDancers => dancer,
-          );
+          return response.data.map((dancer: AllDancers): AllDancers => dancer);
         },
       )
-      .then (
-        (dancers: Array<AllDancers>): Result<Error, Array<AllDancers>> => ok(dancers),
+      .then(
+        (dancers: Array<AllDancers>): Result<Error, Array<AllDancers>> =>
+          ok(dancers),
       )
       .catch(
         (): Result<Error, Array<AllDancers>> => {
@@ -32,7 +31,6 @@ const dancersApiDao = ({
         },
       );
   };
-
 
   const get = async (dancerId: string): Promise<Result<Error, Dancer>> => {
     return axiosClient
