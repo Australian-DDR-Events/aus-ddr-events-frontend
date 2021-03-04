@@ -8,6 +8,7 @@ import {
   LogoutOutlined,
   HomeOutlined,
   UploadOutlined,
+  PieChartOutlined,
 } from '@ant-design/icons';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import logo from 'assets/logo.png';
@@ -94,7 +95,7 @@ const Navigation = () => {
         {loggedInUser.id && (
           <Menu.Item
             key="leaderboard"
-            // icon={<UploadOutlined />}
+            icon={<PieChartOutlined />}
             onClick={() => {
               setLocation('/leaderboard');
             }}
