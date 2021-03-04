@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Image, Table } from 'antd';
+import { Image, Typography, Space, Card, Rate } from 'antd';
 import { IngredientsRepositoryContext } from 'context/ingredients';
 import { DefaultGrade, DefaultIngredient } from 'context/ingredients/constants';
 import { DefaultScore, DefaultSummer2021Score } from 'context/scores/constants';
@@ -7,7 +7,7 @@ import { ScoresRepositoryContext } from 'context/scores';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import { DefaultDancer, DancersRepositoryContext } from 'context/dancer';
 
-const { Column } = Table;
+const { Text, Paragraph, Title } = Typography;
 
 const Ingredients = () => {
   const ingredientsRepo = useContext(IngredientsRepositoryContext);
@@ -93,73 +93,92 @@ const Ingredients = () => {
     }
   }, [ingredients, dancer]);
 
+  const gradeToInt = (grade: string) => {
+    if (grade === 'E') {
+      return 1;
+    }
+    if (grade === 'B') {
+      return 2;
+    }
+    if (grade === 'A') {
+      return 3;
+    }
+    if (grade === 'AA') {
+      return 4;
+    }
+    if (grade === 'AAA') {
+      return 5;
+    }
+    return 0;
+  };
+
   return (
     <>
       {!loading && (
-        <Table
-          bordered
-          size="middle"
-          scroll={{ x: 80, y: 300 }}
-          pagination={false}
-          dataSource={ingredients.map((ingredient) => ({
-            ingredientName: ingredient.name,
-            ingredientImageUrl: ingredient.image128,
-            songScore: scores.map((score) => {
-              if (ingredient.songId === score.songId) {
-                return score.value;
-              }
-            }),
-            ingredientGrade: scores.map((score) => {
-              if (ingredient.songId === score.songId) {
-                return currentScores.map((cs) => {
-                  if (score.id === cs.scoreId) {
-                    return grades
-                      .filter((grade) =>
-                        grade.id.includes(cs.gradedIngredientId),
-                      )
-                      .map((filteredName) => {
-                        return filteredName.description;
-                      });
-                  }
-                });
-              }
-            }),
-          }))}
-        >
-          <Column
-            width={12}
-            title="Ingredient"
-            key="ingredient"
-            render={(i) => (
-              <>
-                <Image
-                  style={{ maxWidth: '40px' }}
-                  src={`${process.env.ASSETS_URL}${i.ingredientImageUrl}`}
-                  alt="ingredient image"
-                />
-              </>
-            )}
-          />
+        <Space>
+          <div>
+            {ingredients.map((ingredient) => {
+              return (
+                <Space
+                  style={{
+                    margin: '4px',
+                    width: '240px',
+                  }}
+                >
+                  <Card>
+                    <Image
+                      style={{ padding: '8px' }}
+                      src={`${process.env.ASSETS_URL}${ingredient.image64}`}
+                      alt="ingredientimage"
+                    />
+                    <Paragraph>
+                      <Title level="4">{ingredient.name}</Title>
+                    </Paragraph>
+                    <Paragraph>
+                      {scores.map((score) => {
+                        if (ingredient.songId === score.songId) {
+                          return (
+                            <Text>
+                              <Text style={{ fontWeight: 'bold' }}>
+                                EX Score:{' '}
+                              </Text>
+                              [{score.value}]
+                            </Text>
+                          );
+                        }
+                      })}
+                    </Paragraph>
 
-          <Column
-            width={24}
-            title="Ingredient Name"
-            key="ingredientName"
-            dataIndex="ingredientName"
-          />
-          <Column
-            width={16}
-            title="Quality"
-            key="ingredientGrade"
-            dataIndex="ingredientGrade"
-          />
-          <Column
-            width={16}
-            title="Scores"
-            key="exscore"
-            dataIndex="songScore"
-          />
-        </Table>
+                    <Paragraph>
+                      {scores.map((score) => {
+                        if (ingredient.songId === score.songId) {
+                          return currentScores.map((cs) => {
+                            if (score.id === cs.scoreId) {
+                              return grades
+                                .filter((grade) =>
+                                  grade.id.includes(cs.gradedIngredientId),
+                                )
+                                .map((filteredName) => {
+                                  return (
+                                    <Rate
+                                      disabled
+                                      defaultValue={gradeToInt(
+                                        filteredName.grade,
+                                      )}
+                                    />
+                                  );
+                                });
+                            }
+                          });
+                        }
+                      })}
+                    </Paragraph>
+                  </Card>
+                </Space>
+              );
+            })}
+          </div>
+        </Space>
       )}
     </>
   );
