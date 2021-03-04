@@ -1,11 +1,6 @@
 import { Image, Skeleton, Typography } from 'antd';
 import React from 'react';
-import {
-  IngredientWrapper,
-  StyledCard,
-  StyledCardGrid,
-  StyledIngredient,
-} from './styled';
+import { StyledCard, StyledCardGrid, StyledIngredient } from './styled';
 import { SongIngredient } from '../../types';
 import { ChallengeJacket, ExpertJacket } from '../../styled';
 
@@ -41,30 +36,31 @@ const SubmissionIngredient = ({
     >
       <Skeleton active loading={loading}>
         <StyledCardGrid hoverable={false}>
-          <Typography.Text strong>{songIngredient.song.name}</Typography.Text>
-        </StyledCardGrid>
-        <StyledCardGrid hoverable={false}>
-          {songIngredient.song.difficulty === 'Expert' ? (
-            <ExpertJacket src={songIngredient.song.imageUrl} />
-          ) : (
-            <ChallengeJacket src={songIngredient.song.imageUrl} />
-          )}
-        </StyledCardGrid>
-        <StyledCardGrid hoverable={false}>
-          <IngredientWrapper>
-            {!songIngredient.submitted ? (
-              <StyledIngredient
-                src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image128}`}
-              />
-            ) : (
-              <Image
-                src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image128}`}
-              />
-            )}
-          </IngredientWrapper>
           <Typography.Text strong>
             {songIngredient.ingredient.name}
           </Typography.Text>
+        </StyledCardGrid>
+        <StyledCardGrid hoverable={false}>
+          {!songIngredient.submitted ? (
+            <StyledIngredient
+              src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image256}`}
+            />
+          ) : (
+            <Image
+              src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image256}`}
+            />
+          )}
+        </StyledCardGrid>
+        <StyledCardGrid hoverable={false} style={{ padding: '16px' }}>
+          {songIngredient.song.difficulty === 'Expert' ? (
+            <ExpertJacket
+              src={`${process.env.ASSETS_URL}${songIngredient.song.image256}`}
+            />
+          ) : (
+            <ChallengeJacket
+              src={`${process.env.ASSETS_URL}${songIngredient.song.image256}`}
+            />
+          )}
         </StyledCardGrid>
       </Skeleton>
     </StyledCard>

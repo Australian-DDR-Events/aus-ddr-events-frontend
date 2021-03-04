@@ -4,7 +4,7 @@ import DishesRepositoryContext from './context';
 
 const DishesRepositoryProvider = (options: DishesRepositoryProviderOptions) => (
   <DishesRepositoryContext.Provider
-    value={{ dishesRepositoryInstance: options.dishesRepositoryInstance }}
+    value={{ dishesRepositoryInstance: options.instance }}
   >
     {options.children}
   </DishesRepositoryContext.Provider>
