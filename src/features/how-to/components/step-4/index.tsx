@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Space } from 'antd';
 import { ArrowDownOutlined } from '@ant-design/icons';
-import { SmallWidthImage, MediumWidthImage } from './styled';
+import { SmallWidthImage } from './styled';
 
 const Step4 = () => {
   const { Title } = Typography;
@@ -17,11 +17,19 @@ const Step4 = () => {
             once the season has concluded.
           </Typography.Text>
         </Space>
-        <SmallWidthImage src="https://i.imgur.com/ChYOL3K.png" />
+        <SmallWidthImage
+          preview={false}
+          src={`${
+            process.env.ASSETS_URL
+          }${`/summer2021/dishes/7dd83c2c-00dd-49b2-8059-f988b4303cd1.128.png`}`}
+        />
         <ArrowDownOutlined style={{ fontSize: '24px' }} />
-        <SmallWidthImage src="https://i.imgur.com/oEce6Gv.png" />
-        <ArrowDownOutlined style={{ fontSize: '24px' }} />
-        <MediumWidthImage src="https://i.imgur.com/nGWCDfu.png" />
+        <SmallWidthImage
+          preview={false}
+          src={`${
+            process.env.ASSETS_URL
+          }${`/badges/762491be-a6ae-4ace-8ba1-e681bdcb6137.128.png`}`}
+        />
       </Space>
     </>
   );

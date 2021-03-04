@@ -14,7 +14,8 @@ export const DarkBackgroundSpace = styled(Space)`
   padding: ${defaultSpacing * 3}px;
 `;
 
-export const WhiteBackgroundSpace = styled(Space)`
+export const LightBackgroundSpace = styled(Space)`
+  background: #606060;
   width: 100%;
   padding: ${defaultSpacing * 3}px;
 `;

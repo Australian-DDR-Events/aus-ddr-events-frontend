@@ -17,7 +17,7 @@ import {
   dancersRepository,
   dancersApiDao,
 } from 'context/dancer';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.dark.css';
 import styled, { defaultSpacing } from 'types/styled-components';
 import { HeadProvider, Title } from 'react-head';
 import {

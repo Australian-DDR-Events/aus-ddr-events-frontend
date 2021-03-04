@@ -15,7 +15,10 @@ const Step3 = () => {
             order to produce a dish.
           </Typography.Paragraph>
         </Space>
-        <MediumWidthImage src="https://i.imgur.com/eoANmJd.png" />
+        <MediumWidthImage
+          preview={false}
+          src="https://i.imgur.com/eoANmJd.png"
+        />
 
         <Typography.Paragraph>
           Ingredients, cooking order and efforts in cooking matter!
@@ -37,7 +40,10 @@ const Step3 = () => {
             correct order of the cooking procedure for bonus cooking points.
           </List.Item>
         </List>
-        <MediumWidthImage src="https://i.imgur.com/I3DsXkT.png" />
+        <MediumWidthImage
+          preview={false}
+          src="https://i.imgur.com/I3DsXkT.png"
+        />
       </Space>
     </>
   );

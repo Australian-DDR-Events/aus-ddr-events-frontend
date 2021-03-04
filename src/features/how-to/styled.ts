@@ -8,12 +8,10 @@ export const HowToWrapper = styled.div`
 
 export const StepsContent = styled.div`
   margin-top: 16px;
-  border: 1px dashed #e9e9e9;
-  border-radius: 2px;
-  background-color: #fafafa;
+  background-color: #303030;
   min-height: 200px;
   text-align: center;
-  padding-top: 80px;
+  padding: 80px;
 `;
 
 export const StepsAction = styled.div`

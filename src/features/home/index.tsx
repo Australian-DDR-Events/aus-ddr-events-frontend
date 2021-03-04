@@ -5,7 +5,7 @@ import {
   HomeWrapper,
   LargeWidthImage,
   DarkBackgroundSpace,
-  WhiteBackgroundSpace,
+  LightBackgroundSpace,
 } from './styled';
 import HowTo from './components/how-to';
 import AboutUs from './components/about-us';
@@ -20,7 +20,7 @@ const Home = () => {
 
   return (
     <HomeWrapper>
-      <WhiteBackgroundSpace direction="vertical">
+      <LightBackgroundSpace direction="vertical">
         <Typography.Title>Coming Soon...</Typography.Title>
         <LargeWidthImage
           src="https://i.imgur.com/vgn9VFo.png"
@@ -35,15 +35,15 @@ const Home = () => {
             <Button type="primary">Sign Up</Button>
           </Link>
         )}
-      </WhiteBackgroundSpace>
+      </LightBackgroundSpace>
 
       <DarkBackgroundSpace direction="vertical">
         <AboutUs />
       </DarkBackgroundSpace>
 
-      <WhiteBackgroundSpace direction="vertical">
+      <LightBackgroundSpace direction="vertical">
         <HowTo />
-      </WhiteBackgroundSpace>
+      </LightBackgroundSpace>
 
       <DarkBackgroundSpace direction="vertical">
         <ContactUs />

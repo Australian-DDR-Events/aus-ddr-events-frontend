@@ -50,7 +50,7 @@ const Navigation = () => {
       onCollapse={() => {
         setCollapsed(!collapsed);
       }}
-      theme="light"
+      theme="dark"
       width={siderWidth}
     >
       <Image
@@ -59,7 +59,7 @@ const Navigation = () => {
         src={logo}
         preview={false}
       />
-      <Menu theme="light" defaultSelectedKeys={[currentSelectKey]}>
+      <Menu theme="dark" defaultSelectedKeys={[currentSelectKey]}>
         <Menu.Item
           key="home"
           icon={<HomeOutlined />}
