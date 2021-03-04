@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
 import React, { useContext, useState, useEffect } from 'react';
 import { Image, Typography, Space, Card, Rate, Divider } from 'antd';
 import { IngredientsRepositoryContext } from 'context/ingredients';

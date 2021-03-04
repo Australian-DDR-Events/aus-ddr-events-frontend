@@ -14,4 +14,4 @@ export const JacketDifficulty = styled(Image)`
 
 export const IngredientsContainer = styled.div`
   width: 100%;
-`
+`;

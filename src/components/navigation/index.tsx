@@ -8,7 +8,6 @@ import {
   LogoutOutlined,
   HomeOutlined,
   UploadOutlined,
-  PieChartOutlined,
 } from '@ant-design/icons';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import logo from 'assets/logo.png';
