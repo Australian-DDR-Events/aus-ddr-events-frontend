@@ -28,7 +28,10 @@ const Wrapper = ({
           <WhiteBackgroundLayout>
             <Affix offsetTop={16}>
               <ResponsiveButton>
-                <Button onClick={() => setVisible(true)}>
+                <Button
+                  onClick={() => setVisible(true)}
+                  type="text"
+                >
                   <MenuUnfoldOutlined />
                 </Button>
               </ResponsiveButton>

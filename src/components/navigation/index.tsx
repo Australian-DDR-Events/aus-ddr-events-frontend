@@ -55,7 +55,7 @@ const Navigation = ({
       trigger={null}
     >
       <Image
-        style={{ marginLeft: '28px', marginTop: '16px' }}
+        style={{ marginLeft: '16px', marginTop: '16px' }}
         width={24}
         src={logo}
         preview={false}
