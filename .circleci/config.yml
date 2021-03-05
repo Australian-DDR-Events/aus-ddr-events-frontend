@@ -50,8 +50,6 @@ jobs:
             printf "FIREBASE_API_KEY=$FIREBASE_API_KEY\r\n" >> .env.$NODE_ENV
             printf "FIREBASE_AUTH_DOMAIN=$FIREBASE_AUTH_DOMAIN\r\n" >> .env.$NODE_ENV
             printf "FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID\r\n" >> .env.$NODE_ENV
-            printf "FIREBASE_DATABASE_URL=$FIREBASE_DATABASE_URL\r\n" >> .env.$NODE_ENV
-            printf "FIREBASE_STORAGE_BUCKET=$FIREBASE_STORAGE_BUCKET\r\n" >> .env.$NODE_ENV
             printf "FIREBASE_MESSAGE_SENDER_ID=$FIREBASE_MESSAGE_SENDER_ID\r\n" >> .env.$NODE_ENV
             printf "FIREBASE_APP_ID=$FIREBASE_APP_ID\r\n" >> .env.$NODE_ENV
             printf "FIREBASE_MEASUREMENT_ID=$FIREBASE_MEASUREMENT_ID\r\n" >> .env.$NODE_ENV
@@ -62,6 +60,15 @@ jobs:
           root: ~/
           paths:
             - aus-ddr-poc/dist
+  deploy_dev:
+    working_directory: ~/aus-ddr-poc
+    docker:
+      - image: cimg/node:15.6.0
+    resource_class: medium
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: yarn firebase hosting:channel:deploy ausddrevents-development --token $FIREBASE_TOKEN
   deploy:
     working_directory: ~/aus-ddr-poc
     docker:
@@ -99,8 +106,34 @@ workflows:
             - install
 
       - build:
+          name: build-development
           context:
-            - production
+            - staging
+          post-steps:
+            - jira/notify
+          requires:
+            - test
+            - lint
+          filters:
+            branches:
+              ignore: master
+
+      - deploy:
+          name: deploy-development
+          context:
+            - staging
+          post-steps:
+            - jira/notify
+          requires:
+            - build-development
+          filters:
+            branches:
+              ignore: master
+
+      - build:
+          name: build-staging
+          context:
+            - staging
           post-steps:
             - jira/notify
           requires:
@@ -111,12 +144,13 @@ workflows:
               only: master
 
       - deploy:
+          name: deploy-staging
           context:
-            - production
+            - staging
           post-steps:
             - jira/notify
           requires:
-            - build
+            - build-staging
           filters:
             branches:
               only: master
@@ -124,7 +158,19 @@ workflows:
       - block_production:
           type: approval
           requires:
-            - deploy
+            - deploy-staging
+
+      - build:
+          name: build-production
+          context:
+            - production
+          post-steps:
+            - jira/notify
+          requires:
+            - block_production
+          filters:
+            branches:
+              only: master
 
       - deploy_prod:
           context:
@@ -132,7 +178,7 @@ workflows:
           post-steps:
             - jira/notify
           requires:
-            - block_production
+            - build-production
           filters:
             branches:
               only: master
