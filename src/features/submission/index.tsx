@@ -202,14 +202,17 @@ const Submission = () => {
                 preview={false}
               />
             )}
-            <SubmissionForm form={form} />
+            <SubmissionForm
+              form={form}
+              currentSongIngredient={currentSongIngredient}
+            />
           </SubmissionFormWrapper>
         ) : (
           <Result
             icon={
               <>
                 <Image
-                  src={`${process.env.ASSETS_URL}${currentSongIngredient.ingredient.image256}`}
+                  src={`${process.env.ASSETS_URL}${currentGrade.image256}`}
                   preview={false}
                 />
                 <br />

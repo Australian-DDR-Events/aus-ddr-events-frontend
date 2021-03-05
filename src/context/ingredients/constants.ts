@@ -16,4 +16,8 @@ export const DefaultGrade: IngredientGrade = {
   grade: '',
   requiredScore: 0,
   description: '',
+  image32: '',
+  image64: '',
+  image128: '',
+  image256: '',
 };
