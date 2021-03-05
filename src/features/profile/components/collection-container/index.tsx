@@ -1,7 +1,7 @@
 import { Tabs } from 'antd';
 import React from 'react';
-import Ingredients from './scores/ingredients';
 import { Dancer } from 'context/dancer';
+import Ingredients from './scores/ingredients';
 import Badges from './badges';
 
 const CollectionContainer = ({ dancer }: { dancer: Dancer }) => {

@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import React, { useContext, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Skeleton } from 'antd';

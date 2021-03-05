@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Image, Typography, Space, Card, Rate, Divider, Spin } from 'antd';
+import { Image, Typography, Space, Card, Rate, Divider, Skeleton } from 'antd';
 import { IngredientsRepositoryContext } from 'context/ingredients';
 import { DefaultGrade, DefaultIngredient } from 'context/ingredients/constants';
 import { DefaultScore, DefaultSummer2021Score } from 'context/scores/constants';
@@ -160,7 +160,7 @@ const Ingredients = ({ dancer }: { dancer: Dancer }) => {
                               </IngredientsContainer>
                             </Space>
                           ) : (
-                            <Spin tip="loading..." />
+                            <Skeleton />
                           );
                         });
                     }
