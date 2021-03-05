@@ -66,25 +66,29 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                 <>
                   <Skeleton.Avatar active size={80} shape="square" />
                   <Skeleton
-                    active
                     paragraph={{
                       rows: 4,
                       width: '100%',
                     }}
                   />
-                  <Skeleton.Button active size="default" shape="square" />
+                  <Space>
+                    <Skeleton.Button active size="default" shape="square" />
+                    {/* <Skeleton.Button active size="default" shape="square" /> */}
+                  </Space>
                 </>
               )}
 
               {!loading && (
                 <>
                   <Avatar
-                    size={80}
+                    size={96}
                     shape="square"
                     src={
-                      `${process.env.ASSETS_URL}${
-                        dancer.profilePicture
-                      }?${new Date()}` || 'https://i.imgur.com/o0ulS6k.png'
+                      dancer.profilePicture
+                        ? `${process.env.ASSETS_URL}${
+                            dancer.profilePicture
+                          }?${new Date()}`
+                        : 'https://i.imgur.com/o0ulS6k.png'
                     }
                   />
                   <ProfileHeader level={2}>{dancer.userName}</ProfileHeader>
@@ -114,15 +118,25 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                     Primary Machine: {dancer.primaryMachine}
                   </Typography.Text>
 
-                  {isEditable && (
-                    <Button
+                  <Space>
+                    {isEditable && (
+                      <Button
+                        onClick={() => {
+                          setIsEditing(true);
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    )}
+                    {/* <Button
                       onClick={() => {
-                        setIsEditing(true);
+                        navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/dancer/${dancer.id}`);
+                        message.info("Copied to clipboard!")
                       }}
                     >
-                      Edit
-                    </Button>
-                  )}
+                      Share
+                    </Button> */}
+                  </Space>
                 </>
               )}
             </Space>
