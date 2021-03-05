@@ -84,11 +84,29 @@ const CourseSubmissionForm = ({
                 <Form.Item
                   name={`songId${index}`}
                   label={`Method ${index + 1}`}
+                  dependencies={Array.from(currentRecipe.songs.keys()).map((songIndex) => {
+                    return `songId${songIndex}`;
+                  })}
                   rules={[
                     {
                       required: true,
                       message: 'Please select a method/song!',
                     },
+                    ({ getFieldValue }) => ({
+                      validator(_, songId) {
+                        let duplicate = false;
+                        Array.from(currentRecipe.songs.keys()).forEach((songIndex) => {
+                          if (index != songIndex && songId === getFieldValue(`songId${songIndex}`)) {
+                            duplicate = true;
+                          }
+                        });
+                        if (duplicate) {
+                          return Promise.reject(new Error('No duplicate methods/songs!'));
+                        } else {
+                          return Promise.resolve();
+                        }
+                      }
+                    }),
                   ]}
                 >
                   <Select
