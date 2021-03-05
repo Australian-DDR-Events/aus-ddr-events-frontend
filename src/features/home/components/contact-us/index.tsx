@@ -26,28 +26,28 @@ const ContactUs = () => {
           target="_blank"
           href="https://www.facebook.com/groups/2053507828081261"
         >
-          <FontAwesomeIcon icon={faFacebook} size="5x" />
+          <FontAwesomeIcon icon={faFacebook} size="4x" />
         </FontAwesomeButton>
         <FontAwesomeButton
           iconColor="#7289da"
           target="_blank"
           href="https://discord.gg/DsKWPxY4V7"
         >
-          <FontAwesomeIcon icon={faDiscord} size="5x" />
+          <FontAwesomeIcon icon={faDiscord} size="4x" />
         </FontAwesomeButton>
         <FontAwesomeButton
           iconColor="#00aced"
           target="_blank"
           href="https://twitter.com/AusddrE"
         >
-          <FontAwesomeIcon icon={faTwitter} size="5x" />
+          <FontAwesomeIcon icon={faTwitter} size="4x" />
         </FontAwesomeButton>
         <FontAwesomeButton
           iconColor="white"
           target="_blank"
           href="mailto:ausddrevents@gmail.com"
         >
-          <FontAwesomeIcon icon={faEnvelope} size="5x" />
+          <FontAwesomeIcon icon={faEnvelope} size="4x" />
         </FontAwesomeButton>
       </Space>
       <Typography.Paragraph style={{ color: '#f2f2f2' }}>

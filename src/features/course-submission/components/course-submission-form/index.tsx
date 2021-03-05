@@ -67,15 +67,18 @@ const CourseSubmissionForm = ({
         (currentSong.difficulty === 'Expert' ? (
           <ExpertJacket
             src={`${process.env.ASSETS_URL}${currentSong.image256}`}
+            preview={false}
           />
         ) : (
           <ChallengeJacket
             src={`${process.env.ASSETS_URL}${currentSong.image256}`}
+            preview={false}
           />
         ))}
       {!currentSong.difficulty && (
         <Image
           src={`${process.env.ASSETS_URL}/songs/default/default.256.png`}
+          preview={false}
         />
       )}
       <Form form={form} layout="vertical" style={{ textAlign: 'left' }}>

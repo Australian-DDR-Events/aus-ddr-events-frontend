@@ -41,7 +41,7 @@ const Navigation = () => {
       onBreakpoint={(broken) => {
         if (broken) {
           setCollapseWidth(0);
-          setSiderWidth(120);
+          setSiderWidth(200);
         } else {
           setCollapseWidth(80);
           setSiderWidth(200);
