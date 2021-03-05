@@ -206,7 +206,7 @@ const Submission = () => {
             icon={
               <>
                 <Image
-                  src={`${process.env.ASSETS_URL}${currentSongIngredient.ingredient.image256}`}
+                  src={`${process.env.ASSETS_URL}${currentSongIngredient.ingredient.image256}`.replace('//','/')}
                 />
                 <br />
                 <Rate disabled defaultValue={gradeToInt(currentGrade.grade)} />

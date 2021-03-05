@@ -75,7 +75,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                   />
                   <Space>
                     <Skeleton.Button active size="default" shape="square" />
-                    <Skeleton.Button active size="default" shape="square" />
+                    {/* <Skeleton.Button active size="default" shape="square" /> */}
                   </Space>
 
                 </>
@@ -129,14 +129,14 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                         Edit
                       </Button>
                     )}
-                    <Button
+                    {/* <Button
                       onClick={() => {
                         navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/dancer/${dancer.id}`);
                         message.info("Copied to clipboard!")
                       }}
                     >
                       Share
-                    </Button>
+                    </Button> */}
                   </Space>
 
                 </>
