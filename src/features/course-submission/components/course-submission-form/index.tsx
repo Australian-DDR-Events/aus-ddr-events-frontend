@@ -1,6 +1,7 @@
 import { UploadOutlined } from '@ant-design/icons';
 import {
   Button,
+  Divider,
   Form,
   FormInstance,
   Image,
@@ -12,9 +13,9 @@ import {
   Upload,
 } from 'antd';
 import React, { useState } from 'react';
+import { DefaultSong } from 'context/songs/constants';
 import { Recipe } from '../../types';
 import { ChallengeJacket, ExpertJacket } from '../../styled';
-import { DefaultSong } from 'context/songs/constants';
 
 const CourseSubmissionForm = ({
   form,
@@ -24,7 +25,9 @@ const CourseSubmissionForm = ({
   currentRecipe: Recipe;
 }) => {
   const [currentSong, setCurrentSong] = useState(DefaultSong);
-  const [currentMaxScores, setCurrentMaxScores] = useState(new Array(currentRecipe.songs.length).fill(0));
+  const [currentMaxScores, setCurrentMaxScores] = useState(
+    new Array(currentRecipe.songs.length).fill(0),
+  );
 
   const uploadProps = {
     beforeUpload: () => {
@@ -48,10 +51,10 @@ const CourseSubmissionForm = ({
       if (song.dishSong.songId === songId) {
         setCurrentSong(song.songDetails);
         setCurrentMaxScores((prevMaxScores) => {
-          prevMaxScores[index] = song.songDetails.maxScore;
-          return prevMaxScores;
-        })
-        console.log(currentMaxScores);
+          const newMaxScores = [...prevMaxScores];
+          newMaxScores[index] = song.songDetails.maxScore;
+          return newMaxScores;
+        });
         return false;
       }
       return true;
@@ -62,9 +65,13 @@ const CourseSubmissionForm = ({
     <>
       {currentSong.difficulty &&
         (currentSong.difficulty === 'Expert' ? (
-          <ExpertJacket src={`${process.env.ASSETS_URL}${currentSong.image256}`} />
+          <ExpertJacket
+            src={`${process.env.ASSETS_URL}${currentSong.image256}`}
+          />
         ) : (
-          <ChallengeJacket src={`${process.env.ASSETS_URL}${currentSong.image256}`} />
+          <ChallengeJacket
+            src={`${process.env.ASSETS_URL}${currentSong.image256}`}
+          />
         ))}
       {!currentSong.difficulty && (
         <Image
@@ -75,7 +82,10 @@ const CourseSubmissionForm = ({
         <Tabs
           defaultActiveKey="0"
           onChange={(activeKey) => {
-            updateCurrentSong(Number(activeKey), form.getFieldValue(`songId${activeKey}`));
+            updateCurrentSong(
+              Number(activeKey),
+              form.getFieldValue(`songId${activeKey}`),
+            );
           }}
         >
           {Array.from(currentRecipe.songs.keys()).map((index) => {
@@ -84,9 +94,11 @@ const CourseSubmissionForm = ({
                 <Form.Item
                   name={`songId${index}`}
                   label={`Method ${index + 1}`}
-                  dependencies={Array.from(currentRecipe.songs.keys()).map((songIndex) => {
-                    return `songId${songIndex}`;
-                  })}
+                  dependencies={Array.from(currentRecipe.songs.keys()).map(
+                    (songIndex) => {
+                      return `songId${songIndex}`;
+                    },
+                  )}
                   rules={[
                     {
                       required: true,
@@ -95,17 +107,23 @@ const CourseSubmissionForm = ({
                     ({ getFieldValue }) => ({
                       validator(_, songId) {
                         let duplicate = false;
-                        Array.from(currentRecipe.songs.keys()).forEach((songIndex) => {
-                          if (index != songIndex && songId === getFieldValue(`songId${songIndex}`)) {
-                            duplicate = true;
-                          }
-                        });
+                        Array.from(currentRecipe.songs.keys()).forEach(
+                          (songIndex) => {
+                            if (
+                              index !== songIndex &&
+                              songId === getFieldValue(`songId${songIndex}`)
+                            ) {
+                              duplicate = true;
+                            }
+                          },
+                        );
                         if (duplicate) {
-                          return Promise.reject(new Error('No duplicate methods/songs!'));
-                        } else {
-                          return Promise.resolve();
+                          return Promise.reject(
+                            new Error('No duplicate methods/songs!'),
+                          );
                         }
-                      }
+                        return Promise.resolve();
+                      },
                     }),
                   ]}
                 >
@@ -161,6 +179,8 @@ const CourseSubmissionForm = ({
             );
           })}
         </Tabs>
+
+        <Divider />
 
         <Form.Item
           name="pairBonus"

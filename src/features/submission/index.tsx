@@ -199,7 +199,10 @@ const Submission = () => {
                 src={`${process.env.ASSETS_URL}${currentSongIngredient.song.image256}`}
               />
             )}
-            <SubmissionForm form={form} currentSongIngredient={currentSongIngredient}/>
+            <SubmissionForm
+              form={form}
+              currentSongIngredient={currentSongIngredient}
+            />
           </SubmissionFormWrapper>
         ) : (
           <Result
