@@ -132,7 +132,7 @@ workflows:
           post-steps:
             - jira/notify
           requires:
-            - build
+            - block_production
           filters:
             branches:
               only: master
