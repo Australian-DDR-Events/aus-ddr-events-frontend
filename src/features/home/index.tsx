@@ -25,6 +25,7 @@ const Home = () => {
         <LargeWidthImage
           src="https://i.imgur.com/vgn9VFo.png"
           alt="Summer BBQ Logo"
+          preview={false}
         />
         <Typography.Title level={4}>
           Show off your moves and join in on the hottest DDR seasonal event

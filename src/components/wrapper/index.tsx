@@ -1,7 +1,8 @@
-import React from 'react';
-import { Layout } from 'antd';
+import React, { useState } from 'react';
+import { Affix, Button, Drawer, Layout } from 'antd';
+import { MenuUnfoldOutlined } from '@ant-design/icons';
 import Navigation from '../navigation';
-import { WhiteBackgroundLayout } from './styled';
+import { ResponsiveButton, WhiteBackgroundLayout } from './styled';
 
 const { Content } = Layout;
 
@@ -9,15 +10,35 @@ const Wrapper = ({
   children,
 }: {
   children: React.ReactElement | React.ReactElement[];
-}) => (
-  <Layout style={{ minHeight: '100vh' }}>
-    <Navigation />
-    <Layout>
-      <Content>
-        <WhiteBackgroundLayout>{children}</WhiteBackgroundLayout>
-      </Content>
+}) => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <Layout style={{ minHeight: '100vh' }}>
+      <Navigation collapsible />
+      <Layout>
+        <Drawer
+          placement="left"
+          onClose={() => setVisible(false)}
+          visible={visible}
+        >
+          <Navigation collapsible={false} />
+        </Drawer>
+        <Content>
+          <WhiteBackgroundLayout>
+            <Affix offsetTop={16}>
+              <ResponsiveButton>
+                <Button onClick={() => setVisible(true)} type="text">
+                  <MenuUnfoldOutlined />
+                </Button>
+              </ResponsiveButton>
+            </Affix>
+            {children}
+          </WhiteBackgroundLayout>
+        </Content>
+      </Layout>
     </Layout>
-  </Layout>
-);
+  );
+};
 
 export default Wrapper;

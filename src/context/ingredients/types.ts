@@ -17,6 +17,10 @@ export type IngredientGrade = {
   grade: string;
   requiredScore: number;
   description: string;
+  image32: string;
+  image64: string;
+  image128: string;
+  image256: string;
 };
 
 export type ScoreSubmissionRequest = {

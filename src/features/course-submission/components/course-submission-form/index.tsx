@@ -1,6 +1,7 @@
 import { UploadOutlined } from '@ant-design/icons';
 import {
   Button,
+  Divider,
   Form,
   FormInstance,
   Image,
@@ -12,6 +13,7 @@ import {
   Upload,
 } from 'antd';
 import React, { useState } from 'react';
+import { DefaultSong } from 'context/songs/constants';
 import { Recipe } from '../../types';
 import { ChallengeJacket, ExpertJacket } from '../../styled';
 
@@ -22,8 +24,10 @@ const CourseSubmissionForm = ({
   form: FormInstance;
   currentRecipe: Recipe;
 }) => {
-  const [currentJacket, setCurrentJacket] = useState('');
-  const [currentDifficulty, setCurrentDifficulty] = useState('');
+  const [currentSong, setCurrentSong] = useState(DefaultSong);
+  const [currentMaxScores, setCurrentMaxScores] = useState(
+    new Array(currentRecipe.songs.length).fill(0),
+  );
 
   const uploadProps = {
     beforeUpload: () => {
@@ -38,16 +42,19 @@ const CourseSubmissionForm = ({
     return e.file;
   };
 
-  const updateCurrentSong = (songId: string) => {
+  const updateCurrentSong = (index: number, songId: string) => {
     if (!songId) {
-      setCurrentJacket('');
-      setCurrentDifficulty('');
+      setCurrentSong(DefaultSong);
       return;
     }
     currentRecipe.songs.every((song) => {
       if (song.dishSong.songId === songId) {
-        setCurrentJacket(song.songDetails.image256);
-        setCurrentDifficulty(song.songDetails.difficulty);
+        setCurrentSong(song.songDetails);
+        setCurrentMaxScores((prevMaxScores) => {
+          const newMaxScores = [...prevMaxScores];
+          newMaxScores[index] = song.songDetails.maxScore;
+          return newMaxScores;
+        });
         return false;
       }
       return true;
@@ -56,22 +63,32 @@ const CourseSubmissionForm = ({
 
   return (
     <>
-      {currentDifficulty &&
-        (currentDifficulty === 'Expert' ? (
-          <ExpertJacket src={`${process.env.ASSETS_URL}${currentJacket}`} />
+      {currentSong.difficulty &&
+        (currentSong.difficulty === 'Expert' ? (
+          <ExpertJacket
+            src={`${process.env.ASSETS_URL}${currentSong.image256}`}
+            preview={false}
+          />
         ) : (
-          <ChallengeJacket src={`${process.env.ASSETS_URL}${currentJacket}`} />
+          <ChallengeJacket
+            src={`${process.env.ASSETS_URL}${currentSong.image256}`}
+            preview={false}
+          />
         ))}
-      {!currentDifficulty && (
+      {!currentSong.difficulty && (
         <Image
           src={`${process.env.ASSETS_URL}/songs/default/default.256.png`}
+          preview={false}
         />
       )}
       <Form form={form} layout="vertical" style={{ textAlign: 'left' }}>
         <Tabs
           defaultActiveKey="0"
           onChange={(activeKey) => {
-            updateCurrentSong(form.getFieldValue(`songId${activeKey}`));
+            updateCurrentSong(
+              Number(activeKey),
+              form.getFieldValue(`songId${activeKey}`),
+            );
           }}
         >
           {Array.from(currentRecipe.songs.keys()).map((index) => {
@@ -80,17 +97,43 @@ const CourseSubmissionForm = ({
                 <Form.Item
                   name={`songId${index}`}
                   label={`Method ${index + 1}`}
+                  dependencies={Array.from(currentRecipe.songs.keys()).map(
+                    (songIndex) => {
+                      return `songId${songIndex}`;
+                    },
+                  )}
                   rules={[
                     {
                       required: true,
                       message: 'Please select a method/song!',
                     },
+                    ({ getFieldValue }) => ({
+                      validator(_, songId) {
+                        let duplicate = false;
+                        Array.from(currentRecipe.songs.keys()).forEach(
+                          (songIndex) => {
+                            if (
+                              index !== songIndex &&
+                              songId === getFieldValue(`songId${songIndex}`)
+                            ) {
+                              duplicate = true;
+                            }
+                          },
+                        );
+                        if (duplicate) {
+                          return Promise.reject(
+                            new Error('No duplicate methods/songs!'),
+                          );
+                        }
+                        return Promise.resolve();
+                      },
+                    }),
                   ]}
                 >
                   <Select
                     placeholder="Select a method/song"
                     onChange={(songId) => {
-                      updateCurrentSong(songId.toString());
+                      updateCurrentSong(index, songId.toString());
                     }}
                   >
                     {currentRecipe.songs.map((detailedDishSong) => {
@@ -133,12 +176,14 @@ const CourseSubmissionForm = ({
                     },
                   ]}
                 >
-                  <InputNumber min={0} max={9999} />
+                  <InputNumber min={0} max={currentMaxScores[index]} />
                 </Form.Item>
               </Tabs.TabPane>
             );
           })}
         </Tabs>
+
+        <Divider />
 
         <Form.Item
           name="pairBonus"

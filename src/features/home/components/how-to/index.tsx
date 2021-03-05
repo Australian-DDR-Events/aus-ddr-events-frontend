@@ -10,7 +10,11 @@ const HowTo = () => {
         To participate in AUSDDREvents seasonals, you must have access to DDRA
         or A20, have an e-Amusement pass, and live in Australia.
       </Typography.Paragraph>
-      <MediumWidthImage src="https://i.imgur.com/bVWe0WE.png" alt="emusecard" />
+      <MediumWidthImage
+        src="https://i.imgur.com/bVWe0WE.png"
+        alt="emusecard"
+        preview={false}
+      />
       <Typography.Paragraph>
         Login to the website and play the songs within the season time-frame,
         take photos of your best scores, and upload them on the website in the
@@ -19,6 +23,7 @@ const HowTo = () => {
       <MediumWidthImage
         src="https://i.imgur.com/6rTazTU.png"
         alt="scoressection"
+        preview={false}
       />
       <Typography.Paragraph>
         Playing songs and courses during the event period will earn you points
@@ -26,9 +31,21 @@ const HowTo = () => {
         profile.
       </Typography.Paragraph>
       <Space>
-        <SmallWidthImage src="https://i.imgur.com/C6eZJ0L.png" alt="badges" />
-        <SmallWidthImage src="https://i.imgur.com/kmTnnyd.png" alt="badges" />
-        <SmallWidthImage src="https://i.imgur.com/HUBlbyf.png" alt="badges" />
+        <SmallWidthImage
+          src="https://i.imgur.com/C6eZJ0L.png"
+          alt="badges"
+          preview={false}
+        />
+        <SmallWidthImage
+          src="https://i.imgur.com/kmTnnyd.png"
+          alt="badges"
+          preview={false}
+        />
+        <SmallWidthImage
+          src="https://i.imgur.com/HUBlbyf.png"
+          alt="badges"
+          preview={false}
+        />
       </Space>
     </>
   );

@@ -19,8 +19,13 @@ const AboutUs = () => {
         <SmallWidthImage
           src="https://i.imgur.com/h3ETJKK.png"
           alt="ORA20 logo"
+          preview={false}
         />
-        <SmallWidthImage src="https://i.imgur.com/LrlkNLZ.png" alt="SCS logo" />
+        <SmallWidthImage
+          src="https://i.imgur.com/LrlkNLZ.png"
+          alt="SCS logo"
+          preview={false}
+        />
       </Space>
       <Typography.Paragraph style={{ color: '#f2f2f2' }}>
         Furthermore, AUSDDREvents offers a national platform for DDR players to
@@ -33,6 +38,7 @@ const AboutUs = () => {
       <MediumWidthImage
         src="https://i.imgur.com/DeWq2Zz.jpg"
         alt="Group photo of CFA"
+        preview={false}
       />
     </>
   );
