@@ -1,10 +1,23 @@
-import { Button, Form, Input, Select, Upload, Typography } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StateOptions } from 'features/profile/constants';
 import { DancersRepositoryContext } from 'context/dancer';
+import {
+  Container,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  Input,
+  Select,
+  Button,
+  Image,
+  AlertDescription,
+  AlertTitle,
+  Box,
+  Alert,
+} from '@chakra-ui/react';
+import { Formik, FormikHelpers, Form, Field } from 'formik';
+import { defaultSpacing } from 'types/styled-components';
 import { ProfileFormData } from './types';
-import { FormWrapper, StyledButton } from './styled';
 
 const ProfileForm = ({
   formData,
@@ -17,96 +30,165 @@ const ProfileForm = ({
 }) => {
   const dancersRepository = useContext(DancersRepositoryContext);
 
-  const onFinish = (values: ProfileFormData) => {
+  const [profilePictureUrl, setProfilePictureUrl] = useState<string>('');
+  const [apiErrorMessage, setApiErrorMessage] = useState('');
+
+  useEffect(
+    () => () => {
+      if (profilePictureUrl) {
+        URL.revokeObjectURL(profilePictureUrl);
+      }
+    },
+    [profilePictureUrl],
+  );
+
+  const validateDancerName = (value: string) => {
+    if (!value) return 'Please enter a dancer name';
+    return null;
+  };
+
+  const validateDancerId = (value: string) => {
+    if (!/^\d+$/.test(value)) return 'Please enter a valid dancer code';
+    return null;
+  };
+
+  const onSubmit = (
+    values: ProfileFormData,
+    actions: FormikHelpers<ProfileFormData>,
+  ) => {
     dancersRepository.dancersRepositoryInstance
       .update({
         ...formData,
         ...values,
       })
-      .then(() => {
-        onSuccessfulSubmit();
+      .then((result) => {
+        if (result.isOk()) {
+          onSuccessfulSubmit();
+        } else if (result.isErr()) {
+          setApiErrorMessage(result.error.message);
+        }
+        actions.setSubmitting(false);
       });
   };
 
-  const uploadProps = {
-    beforeUpload: () => {
-      return false;
-    },
-  };
-
-  const normaliseFile = (e: any) => {
-    if (Array.isArray(e)) {
-      return e[0].file;
-    }
-    return e.file;
-  };
-
   return (
-    <FormWrapper>
-      <Typography.Title>Edit Profile</Typography.Title>
-      <Form
-        layout="vertical"
-        initialValues={formData}
-        onFinish={onFinish}
-        style={{ textAlign: 'left' }}
-      >
-        <Form.Item label="Profile Picture">
-          <Form.Item
-            name="newProfilePicture"
-            valuePropName="file"
-            getValueFromEvent={normaliseFile}
-          >
-            <Upload {...uploadProps} listType="picture">
-              <Button icon={<UploadOutlined />}>Upload picture</Button>
-            </Upload>
-          </Form.Item>
-        </Form.Item>
-        <Form.Item label="Dancer name">
-          <Form.Item name="dancerName" noStyle>
-            <Input />
-          </Form.Item>
-        </Form.Item>
-        <Form.Item label="Dancer ID">
-          <Form.Item name="dancerId" noStyle>
-            <Input />
-          </Form.Item>
-        </Form.Item>
-        <Form.Item
-          label="State"
-          name="state"
-          extra="Which state do you live in?"
-        >
-          <Select>
-            {StateOptions.map((option) => (
-              <Select.Option key={option.key} value={option.key}>
-                {option.value}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
+    <Container>
+      {apiErrorMessage && (
+        <Alert status="error" borderRadius="md" mb={defaultSpacing / 2}>
+          <Box flex="1">
+            <AlertTitle mr={2}>Uh oh!</AlertTitle>
+            <AlertDescription>{apiErrorMessage}</AlertDescription>
+          </Box>
+        </Alert>
+      )}
+      <Formik initialValues={formData} onSubmit={onSubmit}>
+        {(props) => (
+          <Form>
+            <Field
+              type="dancerName"
+              name="dancerName"
+              validate={validateDancerName}
+            >
+              {({ field, form }: { field: any; form: any }) => (
+                <FormControl id="dancerName" isRequired mb={defaultSpacing / 2}>
+                  <FormLabel>Dancer name</FormLabel>
+                  <Input type="text" {...field} />
+                  <FormErrorMessage>{form.errors.dancerName}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
 
-        <Form.Item
-          label="Primary machine"
-          name="primaryMachine"
-          extra="Where do you mainly play DDR at?"
-        >
-          <Input />
-        </Form.Item>
+            <Field type="text" name="dancerId" validate={validateDancerId}>
+              {({ field, form }: { field: any; form: any }) => (
+                <FormControl
+                  htmlFor="dancerId"
+                  isInvalid={form.errors.dancerId && form.touched.dancerId}
+                  mb={defaultSpacing / 2}
+                >
+                  <FormLabel>Dancer code</FormLabel>
+                  <Input {...field} id="dancerId" />
+                  <FormErrorMessage>{form.errors.dancerId}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
 
-        <Form.Item>
-          <StyledButton type="primary" htmlType="submit">
-            Save
-          </StyledButton>
-          <Button
-            type="default"
-            htmlType="button"
-            onClick={() => onCancelSubmit()}
-          >
-            Cancel
-          </Button>
-        </Form.Item>
-      </Form>
-    </FormWrapper>
+            <Field name="state">
+              {({ field }: { field: any }) => (
+                <FormControl htmlFor="state" mb={defaultSpacing / 2}>
+                  <FormLabel>State of residence</FormLabel>
+                  <Select {...field} id="state">
+                    {StateOptions.map((option) => (
+                      <option key={option.key} value={option.key}>
+                        {option.value}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
+              )}
+            </Field>
+
+            <Field type="text" name="primaryMachine">
+              {({ field, form }: { field: any; form: any }) => (
+                <FormControl htmlFor="primaryMachine" mb={defaultSpacing / 2}>
+                  <FormLabel>Primary machine</FormLabel>
+                  <Input {...field} id="primaryMachine" />
+                  <FormErrorMessage>
+                    {form.errors.primaryMachine}
+                  </FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
+
+            <FormControl htmlFor="newProfilePicture" mb={defaultSpacing / 2}>
+              <FormLabel>Profile picture</FormLabel>
+              <Input
+                type="file"
+                pt={defaultSpacing / 4}
+                h={defaultSpacing * 1.5}
+                id="newProfilePicture"
+                onChange={(event) => {
+                  if (event.currentTarget.files) {
+                    // eslint-disable-next-line react/prop-types
+                    props.setFieldValue(
+                      'newProfilePicture',
+                      event.currentTarget.files[0],
+                    );
+                    setProfilePictureUrl(
+                      URL.createObjectURL(event.currentTarget.files[0]),
+                    );
+                  }
+                }}
+              />
+              {profilePictureUrl && (
+                <Image
+                  src={profilePictureUrl}
+                  w={defaultSpacing * 16}
+                  mt={defaultSpacing / 2}
+                />
+              )}
+            </FormControl>
+
+            <Button
+              colorScheme="blue"
+              type="submit"
+              // eslint-disable-next-line react/prop-types
+              isLoading={props.isSubmitting}
+              mr={defaultSpacing / 2}
+            >
+              Save
+            </Button>
+            <Button
+              colorScheme="gray"
+              // eslint-disable-next-line react/prop-types
+              isLoading={props.isSubmitting}
+              onClick={() => onCancelSubmit()}
+            >
+              Cancel
+            </Button>
+          </Form>
+        )}
+      </Formik>
+    </Container>
   );
 };
 

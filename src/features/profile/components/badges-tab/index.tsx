@@ -56,7 +56,11 @@ const BadgesTab = ({ dancer }: { dancer: Dancer }) => {
       maxW={defaultSpacing * 18 * gridWidth}
     >
       {badges.map((b) => (
-        <BadgeComponent badge={b} eventName={eventNames.get(b.eventId) || ''} />
+        <BadgeComponent
+          key={b.id}
+          badge={b}
+          eventName={eventNames.get(b.eventId) || ''}
+        />
       ))}
     </SimpleGrid>
   );

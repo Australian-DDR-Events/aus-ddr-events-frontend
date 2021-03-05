@@ -117,7 +117,7 @@ const LoginForm = () => {
                   mb={4}
                 >
                   <FormLabel>Password</FormLabel>
-                  <Input {...field} id="password" />
+                  <Input id="password" type="password" {...field} />
                   <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                 </FormControl>
               )}
