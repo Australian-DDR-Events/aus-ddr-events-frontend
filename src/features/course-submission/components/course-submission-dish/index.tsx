@@ -63,7 +63,7 @@ const CourseSubmissionDish = ({
         )}
       </Card.Grid>
       <Card.Grid hoverable={false} style={{ width: '100%' }}>
-        <Carousel autoplay>
+        <Carousel autoplay draggable>
           {recipe.songs.map((song) => {
             if (song.songDetails.difficulty === 'Expert') {
               return (
