@@ -30,6 +30,9 @@ const ProfileReadView = ({
   const getStateTextualRepresentation = (inputState: string): string => {
     return StateOptions.find((state) => state.key === inputState)?.value || '';
   };
+  const getProfileImageUrl = () =>
+    `${process.env.ASSETS_URL}${dancer.profilePicture}?${new Date()}`;
+  const DEFAULT_PROFILE_PICTURE_URL = 'https://i.imgur.com/o0ulS6k.png';
 
   return (
     <Stack direction={['column', 'column', 'row']} spacing={defaultSpacing}>
@@ -41,12 +44,9 @@ const ProfileReadView = ({
           <Avatar
             size="2xl"
             name={dancer.dancerName}
-            src={
-              `${process.env.ASSETS_URL}${
-                dancer.profilePicture
-              }?${new Date()}` || 'https://i.imgur.com/o0ulS6k.png'
-            }
+            src={getProfileImageUrl() || DEFAULT_PROFILE_PICTURE_URL}
             mb={defaultSpacing / 2}
+            {...(getProfileImageUrl() && { bg: 'white' })}
           />
         </Center>
         {isEditable && (
