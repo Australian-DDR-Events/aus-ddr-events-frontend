@@ -1,3 +1,4 @@
+import { Image } from 'antd';
 import styled from 'types/styled-components';
 
 export const SubmissionWrapper = styled.div`
@@ -8,4 +9,16 @@ export const SubmissionWrapper = styled.div`
 
 export const SubmissionFormWrapper = styled.div`
   text-align: center;
+`;
+
+export const ExpertJacket = styled(Image)`
+  border-style: solid;
+  border-width: 8px;
+  border-color: #00ff00;
+`;
+
+export const ChallengeJacket = styled(Image)`
+  border-style: solid;
+  border-width: 8px;
+  border-color: #9800fd;
 `;

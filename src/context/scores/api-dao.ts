@@ -1,34 +1,26 @@
 import { err, ok, Result } from 'types/result';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import {
   GetScoresRequest,
+  GetSummer2021Request,
   Score,
   ScoresDao,
   ScoreSubmissionRequest,
+  Summer2021Score,
+  Summer2021SubmissionRequest,
 } from './types';
-import { DefaultScore } from './constants';
+import { DefaultScore, DefaultSummer2021Score } from './constants';
 
 const scoresApiDao = ({
   getIdTokenFunc,
-  baseApiUrl,
+  axiosClient,
 }: {
   getIdTokenFunc: () => Promise<string>;
-  baseApiUrl: string;
+  axiosClient: AxiosInstance;
 }): ScoresDao => {
-  const axiosClient = axios.create({
-    baseURL: baseApiUrl,
-    timeout: 6000,
-  });
-
   const getById = async (id: string): Promise<Result<Error, Score>> => {
-    const request: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-      },
-    };
-
     return axiosClient
-      .get(`/scores/${id}`, request)
+      .get(`/scores/${id}`)
       .then(
         (response: AxiosResponse<Score>): Result<Error, Score> =>
           ok(response.data),
@@ -43,18 +35,16 @@ const scoresApiDao = ({
   const getAll = async (
     request: GetScoresRequest,
   ): Promise<Result<Error, Array<Score>>> => {
-    const axiosRequest: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-      },
-      params: {
-        dancer_id: request.dancerId,
-        song_id: request.songId,
-      },
-    };
+    const params: string[] = [];
+    request.dancerId?.forEach((dancerId) => {
+      params.push(`dancer_id=${dancerId}`);
+    });
+    request.songId?.forEach((songId) => {
+      params.push(`song_id=${songId}`);
+    });
 
     return axiosClient
-      .get(`/scores`, axiosRequest)
+      .get(`/scores?${params.join('&')}`)
       .then(
         (response: AxiosResponse<Array<Score>>): Result<Error, Array<Score>> =>
           ok(response.data),
@@ -81,7 +71,7 @@ const scoresApiDao = ({
     };
 
     return axiosClient
-      .post(`${baseApiUrl}/scores/submit`, data, request)
+      .post(`/scores/submit`, data, request)
       .then((): Result<Error, boolean> => ok(true))
       .catch(
         (): Result<Error, boolean> =>
@@ -89,7 +79,86 @@ const scoresApiDao = ({
       );
   };
 
-  return { getById, getAll, postScore };
+  const getSummer2021ByDancer = async (
+    id: string,
+  ): Promise<Result<Error, Array<Summer2021Score>>> => {
+    return axiosClient
+      .get(`/summer2021/scores/${id}`)
+      .then(
+        (
+          response: AxiosResponse<Array<Summer2021Score>>,
+        ): Result<Error, Array<Summer2021Score>> => ok(response.data),
+      )
+      .catch(
+        (): Result<Error, Array<Summer2021Score>> => {
+          return err(
+            new Error('failed to get scores'),
+            new Array<Summer2021Score>(),
+          );
+        },
+      );
+  };
+
+  const getSummer2021 = async (
+    request: GetSummer2021Request,
+  ): Promise<Result<Error, Summer2021Score>> => {
+    const axiosRequest: AxiosRequestConfig = {
+      params: {
+        dancer_id: request.dancerId,
+        ingredient_id: request.ingredientId,
+      },
+    };
+
+    return axiosClient
+      .get(`/summer2021/scores`, axiosRequest)
+      .then(
+        (
+          response: AxiosResponse<Summer2021Score>,
+        ): Result<Error, Summer2021Score> => ok(response.data),
+      )
+      .catch(
+        (): Result<Error, Summer2021Score> =>
+          err(new Error(''), DefaultSummer2021Score),
+      );
+  };
+
+  const postSummer2021 = async (
+    submission: Summer2021SubmissionRequest,
+  ): Promise<Result<Error, Summer2021Score>> => {
+    const data = new FormData();
+    data.append('scoreRequest.score', `${submission.scoreRequest.score}`);
+    data.append('scoreRequest.scoreImage', submission.scoreRequest.scoreImage);
+    data.append('scoreRequest.songId', submission.scoreRequest.songId);
+    data.append('ingredientId', submission.ingredientId);
+
+    const request: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${await getIdTokenFunc()}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+
+    return axiosClient
+      .post(`/summer2021/scores`, data, request)
+      .then(
+        (
+          response: AxiosResponse<Summer2021Score>,
+        ): Result<Error, Summer2021Score> => ok(response.data),
+      )
+      .catch(
+        (): Result<Error, Summer2021Score> =>
+          err(new Error('failed to post score'), DefaultSummer2021Score),
+      );
+  };
+
+  return {
+    getById,
+    getAll,
+    postScore,
+    getSummer2021ByDancer,
+    getSummer2021,
+    postSummer2021,
+  };
 };
 
 export default scoresApiDao;

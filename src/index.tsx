@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import React, { useContext, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Skeleton } from 'antd';
@@ -37,6 +37,22 @@ import {
 } from 'context/ingredients';
 import compose, { ComposeProps } from 'utils/compose';
 import { ChakraProvider } from '@chakra-ui/react';
+import {
+  badgesApiDao,
+  badgesRepository,
+  BadgesRepositoryProvider,
+} from 'context/badges';
+import axios from 'axios';
+import {
+  dishesRepository,
+  dishesApiDao,
+  DishesRepositoryProvider,
+} from 'context/dishes';
+import {
+  eventsRepository,
+  eventsApiDao,
+  EventsRepositoryProvider,
+} from 'context/events';
 
 dotenv.config();
 
@@ -52,6 +68,10 @@ const firebaseConfig = {
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
+const axiosClient = axios.create({
+  baseURL: process.env.API_URL ?? '',
+  timeout: 20000,
+});
 
 const authenticationRepositoryInstance = authenticationRepository(
   authenticationFirebaseDao(firebaseApp),
@@ -62,29 +82,46 @@ const getTokenOrDefault = async (): Promise<string> => {
 const dancersRepositoryInstance = dancersRepository(
   dancersApiDao({
     getIdTokenFunc: getTokenOrDefault,
-    baseApiUrl: process.env.API_URL ?? '',
-    assetsUrl: process.env.ASSETS_URL ?? '',
+    axiosClient,
   }),
 );
 
 const songsRepositoryInstance = songsRepository(
   songsApiDao({
-    getIdTokenFunc: getTokenOrDefault,
-    baseApiUrl: process.env.API_URL ?? '',
+    axiosClient,
   }),
 );
 
-const scoresRepositoryInterface = scoresRepository(
+const scoresRepositoryInstance = scoresRepository(
   scoresApiDao({
     getIdTokenFunc: getTokenOrDefault,
-    baseApiUrl: process.env.API_URL ?? '',
+    axiosClient,
   }),
 );
 
-const ingredientsRepositoryInterface = ingredientsRepository(
+const ingredientsRepositoryInstance = ingredientsRepository(
   ingredientsApiDao({
     getIdTokenFunc: getTokenOrDefault,
-    baseApiUrl: process.env.API_URL ?? '',
+    axiosClient,
+  }),
+);
+
+const dishesRepositoryInstance = dishesRepository(
+  dishesApiDao({
+    getIdTokenFunc: getTokenOrDefault,
+    axiosClient,
+  }),
+);
+
+const badgesRepositoryInstance = badgesRepository(
+  badgesApiDao({
+    axiosClient,
+  }),
+);
+
+const eventsRepositoryInstance = eventsRepository(
+  eventsApiDao({
+    axiosClient,
   }),
 );
 
@@ -130,11 +167,23 @@ const providers: Array<ComposeProps> = [
   },
   {
     Provider: ScoresRepositoryProvider,
-    instance: scoresRepositoryInterface,
+    instance: scoresRepositoryInstance,
   },
   {
     Provider: IngredientsRepositoryProvider,
-    instance: ingredientsRepositoryInterface,
+    instance: ingredientsRepositoryInstance,
+  },
+  {
+    Provider: DishesRepositoryProvider,
+    instance: dishesRepositoryInstance,
+  },
+  {
+    Provider: BadgesRepositoryProvider,
+    instance: badgesRepositoryInstance,
+  },
+  {
+    Provider: EventsRepositoryProvider,
+    instance: eventsRepositoryInstance,
   },
   {
     Provider: HeadProvider,

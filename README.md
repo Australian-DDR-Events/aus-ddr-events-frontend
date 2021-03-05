@@ -11,7 +11,7 @@ Install Yarn with `npm install -g yarn`
 
 ### Parcel
 
-Install Parcel with `yarn global add parcel-bundler`
+Install Parcel with `yarn global add parcel@nightly`
 
 ### dotenv
 

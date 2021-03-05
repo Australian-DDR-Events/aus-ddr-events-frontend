@@ -47,7 +47,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
         setLoading(false);
       });
     }
-  }, [id, isEditing]);
+  }, [isEditing]);
 
   const getStateTextualRepresentation = (): string => {
     return (
@@ -82,8 +82,9 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                     size={80}
                     shape="square"
                     src={
-                      `${dancer.profilePicture}?${new Date()}` ||
-                      'https://i.imgur.com/o0ulS6k.png'
+                      `${process.env.ASSETS_URL}${
+                        dancer.profilePicture
+                      }?${new Date()}` || 'https://i.imgur.com/o0ulS6k.png'
                     }
                   />
                   <ProfileHeader level={2}>{dancer.userName}</ProfileHeader>
@@ -128,7 +129,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
           </Card>
         </Col>
         <Col xs={24} xl={16}>
-          <CollectionContainer />
+          <CollectionContainer dancer={dancer} />
         </Col>
       </Row>
     </ProfileWrapper>
