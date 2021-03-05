@@ -1,7 +1,6 @@
 import styled from 'types/styled-components';
 
 export const WhiteBackgroundLayout = styled.div`
-  background: #fff;
   min-height: 360px;
 `;
 
