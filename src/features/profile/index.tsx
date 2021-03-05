@@ -8,7 +8,6 @@ import {
   Row,
   Col,
   Popover,
-  message,
 } from 'antd';
 import { CheckCircleOutlined, CloseOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
@@ -40,7 +39,6 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
   const isEditable = !id || loggedInUserId === id;
 
   useEffect(() => {
-    console.log(id);
     if (!isEditing) {
       setLoading(true);
       const lookupId = id ?? loggedInUserId;
@@ -77,7 +75,6 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                     <Skeleton.Button active size="default" shape="square" />
                     {/* <Skeleton.Button active size="default" shape="square" /> */}
                   </Space>
-
                 </>
               )}
 
@@ -86,11 +83,13 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                   <Avatar
                     size={96}
                     shape="square"
-                    src={dancer.profilePicture ? (
-                      `${process.env.ASSETS_URL}${dancer.profilePicture}?${new Date()}`
-                    ) : (
-                      'https://i.imgur.com/o0ulS6k.png'
-                    )}
+                    src={
+                      dancer.profilePicture
+                        ? `${process.env.ASSETS_URL}${
+                            dancer.profilePicture
+                          }?${new Date()}`
+                        : 'https://i.imgur.com/o0ulS6k.png'
+                    }
                   />
                   <ProfileHeader level={2}>{dancer.userName}</ProfileHeader>
                   <Typography.Text key="dancerName">
@@ -138,7 +137,6 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
                       Share
                     </Button> */}
                   </Space>
-
                 </>
               )}
             </Space>

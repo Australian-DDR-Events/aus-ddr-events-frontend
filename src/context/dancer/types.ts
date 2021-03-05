@@ -17,7 +17,7 @@ export interface DancerUpdateRequest {
   primaryMachineLocation: string;
   profilePictureUrl: string;
   [key: string]: any;
-};
+}
 
 export type DancersRepository = {
   get: (id: string) => Promise<Result<Error, Dancer>>;
