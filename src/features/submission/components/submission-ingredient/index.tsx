@@ -48,6 +48,7 @@ const SubmissionIngredient = ({
           ) : (
             <Image
               src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image256}`}
+              preview={false}
             />
           )}
         </StyledCardGrid>
@@ -55,10 +56,12 @@ const SubmissionIngredient = ({
           {songIngredient.song.difficulty === 'Expert' ? (
             <ExpertJacket
               src={`${process.env.ASSETS_URL}${songIngredient.song.image256}`}
+              preview={false}
             />
           ) : (
             <ChallengeJacket
               src={`${process.env.ASSETS_URL}${songIngredient.song.image256}`}
+              preview={false}
             />
           )}
         </StyledCardGrid>
