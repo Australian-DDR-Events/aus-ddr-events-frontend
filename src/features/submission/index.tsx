@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   Button,
   Col,
@@ -193,13 +194,18 @@ const Submission = () => {
             {currentSongIngredient.song.difficulty === 'Expert' ? (
               <ExpertJacket
                 src={`${process.env.ASSETS_URL}${currentSongIngredient.song.image256}`}
+                preview={false}
               />
             ) : (
               <ChallengeJacket
                 src={`${process.env.ASSETS_URL}${currentSongIngredient.song.image256}`}
+                preview={false}
               />
             )}
-            <SubmissionForm form={form} />
+            <SubmissionForm
+              form={form}
+              currentSongIngredient={currentSongIngredient}
+            />
           </SubmissionFormWrapper>
         ) : (
           <Result
@@ -210,6 +216,7 @@ const Submission = () => {
                     '//',
                     '/',
                   )}
+                  preview={false}
                 />
                 <br />
                 <Rate disabled defaultValue={gradeToInt(currentGrade.grade)} />

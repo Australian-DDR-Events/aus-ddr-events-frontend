@@ -16,12 +16,18 @@ const Step2 = () => {
             of your score submission.
           </Typography.Paragraph>
         </Space>
-        <MediumWidthImage src="https://i.imgur.com/nNm2M8z.png" />
+        <MediumWidthImage
+          src="https://i.imgur.com/nNm2M8z.png"
+          preview={false}
+        />
         <Typography.Paragraph>
           Take photos of your best scores, and upload them on the website in the
           scores section.
         </Typography.Paragraph>
-        <MediumWidthImage src="https://i.imgur.com/6rTazTU.png" />
+        <MediumWidthImage
+          src="https://i.imgur.com/6rTazTU.png"
+          preview={false}
+        />
       </Space>
     </>
   );

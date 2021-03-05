@@ -20,7 +20,10 @@ const Step5 = () => {
             small boost to your overall dish quality.
           </Typography.Paragraph>
         </Space>
-        <MediumWidthImage src="https://i.imgur.com/vgn9VFo.png" />
+        <MediumWidthImage
+          src="https://i.imgur.com/vgn9VFo.png"
+          preview={false}
+        />
       </Space>
     </>
   );

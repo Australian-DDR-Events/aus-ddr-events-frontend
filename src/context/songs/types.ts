@@ -7,6 +7,7 @@ export type Song = {
   artist: string;
   difficulty: string;
   level: number;
+  maxScore: number;
   image32: string;
   image64: string;
   image128: string;

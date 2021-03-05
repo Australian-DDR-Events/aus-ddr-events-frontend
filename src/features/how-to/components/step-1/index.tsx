@@ -15,11 +15,17 @@ const Step1 = () => {
           your cook off for the season.
         </Typography.Text>
         <Space direction="horizontal">
-          <MediumWidthImage src="https://i.imgur.com/m6CRQeh.png" />
+          <MediumWidthImage
+            src="https://i.imgur.com/m6CRQeh.png"
+            preview={false}
+          />
           <Title style={{ margin: '24px' }} level={5}>
             OR
           </Title>
-          <MediumWidthImage src="https://i.imgur.com/IbgnoVC.png" />
+          <MediumWidthImage
+            src="https://i.imgur.com/IbgnoVC.png"
+            preview={false}
+          />
         </Space>
       </Space>
     </>
