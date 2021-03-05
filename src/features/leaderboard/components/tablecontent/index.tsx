@@ -90,6 +90,32 @@ const TableContent = () => {
       {!loading ? (
         <LeaderboardContainer>
           <Tabs defaultActiveKey="1">
+            <TabPane tab="OVERVIEW" key="1">
+              <Table
+                bordered
+                size="middle"
+                pagination={false}
+                dataSource={allDancers.map((dancer) => ({
+                  dancerCode: dancer.ddrCode,
+                  dancerState: dancer.state,
+                  dancerName: dancer.ddrName,
+                  dancerImageUrl: dancer.profilePictureUrl,
+                  dancerTotalScores: scores
+                    .map((score) => {
+                      if (dancer.id === score.dancerId) {
+                        if (score.value !== undefined) {
+                          return score.value;
+                        }
+                      }
+                      return 0;
+                    })
+                    .reduce((acc: number, cur: number) => {
+                      return acc + cur;
+                    }, 0),
+                }))}
+                columns={columns}
+              />
+            </TabPane>
             {songs.map((song) => {
               return (
                 <TabPane tab={song.name} key={song.id}>
