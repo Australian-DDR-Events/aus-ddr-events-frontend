@@ -1,14 +1,13 @@
 import React from 'react';
-import { Center, Heading, HStack, Image, Text } from '@chakra-ui/react';
+import { Center, Heading, Image, Text, useMediaQuery } from '@chakra-ui/react';
 
 const AboutUs = () => {
+  const [isLargerThan750] = useMediaQuery('(min-width: 750px)');
   return (
     <>
-      <Center>
-        <Heading as="h2" mb={8}>
-          About Us
-        </Heading>
-      </Center>
+      <Heading as="h2" mb={8} textAlign="center">
+        About Us
+      </Heading>
       <Text fontSize="md" mb={8}>
         AUSDDREvents is a DDR community based group that strives to provide both
         national level and local level events and competitions by DDR players,
@@ -19,18 +18,17 @@ const AboutUs = () => {
         growth and health of DDR players within Australia.
       </Text>
       <Center mb={8}>
-        <HStack>
-          <Image
-            src="https://i.imgur.com/h3ETJKK.png"
-            alt="ORA20 logo"
-            maxW="200px"
-          />
-          <Image
-            src="https://i.imgur.com/LrlkNLZ.png"
-            alt="SCS logo"
-            maxW="200px"
-          />
-        </HStack>
+        <Image
+          src="https://i.imgur.com/h3ETJKK.png"
+          alt="ORA20 logo"
+          maxW="30%"
+          mr={8}
+        />
+        <Image
+          src="https://i.imgur.com/LrlkNLZ.png"
+          alt="SCS logo"
+          maxW="30%"
+        />
       </Center>
 
       <Text fontSize="md" mb={8}>
@@ -45,7 +43,8 @@ const AboutUs = () => {
         <Image
           src="https://i.imgur.com/DeWq2Zz.jpg"
           alt="Group photo of CFA"
-          maxW="500px"
+          maxW={isLargerThan750 ? '50%' : '80%'}
+          mb={8}
         />
       </Center>
     </>

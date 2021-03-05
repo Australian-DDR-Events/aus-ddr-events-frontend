@@ -91,25 +91,33 @@ const Navigation = (props: any) => {
             How to participate
           </MenuItem>
           {loggedInUser.id ? (
-            <HStack>
-              <Button
-                size="md"
-                rounded="md"
-                colorScheme="blue"
-                onClick={() => setLocation('/profile')}
-              >
-                Profile
-              </Button>
-              <Tooltip hasArrow label="Log out">
-                <IconButton
+            <>
+              <MenuItem onClick={() => setLocation('/submission')}>
+                Submit scores
+              </MenuItem>
+              <MenuItem onClick={() => setLocation('/course-submission')}>
+                Submit courses
+              </MenuItem>
+              <HStack>
+                <Button
                   size="md"
-                  aria-label="Log out"
-                  icon={<Icon as={IoLogOutOutline} />}
-                  variant="ghost"
-                  onClick={onLogout}
-                />
-              </Tooltip>
-            </HStack>
+                  rounded="md"
+                  colorScheme="blue"
+                  onClick={() => setLocation('/profile')}
+                >
+                  Profile
+                </Button>
+                <Button
+                  size="md"
+                  rounded="md"
+                  colorScheme="gray"
+                  variant="outline"
+                  onClick={() => setLocation('/profile')}
+                >
+                  Log out
+                </Button>
+              </HStack>
+            </>
           ) : (
             <Button
               size="md"

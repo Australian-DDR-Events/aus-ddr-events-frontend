@@ -1,5 +1,12 @@
 import React, { useContext } from 'react';
-import { Box, Container, Heading, Button, Image } from '@chakra-ui/react';
+import {
+  Box,
+  Container,
+  Heading,
+  Button,
+  Image,
+  useMediaQuery,
+} from '@chakra-ui/react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import useLocation from 'wouter/use-location';
 
@@ -13,13 +20,14 @@ const Home = () => {
   const authRepo = useContext(AuthenticationRepositoryContext)
     .authenticationRepositoryInstance;
   const loggedInUser = authRepo.get().okOrDefault();
+  const [isLargerThan750] = useMediaQuery('(min-width: 750px)');
 
   return (
     <Container maxW="container.xl" centerContent p={8}>
       <Box align="center" mb={8}>
         <Heading>Coming Soon...</Heading>
         <Image
-          boxSize="50%"
+          boxSize={isLargerThan750 ? '50%' : '90%'}
           objectFit="cover"
           src="https://i.imgur.com/vgn9VFo.png"
           alt="Summer BBQ Logo"
@@ -30,9 +38,7 @@ const Home = () => {
           starting February 2021. Pre-register your account today!
         </Heading>
         {!loggedInUser.id && (
-          <Button size="sm" onClick={() => setLocation('/register')}>
-            Sign Up
-          </Button>
+          <Button onClick={() => setLocation('/register')}>Sign Up</Button>
         )}
       </Box>
 

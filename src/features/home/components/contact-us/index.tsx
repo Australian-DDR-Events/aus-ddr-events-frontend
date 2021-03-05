@@ -1,32 +1,45 @@
 import React from 'react';
-import { Center, Heading, HStack, Button, Text } from '@chakra-ui/react';
+import { Center, Heading, Button, Text, useMediaQuery } from '@chakra-ui/react';
 import { FaFacebook, FaDiscord, FaTwitter } from 'react-icons/fa';
+import { defaultSpacing } from '~/types/styled-components';
 
 const ContactUs = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
+  const [isLargerThan750] = useMediaQuery('(min-width: 750px)');
   return (
     <>
-      <Center>
-        <Heading as="h2" mb={8}>
-          Want more information?
-        </Heading>
-      </Center>
+      <Heading as="h2" mb={defaultSpacing} textAlign="center">
+        Want more information?
+      </Heading>
       <Text fontSize="md">
         If you have any inquiries or are interested in getting involved with the
         AUSDDREvents team, feel free to get in touch with us via the following
         services:
       </Text>
-      <Center mt={8} mb={8}>
-        <HStack>
-          <Button colorScheme="facebook" leftIcon={<FaFacebook />}>
-            Facebook
-          </Button>
-          <Button colorScheme="twitter" leftIcon={<FaTwitter />}>
-            Twitter
-          </Button>
-          <Button colorScheme="twitter" leftIcon={<FaDiscord />}>
-            Twitter
-          </Button>
-        </HStack>
+      <Center mt={defaultSpacing} mb={defaultSpacing}>
+        <Button
+          colorScheme="facebook"
+          leftIcon={<FaFacebook />}
+          mr={isLargerThan750 ? defaultSpacing / 2 : defaultSpacing / 4}
+          size={isLargerThan750 ? 'md' : 'sm'}
+        >
+          Facebook
+        </Button>
+        <Button
+          colorScheme="twitter"
+          leftIcon={<FaTwitter />}
+          mr={isLargerThan750 ? defaultSpacing / 2 : defaultSpacing / 4}
+          size={isLargerThan750 ? 'md' : 'sm'}
+        >
+          Twitter
+        </Button>
+        <Button
+          bgColor="#7298DA"
+          color="white"
+          leftIcon={<FaDiscord />}
+          size={isLargerThan750 ? 'md' : 'sm'}
+        >
+          Discord
+        </Button>
       </Center>
       <Text fontSize="md">
         We’re looking forward to seeing your moves on the dance floor!
