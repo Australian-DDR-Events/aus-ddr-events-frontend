@@ -51,28 +51,32 @@ const CourseSubmissionDish = ({
       </Card.Grid>
       <Card.Grid hoverable={false} style={{ width: '100%' }}>
         {allSubmitted(recipe.songs) ? (
-          <Image src={`${process.env.ASSETS_URL}${recipe.dish.image128}`} />
+          <Image
+            src={`${process.env.ASSETS_URL}${recipe.dish.image128}`}
+            preview={false}
+          />
         ) : (
           <StyledUnsubmitted
             src={`${process.env.ASSETS_URL}${recipe.dish.image128}`}
+            preview={false}
           />
         )}
       </Card.Grid>
       <Card.Grid hoverable={false} style={{ width: '100%' }}>
-        <Carousel autoplay>
+        <Carousel autoplay draggable>
           {recipe.songs.map((song) => {
             if (song.songDetails.difficulty === 'Expert') {
               return (
                 <ExpertJacket
-                  preview={false}
                   src={`${process.env.ASSETS_URL}${song.songDetails.image256}`}
+                  preview={false}
                 />
               );
             }
             return (
               <ChallengeJacket
-                preview={false}
                 src={`${process.env.ASSETS_URL}${song.songDetails.image256}`}
+                preview={false}
               />
             );
           })}
@@ -84,10 +88,12 @@ const CourseSubmissionDish = ({
             {songIngredient.submitted ? (
               <Image
                 src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image64}`}
+                preview={false}
               />
             ) : (
               <StyledUnsubmitted
                 src={`${process.env.ASSETS_URL}${songIngredient.ingredient.image64}`}
+                preview={false}
               />
             )}
           </Card.Grid>

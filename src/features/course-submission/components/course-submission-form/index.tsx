@@ -58,13 +58,20 @@ const CourseSubmissionForm = ({
     <>
       {currentDifficulty &&
         (currentDifficulty === 'Expert' ? (
-          <ExpertJacket src={`${process.env.ASSETS_URL}${currentJacket}`} />
+          <ExpertJacket
+            src={`${process.env.ASSETS_URL}${currentJacket}`}
+            preview={false}
+          />
         ) : (
-          <ChallengeJacket src={`${process.env.ASSETS_URL}${currentJacket}`} />
+          <ChallengeJacket
+            src={`${process.env.ASSETS_URL}${currentJacket}`}
+            preview={false}
+          />
         ))}
       {!currentDifficulty && (
         <Image
           src={`${process.env.ASSETS_URL}/songs/default/default.256.png`}
+          preview={false}
         />
       )}
       <Form form={form} layout="vertical" style={{ textAlign: 'left' }}>

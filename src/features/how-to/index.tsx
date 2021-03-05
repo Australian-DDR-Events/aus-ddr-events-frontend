@@ -53,6 +53,11 @@ const HowTo = () => {
       </Steps>
       <StepsContent>{steps[current].content}</StepsContent>
       <StepsAction className="steps-action">
+        {current > 0 && (
+          <Button style={{ margin: '16px' }} onClick={() => prev()}>
+            Previous
+          </Button>
+        )}
         {current < steps.length - 1 && (
           <Button
             style={{ margin: '16px' }}
@@ -60,11 +65,6 @@ const HowTo = () => {
             onClick={() => next()}
           >
             Next
-          </Button>
-        )}
-        {current > 0 && (
-          <Button style={{ margin: '16px' }} onClick={() => prev()}>
-            Previous
           </Button>
         )}
       </StepsAction>

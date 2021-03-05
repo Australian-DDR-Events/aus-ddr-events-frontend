@@ -17,11 +17,20 @@ const Step4 = () => {
             once the season has concluded.
           </Typography.Text>
         </Space>
-        <SmallWidthImage src="https://i.imgur.com/ChYOL3K.png" />
+        <SmallWidthImage
+          src="https://i.imgur.com/ChYOL3K.png"
+          preview={false}
+        />
         <ArrowDownOutlined style={{ fontSize: '24px' }} />
-        <SmallWidthImage src="https://i.imgur.com/oEce6Gv.png" />
+        <SmallWidthImage
+          src="https://i.imgur.com/oEce6Gv.png"
+          preview={false}
+        />
         <ArrowDownOutlined style={{ fontSize: '24px' }} />
-        <MediumWidthImage src="https://i.imgur.com/nGWCDfu.png" />
+        <MediumWidthImage
+          src="https://i.imgur.com/nGWCDfu.png"
+          preview={false}
+        />
       </Space>
     </>
   );
