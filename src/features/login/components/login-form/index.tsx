@@ -1,10 +1,15 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from 'context/authentication';
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Box,
   Button,
   Checkbox,
   Container,
@@ -15,12 +20,14 @@ import {
   Input,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
+import { defaultSpacing } from '~/types/styled-components';
 
 const LoginForm = () => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
     AuthenticationRepositoryContext,
   );
   const [, setLocation] = useLocation();
+  const [apiErrors, setApiErrors] = useState('');
   const { register, handleSubmit, errors } = useForm();
 
   useEffect(() => {
@@ -38,12 +45,23 @@ const LoginForm = () => {
       .then((result) => {
         if (result.isOk()) {
           setLocation('/');
+        } else {
+          console.log(result);
+          setApiErrors(result.error.message);
         }
       });
   };
 
   return (
     <Container maxW="sm">
+      {apiErrors && (
+        <Alert status="error" borderRadius="md" mb={defaultSpacing / 2}>
+          <Box flex="1">
+            <AlertTitle mr={2}>Uh oh!</AlertTitle>
+            <AlertDescription>{apiErrors}</AlertDescription>
+          </Box>
+        </Alert>
+      )}
       <form onSubmit={handleSubmit(onFinish)}>
         <FormControl id="email" mb={4}>
           <FormLabel>Email address</FormLabel>
@@ -56,9 +74,6 @@ const LoginForm = () => {
             name="password"
             ref={register({ required: true })}
           />
-          {errors.password && (
-            <FormErrorMessage>Invalid password</FormErrorMessage>
-          )}
         </FormControl>
         <Flex justify={['space-between']} mb={4}>
           <Checkbox name="remember" ref={register}>

@@ -18,7 +18,7 @@
     "strictNullChecks": true,
     "esModuleInterop": true,
     "typeRoots": ["node_modules/@types", "src/types"],
-    "types": ["typePatches", "@types/jest"]
+    "types": ["@types/jest"]
   },
   "include": ["src/**/*", "@types"],
   "exclude": [

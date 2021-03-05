@@ -6,14 +6,12 @@ import {
   Stack,
   Image,
   Icon,
-  IconButton,
   HStack,
-  Tooltip,
 } from '@chakra-ui/react';
 import { useLocation } from 'wouter';
 import logo from 'assets/logo.png';
 import { AuthenticationRepositoryContext } from 'context/authentication';
-import { IoChevronUp, IoChevronDown, IoLogOutOutline } from 'react-icons/io5';
+import { IoChevronUp, IoChevronDown } from 'react-icons/io5';
 
 const MenuToggle = ({ toggle, isOpen }: { toggle: any; isOpen: boolean }) => {
   return (
@@ -83,8 +81,8 @@ const Navigation = (props: any) => {
         <Stack
           spacing={8}
           align="center"
-          justify={['center', 'flex-end', 'flex-end', 'flex-end']}
-          direction={['column', 'row', 'row', 'row']}
+          justify={['center', 'center', 'flex-end', 'flex-end']}
+          direction={['column', 'column', 'row', 'row']}
           pt={[4, 4, 0, 0]}
         >
           <MenuItem onClick={() => setLocation('/how-to')}>
@@ -112,7 +110,7 @@ const Navigation = (props: any) => {
                   rounded="md"
                   colorScheme="gray"
                   variant="outline"
-                  onClick={() => setLocation('/profile')}
+                  onClick={onLogout}
                 >
                   Log out
                 </Button>
