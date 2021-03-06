@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Form, Input, Tooltip, Button, Typography } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useLocation } from 'wouter';
@@ -32,6 +32,13 @@ const RegistrationForm = () => {
   const [form] = Form.useForm();
   const [, setLocation] = useLocation();
 
+  useEffect(() => {
+    const loggedInUser = authRepo.authenticationRepositoryInstance
+      .get()
+      .okOrDefault();
+    if (loggedInUser.id) setLocation('/profile');
+  });
+
   const onFinish = (values: any) => {
     authRepo.authenticationRepositoryInstance
       .register(values.email, values.password)
@@ -42,7 +49,7 @@ const RegistrationForm = () => {
             userName: values.displayName,
           })
           .then(() => {
-            setLocation('/');
+            setLocation('/profile');
           });
       });
   };
