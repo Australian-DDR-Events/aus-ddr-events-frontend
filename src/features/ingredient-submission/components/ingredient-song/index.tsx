@@ -92,7 +92,7 @@ const IngredientSong = ({
               mb={2}
             >
               {dancerGradedIngredient &&
-                `You obtained ${dancerGradedIngredient.gradedIngredient.description}
+                `You've obtained ${dancerGradedIngredient.gradedIngredient.description}
               ${dancerGradedIngredient.gradedIngredient.name}`}
               {!dancerGradedIngredient && (
                 <>You don&apos;t have any {ingredient.name}. Play to obtain</>

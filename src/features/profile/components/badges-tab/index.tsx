@@ -34,7 +34,7 @@ const BadgesTab = ({ dancer }: { dancer: Dancer }) => {
   useEffect(() => {
     if (loading && dancer.id) {
       badgesRepo.badgesRepositoryInstance
-        .getById(dancer.id)
+        .getForDancerId(dancer.id)
         .then((badgeResult) => {
           setBadges(badgeResult.okOrDefault());
           setLoading(false);
@@ -50,7 +50,7 @@ const BadgesTab = ({ dancer }: { dancer: Dancer }) => {
     >
       {badges.map((b) => (
         <Center key={b.id}>
-          <BadgeComponent badge={b} eventName={b.event.name} />
+          <BadgeComponent badge={b} eventName={b.event?.name || ''} />
         </Center>
       ))}
     </SimpleGrid>

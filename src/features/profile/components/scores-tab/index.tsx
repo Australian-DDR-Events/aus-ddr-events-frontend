@@ -10,6 +10,7 @@ import { Summer2021Score } from 'types/summer2021';
 import { SongsRepositoryContext } from 'context/songs';
 import { Song } from 'types/core';
 import { Dancer } from 'context/dancer';
+import { IngredientsRepositoryContext } from '~/context/ingredients';
 
 const ScoreComponent = ({
   score,
@@ -75,18 +76,18 @@ const ScoreComponent = ({
 };
 
 const ScoresTab = ({ dancer }: { dancer: Dancer }) => {
-  const scoresRepository = useContext(ScoresRepositoryContext);
   const [scores, setScores] = useState<Summer2021Score[]>(
     new Array<Summer2021Score>(),
   );
+  const ingredientsRepository = useContext(IngredientsRepositoryContext);
   const songsRepository = useContext(SongsRepositoryContext);
   const [songs, setSongs] = useState<Map<string, Song>>(new Map());
 
   const [loading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    scoresRepository.scoresRepositoryInstance
-      .getSummer2021ByDancer(dancer.id)
+    ingredientsRepository.ingredientsRepositoryInstance
+      .getGradedIngredientsByDancer(dancer.id, true)
       .then((result) => {
         const songIds = result.okOrDefault().map((r) => r.score.songId);
         songsRepository.songsRepositoryInstance
@@ -103,7 +104,11 @@ const ScoresTab = ({ dancer }: { dancer: Dancer }) => {
     <>
       {!loading &&
         scores.map((score) => (
-          <ScoreComponent score={score} song={songs.get(score.score.songId)} />
+          <ScoreComponent
+            key={score.id}
+            score={score}
+            song={songs.get(score.score.songId)}
+          />
         ))}
     </>
   );
