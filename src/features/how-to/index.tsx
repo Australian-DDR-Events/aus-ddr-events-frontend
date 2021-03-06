@@ -19,7 +19,7 @@ import Step4 from './components/step-4';
 import Step5 from './components/step-5';
 
 const HowTo = () => {
-  const [tabIndex, setTabIndex] = React.useState(0);
+  const [tabIndex, setTabIndex] = useState(0);
   const [isSmallerThan425] = useMediaQuery('(max-width:425px)');
   const handleTabsChange = (index: number) => {
     setTabIndex(index);
