@@ -19,6 +19,7 @@ import { DancersRepositoryContext } from 'context/dancer';
 import { ScoresRepositoryContext } from 'context/scores';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import { DefaultDishGrade } from 'context/dishes/constants';
+import Resizer from 'react-image-file-resizer';
 import CourseSubmissionDish from './components/course-submission-dish';
 import CourseSubmissionForm from './components/course-submission-form';
 import { CourseSubmissionFormWrapper, CourseSubmissionWrapper } from './styled';
@@ -57,12 +58,41 @@ const CourseSubmission = () => {
     const values = await form.validateFields();
     setSending(true);
 
+    Resizer.imageFileResizer(
+      values.finalImage,
+      1000,
+      1000,
+      'PNG',
+      100,
+      0,
+      (image) => {
+        values.finalImage = image;
+      },
+      'file',
+      0,
+      0,
+    );
+
     const request: DishSubmissionRequest = {
       pairBonus: values.pairBonus,
       finalImage: values.finalImage,
       scores: [],
     };
     [0, 1, 2].forEach((index) => {
+      Resizer.imageFileResizer(
+        values[`scoreImage${index}`],
+        1000,
+        1000,
+        'PNG',
+        100,
+        0,
+        (image) => {
+          values[`scoreImage${index}`] = image;
+        },
+        'file',
+        0,
+        0,
+      );
       request.scores.push({
         score: values[`score${index}`],
         scoreImage: values[`scoreImage${index}`],
