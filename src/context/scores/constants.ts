@@ -1,4 +1,6 @@
-import { Score, ScoreSubmissionRequest, Summer2021Score } from './types';
+import { Score } from 'types/core';
+import { Summer2021Score } from 'types/summer2021';
+import { ScoreSubmissionRequest } from './types';
 
 export const DefaultScore: Score = {
   id: '',
@@ -11,9 +13,20 @@ export const DefaultScore: Score = {
 
 export const DefaultSummer2021Score: Summer2021Score = {
   id: '',
-  gradedIngredientId: '',
+  gradedIngredient: {
+    id: '',
+    grade: '',
+    requiredScore: 0,
+    description: '',
+    type: 'gradedIngredient',
+    name: '',
+    image32: '',
+    image64: '',
+    image128: '',
+    image256: '',
+  },
   dancerId: '',
-  scoreId: '',
+  score: DefaultScore,
 };
 
 export const DefaultScoreSubmissionRequest: ScoreSubmissionRequest = {

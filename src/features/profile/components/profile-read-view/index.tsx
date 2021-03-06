@@ -33,7 +33,9 @@ const ProfileReadView = ({
     return StateOptions.find((state) => state.key === inputState)?.value || '';
   };
   const getProfileImageUrl = () =>
-    `${process.env.ASSETS_URL}${dancer.profilePicture}?${new Date()}`;
+    `${process.env.ASSETS_URL}${
+      dancer.profilePicture
+    }?${new Date().toISOString()}`;
   const DEFAULT_PROFILE_PICTURE_URL = 'https://i.imgur.com/o0ulS6k.png';
 
   return (

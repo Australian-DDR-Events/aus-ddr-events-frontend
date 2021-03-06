@@ -7,7 +7,6 @@ import {
   ScoresRepository,
   ScoreSubmissionRequest,
   Summer2021Score,
-  Summer2021SubmissionRequest,
 } from './types';
 
 const scoresRepository = (dao: ScoresDao): ScoresRepository => {
@@ -26,9 +25,6 @@ const scoresRepository = (dao: ScoresDao): ScoresRepository => {
   const getSummer2021 = (
     request: GetSummer2021Request,
   ): Promise<Result<Error, Summer2021Score>> => dao.getSummer2021(request);
-  const postSummer2021 = (
-    submission: Summer2021SubmissionRequest,
-  ): Promise<Result<Error, Summer2021Score>> => dao.postSummer2021(submission);
 
   return {
     getById,
@@ -36,7 +32,6 @@ const scoresRepository = (dao: ScoresDao): ScoresRepository => {
     postScore,
     getSummer2021ByDancer,
     getSummer2021,
-    postSummer2021,
   };
 };
 

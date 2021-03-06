@@ -1,13 +1,13 @@
 import { err, ok, Result } from 'types/result';
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import {
+  DancerGradedIngredient,
+  GradedIngredient,
   Ingredient,
-  IngredientGrade,
-  IngredientsDao,
-  ScoreSubmissionRequest,
-} from './types';
+  Summer2021Score,
+} from 'types/summer2021';
+import { IngredientsDao, ScoreSubmissionRequest } from './types';
 import { DefaultIngredient } from './constants';
-import { Summer2021Score } from '../scores/types';
 import { DefaultSummer2021Score } from '../scores/constants';
 
 const ingredientsApiDao = ({
@@ -22,9 +22,7 @@ const ingredientsApiDao = ({
       .get(`/summer2021/ingredients`)
       .then(
         (response: AxiosResponse): Array<Ingredient> => {
-          return response.data.map(
-            (ingredient: Ingredient): Ingredient => ingredient,
-          );
+          return response.data;
         },
       )
       .then(
@@ -57,27 +55,53 @@ const ingredientsApiDao = ({
 
   const getGrades = async (
     id: string,
-  ): Promise<Result<Error, Array<IngredientGrade>>> => {
+  ): Promise<Result<Error, Array<GradedIngredient>>> => {
     return axiosClient
       .get(`/summer2021/ingredients/${id}/grades`)
       .then(
-        (response: AxiosResponse): Array<IngredientGrade> => {
+        (response: AxiosResponse): Array<GradedIngredient> => {
           return response.data.map(
-            (ingredientGrade: IngredientGrade): IngredientGrade =>
+            (ingredientGrade: GradedIngredient): GradedIngredient =>
               ingredientGrade,
           );
         },
       )
       .then(
         (
-          ingredientGrades: Array<IngredientGrade>,
-        ): Result<Error, Array<IngredientGrade>> => ok(ingredientGrades),
+          ingredientGrades: Array<GradedIngredient>,
+        ): Result<Error, Array<GradedIngredient>> => ok(ingredientGrades),
       )
       .catch(
-        (): Result<Error, Array<IngredientGrade>> => {
+        (): Result<Error, Array<GradedIngredient>> => {
           return err(
             new Error('failed to get ingredient grades'),
-            new Array<IngredientGrade>(),
+            new Array<GradedIngredient>(),
+          );
+        },
+      );
+  };
+
+  const getGradedIngredientsByDancer = async (
+    dancerId: string,
+    topOnly: boolean,
+  ): Promise<Result<Error, Array<DancerGradedIngredient>>> => {
+    return axiosClient
+      .get(`/summer2021/dancers/${dancerId}/ingredients?top_only=${topOnly}`)
+      .then(
+        (response: AxiosResponse): Array<DancerGradedIngredient> => {
+          return response.data;
+        },
+      )
+      .then(
+        (
+          ingredientGrades: Array<DancerGradedIngredient>,
+        ): Result<Error, Array<DancerGradedIngredient>> => ok(ingredientGrades),
+      )
+      .catch(
+        (): Result<Error, Array<DancerGradedIngredient>> => {
+          return err(
+            new Error('failed to get ingredient grades'),
+            new Array<DancerGradedIngredient>(),
           );
         },
       );
@@ -111,7 +135,13 @@ const ingredientsApiDao = ({
       );
   };
 
-  return { getAll, getById, getGrades, postScoreSubmission };
+  return {
+    getAll,
+    getById,
+    getGrades,
+    getGradedIngredientsByDancer,
+    postScoreSubmission,
+  };
 };
 
 export default ingredientsApiDao;

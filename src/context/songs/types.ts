@@ -1,18 +1,6 @@
 import { ReactNode } from 'react';
 import { Result } from 'types/result';
-
-export type Song = {
-  id: string;
-  name: string;
-  artist: string;
-  difficulty: string;
-  level: number;
-  image32: string;
-  image64: string;
-  image128: string;
-  image256: string;
-  image512: string;
-};
+import { Song } from 'types/core';
 
 export type SongsRepository = {
   getAll: () => Promise<Result<Error, Array<Song>>>;

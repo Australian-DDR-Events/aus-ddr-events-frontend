@@ -1,19 +1,26 @@
-import { Ingredient, IngredientGrade } from './types';
+import { GradedIngredient, Ingredient } from 'types/summer2021';
+import { DefaultSong } from '../songs';
 
-// eslint-disable-next-line import/prefer-default-export
 export const DefaultIngredient: Ingredient = {
   id: '',
   name: '',
-  songId: '',
+  type: 'ingredient',
+  song: DefaultSong,
   image32: '',
   image64: '',
   image128: '',
   image256: '',
 };
 
-export const DefaultGrade: IngredientGrade = {
+export const DefaultGrade: GradedIngredient = {
   id: '',
   grade: '',
+  type: 'gradedIngredient',
   requiredScore: 0,
   description: '',
+  name: '',
+  image32: '',
+  image64: '',
+  image128: '',
+  image256: '',
 };

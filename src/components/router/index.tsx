@@ -11,10 +11,10 @@ import Register from 'features/register';
 import Home from 'features/home';
 import ForgotPassword from 'features/forgot-password';
 import HowTo from 'features/how-to';
-import Submission from 'features/submission';
 import CourseSubmission from 'features/course-submission';
 import Error from 'features/error';
 import { Title } from 'react-head';
+import IngredientSubmission from 'features/ingredient-submission';
 
 const ProtectedRoute = (props: RouteProps) => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
@@ -65,7 +65,7 @@ const Router = () => (
     </ProtectedRoute>
     <ProtectedRoute path="/submission">
       <Title>Submit Scores | Australian DDR Events</Title>
-      <Submission />
+      <IngredientSubmission />
     </ProtectedRoute>
     <ProtectedRoute path="/course-submission">
       <Title>Submit Courses | Australian DDR Events</Title>
