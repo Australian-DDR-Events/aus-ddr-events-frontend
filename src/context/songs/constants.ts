@@ -6,6 +6,7 @@ export const DefaultSong: Song = {
   name: '',
   artist: '',
   difficulty: '',
+  maxScore: 0,
   level: 0,
   image32: '',
   image64: '',

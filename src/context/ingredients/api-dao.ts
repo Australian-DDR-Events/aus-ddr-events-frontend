@@ -9,6 +9,7 @@ import {
 import { IngredientsDao, ScoreSubmissionRequest } from './types';
 import { DefaultIngredient } from './constants';
 import { DefaultSummer2021Score } from '../scores/constants';
+import resizeImage from '~/utils/images';
 
 const ingredientsApiDao = ({
   getIdTokenFunc,
@@ -110,16 +111,18 @@ const ingredientsApiDao = ({
   const postScoreSubmission = async (
     id: string,
     submission: ScoreSubmissionRequest,
+    onUploadProgress: any,
   ): Promise<Result<Error, Summer2021Score>> => {
     const data = new FormData();
     data.append('score', `${submission.score}`);
-    data.append('scoreImage', submission.scoreImage);
+    data.append('scoreImage', resizeImage(submission.scoreImage, 1000, 1000));
 
     const request: AxiosRequestConfig = {
       headers: {
         Authorization: `Bearer ${await getIdTokenFunc()}`,
         'Content-Type': 'multipart/form-data',
       },
+      onUploadProgress,
     };
 
     return axiosClient

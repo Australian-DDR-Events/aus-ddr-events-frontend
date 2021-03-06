@@ -7,6 +7,7 @@ import {
 } from './types';
 import { DefaultDish, DefaultDishSubmissionResponse } from './constants';
 import { Dish, DishSong, GradedDish } from '~/types/summer2021';
+import resizeImage from '~/utils/images';
 
 const dishesApiDao = ({
   getIdTokenFunc,
@@ -82,21 +83,26 @@ const dishesApiDao = ({
   const postSubmission = async (
     id: string,
     submission: DishSubmissionRequest,
+    onUploadProgress: any,
   ): Promise<Result<Error, DishSubmissionResponse>> => {
     const data = new FormData();
     for (let i = 0; i < 3; i += 1) {
       data.append(`scores[${i}].score`, `${submission.scores[i].score}`);
-      data.append(`scores[${i}].scoreImage`, submission.scores[i].scoreImage);
+      data.append(
+        `scores[${i}].scoreImage`,
+        resizeImage(submission.scores[i].scoreImage, 1000, 1000),
+      );
       data.append(`scores[${i}].songId`, submission.scores[i].songId);
     }
     data.append('pairBonus', `${submission.pairBonus}`);
-    data.append('finalImage', submission.finalImage);
+    data.append('finalImage', resizeImage(submission.finalImage, 1000, 1000));
 
     const request: AxiosRequestConfig = {
       headers: {
         Authorization: `Bearer ${await getIdTokenFunc()}`,
         'Content-Type': 'multipart/form-data',
       },
+      onUploadProgress,
     };
 
     return axiosClient

@@ -37,10 +37,11 @@ const IngredientSubmissionModal = ({
       <ModalContent>
         {!submissionResult && (
           <>
-            <ModalHeader>Submit score for {ingredient.song.name}</ModalHeader>
+            <ModalHeader>Submit score for {ingredient.song?.name}</ModalHeader>
             <ModalCloseButton />
             <IngredientSubmissionForm
               ingredientId={ingredient.id}
+              maxScore={ingredient.song?.maxScore || 0}
               onSuccessfulSubmit={(score) => {
                 setSubmissionResult(score);
               }}

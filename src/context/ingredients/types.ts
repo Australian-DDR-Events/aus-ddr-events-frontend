@@ -23,6 +23,7 @@ export type IngredientsRepository = {
   postScoreSubmission: (
     id: string,
     submission: ScoreSubmissionRequest,
+    onUploadProgress: any,
   ) => Promise<Result<Error, Summer2021Score>>;
 };
 
@@ -39,9 +40,11 @@ export interface GetGrades {
 }
 
 export interface PostScoreSubmission {
-  (id: string, submission: ScoreSubmissionRequest): Promise<
-    Result<Error, Summer2021Score>
-  >;
+  (
+    id: string,
+    submission: ScoreSubmissionRequest,
+    onUploadProgress: any,
+  ): Promise<Result<Error, Summer2021Score>>;
 }
 
 export interface GetGradedIngredientsByDancer {

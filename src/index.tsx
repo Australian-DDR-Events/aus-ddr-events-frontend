@@ -70,7 +70,6 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const axiosClient = axios.create({
   baseURL: process.env.API_URL ?? '',
-  timeout: 20000,
 });
 
 const authenticationRepositoryInstance = authenticationRepository(

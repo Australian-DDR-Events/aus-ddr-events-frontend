@@ -30,7 +30,7 @@ const ProtectedRoute = (props: RouteProps) => {
     }
   }, []);
 
-  return <Route {...props}>{props.children}</Route>;
+  return <Route {...props} />;
 };
 
 const Router = () => (
@@ -60,8 +60,12 @@ const Router = () => (
       <Profile />
     </ProtectedRoute>
     <ProtectedRoute path="/profile/:id">
-      <Title>Profile | Australian DDR Events</Title>
-      {(params) => <Profile id={params.id} />}
+      {(params) => (
+        <>
+          <Title>Profile | Australian DDR Events</Title>
+          <Profile id={params.id} />
+        </>
+      )}
     </ProtectedRoute>
     <ProtectedRoute path="/submission">
       <Title>Submit Scores | Australian DDR Events</Title>

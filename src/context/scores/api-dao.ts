@@ -9,6 +9,7 @@ import {
   ScoreSubmissionRequest,
 } from './types';
 import { DefaultScore, DefaultSummer2021Score } from './constants';
+import resizeImage from '~/utils/images';
 
 const scoresApiDao = ({
   getIdTokenFunc,
@@ -59,7 +60,7 @@ const scoresApiDao = ({
   ): Promise<Result<Error, boolean>> => {
     const data = new FormData();
     data.append('score', `${submission.score}`);
-    data.append('scoreImage', submission.scoreImage);
+    data.append('scoreImage', resizeImage(submission.scoreImage, 1000, 1000));
     data.append('songId', submission.songId);
 
     const request: AxiosRequestConfig = {

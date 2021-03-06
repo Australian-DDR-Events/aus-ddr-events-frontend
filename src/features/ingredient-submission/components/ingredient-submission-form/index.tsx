@@ -12,6 +12,7 @@ import {
   Alert,
   ModalFooter,
   ModalBody,
+  Progress,
 } from '@chakra-ui/react';
 import { Formik, FormikHelpers, Form, Field } from 'formik';
 import { defaultSpacing } from 'types/styled-components';
@@ -23,10 +24,12 @@ import { Summer2021Score } from 'types/summer2021';
 
 const IngredientSubmissionForm = ({
   ingredientId,
+  maxScore,
   onSuccessfulSubmit,
   onCancelSubmit,
 }: {
   ingredientId: string;
+  maxScore: number;
   onSuccessfulSubmit: (result: Summer2021Score) => void;
   onCancelSubmit: () => void;
 }) => {
@@ -34,6 +37,7 @@ const IngredientSubmissionForm = ({
 
   const [scoreImageUrl, setScoreImageUrl] = useState<string>('');
   const [apiErrorMessage, setApiErrorMessage] = useState('');
+  const [progressBarPercent, setProgressBarPercent] = useState(0);
 
   useEffect(
     () => () => {
@@ -42,12 +46,22 @@ const IngredientSubmissionForm = ({
     [],
   );
 
+  const validateScore = (score: number) => {
+    let error;
+    if (score < 0 || score > maxScore) error = 'Score provided is too high!';
+    return error;
+  };
+
   const onSubmit = (
     values: ScoreSubmissionRequest,
     actions: FormikHelpers<ScoreSubmissionRequest>,
   ) => {
     ingredientsRepository.ingredientsRepositoryInstance
-      .postScoreSubmission(ingredientId, values)
+      .postScoreSubmission(ingredientId, values, (progressEvent: any) => {
+        setProgressBarPercent(
+          Math.round(progressEvent.loaded * 100) / progressEvent.total,
+        );
+      })
       .then((result) => {
         if (result.isErr()) {
           setApiErrorMessage(result.error.message);
@@ -118,9 +132,13 @@ const IngredientSubmissionForm = ({
               />
             </FormControl>
 
-            <Field type="number" name="score">
+            <Field type="number" name="score" validate={validateScore}>
               {({ field, form }: { field: any; form: any }) => (
-                <FormControl htmlFor="score" mb={defaultSpacing / 2}>
+                <FormControl
+                  htmlFor="score"
+                  mb={defaultSpacing / 2}
+                  isInvalid={form.errors.score && form.touched.score}
+                >
                   <FormLabel>EX score</FormLabel>
                   <Input {...field} id="score" type="number" />
                   <FormErrorMessage>{form.errors.score}</FormErrorMessage>
@@ -148,6 +166,13 @@ const IngredientSubmissionForm = ({
               Cancel
             </Button>
           </ModalFooter>
+          {progressBarPercent > 0 && (
+            <Progress
+              value={progressBarPercent}
+              hasStripe
+              isAnimated={progressBarPercent !== 100}
+            />
+          )}
         </Form>
       )}
     </Formik>
