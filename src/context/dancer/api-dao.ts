@@ -10,7 +10,12 @@ const dancersApiDao = ({
   getIdTokenFunc: () => Promise<string>;
   axiosClient: AxiosInstance;
 }): DancersDao => {
+  const activeDancers = new Map<string, Dancer>();
+
   const get = async (dancerId: string): Promise<Result<Error, Dancer>> => {
+    const activeDancer = activeDancers.get(dancerId);
+    if (activeDancer) return ok(activeDancer);
+
     return axiosClient
       .get(`/dancers/${dancerId}`)
       .then(
@@ -25,6 +30,7 @@ const dancersApiDao = ({
             state: response.data.state,
             userName: '',
           };
+          activeDancers.set(dancerId, dancer);
           return ok(dancer);
         },
       )
@@ -87,6 +93,7 @@ const dancersApiDao = ({
     if (dancer.newProfilePicture.size > 0) {
       result = uploadProfilePicture(dancer.newProfilePicture);
     }
+    if (activeDancers.get(dancer.id)) activeDancers.delete(dancer.id);
     return result;
   };
 
