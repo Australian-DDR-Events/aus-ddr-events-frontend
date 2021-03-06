@@ -118,7 +118,7 @@ workflows:
             branches:
               ignore: master
 
-      - deploy:
+      - deploy_dev:
           name: deploy-development
           context:
             - staging

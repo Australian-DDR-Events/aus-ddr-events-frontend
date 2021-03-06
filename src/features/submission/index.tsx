@@ -19,6 +19,7 @@ import { SongsRepositoryContext } from 'context/songs';
 import { ScoresRepositoryContext } from 'context/scores';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import { DancersRepositoryContext } from 'context/dancer';
+import Resizer from 'react-image-file-resizer';
 import SubmissionForm from './components/submission-form';
 import SubmissionIngredient from './components/submission-ingredient';
 import {
@@ -60,6 +61,21 @@ const Submission = () => {
   const onSubmit = async () => {
     const values = await form.validateFields();
     setSending(true);
+
+    Resizer.imageFileResizer(
+      values.scoreImage,
+      1000,
+      1000,
+      'PNG',
+      100,
+      0,
+      (image) => {
+        values.scoreImage = image;
+      },
+      'file',
+      0,
+      0,
+    );
 
     const gradeResponse = await ingredientsRepository.ingredientsRepositoryInstance.postScoreSubmission(
       currentSongIngredient.ingredient.id,
