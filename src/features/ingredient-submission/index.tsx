@@ -83,7 +83,7 @@ const IngredientSubmission = () => {
       >
         {isLoading && (
           <Center>
-            <Spinner
+            <Spinner // todo: replace this with proper skeleton structure
               thickness="4px"
               speed="0.65s"
               emptyColor="gray.200"

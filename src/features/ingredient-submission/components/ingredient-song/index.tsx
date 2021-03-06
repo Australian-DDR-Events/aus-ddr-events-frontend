@@ -2,6 +2,10 @@ import React from 'react';
 import { DancerGradedIngredient, Ingredient } from 'types/summer2021';
 import { Badge, Box, Image, Text, useDisclosure } from '@chakra-ui/react';
 import { defaultSpacing } from 'types/styled-components';
+import { IoMusicalNotes } from 'react-icons/io5';
+import CustomIconRatings from 'components/custom-icon-ratings';
+import { convertGradeToNumber } from 'utils/summer2021';
+import { getAssetUrl } from 'utils/assets';
 import IngredientSubmissionModal from '../ingredient-submission-modal';
 
 const getColorByDifficulty = (difficulty: string) => {
@@ -25,9 +29,6 @@ const getColorByDifficulty = (difficulty: string) => {
     border: 'gray',
   };
 };
-
-const getImageUrl = (imageUrl: string) =>
-  `${process.env.ASSETS_URL}${imageUrl}`;
 
 const IngredientSong = ({
   ingredient,
@@ -60,16 +61,40 @@ const IngredientSong = ({
         mb={defaultSpacing}
       >
         <Image
-          src={getImageUrl(ingredient.song.image256)}
+          src={getAssetUrl(ingredient.song.image256)}
           alt={ingredient.song.name}
           onClick={onOpen}
           cursor="pointer"
         />
+        <Box ml={defaultSpacing / 2} mt={defaultSpacing / 4}>
+          <Text
+            m={0}
+            color={dancerGradedIngredient ? currentSongColor.shadow : 'gray'}
+            fontWeight="bold"
+          >
+            {dancerGradedIngredient &&
+              `You obtained ${dancerGradedIngredient.gradedIngredient.description}
+              ${dancerGradedIngredient.gradedIngredient.name}`}
+            {!dancerGradedIngredient && `You don't have any ${ingredient.name}`}
+          </Text>
+
+          <CustomIconRatings
+            id={`${ingredient.id}-ratings`}
+            color={currentSongColor.shadow}
+            icon={IoMusicalNotes}
+            rating={convertGradeToNumber(
+              dancerGradedIngredient?.gradedIngredient.grade || '',
+            )}
+            w={6}
+            h={6}
+          />
+        </Box>
+
         <Text
           fontWeight="bold"
           fontSize="lg"
-          mt={defaultSpacing / 2}
           ml={defaultSpacing / 2}
+          mt={defaultSpacing / 4}
         >
           {ingredient.song.name}
         </Text>
@@ -88,10 +113,10 @@ const IngredientSong = ({
               w={`${ingredientIconWidth}px`}
               src={
                 dancerGradedIngredient
-                  ? getImageUrl(
+                  ? getAssetUrl(
                       dancerGradedIngredient.gradedIngredient.image128,
                     )
-                  : getImageUrl(ingredient.image128)
+                  : getAssetUrl(ingredient.image128)
               }
               borderWidth={2}
               borderColor="white"
