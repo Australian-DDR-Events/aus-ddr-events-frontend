@@ -111,6 +111,7 @@ const ingredientsApiDao = ({
   const postScoreSubmission = async (
     id: string,
     submission: ScoreSubmissionRequest,
+    onUploadProgress: any,
   ): Promise<Result<Error, Summer2021Score>> => {
     const data = new FormData();
     data.append('score', `${submission.score}`);
@@ -121,6 +122,7 @@ const ingredientsApiDao = ({
         Authorization: `Bearer ${await getIdTokenFunc()}`,
         'Content-Type': 'multipart/form-data',
       },
+      onUploadProgress,
     };
 
     return axiosClient

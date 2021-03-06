@@ -16,7 +16,6 @@ export const DefaultGrade: GradedIngredient = {
   id: '',
   grade: '',
   type: 'gradedIngredient',
-  requiredScore: 0,
   description: '',
   name: '',
   image32: '',

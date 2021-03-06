@@ -26,8 +26,9 @@ const ingredientsRepository = (dao: IngredientsDao): IngredientsRepository => {
   const postScoreSubmission = (
     id: string,
     submission: ScoreSubmissionRequest,
+    onUploadProgress: any,
   ): Promise<Result<Error, Summer2021Score>> =>
-    dao.postScoreSubmission(id, submission);
+    dao.postScoreSubmission(id, submission, onUploadProgress);
 
   return {
     getAll,

@@ -12,6 +12,7 @@ export type Song = {
   name: string;
   artist: string;
   difficulty: string;
+  maxScore: number;
   level: number;
   image32: string;
   image64: string;
