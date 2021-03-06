@@ -1,10 +1,13 @@
 import { createContext } from 'react';
 import { err } from 'types/result';
 import { Badge, BadgesRepositoryContextInterface } from './types';
+import { DefaultBadge } from '~/context/badges/constants';
 
 const initialContext = {
   badgesRepositoryInstance: {
     getById: async () =>
+      err(new Error('badges repository not initialized'), DefaultBadge),
+    getForDancerId: async () =>
       err(new Error('badges repository not initialized'), new Array<Badge>()),
   },
 };

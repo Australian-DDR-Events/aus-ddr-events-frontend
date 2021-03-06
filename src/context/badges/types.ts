@@ -1,11 +1,12 @@
 import { ReactNode } from 'react';
 import { Result } from 'types/result';
+import { Event } from 'context/events';
 
 export type Badge = {
   id: string;
   name: string;
   description: string;
-  eventId: string;
+  event: Event | null;
   image32: string;
   image64: string;
   image128: string;
@@ -13,15 +14,21 @@ export type Badge = {
 };
 
 export type BadgesRepository = {
-  getById: (id: string) => Promise<Result<Error, Array<Badge>>>;
+  getById: (id: string) => Promise<Result<Error, Badge>>;
+  getForDancerId: (id: string) => Promise<Result<Error, Array<Badge>>>;
 };
 
 export interface GetById {
+  (id: string): Promise<Result<Error, Badge>>;
+}
+
+export interface GetForDancerId {
   (id: string): Promise<Result<Error, Array<Badge>>>;
 }
 
 export interface BadgesDao {
   getById: GetById;
+  getForDancerId: GetForDancerId;
 }
 
 export interface BadgesRepositoryContextInterface {
