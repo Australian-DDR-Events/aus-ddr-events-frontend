@@ -78,26 +78,6 @@ const scoresApiDao = ({
       );
   };
 
-  const getSummer2021ByDancer = async (
-    id: string,
-  ): Promise<Result<Error, Array<Summer2021Score>>> => {
-    return axiosClient
-      .get(`/summer2021/scores/${id}`)
-      .then(
-        (
-          response: AxiosResponse<Array<Summer2021Score>>,
-        ): Result<Error, Array<Summer2021Score>> => ok(response.data),
-      )
-      .catch(
-        (): Result<Error, Array<Summer2021Score>> => {
-          return err(
-            new Error('failed to get scores'),
-            new Array<Summer2021Score>(),
-          );
-        },
-      );
-  };
-
   const getSummer2021 = async (
     request: GetSummer2021Request,
   ): Promise<Result<Error, Summer2021Score>> => {
@@ -125,7 +105,6 @@ const scoresApiDao = ({
     getById,
     getAll,
     postScore,
-    getSummer2021ByDancer,
     getSummer2021,
   };
 };

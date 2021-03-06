@@ -16,7 +16,6 @@ export const DefaultSummer2021Score: Summer2021Score = {
   gradedIngredient: {
     id: '',
     grade: '',
-    requiredScore: 0,
     description: '',
     type: 'gradedIngredient',
     name: '',

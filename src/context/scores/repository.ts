@@ -2,12 +2,12 @@ import { Result } from 'types/result';
 import {
   GetScoresRequest,
   GetSummer2021Request,
-  Score,
   ScoresDao,
   ScoresRepository,
   ScoreSubmissionRequest,
-  Summer2021Score,
 } from './types';
+import { Score } from '~/types/core';
+import { Summer2021Score } from '~/types/summer2021';
 
 const scoresRepository = (dao: ScoresDao): ScoresRepository => {
   const getById = (id: string): Promise<Result<Error, Score>> =>
@@ -18,10 +18,6 @@ const scoresRepository = (dao: ScoresDao): ScoresRepository => {
   const postScore = (
     submission: ScoreSubmissionRequest,
   ): Promise<Result<Error, boolean>> => dao.postScore(submission);
-  const getSummer2021ByDancer = (
-    id: string,
-  ): Promise<Result<Error, Array<Summer2021Score>>> =>
-    dao.getSummer2021ByDancer(id);
   const getSummer2021 = (
     request: GetSummer2021Request,
   ): Promise<Result<Error, Summer2021Score>> => dao.getSummer2021(request);
@@ -30,7 +26,6 @@ const scoresRepository = (dao: ScoresDao): ScoresRepository => {
     getById,
     getAll,
     postScore,
-    getSummer2021ByDancer,
     getSummer2021,
   };
 };
