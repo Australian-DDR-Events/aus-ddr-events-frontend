@@ -9,6 +9,7 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react';
 import BadgesTab from '../badges-tab';
+import ScoresTab from '../scores-tab';
 
 const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
   const [isLargerThan800] = useMediaQuery('(min-width: 800px)');
@@ -28,7 +29,7 @@ const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
           <BadgesTab dancer={dancer} />
         </TabPanel>
         <TabPanel minW="28vw">
-          <p>two!</p>
+          <ScoresTab dancer={dancer} />
         </TabPanel>
       </TabPanels>
     </Tabs>

@@ -19,14 +19,12 @@ import { DancersRepositoryContext } from 'context/dancer';
 import { ScoresRepositoryContext } from 'context/scores';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import { DefaultDishGrade } from 'context/dishes/constants';
+import { DishSubmissionRequest } from 'context/dishes/types';
 import CourseSubmissionDish from './components/course-submission-dish';
 import CourseSubmissionForm from './components/course-submission-form';
 import { CourseSubmissionFormWrapper, CourseSubmissionWrapper } from './styled';
 import { DetailedDishSong, Recipe } from './types';
-import { SongIngredient } from '../submission/types';
 import { DefaultDetailedDishSong, DefaultRecipe } from './constants';
-import { DefaultSongIngredient } from '../submission/constants';
-import { DishSubmissionRequest } from '~/context/dishes/types';
 
 const CourseSubmission = () => {
   const dishesRepository = useContext(DishesRepositoryContext);
@@ -50,7 +48,7 @@ const CourseSubmission = () => {
   const [currentGrade, setCurrentGrade] = useState(DefaultDishGrade);
 
   const dishRecipeMap = new Map<string, Recipe>();
-  const songIngredientMap = new Map<string, SongIngredient>();
+  const songIngredientMap = new Map<string, any>();
   const dishSongMap = new Map<string, DetailedDishSong>();
 
   const onSubmit = async () => {
@@ -119,7 +117,7 @@ const CourseSubmission = () => {
       const promises = dishesRes.okOrDefault().map(async (dish) => {
         dishRecipeMap.set(dish.id, {
           dish,
-          songIngredients: new Array<SongIngredient>(),
+          songIngredients: new Array<any>(),
           songs: new Array<DetailedDishSong>(),
         });
         // Get corresponding ingredients
@@ -131,7 +129,7 @@ const CourseSubmission = () => {
             const songIngredient = songIngredientMap.get(ingredient.songId);
             dishRecipeMap
               .get(dish.id)
-              ?.songIngredients.push(songIngredient || DefaultSongIngredient);
+              ?.songIngredients.push(songIngredient || {});
           } else {
             const songIngredient = {
               ingredient,

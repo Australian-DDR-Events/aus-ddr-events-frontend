@@ -1,4 +1,4 @@
-import { Song } from './types';
+import { Song } from 'types/core';
 
 // eslint-disable-next-line import/prefer-default-export
 export const DefaultSong: Song = {

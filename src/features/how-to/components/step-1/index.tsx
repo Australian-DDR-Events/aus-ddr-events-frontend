@@ -16,7 +16,7 @@ const Step1 = () => {
         <VStack w="80%" alignContent="center">
           <StackItem>
             <Heading size="lg">
-              Step 1: Login or sign up to your AusDDREvents account
+              Login or sign up to your AusDDREvents account
             </Heading>
           </StackItem>
           <StackItem>

@@ -44,6 +44,7 @@ const IngredientSubmission = () => {
       .get(loggedInUser.id)
       .then((result) => {
         const dancer = result.okOrDefault();
+
         Promise.all([
           ingredientsRepository.ingredientsRepositoryInstance.getAll(),
           // eslint-disable-next-line max-len
@@ -65,7 +66,7 @@ const IngredientSubmission = () => {
           },
         );
       });
-  }, [isLoading]);
+  }, []);
 
   return (
     <Container

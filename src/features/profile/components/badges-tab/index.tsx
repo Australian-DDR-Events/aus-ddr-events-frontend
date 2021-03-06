@@ -47,7 +47,7 @@ const BadgesTab = ({ dancer }: { dancer: Dancer }) => {
         setLoading(false);
       });
     }
-  });
+  }, []);
 
   return (
     <SimpleGrid

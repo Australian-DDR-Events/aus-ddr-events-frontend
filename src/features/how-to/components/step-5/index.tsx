@@ -15,7 +15,7 @@ const Step5 = () => {
       <Center>
         <VStack w="80%" alignContent="center">
           <StackItem>
-            <Heading size="lg">Step 5: Try and try again!</Heading>
+            <Heading size="lg">Try and try again!</Heading>
           </StackItem>
           <StackItem>
             <Text>
