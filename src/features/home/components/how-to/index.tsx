@@ -4,7 +4,6 @@ import {
   Heading,
   Text,
   Image,
-  HStack,
   Center,
   useMediaQuery,
 } from '@chakra-ui/react';

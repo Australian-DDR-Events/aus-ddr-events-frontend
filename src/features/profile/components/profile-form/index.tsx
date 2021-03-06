@@ -35,11 +35,9 @@ const ProfileForm = ({
 
   useEffect(
     () => () => {
-      if (profilePictureUrl) {
-        URL.revokeObjectURL(profilePictureUrl);
-      }
+      URL.revokeObjectURL(profilePictureUrl);
     },
-    [profilePictureUrl],
+    [],
   );
 
   const validateDancerName = (value: string) => {
@@ -146,6 +144,8 @@ const ProfileForm = ({
                 pt={defaultSpacing / 4}
                 h={defaultSpacing * 1.5}
                 id="newProfilePicture"
+                multiple={false}
+                accept="image/*"
                 onChange={(event) => {
                   if (event.currentTarget.files) {
                     // eslint-disable-next-line react/prop-types

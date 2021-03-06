@@ -31,7 +31,6 @@ const Home = () => {
           objectFit="cover"
           src="https://i.imgur.com/vgn9VFo.png"
           alt="Summer BBQ Logo"
-          preview={false}
         />
         <Heading as="h2" size="md">
           Show off your moves and join in on the hottest DDR seasonal event

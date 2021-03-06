@@ -8,10 +8,12 @@ import {
   Badge,
   Text,
   useMediaQuery,
+  Icon,
 } from '@chakra-ui/react';
 import React from 'react';
 import { Dancer } from 'context/dancer';
 import { defaultSpacing } from 'types/styled-components';
+import { IoCheckmarkCircle } from 'react-icons/io5';
 import ProfileTabs from '../profile-tabs';
 import { StateOptions } from '../../constants';
 
@@ -36,10 +38,7 @@ const ProfileReadView = ({
 
   return (
     <Stack direction={['column', 'column', 'row']} spacing={defaultSpacing}>
-      <Box
-        w={isLargerThan800 ? `${defaultSpacing * 63}px` : '100%'}
-        p={defaultSpacing / 2}
-      >
+      <Box w={isLargerThan800 ? `${defaultSpacing * 63}px` : '100%'}>
         <Center>
           <Avatar
             size="2xl"
@@ -63,13 +62,25 @@ const ProfileReadView = ({
         <Box textAlign={isLargerThan800 ? 'left' : 'center'}>
           <Heading>
             {dancer.dancerName}
-            {emailVerified ||
-              (true && (
-                <Badge ml={defaultSpacing / 4} fontSize="sm" colorScheme="blue">
-                  Verified
-                </Badge>
-              ))}
+            {emailVerified && !isLargerThan800 && (
+              <Icon
+                as={IoCheckmarkCircle}
+                color="green"
+                w={defaultSpacing * 0.75}
+                h={defaultSpacing * 0.75}
+              />
+            )}
           </Heading>
+          {emailVerified && isLargerThan800 && (
+            <Badge
+              fontSize="xs"
+              colorScheme="green"
+              borderRadius="full"
+              mb={defaultSpacing / 4}
+            >
+              &nbsp;Verified&nbsp;
+            </Badge>
+          )}
 
           <Text fontSize="lg">
             {getStateTextualRepresentation(dancer.state)}

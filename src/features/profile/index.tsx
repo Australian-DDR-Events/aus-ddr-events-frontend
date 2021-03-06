@@ -2,9 +2,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import { DefaultDancer, DancersRepositoryContext } from 'context/dancer';
 import { Title } from 'react-head';
-import { Container, Skeleton, useMediaQuery } from '@chakra-ui/react';
+import {
+  Box,
+  Container,
+  Skeleton,
+  SkeletonCircle,
+  useMediaQuery,
+} from '@chakra-ui/react';
 import ProfileForm from './components/profile-form';
 import ProfileReadView from './components/profile-read-view';
+import { defaultSpacing } from '~/types/styled-components';
 
 interface ProfileProps {
   id?: string;
@@ -40,7 +47,14 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
 
   const renderProfileReadView = () => (
     <>
-      {loading && <Skeleton />}
+      {loading && (
+        <Box w="70vw">
+          <SkeletonCircle size="20" mb={defaultSpacing / 2} />
+          <Skeleton height={defaultSpacing / 2} mb={defaultSpacing / 4} />
+          <Skeleton height={defaultSpacing / 2} mb={defaultSpacing / 4} />
+          <Skeleton height={defaultSpacing / 2} />
+        </Box>
+      )}
       {!loading && (
         <ProfileReadView
           isEditable={isEditable}
@@ -67,7 +81,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
   );
 
   return (
-    <Container maxW={isLargerThan800 ? '90%' : '100%'}>
+    <Container maxW={isLargerThan800 ? '90%' : '100%'} w="fit-content">
       {!loading && <Title>{dancer.dancerName} | Australian DDR Events</Title>}
       {isEditing ? renderProfileForm() : renderProfileReadView()}
     </Container>

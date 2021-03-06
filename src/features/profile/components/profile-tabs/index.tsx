@@ -14,7 +14,7 @@ const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
   const [isLargerThan800] = useMediaQuery('(min-width: 800px)');
   return (
     <Tabs
-      w="100%"
+      w={isLargerThan800 ? 'fit-content' : '90vw'}
       variant="soft-rounded"
       align={isLargerThan800 ? 'start' : 'center'}
     >
