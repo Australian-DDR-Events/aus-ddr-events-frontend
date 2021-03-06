@@ -24,10 +24,10 @@ const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
       </TabList>
 
       <TabPanels>
-        <TabPanel>
+        <TabPanel minW="28vw">
           <BadgesTab dancer={dancer} />
         </TabPanel>
-        <TabPanel>
+        <TabPanel minW="28vw">
           <p>two!</p>
         </TabPanel>
       </TabPanels>
