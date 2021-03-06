@@ -2,7 +2,7 @@ import React from 'react';
 import { DancerGradedIngredient, Ingredient } from 'types/summer2021';
 import { Badge, Box, Image, Text, useDisclosure } from '@chakra-ui/react';
 import { defaultSpacing } from 'types/styled-components';
-import { IoMusicalNotes } from 'react-icons/io5';
+import { IoStar } from 'react-icons/io5';
 import CustomIconRatings from 'components/custom-icon-ratings';
 import { convertGradeToNumber } from 'utils/summer2021';
 import { getAssetUrl } from 'utils/assets';
@@ -37,6 +37,8 @@ const IngredientSong = ({
   ingredient: Ingredient;
   dancerGradedIngredient?: DancerGradedIngredient;
 }) => {
+  if (!ingredient.song) return null;
+
   const ingredientIconWidth = 128;
   const currentSongColor = getColorByDifficulty(ingredient.song.difficulty);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -66,49 +68,51 @@ const IngredientSong = ({
           onClick={onOpen}
           cursor="pointer"
         />
-        <Box ml={defaultSpacing / 2} mt={defaultSpacing / 4}>
-          <Text
-            m={0}
-            color={dancerGradedIngredient ? currentSongColor.shadow : 'gray'}
-            fontWeight="bold"
-          >
-            {dancerGradedIngredient &&
-              `You obtained ${dancerGradedIngredient.gradedIngredient.description}
-              ${dancerGradedIngredient.gradedIngredient.name}`}
-            {!dancerGradedIngredient && `You don't have any ${ingredient.name}`}
+        <Box ml={defaultSpacing / 2}>
+          <Text fontWeight="bold" fontSize="lg" mt={defaultSpacing / 4}>
+            {ingredient.song.name}
           </Text>
-
-          <CustomIconRatings
-            id={`${ingredient.id}-ratings`}
-            color={currentSongColor.shadow}
-            icon={IoMusicalNotes}
-            rating={convertGradeToNumber(
-              dancerGradedIngredient?.gradedIngredient.grade || '',
-            )}
-            w={6}
-            h={6}
-          />
+          <Text color="gray" mt={-1} mb={1}>
+            {ingredient.song.artist}
+          </Text>
+          <Badge colorScheme={currentSongColor.badge} mb={defaultSpacing / 4}>
+            {ingredient.song.difficulty}
+          </Badge>
         </Box>
 
-        <Text
-          fontWeight="bold"
-          fontSize="lg"
-          ml={defaultSpacing / 2}
-          mt={defaultSpacing / 4}
-        >
-          {ingredient.song.name}
-        </Text>
-        <Box d="flex">
-          <Box ml={defaultSpacing / 2}>
-            <Text color="gray" mt={-1} mb={1}>
-              {ingredient.song.artist}
+        <Box d="flex" mb={defaultSpacing / 4} minH="90px">
+          <Box ml={defaultSpacing / 2} mt={defaultSpacing / 4}>
+            <Text
+              m={0}
+              color={
+                dancerGradedIngredient ? currentSongColor.shadow : 'gray.400'
+              }
+              fontWeight="bold"
+              lineHeight={1}
+              mb={2}
+            >
+              {dancerGradedIngredient &&
+                `You obtained ${dancerGradedIngredient.gradedIngredient.description}
+              ${dancerGradedIngredient.gradedIngredient.name}`}
+              {!dancerGradedIngredient && (
+                <>You don&apos;t have any {ingredient.name}. Play to obtain</>
+              )}
             </Text>
-            <Badge colorScheme={currentSongColor.badge} mb={defaultSpacing / 4}>
-              {ingredient.song.difficulty}
-            </Badge>
-            <Text>Play this song to obtain {ingredient.name}</Text>
+
+            {dancerGradedIngredient && (
+              <CustomIconRatings
+                id={`${ingredient.id}-ratings`}
+                color={currentSongColor.shadow}
+                icon={IoStar}
+                rating={convertGradeToNumber(
+                  dancerGradedIngredient?.gradedIngredient.grade || '',
+                )}
+                w={6}
+                h={6}
+              />
+            )}
           </Box>
-          <Box mr={defaultSpacing / 2} mb={defaultSpacing / 2}>
+          <Box mr={defaultSpacing / 2}>
             <Image
               w={`${ingredientIconWidth}px`}
               src={
