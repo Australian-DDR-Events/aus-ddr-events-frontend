@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
 import { Result } from 'types/result';
+import { Score } from 'types/core';
+import { Summer2021Score } from 'types/summer2021';
 
 export type ScoreSubmissionRequest = {
   score: number;
@@ -20,22 +22,6 @@ export type GetScoresRequest = {
 export type GetSummer2021Request = {
   ingredientId?: string;
   dancerId?: string;
-};
-
-export type Score = {
-  id: string;
-  value: number;
-  submissionTime: string;
-  imageUrl: string;
-  dancerId: string;
-  songId: string;
-};
-
-export type Summer2021Score = {
-  id: string;
-  gradedIngredientId: string;
-  dancerId: string;
-  scoreId: string;
 };
 
 export interface GetById {
@@ -70,7 +56,6 @@ export type ScoresRepository = {
   postScore: PostScore;
   getSummer2021ByDancer: GetSummer2021ByDancer;
   getSummer2021: GetSummer2021;
-  postSummer2021: PostSummer2021;
 };
 
 export interface ScoresDao {
@@ -79,7 +64,6 @@ export interface ScoresDao {
   postScore: PostScore;
   getSummer2021ByDancer: GetSummer2021ByDancer;
   getSummer2021: GetSummer2021;
-  postSummer2021: PostSummer2021;
 }
 
 export interface ScoresRepositoryContextInterface {

@@ -1,13 +1,12 @@
 import { err, ok, Result } from 'types/result';
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { Score } from 'types/core';
+import { Summer2021Score } from 'types/summer2021';
 import {
   GetScoresRequest,
   GetSummer2021Request,
-  Score,
   ScoresDao,
   ScoreSubmissionRequest,
-  Summer2021Score,
-  Summer2021SubmissionRequest,
 } from './types';
 import { DefaultScore, DefaultSummer2021Score } from './constants';
 
@@ -122,42 +121,12 @@ const scoresApiDao = ({
       );
   };
 
-  const postSummer2021 = async (
-    submission: Summer2021SubmissionRequest,
-  ): Promise<Result<Error, Summer2021Score>> => {
-    const data = new FormData();
-    data.append('scoreRequest.score', `${submission.scoreRequest.score}`);
-    data.append('scoreRequest.scoreImage', submission.scoreRequest.scoreImage);
-    data.append('scoreRequest.songId', submission.scoreRequest.songId);
-    data.append('ingredientId', submission.ingredientId);
-
-    const request: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${await getIdTokenFunc()}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    };
-
-    return axiosClient
-      .post(`/summer2021/scores`, data, request)
-      .then(
-        (
-          response: AxiosResponse<Summer2021Score>,
-        ): Result<Error, Summer2021Score> => ok(response.data),
-      )
-      .catch(
-        (): Result<Error, Summer2021Score> =>
-          err(new Error('failed to post score'), DefaultSummer2021Score),
-      );
-  };
-
   return {
     getById,
     getAll,
     postScore,
     getSummer2021ByDancer,
     getSummer2021,
-    postSummer2021,
   };
 };
 

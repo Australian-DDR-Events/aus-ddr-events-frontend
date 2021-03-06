@@ -1,8 +1,11 @@
 import { Result } from 'types/result';
-import { Summer2021Score } from '../scores/types';
 import {
+  DancerGradedIngredient,
+  GradedIngredient,
   Ingredient,
-  IngredientGrade,
+  Summer2021Score,
+} from 'types/summer2021';
+import {
   IngredientsDao,
   IngredientsRepository,
   ScoreSubmissionRequest,
@@ -14,14 +17,25 @@ const ingredientsRepository = (dao: IngredientsDao): IngredientsRepository => {
     dao.getById(id);
   const getGrades = (
     id: string,
-  ): Promise<Result<Error, Array<IngredientGrade>>> => dao.getGrades(id);
+  ): Promise<Result<Error, Array<GradedIngredient>>> => dao.getGrades(id);
+  const getGradedIngredientsByDancer = (
+    dancerId: string,
+    topOnly: boolean,
+  ): Promise<Result<Error, Array<DancerGradedIngredient>>> =>
+    dao.getGradedIngredientsByDancer(dancerId, topOnly);
   const postScoreSubmission = (
     id: string,
     submission: ScoreSubmissionRequest,
   ): Promise<Result<Error, Summer2021Score>> =>
     dao.postScoreSubmission(id, submission);
 
-  return { getAll, getById, getGrades, postScoreSubmission };
+  return {
+    getAll,
+    getById,
+    getGrades,
+    postScoreSubmission,
+    getGradedIngredientsByDancer,
+  };
 };
 
 export default ingredientsRepository;

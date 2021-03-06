@@ -1,23 +1,11 @@
 import { ReactNode } from 'react';
 import { Result } from 'types/result';
-import { Summer2021Score } from '../scores/types';
-
-export type Ingredient = {
-  id: string;
-  name: string;
-  songId: string;
-  image32: string;
-  image64: string;
-  image128: string;
-  image256: string;
-};
-
-export type IngredientGrade = {
-  id: string;
-  grade: string;
-  requiredScore: number;
-  description: string;
-};
+import {
+  DancerGradedIngredient,
+  GradedIngredient,
+  Ingredient,
+  Summer2021Score,
+} from 'types/summer2021';
 
 export type ScoreSubmissionRequest = {
   score: number;
@@ -27,7 +15,11 @@ export type ScoreSubmissionRequest = {
 export type IngredientsRepository = {
   getAll: () => Promise<Result<Error, Array<Ingredient>>>;
   getById: (id: string) => Promise<Result<Error, Ingredient>>;
-  getGrades: (id: string) => Promise<Result<Error, Array<IngredientGrade>>>;
+  getGrades: (id: string) => Promise<Result<Error, Array<GradedIngredient>>>;
+  getGradedIngredientsByDancer: (
+    dancerId: string,
+    topOnly: boolean,
+  ) => Promise<Result<Error, Array<DancerGradedIngredient>>>;
   postScoreSubmission: (
     id: string,
     submission: ScoreSubmissionRequest,
@@ -43,7 +35,7 @@ export interface GetById {
 }
 
 export interface GetGrades {
-  (id: string): Promise<Result<Error, Array<IngredientGrade>>>;
+  (id: string): Promise<Result<Error, Array<GradedIngredient>>>;
 }
 
 export interface PostScoreSubmission {
@@ -52,11 +44,18 @@ export interface PostScoreSubmission {
   >;
 }
 
+export interface GetGradedIngredientsByDancer {
+  (dancerId: string, topOnly: boolean): Promise<
+    Result<Error, Array<DancerGradedIngredient>>
+  >;
+}
+
 export interface IngredientsDao {
   getAll: GetAll;
   getById: GetById;
   getGrades: GetGrades;
   postScoreSubmission: PostScoreSubmission;
+  getGradedIngredientsByDancer: GetGradedIngredientsByDancer;
 }
 
 export interface IngredientsRepositoryContextInterface {
