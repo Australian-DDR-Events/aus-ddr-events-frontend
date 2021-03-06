@@ -15,7 +15,7 @@ import { IoChevronUp, IoChevronDown } from 'react-icons/io5';
 
 const MenuToggle = ({ toggle, isOpen }: { toggle: any; isOpen: boolean }) => {
   return (
-    <Box display={{ base: 'block', md: 'none' }} onClick={toggle}>
+    <Box display={{ base: 'block', lg: 'none' }} onClick={toggle}>
       <Icon as={isOpen ? IoChevronUp : IoChevronDown} w={6} h={6} />
     </Box>
   );
@@ -74,14 +74,14 @@ const Navigation = (props: any) => {
       />
       <MenuToggle toggle={toggle} isOpen={isOpen} />
       <Box
-        display={{ base: isOpen ? 'block' : 'none', md: 'block' }}
-        flexBasis={{ base: '100%', md: 'auto' }}
+        display={{ base: isOpen ? 'block' : 'none', lg: 'block' }}
+        flexBasis={{ base: '100%', lg: 'auto' }}
       >
         <Stack
           spacing={8}
           align="center"
           justify={['center', 'center', 'flex-end', 'flex-end']}
-          direction={['column', 'column', 'row', 'row']}
+          direction={['column', 'column', 'column', 'row']}
           pt={[4, 4, 0, 0]}
         >
           <MenuItem onClick={() => setLocation('/how-to')}>

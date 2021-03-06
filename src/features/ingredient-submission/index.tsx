@@ -99,7 +99,7 @@ const IngredientSubmission = () => {
               <IngredientSong
                 ingredient={i}
                 dancerGradedIngredient={loggedInDancerGradedIngredients.get(
-                  i.song.id,
+                  i.song?.id || '',
                 )}
               />
             </Center>

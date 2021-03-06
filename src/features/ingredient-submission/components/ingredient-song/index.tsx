@@ -6,29 +6,8 @@ import { IoStar } from 'react-icons/io5';
 import CustomIconRatings from 'components/custom-icon-ratings';
 import { convertGradeToNumber } from 'utils/summer2021';
 import { getAssetUrl } from 'utils/assets';
+import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 import IngredientSubmissionModal from '../ingredient-submission-modal';
-
-const getColorByDifficulty = (difficulty: string) => {
-  if (difficulty === 'Expert')
-    return {
-      shadow: '#52b788',
-      border: '#95d5b2',
-      badge: 'green',
-    };
-
-  if (difficulty === 'Challenge')
-    return {
-      shadow: '#9d4edd',
-      border: '#c77dff',
-      badge: 'purple',
-    };
-
-  return {
-    shadow: 'gray',
-    badge: 'gray',
-    border: 'gray',
-  };
-};
 
 const IngredientSong = ({
   ingredient,

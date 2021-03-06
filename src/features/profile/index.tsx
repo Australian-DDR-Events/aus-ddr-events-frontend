@@ -28,7 +28,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
     .get()
     .okOrDefault();
 
-  const [isLargerThan800] = useMediaQuery('(min-width: 800px)');
+  const [isLargerThan767] = useMediaQuery('(min-width: 767px)');
 
   const loggedInUserId = loggedInUser.id;
   const emailVerified = loggedInUser.hasVerifiedEmail;
@@ -81,7 +81,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
   );
 
   return (
-    <Container maxW={isLargerThan800 ? '90%' : '100%'} w="fit-content">
+    <Container maxW={isLargerThan767 ? '90%' : '100%'} w="fit-content">
       {!loading && <Title>{dancer.dancerName} | Australian DDR Events</Title>}
       {isEditing ? renderProfileForm() : renderProfileReadView()}
     </Container>

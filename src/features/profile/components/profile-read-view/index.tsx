@@ -28,7 +28,7 @@ const ProfileReadView = ({
   dancer: Dancer;
   onEditButtonClick: () => void;
 }) => {
-  const [isLargerThan800] = useMediaQuery('(min-width: 800px)');
+  const [isLargerThan769] = useMediaQuery('(min-width: 769px)');
   const getStateTextualRepresentation = (inputState: string): string => {
     return StateOptions.find((state) => state.key === inputState)?.value || '';
   };
@@ -39,8 +39,11 @@ const ProfileReadView = ({
   const DEFAULT_PROFILE_PICTURE_URL = 'https://i.imgur.com/o0ulS6k.png';
 
   return (
-    <Stack direction={['column', 'column', 'row']} spacing={defaultSpacing}>
-      <Box w={isLargerThan800 ? `${defaultSpacing * 40}px` : '100%'}>
+    <Stack
+      direction={['column', 'column', 'column', 'row']}
+      spacing={defaultSpacing}
+    >
+      <Box w={isLargerThan769 ? `${defaultSpacing * 40}px` : '100%'}>
         <Center>
           <Avatar
             size="2xl"
@@ -53,7 +56,7 @@ const ProfileReadView = ({
         {isEditable && (
           <Center>
             <Button
-              w={isLargerThan800 ? '100%' : '50%'}
+              w={isLargerThan769 ? '100%' : '50%'}
               onClick={onEditButtonClick}
               mb={defaultSpacing / 2}
             >
@@ -61,10 +64,10 @@ const ProfileReadView = ({
             </Button>
           </Center>
         )}
-        <Box textAlign={isLargerThan800 ? 'left' : 'center'}>
+        <Box textAlign={isLargerThan769 ? 'left' : 'center'}>
           <Heading>
             {dancer.dancerName}
-            {emailVerified && !isLargerThan800 && (
+            {emailVerified && !isLargerThan769 && (
               <Icon
                 as={IoCheckmarkCircle}
                 color="green"
@@ -73,7 +76,7 @@ const ProfileReadView = ({
               />
             )}
           </Heading>
-          {emailVerified && isLargerThan800 && (
+          {emailVerified && isLargerThan769 && (
             <Badge
               fontSize="xs"
               colorScheme="green"

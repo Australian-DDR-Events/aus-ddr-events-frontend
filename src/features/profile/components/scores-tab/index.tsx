@@ -1,77 +1,88 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Badge, Box, Image, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Image,
+  SimpleGrid,
+  Spacer,
+  Text,
+  useMediaQuery,
+} from '@chakra-ui/react';
 import { defaultSpacing } from 'types/styled-components';
-import { IoMusicalNotes } from 'react-icons/io5';
+import { IoStar } from 'react-icons/io5';
 import CustomIconRatings from 'components/custom-icon-ratings';
 import { convertGradeToNumber } from 'utils/summer2021';
 import { getAssetUrl } from 'utils/assets';
-import { ScoresRepositoryContext } from 'context/scores';
 import { Summer2021Score } from 'types/summer2021';
 import { SongsRepositoryContext } from 'context/songs';
 import { Song } from 'types/core';
 import { Dancer } from 'context/dancer';
-import { IngredientsRepositoryContext } from '~/context/ingredients';
+import { IngredientsRepositoryContext } from 'context/ingredients';
+import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 
 const ScoreComponent = ({
-  score,
+  dancerGradedIngredient,
   song,
 }: {
-  score: Summer2021Score;
+  dancerGradedIngredient: Summer2021Score;
   song?: Song;
 }) => {
   if (!song) return <Text>Uh oh</Text>;
+  const songColors = getColorByDifficulty(song.difficulty);
+  const [isSmallerThan1024] = useMediaQuery('(max-width: 1024px');
   return (
-    <>
-      <Box
-        w={defaultSpacing * 32}
-        borderWidth={2}
-        borderRadius="lg"
-        overflow="hidden"
-        mb={defaultSpacing}
-      >
-        <Image src={getAssetUrl(song.image256)} alt={song.name} />
-        <Box ml={defaultSpacing / 2} mt={defaultSpacing / 4}>
-          <Text m={0} fontWeight="bold">
-            {`You obtained ${score.gradedIngredient.description}
-            ${score.gradedIngredient.name}`}
-          </Text>
-
-          <CustomIconRatings
-            id={`${score.gradedIngredient.id}-ratings`}
-            color="blue"
-            icon={IoMusicalNotes}
-            rating={convertGradeToNumber(score.gradedIngredient.grade)}
-            w={6}
-            h={6}
-          />
-        </Box>
-
+    <Flex
+      maxW={isSmallerThan1024 ? '100%' : 'fit-content'}
+      overflow="hidden"
+      borderWidth={2}
+      borderRadius="lg"
+      borderColor={songColors.border}
+      boxShadow={`${defaultSpacing * 1.5}px ${defaultSpacing * 1.5}px 0 ${
+        songColors.shadow
+      }`}
+      transition="box-shadow 300ms ease-in-out"
+      _hover={{
+        boxShadow: `${defaultSpacing * 1.5 * 1.5}px ${
+          defaultSpacing * 1.5 * 1.5
+        }px 0 ${songColors.shadow}`,
+      }}
+      {...(isSmallerThan1024 && { w: '100%' })}
+    >
+      <Image
+        src={getAssetUrl(song.image128)}
+        h={isSmallerThan1024 ? '95px' : '128px'}
+      />
+      <Box mt={defaultSpacing / 4} ml={defaultSpacing / 4} textAlign="left">
+        <Text fontWeight="bold">EX score</Text>
         <Text
-          fontWeight="bold"
-          fontSize="lg"
-          ml={defaultSpacing / 2}
-          mt={defaultSpacing / 4}
+          fontSize={isSmallerThan1024 ? 'md' : 'xl'}
+          mt={isSmallerThan1024 ? -2 : 0}
         >
-          {song.name}
+          {dancerGradedIngredient.score.value}
         </Text>
-        <Box d="flex">
-          <Box ml={defaultSpacing / 2}>
-            <Text color="gray" mt={-1} mb={1}>
-              {song.artist}
-            </Text>
-            <Badge mb={defaultSpacing / 4}>{song.difficulty}</Badge>
-          </Box>
-          <Box mr={defaultSpacing / 2} mb={defaultSpacing / 2}>
-            <Image
-              w="128px"
-              src={getAssetUrl(score.gradedIngredient.image128)}
-              borderWidth={2}
-              borderColor="white"
-            />
-          </Box>
-        </Box>
+
+        <Text fontWeight="bold">
+          {dancerGradedIngredient.gradedIngredient.description}&nbsp;
+          {dancerGradedIngredient.gradedIngredient.name}
+        </Text>
+        <CustomIconRatings
+          icon={IoStar}
+          id={dancerGradedIngredient.id}
+          rating={convertGradeToNumber(
+            dancerGradedIngredient.gradedIngredient.grade,
+          )}
+          color={songColors.shadow}
+          w={isSmallerThan1024 ? 5 : 6}
+          h={isSmallerThan1024 ? 5 : 6}
+          mt={isSmallerThan1024 ? -2 : 0}
+        />
       </Box>
-    </>
+      <Spacer />
+      <Image
+        src={getAssetUrl(dancerGradedIngredient.gradedIngredient.image128)}
+        h={isSmallerThan1024 ? '90px' : '128px'}
+      />
+    </Flex>
   );
 };
 
@@ -81,8 +92,8 @@ const ScoresTab = ({ dancer }: { dancer: Dancer }) => {
   );
   const ingredientsRepository = useContext(IngredientsRepositoryContext);
   const songsRepository = useContext(SongsRepositoryContext);
+  const [isLargerThan1440] = useMediaQuery(['(min-width: 1440px)']);
   const [songs, setSongs] = useState<Map<string, Song>>(new Map());
-
   const [loading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -102,14 +113,23 @@ const ScoresTab = ({ dancer }: { dancer: Dancer }) => {
 
   return (
     <>
-      {!loading &&
-        scores.map((score) => (
-          <ScoreComponent
-            key={score.id}
-            score={score}
-            song={songs.get(score.score.songId)}
-          />
-        ))}
+      {!loading && (
+        <SimpleGrid
+          spacing={defaultSpacing}
+          columns={isLargerThan1440 ? 2 : 1}
+          mt={defaultSpacing / 4}
+          w="fit-content"
+          pr={isLargerThan1440 ? defaultSpacing : 0}
+        >
+          {scores.map((score) => (
+            <ScoreComponent
+              key={score.id}
+              dancerGradedIngredient={score}
+              song={songs.get(score.score.songId)}
+            />
+          ))}
+        </SimpleGrid>
+      )}
     </>
   );
 };

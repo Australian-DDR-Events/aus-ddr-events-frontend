@@ -12,12 +12,12 @@ import BadgesTab from '../badges-tab';
 import ScoresTab from '../scores-tab';
 
 const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
-  const [isLargerThan800] = useMediaQuery('(min-width: 800px)');
+  const [isSmallerThan1024] = useMediaQuery(['(max-width: 1023px)']);
   return (
     <Tabs
-      w={isLargerThan800 ? 'fit-content' : '90vw'}
+      w={!isSmallerThan1024 ? 'fit-content' : '90vw'}
       variant="soft-rounded"
-      align={isLargerThan800 ? 'start' : 'center'}
+      align={!isSmallerThan1024 ? 'start' : 'center'}
     >
       <TabList>
         <Tab>Badges</Tab>
@@ -25,10 +25,10 @@ const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
       </TabList>
 
       <TabPanels>
-        <TabPanel minW="28vw">
+        <TabPanel minW={isSmallerThan1024 ? '100%' : '65vw'}>
           <BadgesTab dancer={dancer} />
         </TabPanel>
-        <TabPanel minW="28vw">
+        <TabPanel minW={isSmallerThan1024 ? '100%' : '65vw'}>
           <ScoresTab dancer={dancer} />
         </TabPanel>
       </TabPanels>
