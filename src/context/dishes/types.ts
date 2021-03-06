@@ -32,9 +32,11 @@ export interface GetGrades {
 }
 
 export interface PostSubmission {
-  (id: string, dishSubmission: DishSubmissionRequest): Promise<
-    Result<Error, DishSubmissionResponse>
-  >;
+  (
+    id: string,
+    dishSubmission: DishSubmissionRequest,
+    onUploadProgress: any,
+  ): Promise<Result<Error, DishSubmissionResponse>>;
 }
 
 export type DishesRepository = {
