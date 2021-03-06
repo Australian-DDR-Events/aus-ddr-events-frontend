@@ -124,7 +124,7 @@ const Navigation = (props: any) => {
               colorScheme="blue"
               onClick={() => setLocation('/login')}
             >
-              Sign in
+              Login
             </Button>
           )}
         </Stack>

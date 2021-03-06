@@ -134,7 +134,14 @@ const LoginForm = () => {
                 )}
               </Field>
 
-              <Button variant="link" size="sm" mr={defaultSpacing / 2}>
+              <Button
+                variant="link"
+                size="sm"
+                mr={defaultSpacing / 2}
+                onClick={() => {
+                  setLocation('/forgot-password');
+                }}
+              >
                 Forgot password?
               </Button>
             </Flex>
