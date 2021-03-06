@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Typography, Steps, Button } from 'antd';
+import { Button, Heading } from '@chakra-ui/react';
+import { Steps } from 'antd';
+import { defaultSpacing } from 'types/styled-components';
 import { HowToWrapper, StepsContent, StepsAction } from './styled';
 import Step1 from './components/step-1';
 import Step2 from './components/step-2';
@@ -8,7 +10,6 @@ import Step4 from './components/step-4';
 import Step5 from './components/step-5';
 
 const HowTo = () => {
-  const { Title } = Typography;
   const { Step } = Steps;
   const [current, setCurrent] = useState(0);
 
@@ -45,7 +46,7 @@ const HowTo = () => {
 
   return (
     <HowToWrapper>
-      <Title>How to Participate</Title>
+      <Heading size="xl">How to Participate</Heading>
       <Steps responsive size="small" current={current}>
         {steps.map((item) => (
           <Step key={item.title} title={item.title} />
@@ -53,20 +54,26 @@ const HowTo = () => {
       </Steps>
       <StepsContent>{steps[current].content}</StepsContent>
       <StepsAction className="steps-action">
-        {current > 0 && (
-          <Button style={{ margin: '16px' }} onClick={() => prev()}>
-            Previous
-          </Button>
-        )}
-        {current < steps.length - 1 && (
-          <Button
-            style={{ margin: '16px' }}
-            type="primary"
-            onClick={() => next()}
-          >
-            Next
-          </Button>
-        )}
+        <Button
+          width="120px"
+          mr={defaultSpacing / 2}
+          size="lg"
+          onClick={() => prev()}
+          disabled={current === 0}
+        >
+          Previous
+        </Button>
+        <Button
+          width="120px"
+          ml={defaultSpacing / 2}
+          size="lg"
+          colorScheme="blue"
+          variant="solid"
+          onClick={() => next()}
+          disabled={current === steps.length - 1}
+        >
+          Next
+        </Button>
       </StepsAction>
     </HowToWrapper>
   );

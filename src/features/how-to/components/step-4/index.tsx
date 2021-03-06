@@ -1,37 +1,57 @@
 import React from 'react';
-import { Typography, Space } from 'antd';
-import { ArrowDownOutlined } from '@ant-design/icons';
-import { SmallWidthImage, MediumWidthImage } from './styled';
+import { IoArrowForward } from 'react-icons/io5';
+import {
+  Box,
+  Center,
+  Heading,
+  Image,
+  StackItem,
+  VStack,
+  Text,
+} from '@chakra-ui/react';
 
 const Step4 = () => {
-  const { Title } = Typography;
   return (
     <>
-      <Space direction="vertical">
-        <Space direction="vertical">
-          <Title level={4}>Step 4: Earn rewards</Title>
-          <Typography.Text>
-            As dishes are produced, you will earn cooking stars which will
-            contribute to your seasonal badge for the event duration. Badges
-            will appear on your profile and unlock rewards that can be purchased
-            once the season has concluded.
-          </Typography.Text>
-        </Space>
-        <SmallWidthImage
-          src="https://i.imgur.com/ChYOL3K.png"
-          preview={false}
-        />
-        <ArrowDownOutlined style={{ fontSize: '24px' }} />
-        <SmallWidthImage
-          src="https://i.imgur.com/oEce6Gv.png"
-          preview={false}
-        />
-        <ArrowDownOutlined style={{ fontSize: '24px' }} />
-        <MediumWidthImage
-          src="https://i.imgur.com/nGWCDfu.png"
-          preview={false}
-        />
-      </Space>
+      <Center>
+        <VStack w="80%" alignContent="center">
+          <StackItem>
+            <Heading size="lg">Step 4: Earn rewards</Heading>
+          </StackItem>
+          <StackItem>
+            <Text>
+              As dishes are produced, you will earn cooking stars which will
+              contribute to your seasonal badge for the event duration. Badges
+              will appear on your profile and unlock rewards that can be
+              purchased once the season has concluded.
+            </Text>
+          </StackItem>
+          <StackItem>
+            <Center>
+              <Box w="25%" h="25%" minW="75">
+                <Center>
+                  <Image src="https://i.imgur.com/ChYOL3K.png" align="center" />
+                </Center>
+              </Box>
+              <IoArrowForward style={{ fontSize: '24px' }} />
+              <Box w="25%" h="25%" minW="75">
+                <Center>
+                  <Image
+                    src={`${process.env.ASSETS_URL}/badges/762491be-a6ae-4ace-8ba1-e681bdcb6137.256.png`}
+                    align="center"
+                  />
+                </Center>
+              </Box>
+              <IoArrowForward style={{ fontSize: '24px' }} />
+              <Box w="25%" h="25%" minW="75">
+                <Center>
+                  <Image src="https://i.imgur.com/nGWCDfu.png" align="center" />
+                </Center>
+              </Box>
+            </Center>
+          </StackItem>
+        </VStack>
+      </Center>
     </>
   );
 };
