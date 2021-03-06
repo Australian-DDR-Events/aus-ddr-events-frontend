@@ -82,8 +82,22 @@ const ProfileReadView = ({
             </Badge>
           )}
 
-          <Text fontSize="lg">
+          <Text fontSize="sm" mb={-1} color="gray">
+            Dancer code
+          </Text>
+          <Text fontSize="lg" mb={defaultSpacing / 8}>
+            {dancer.dancerId}
+          </Text>
+
+          <Text fontSize="sm" mb={-1} color="gray">
+            State
+          </Text>
+          <Text fontSize="lg" mb={defaultSpacing / 8}>
             {getStateTextualRepresentation(dancer.state)}
+          </Text>
+
+          <Text fontSize="sm" mb={-1} color="gray">
+            Primary machine
           </Text>
           <Text fontSize="lg">{dancer.primaryMachine}</Text>
         </Box>
