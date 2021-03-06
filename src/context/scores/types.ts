@@ -36,10 +36,6 @@ export interface PostScore {
   (scoreSubmission: ScoreSubmissionRequest): Promise<Result<Error, boolean>>;
 }
 
-export interface GetSummer2021ByDancer {
-  (id: string): Promise<Result<Error, Array<Summer2021Score>>>;
-}
-
 export interface GetSummer2021 {
   (request: GetSummer2021Request): Promise<Result<Error, Summer2021Score>>;
 }
@@ -54,7 +50,6 @@ export type ScoresRepository = {
   getById: GetById;
   getAll: GetAll;
   postScore: PostScore;
-  getSummer2021ByDancer: GetSummer2021ByDancer;
   getSummer2021: GetSummer2021;
 };
 
@@ -62,7 +57,6 @@ export interface ScoresDao {
   getById: GetById;
   getAll: GetAll;
   postScore: PostScore;
-  getSummer2021ByDancer: GetSummer2021ByDancer;
   getSummer2021: GetSummer2021;
 }
 
