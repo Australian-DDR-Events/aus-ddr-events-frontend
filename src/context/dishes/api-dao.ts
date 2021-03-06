@@ -1,15 +1,12 @@
 import { err, ok, Result } from 'types/result';
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import {
-  Dish,
   DishesDao,
-  DishGrade,
-  DishSong,
   DishSubmissionRequest,
   DishSubmissionResponse,
 } from './types';
 import { DefaultDish, DefaultDishSubmissionResponse } from './constants';
-import { Ingredient } from '../ingredients/types';
+import { Dish, DishSong, GradedDish } from '~/types/summer2021';
 
 const dishesApiDao = ({
   getIdTokenFunc,
@@ -45,26 +42,6 @@ const dishesApiDao = ({
       );
   };
 
-  const getIngredients = async (
-    id: string,
-  ): Promise<Result<Error, Array<Ingredient>>> => {
-    return axiosClient
-      .get(`/summer2021/dishes/${id}/ingredients`)
-      .then(
-        (
-          response: AxiosResponse<Array<Ingredient>>,
-        ): Result<Error, Array<Ingredient>> => ok(response.data),
-      )
-      .catch(
-        (): Result<Error, Array<Ingredient>> => {
-          return err(
-            new Error('failed to get ingredients'),
-            new Array<Ingredient>(),
-          );
-        },
-      );
-  };
-
   const getSongs = async (
     id: string,
   ): Promise<Result<Error, Array<DishSong>>> => {
@@ -84,17 +61,20 @@ const dishesApiDao = ({
 
   const getGrades = async (
     id: string,
-  ): Promise<Result<Error, Array<DishGrade>>> => {
+  ): Promise<Result<Error, Array<GradedDish>>> => {
     return axiosClient
       .get(`/summer2021/dishes/${id}/grades`)
       .then(
         (
-          response: AxiosResponse<Array<DishGrade>>,
-        ): Result<Error, Array<DishGrade>> => ok(response.data),
+          response: AxiosResponse<Array<GradedDish>>,
+        ): Result<Error, Array<GradedDish>> => ok(response.data),
       )
       .catch(
-        (): Result<Error, Array<DishGrade>> => {
-          return err(new Error('failed to get grades'), new Array<DishGrade>());
+        (): Result<Error, Array<GradedDish>> => {
+          return err(
+            new Error('failed to get grades'),
+            new Array<GradedDish>(),
+          );
         },
       );
   };
@@ -135,7 +115,6 @@ const dishesApiDao = ({
   return {
     getById,
     getAll,
-    getIngredients,
     getSongs,
     getGrades,
     postSubmission,

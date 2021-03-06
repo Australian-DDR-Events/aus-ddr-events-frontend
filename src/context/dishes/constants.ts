@@ -1,8 +1,12 @@
-import { Dish, DishGrade, DishSong, DishSubmissionResponse } from './types';
+import { Dish, DishSong, GradedDish, Ingredient } from '~/types/summer2021';
+import { DishSubmissionResponse } from '~/context/dishes/types';
 
 export const DefaultDish: Dish = {
   id: '',
   name: '',
+  songs: new Array<DishSong>(),
+  ingredients: new Array<Ingredient>(),
+  type: 'dish',
   image32: '',
   image64: '',
   image128: '',
@@ -13,11 +17,13 @@ export const DefaultDishSong: DishSong = {
   id: '',
   cookingOrder: 0,
   cookingMethod: '',
-  songId: '',
+  song: null,
 };
 
-export const DefaultDishGrade: DishGrade = {
+export const DefaultDishGrade: GradedDish = {
   id: '',
+  type: 'gradedDish',
+  name: '',
   description: '',
   grade: '',
   image32: '',

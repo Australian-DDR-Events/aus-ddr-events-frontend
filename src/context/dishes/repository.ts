@@ -1,24 +1,18 @@
 import { Result } from 'types/result';
-import { Ingredient } from '../ingredients/types';
 import {
-  Dish,
   DishesDao,
   DishesRepository,
-  DishGrade,
-  DishSong,
   DishSubmissionRequest,
   DishSubmissionResponse,
 } from './types';
+import { Dish, DishSong, GradedDish } from '~/types/summer2021';
 
 const dishesRepository = (dao: DishesDao): DishesRepository => {
   const getById = (id: string): Promise<Result<Error, Dish>> => dao.getById(id);
   const getAll = (): Promise<Result<Error, Array<Dish>>> => dao.getAll();
-  const getIngredients = (
-    id: string,
-  ): Promise<Result<Error, Array<Ingredient>>> => dao.getIngredients(id);
   const getSongs = (id: string): Promise<Result<Error, Array<DishSong>>> =>
     dao.getSongs(id);
-  const getGrades = (id: string): Promise<Result<Error, Array<DishGrade>>> =>
+  const getGrades = (id: string): Promise<Result<Error, Array<GradedDish>>> =>
     dao.getGrades(id);
   const postSubmission = (
     id: string,
@@ -29,7 +23,6 @@ const dishesRepository = (dao: DishesDao): DishesRepository => {
   return {
     getById,
     getAll,
-    getIngredients,
     getSongs,
     getGrades,
     postSubmission,
