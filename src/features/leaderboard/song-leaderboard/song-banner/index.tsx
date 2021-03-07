@@ -1,4 +1,4 @@
-import { Box, Heading, useMediaQuery } from '@chakra-ui/react';
+import { Box, Heading } from '@chakra-ui/react';
 import React from 'react';
 import { Song } from 'types/core';
 import { defaultSpacing } from 'types/styled-components';

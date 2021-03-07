@@ -7,6 +7,8 @@ import {
   Switch,
 } from '@chakra-ui/react';
 import FileUploadFormField from 'components/score-submission-form';
+import { DishesRepositoryContext } from 'context/dishes';
+import { DishSubmissionRequest } from 'context/dishes/types';
 import { ScoreSubmissionRequest } from 'context/scores';
 import {
   Field,
@@ -21,16 +23,12 @@ import React, { useContext, useState } from 'react';
 import { defaultSpacing } from 'types/styled-components';
 import { Dish } from 'types/summer2021';
 
-import { DishesRepositoryContext } from '../../../context/dishes';
-import { DishSubmissionRequest } from '../../../context/dishes/types';
-import { DishSubmissionFormData, ScoreSubmissonFormData } from '../../types';
+import { DishSubmissionFormData, ScoreSubmissonFormData } from '../types';
 import DishSongSubmissionForm from './dish-song-submission-form';
 import { DefaultDishSubmissionSongForm, FinalSubmissionForm } from './types';
 
 const DishSubmissionForm = ({ dish }: { dish: Dish }) => {
-  const [scoreSubmissions, setScoreSubmissions] = useState(
-    new Array<ScoreSubmissonFormData>(),
-  );
+  const [scoreSubmissions] = useState(new Array<ScoreSubmissonFormData>());
   const [finalImageUrl, setFinalImageUrl] = useState<string>('');
   const [dishSongSelections, setDishSongSelections] = useState(dish.dishSongs);
   const dishesRepo = useContext(DishesRepositoryContext);
@@ -53,7 +51,7 @@ const DishSubmissionForm = ({ dish }: { dish: Dish }) => {
       ),
     );
     formikHelpers.setSubmitting(false);
-    console.log(submission);
+    // @ts-ignore
     formikHelpers.resetForm({ values: submission });
   };
 
@@ -61,8 +59,10 @@ const DishSubmissionForm = ({ dish }: { dish: Dish }) => {
     values: DishSubmissionFormData,
     formikHelpers: FormikHelpers<DishSubmissionFormData>,
   ) => {
+    // @ts-ignore
     scoreSubmissions?.push(values);
     formikHelpers.setSubmitting(false);
+    // @ts-ignore
     formikHelpers.resetForm({ values: DefaultDishSubmissionSongForm });
     setDishSongSelections(
       dish.dishSongs.filter(
@@ -71,21 +71,16 @@ const DishSubmissionForm = ({ dish }: { dish: Dish }) => {
     );
   };
 
-  const onFinalSubmission = (
-    values: FinalSubmissionForm,
-    formikHelpers: FormikHelpers<FinalSubmissionForm>,
-  ) => {
+  const onFinalSubmission = (values: FinalSubmissionForm) => {
     const dishSubmission: DishSubmissionRequest = {
+      // @ts-ignore
       scores: scoreSubmissions,
       pairBonus: values.pairBonus,
       finalImage: values.finalImage,
     };
-    console.lo;
     dishesRepo.dishesRepositoryInstance
       .postSubmission(dish.id, dishSubmission, () => {})
-      .then((result) => {
-        if (result.isOk()) console.log(result);
-      });
+      .then(() => {});
   };
 
   const validateForm = (values: FinalSubmissionForm) => {
@@ -100,12 +95,15 @@ const DishSubmissionForm = ({ dish }: { dish: Dish }) => {
       {dishSongSelections.length ? (
         <DishSongSubmissionForm
           dishSongs={dishSongSelections}
+          // @ts-ignore
           onSubmit={onSubmitSongScore}
+          // @ts-ignore
           onPrevious={onPreviousPage}
           hasPrevious={!!scoreSubmissions.length}
         />
       ) : (
         <Formik
+          // @ts-ignore
           initialValues={initialValues}
           onSubmit={onFinalSubmission}
           validate={validateForm}

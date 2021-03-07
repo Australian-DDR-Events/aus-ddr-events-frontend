@@ -62,9 +62,11 @@ const DishSongSubmissionForm = ({
     else onPrevious(values, formikHelpers);
   };
 
-  const validateForm = (values: DishSubmissionSongForm) => {
-    if (!direction) return;
+  const validateForm = (
+    values: DishSubmissionSongForm,
+  ): FormikErrors<ScoreSubmissionRequest> => {
     const errors: FormikErrors<ScoreSubmissionRequest> = {};
+    if (!direction) return errors;
     if (!values.songId) errors.songId = 'No song selected!';
     if (
       values.score < 0 ||
@@ -87,8 +89,7 @@ const DishSongSubmissionForm = ({
         initialValues={DefaultDishSubmissionSongForm}
         onSubmit={handleFormMovement}
         validate={validateForm}
-        onReset={(values, formikHelpers) => {
-          console.log(values);
+        onReset={(values) => {
           setScoreImageUrl(
             values.scoreImage.size
               ? URL.createObjectURL(values.scoreImage)
