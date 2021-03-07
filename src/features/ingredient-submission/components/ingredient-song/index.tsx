@@ -40,12 +40,12 @@ const IngredientSong = ({
         borderRadius="lg"
         overflow="hidden"
         mb={defaultSpacing}
+        cursor="pointer"
+        onClick={onOpen}
       >
         <Image
           src={getAssetUrl(ingredient.song.image256)}
           alt={ingredient.song.name}
-          onClick={onOpen}
-          cursor="pointer"
         />
         <Box ml={defaultSpacing / 2}>
           <Text fontWeight="bold" fontSize="lg" mt={defaultSpacing / 4}>
