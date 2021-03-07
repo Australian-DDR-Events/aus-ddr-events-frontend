@@ -1,8 +1,7 @@
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { err, ok, Result } from 'types/result';
-
-import { Dish, DishSong, GradedDish } from '~/types/summer2021';
-import resizeImage from '~/utils/images';
+import { Dish, DishSong, GradedDish } from 'types/summer2021';
+import resizeImage from 'utils/images';
 
 import { DefaultDish, DefaultDishSubmissionResponse } from './constants';
 import {
