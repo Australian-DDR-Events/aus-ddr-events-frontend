@@ -16,8 +16,8 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): DancersDao => {
       .ref(`users/${id}`)
       .get()
       .then(async (snap: firebase.database.DataSnapshot) => {
-        user.dancerName = snap.child('dancerName').val();
-        user.dancerId = snap.child('dancerId').val();
+        user.ddrName = snap.child('dancerName').val();
+        user.ddrCode = snap.child('dancerId').val();
         user.state = snap.child('state').val();
         user.primaryMachine = snap.child('pmachine').val();
         user.userName = snap.child('userName').val();
@@ -26,9 +26,9 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): DancersDao => {
           const profilePictureSnap = await storage
             .ref(`${id} - images/ProfilePicture`)
             .getDownloadURL();
-          user.profilePicture = profilePictureSnap;
+          user.profilePictureUrl = profilePictureSnap;
         } catch {
-          user.profilePicture = '';
+          user.profilePictureUrl = '';
         }
 
         return ok(user);
@@ -40,8 +40,8 @@ const userFirebaseDao = (firebaseApp: firebase.app.App): DancersDao => {
     if (!currentAuthUser) return ok(false);
 
     await firebaseApp.database().ref(`users/${currentAuthUser.uid}`).update({
-      dancerName: user.dancerName,
-      dancerId: user.dancerId,
+      ddrName: user.ddrName,
+      ddrId: user.ddrCode,
       state: user.state,
       pmachine: user.primaryMachine,
       userName: user.userName,

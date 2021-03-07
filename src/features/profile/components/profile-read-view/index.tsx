@@ -48,7 +48,7 @@ const ProfileReadView = ({
         <Center>
           <Avatar
             size="2xl"
-            name={dancer.dancerName}
+            name={dancer.ddrName}
             src={getProfileImageUrl() || DEFAULT_PROFILE_PICTURE_URL}
             mb={defaultSpacing / 2}
             {...(getProfileImageUrl() && { bg: 'white' })}
@@ -67,7 +67,7 @@ const ProfileReadView = ({
         )}
         <Box textAlign={isLargerThan769 ? 'left' : 'center'}>
           <Heading>
-            {dancer.dancerName}
+            {dancer.ddrName}
             {emailVerified && !isLargerThan769 && (
               <Icon
                 as={IoCheckmarkCircle}
@@ -92,7 +92,7 @@ const ProfileReadView = ({
             Dancer code
           </Text>
           <Text fontSize="lg" mb={defaultSpacing / 8}>
-            {dancer.dancerId}
+            {dancer.ddrCode}
           </Text>
 
           <Text fontSize="sm" mb={-1} color="gray">

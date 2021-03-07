@@ -9,6 +9,7 @@ export const DefaultScore: Score = {
   submissionTime: '',
   imageUrl: '',
   dancerId: '',
+  dancer: null,
   songId: '',
 };
 

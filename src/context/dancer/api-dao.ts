@@ -22,8 +22,8 @@ const dancersApiDao = ({
         (response: AxiosResponse): Result<Error, Dancer> => {
           const dancer: Dancer = {
             id: response.data.id,
-            dancerId: response.data.ddrCode,
-            dancerName: response.data.ddrName,
+            ddrCode: response.data.ddrCode,
+            ddrName: response.data.ddrName,
             primaryMachine: response.data.primaryMachineLocation,
             profilePictureUrl: response.data.profilePictureUrl,
             newProfilePicture: new File([''], 'filename'),
@@ -65,8 +65,8 @@ const dancersApiDao = ({
 
   const update = async (dancer: Dancer): Promise<Result<Error, boolean>> => {
     const dancerSubmission = {
-      ddrName: dancer.dancerName || '',
-      ddrCode: dancer.dancerId || '',
+      ddrName: dancer.ddrName || '',
+      ddrCode: dancer.ddrCode || '',
       primaryMachineLocation: dancer.primaryMachine || '',
       state: dancer.state || '',
       profilePictureUrl: dancer.profilePictureUrl || '',
