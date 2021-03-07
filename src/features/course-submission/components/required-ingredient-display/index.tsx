@@ -17,7 +17,10 @@ const RequiredIngredientDisplay = ({
     <Tooltip label={tooltipLabel}>
       <Image
         src={getAssetUrl(ingredient.image64)}
-        {...(!obtainedIngredient && { filter: 'grayscale(100%)' })}
+        {...(!obtainedIngredient && {
+          filter: 'grayscale(100%)',
+          opacity: 0.5,
+        })}
       />
     </Tooltip>
   );
