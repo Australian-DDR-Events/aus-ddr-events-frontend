@@ -8,6 +8,7 @@ import ForgotPassword from 'features/forgot-password';
 import Home from 'features/home';
 import HowTo from 'features/how-to';
 import IngredientSubmission from 'features/ingredient-submission';
+import Leaderboard from 'features/leaderboard';
 import Login from 'features/login';
 import Profile from 'features/profile';
 import Register from 'features/register';
@@ -67,6 +68,18 @@ const Router = () => (
         </>
       )}
     </ProtectedRoute>
+    <Route path="/leaderboard">
+      <Title>Leaderboards | Australian DDR Events</Title>
+      <Leaderboard />
+    </Route>
+    <Route path="/leaderboard/:id">
+      {(params) => (
+        <>
+          <Title>Leaderboards | Australian DDR Events</Title>
+          <Leaderboard songId={params.id} />
+        </>
+      )}
+    </Route>
     <ProtectedRoute path="/submission">
       <Title>Submit Scores | Australian DDR Events</Title>
       <IngredientSubmission />
