@@ -30,7 +30,7 @@ export interface DishBase<T> {
 }
 
 export interface Dish extends DishBase<'dish'> {
-  songs: Array<DishSong>;
+  dishSongs: Array<DishSong>;
   ingredients: Array<Ingredient>;
 }
 
