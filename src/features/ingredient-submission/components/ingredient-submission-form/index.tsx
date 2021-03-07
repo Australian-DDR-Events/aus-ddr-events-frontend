@@ -14,7 +14,7 @@ import {
   ModalBody,
   Progress,
 } from '@chakra-ui/react';
-import { Formik, FormikHelpers, Form, Field } from 'formik';
+import { Formik, FormikHelpers, Form, Field, FormikValues } from 'formik';
 import { defaultSpacing } from 'types/styled-components';
 import {
   IngredientsRepositoryContext,
@@ -45,12 +45,6 @@ const IngredientSubmissionForm = ({
     },
     [],
   );
-
-  const validateScore = (score: number) => {
-    let error;
-    if (score < 0 || score > maxScore) error = 'Score provided is too high!';
-    return error;
-  };
 
   const onSubmit = (
     values: ScoreSubmissionRequest,
@@ -88,8 +82,25 @@ const IngredientSubmissionForm = ({
     },
   };
 
+  const validateForm = (values: FormikValues) => {
+    interface ValidationErrors {
+      score?: any;
+      scoreImage?: any;
+    }
+    const errors: ValidationErrors = {};
+    if (values.score < 0 || values.score > maxScore)
+      errors.score = 'Score provided is too high!';
+    if (!values.scoreImage.type.startsWith('image/'))
+      errors.scoreImage = 'Score image must be an image file!';
+    return errors;
+  };
+
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validate={validateForm}
+    >
       {(props) => (
         <Form>
           <ModalBody>
@@ -101,38 +112,48 @@ const IngredientSubmissionForm = ({
                 </Box>
               </Alert>
             )}
-            <FormControl htmlFor="scoreImage" mb={defaultSpacing / 2}>
-              {scoreImageUrl && (
-                <Image
-                  src={scoreImageUrl}
-                  w={defaultSpacing * 16}
-                  mb={defaultSpacing / 2}
-                />
-              )}
-              <FormLabel>Profile picture</FormLabel>
-              <Input
-                type="file"
-                pt={defaultSpacing / 4}
-                h={defaultSpacing * 1.5}
-                id="scoreImage"
-                multiple={false}
-                accept="image/*"
-                onChange={(event) => {
-                  if (event.currentTarget.files) {
-                    // eslint-disable-next-line react/prop-types
-                    props.setFieldValue(
-                      'scoreImage',
-                      event.currentTarget.files[0],
-                    );
-                    setScoreImageUrl(
-                      URL.createObjectURL(event.currentTarget.files[0]),
-                    );
-                  }
-                }}
-              />
-            </FormControl>
 
-            <Field type="number" name="score" validate={validateScore}>
+            <Field type="file" name="scoreImage">
+              {({ form }: { form: any }) => (
+                <FormControl
+                  htmlFor="scoreImage"
+                  mb={defaultSpacing / 2}
+                  isInvalid={form.errors.scoreImage && form.touched.scoreImage}
+                >
+                  {scoreImageUrl && (
+                    <Image
+                      src={scoreImageUrl}
+                      w={defaultSpacing * 16}
+                      mb={defaultSpacing / 2}
+                    />
+                  )}
+                  <FormLabel>Profile picture</FormLabel>
+                  <Input
+                    type="file"
+                    pt={defaultSpacing / 4}
+                    h={defaultSpacing * 1.5}
+                    id="scoreImage"
+                    multiple={false}
+                    accept="image/*"
+                    onChange={(event) => {
+                      if (event.currentTarget.files) {
+                        // eslint-disable-next-line react/prop-types
+                        props.setFieldValue(
+                          'scoreImage',
+                          event.currentTarget.files[0],
+                        );
+                        setScoreImageUrl(
+                          URL.createObjectURL(event.currentTarget.files[0]),
+                        );
+                      }
+                    }}
+                  />
+                  <FormErrorMessage>{form.errors.scoreImage}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
+
+            <Field type="number" name="score">
               {({ field, form }: { field: any; form: any }) => (
                 <FormControl
                   htmlFor="score"
