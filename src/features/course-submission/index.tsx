@@ -1,35 +1,58 @@
 import { Center, Container, SimpleGrid, Spinner } from '@chakra-ui/react';
+import { AuthenticationRepositoryContext } from 'context/authentication';
+import { DancersRepositoryContext } from 'context/dancer';
 import { DishesRepositoryContext } from 'context/dishes';
+import { IngredientsRepositoryContext } from 'context/ingredients';
 import React, { useContext, useEffect, useState } from 'react';
 import { defaultSpacing } from 'types/styled-components';
-import { Dish } from 'types/summer2021';
+import { DancerGradedIngredient, Dish } from 'types/summer2021';
 
 import DishDisplay from './components/dish-display';
 
 const CourseSubmission = () => {
-  // const authRepo = useContext(AuthenticationRepositoryContext);
-  // const dancerRepo = useContext(DancersRepositoryContext);
+  const authRepo = useContext(AuthenticationRepositoryContext);
+  const dancerRepo = useContext(DancersRepositoryContext);
   const dishesRepo = useContext(DishesRepositoryContext);
+  const ingredientsRepo = useContext(IngredientsRepositoryContext);
   const [dishes, setDishes] = useState<Dish[]>();
+  const [dancerIngredients, setDancerIngredients] = useState<
+    Map<string, DancerGradedIngredient>
+  >();
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    // const loggedInUser = authRepo.authenticationRepositoryInstance
-    //   .get()
-    //   .okOrDefault();
+    const loggedInUser = authRepo.authenticationRepositoryInstance
+      .get()
+      .okOrDefault();
 
-    // dancerRepo.dancersRepositoryInstance
-    //   .get(loggedInUser.id)
-    //   .then((dancerIdResult) => {
-    //     const dancer = dancerIdResult.okOrDefault();
-    //
-    //   });
+    dancerRepo.dancersRepositoryInstance
+      .get(loggedInUser.id)
+      .then((dancerIdResult) => {
+        const dancer = dancerIdResult.okOrDefault();
+        Promise.all([
+          dishesRepo.dishesRepositoryInstance.getAll(),
+          // eslint-disable-next-line max-len
+          ingredientsRepo.ingredientsRepositoryInstance.getGradedIngredientsByDancer(
+            dancer.id,
+            true,
+          ),
+        ]).then(([dishesResult, dancerIngredientResult]) => {
+          if (dishesResult.isOk()) {
+            setDishes(dishesResult.okOrDefault());
+          }
 
-    dishesRepo.dishesRepositoryInstance.getAll().then((dishesResult) => {
-      if (dishesResult.isOk()) {
-        setDishes(dishesResult.okOrDefault());
-        setIsLoading(false);
-      }
-    });
+          if (dancerIngredientResult.isOk()) {
+            setDancerIngredients(
+              new Map(
+                dancerIngredientResult
+                  .okOrDefault()
+                  .map((gdi) => [gdi.gradedIngredient.name, gdi]),
+              ),
+            );
+          }
+
+          setIsLoading(false);
+        });
+      });
   }, []);
 
   const gridColumns = 4;
@@ -56,7 +79,15 @@ const CourseSubmission = () => {
         minChildWidth={`${defaultSpacing * 34}px`}
       >
         {dishes?.map((d) => (
-          <DishDisplay key={d.id} dish={d} />
+          <DishDisplay
+            key={d.id}
+            dish={d}
+            obtainedIngredients={d.ingredients
+              .map((i) => dancerIngredients?.get(i.name))
+              .filter<DancerGradedIngredient>(
+                (gi): gi is DancerGradedIngredient => Boolean(gi),
+              )}
+          />
         ))}
       </SimpleGrid>
     </Container>

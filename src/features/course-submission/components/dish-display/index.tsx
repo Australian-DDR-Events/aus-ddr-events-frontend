@@ -9,13 +9,19 @@ import {
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { defaultSpacing } from 'types/styled-components';
-import { Dish } from 'types/summer2021';
+import { DancerGradedIngredient, Dish } from 'types/summer2021';
 import { getAssetUrl } from 'utils/assets';
 
 import DishModal, { COOK_VIEW, SONGS_VIEW, View } from '../dish-modal';
 import RequiredIngredientDisplay from '../required-ingredient-display';
 
-const DishDisplay = ({ dish }: { dish: Dish }) => {
+const DishDisplay = ({
+  dish,
+  obtainedIngredients,
+}: {
+  dish: Dish;
+  obtainedIngredients: DancerGradedIngredient[];
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalView, setModalView] = useState<View>(SONGS_VIEW);
   return (
@@ -34,13 +40,20 @@ const DishDisplay = ({ dish }: { dish: Dish }) => {
       <Center w="100%" mb={defaultSpacing}>
         <HStack spacing={defaultSpacing / 2}>
           {dish.ingredients.map((i) => (
-            <RequiredIngredientDisplay key={i.id} ingredient={i} />
+            <RequiredIngredientDisplay
+              key={i.id}
+              ingredient={i}
+              obtainedIngredient={obtainedIngredients.find(
+                (di) => di.gradedIngredient.name === i.name,
+              )}
+            />
           ))}
         </HStack>
       </Center>
       <Center mb={defaultSpacing / 2}>
         <Button
-          variant="link"
+          variant="solid"
+          w="100%"
           onClick={() => {
             setModalView(SONGS_VIEW);
             onOpen();
@@ -51,13 +64,14 @@ const DishDisplay = ({ dish }: { dish: Dish }) => {
       </Center>
       <Center>
         <Button
-          colorScheme="blue"
+          w="100%"
+          colorScheme="pink"
           onClick={() => {
             setModalView(COOK_VIEW);
             onOpen();
           }}
         >
-          Cook
+          Cook this course
         </Button>
         <DishModal
           view={modalView}
