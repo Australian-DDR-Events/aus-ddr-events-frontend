@@ -2,7 +2,7 @@ import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from 'context/authentication';
-import CourseSubmission from 'features/course-submission-old';
+import CourseSubmission from 'features/course-submission';
 import Error from 'features/error';
 import ForgotPassword from 'features/forgot-password';
 import Home from 'features/home';
