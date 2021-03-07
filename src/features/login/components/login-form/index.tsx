@@ -54,9 +54,8 @@ const LoginForm = () => {
           setLocation('/');
         } else {
           setApiErrorMessage(result.error.message);
+          actions.setSubmitting(false);
         }
-
-        actions.setSubmitting(false);
       });
   };
 
