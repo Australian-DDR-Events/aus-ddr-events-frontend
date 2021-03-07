@@ -1,54 +1,118 @@
-import { Button, Form, Input, Typography } from 'antd';
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Box,
+  Button,
+  Container,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+} from '@chakra-ui/react';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from 'context/authentication';
-import React, { useContext } from 'react';
+import { Field, Form, Formik, FormikHelpers, FormikValues } from 'formik';
+import React, { useContext, useState } from 'react';
+import { defaultSpacing } from 'types/styled-components';
+import { useLocation } from 'wouter';
 
-import { StyledForm } from './styled';
+interface ResetPasswordFormData {
+  email: string;
+}
 
-const EmailForm = ({ onSubmit }: { onSubmit: Function }) => {
+const EmailForm = ({ onSubmitCallback }: { onSubmitCallback: Function }) => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
     AuthenticationRepositoryContext,
   );
 
-  const onFinish = (values: any) => {
+  const [apiErrorMessage, setApiErrorMessage] = useState('');
+  const [, setLocation] = useLocation();
+
+  const onSubmit = (
+    values: ResetPasswordFormData,
+    action: FormikHelpers<ResetPasswordFormData>,
+  ) => {
     authRepo.authenticationRepositoryInstance
       .sendPasswordResetEmail(values.email)
       .then((result) => {
-        if (result.isOk()) onSubmit();
+        if (result.isOk()) onSubmitCallback();
+        else {
+          setApiErrorMessage(result.error.message);
+          action.setSubmitting(false);
+        }
       });
   };
 
-  return (
-    <StyledForm
-      layout="vertical"
-      name="basic"
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-    >
-      <Typography.Title>Reset password</Typography.Title>
-      <Typography.Paragraph type="secondary">
-        Enter the email associated with your account and we&apos;ll send an
-        email with instructions to reset your password.
-      </Typography.Paragraph>
-      <Form.Item
-        label="Email address"
-        name="email"
-        rules={[
-          { required: true, message: 'Please input your username!' },
-          { type: 'email', message: 'Please enter a valid email address' },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+  const validateForm = (values: FormikValues) => {
+    interface ValidationErrors {
+      email?: any;
+    }
+    const errors: ValidationErrors = {};
+    if (!values.email) errors.email = 'Please enter your email address';
+    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email))
+      errors.email = 'Please enter a valid email address';
+    return errors;
+  };
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-          Continue
-        </Button>
-      </Form.Item>
-    </StyledForm>
+  return (
+    <Container maxW="sm">
+      {apiErrorMessage && (
+        <Alert status="error" borderRadius="md" mb={defaultSpacing / 2}>
+          <Box flex="1">
+            <AlertTitle mr={2}>Uh oh!</AlertTitle>
+            <AlertDescription>{apiErrorMessage}</AlertDescription>
+          </Box>
+        </Alert>
+      )}
+      <Formik
+        initialValues={{
+          email: '',
+          password: '',
+          remember: false,
+        }}
+        onSubmit={onSubmit}
+        validate={validateForm}
+      >
+        {(props) => (
+          <Form>
+            <Field type="email" name="email">
+              {({ field, form }: { field: any; form: any }) => (
+                <FormControl
+                  htmlFor="email"
+                  isInvalid={form.errors.email && form.touched.email}
+                  mb={4}
+                >
+                  <FormLabel>Email address</FormLabel>
+                  <Input {...field} id="email" />
+                  <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
+            <Button
+              colorScheme="blue"
+              type="submit"
+              // eslint-disable-next-line react/prop-types
+              isLoading={props.isSubmitting}
+              mr={defaultSpacing / 2}
+            >
+              Reset Password
+            </Button>
+            <Button
+              colorScheme="blue"
+              variant="outline"
+              // eslint-disable-next-line react/prop-types
+              isLoading={props.isSubmitting}
+              onClick={() => setLocation('/login')}
+            >
+              Return to Login
+            </Button>
+          </Form>
+        )}
+      </Formik>
+    </Container>
   );
 };
 

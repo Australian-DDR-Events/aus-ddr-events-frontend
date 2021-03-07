@@ -13,7 +13,7 @@ const ForgotPassword = () => {
   return (
     <>
       {step === ForgotPasswordState.REQUEST_EMAIL && (
-        <EmailForm onSubmit={handleEmailSubmitted} />
+        <EmailForm onSubmitCallback={handleEmailSubmitted} />
       )}
       {step === ForgotPasswordState.EMAIL_SENT && <EmailSent />}
     </>
