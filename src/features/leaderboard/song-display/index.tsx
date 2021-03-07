@@ -5,6 +5,7 @@ import {
   Center,
   Flex,
   Image,
+  Spacer,
   Text,
   Tooltip,
   useMediaQuery,
@@ -15,14 +16,24 @@ import { defaultSpacing } from 'types/styled-components';
 import { getAssetUrl } from 'utils/assets';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 
-const SongDisplay = ({ song, score }: { song: Song; score?: Score }) => {
+const SongDisplay = ({
+  song,
+  score,
+  songCoverSize,
+}: {
+  song: Song;
+  score?: Score;
+  songCoverSize: string;
+}) => {
   const songColors = getColorByDifficulty(song.difficulty);
-  const [isSmallerThan1024] = useMediaQuery('(max-width: 1024px');
+  const [isSmallerOrEqualTo375, isSmallerOrEqualTo425] = useMediaQuery([
+    '(max-width: 375px)',
+    '(max-width: 425px)',
+  ]);
   return (
     <Flex
       maxW="100%"
       mb={defaultSpacing}
-      mr={defaultSpacing}
       overflow="hidden"
       borderWidth={2}
       borderRadius="lg"
@@ -32,57 +43,69 @@ const SongDisplay = ({ song, score }: { song: Song; score?: Score }) => {
       }`}
       transition="box-shadow 300ms ease-in-out"
       _hover={{
-        boxShadow: `${defaultSpacing * -1.5}px ${defaultSpacing * 1.5}px 0 ${
-          songColors.shadow
-        }`,
+        boxShadow: `${defaultSpacing * 1.5 * 1.5}px ${
+          defaultSpacing * 1.5 * 1.5
+        }px 0 ${songColors.shadow}`,
       }}
       w="100%"
     >
-      <Image src={getAssetUrl(song.image128)} w="15%" />
-      <Box
-        mt={defaultSpacing / 4}
-        ml={defaultSpacing / 4}
-        textAlign="left"
-        w="40%"
-      >
-        <Tooltip label={song.name} fontSize="md" placement="top">
-          <Text
-            fontWeight="bold"
-            fontSize={isSmallerThan1024 ? 'md' : 'lg'}
-            mt={defaultSpacing / 4}
-            isTruncated
-          >
-            {song.name}
-          </Text>
-        </Tooltip>
-        <Text color="gray" mt={-1} mb={1} isTruncated>
-          {song.artist}
-        </Text>
-        <Badge colorScheme={songColors.badge} mb={defaultSpacing / 4}>
-          {song.difficulty}
-        </Badge>
-      </Box>
-      {score && (
-        <>
-          <Box
-            mt={defaultSpacing / 4}
-            mr={defaultSpacing / 4}
-            textAlign="right"
-            w="40%"
-          >
+      <Image src={getAssetUrl(song.image128)} h={songCoverSize} />
+      <Center>
+        <Box ml={defaultSpacing / 4} textAlign="left">
+          <Tooltip label={song.name} fontSize="md" placement="top">
             <Text
               fontWeight="bold"
-              fontSize={isSmallerThan1024 ? 'md' : 'lg'}
-              mt={defaultSpacing / 4}
+              fontSize={isSmallerOrEqualTo425 ? 'md' : 'xl'}
               isTruncated
+              {...(score && isSmallerOrEqualTo425 && { w: '40vw' })}
+              {...(!score && isSmallerOrEqualTo425 && { w: '60vw' })}
+              {...(score && isSmallerOrEqualTo375 && { w: '32vw' })}
+              {...(!score && isSmallerOrEqualTo375 && { w: '55vw' })}
             >
-              {score.dancer?.ddrName}
+              {song.name}
             </Text>
-            <Text>{score.value}</Text>
-          </Box>
+          </Tooltip>
+          <Text
+            color="gray"
+            mt={-1}
+            mb={1}
+            isTruncated
+            {...(score && isSmallerOrEqualTo425 && { w: '40vw' })}
+            {...(!score && isSmallerOrEqualTo425 && { w: '60vw' })}
+            {...(score && isSmallerOrEqualTo375 && { w: '32vw' })}
+            {...(!score && isSmallerOrEqualTo375 && { w: '52vw' })}
+          >
+            {song.artist}
+          </Text>
+          <Badge colorScheme={songColors.badge} mb={defaultSpacing / 4}>
+            {song.difficulty}
+          </Badge>
+        </Box>
+      </Center>
+
+      {score && (
+        <>
+          <Spacer />
+          {!isSmallerOrEqualTo425 && (
+            <Center>
+              <Box mr={defaultSpacing / 2} textAlign="right" w="100%">
+                <Text fontWeight="bold" fontSize="xl" isTruncated>
+                  {score.dancer?.ddrName}
+                </Text>
+                <Text
+                  fontSize="2xl"
+                  mt={-2}
+                  color={songColors.shadow}
+                  fontWeight="bold"
+                >
+                  {score.value}
+                </Text>
+              </Box>
+            </Center>
+          )}
           <Center>
             <Avatar
-              size="md"
+              size={isSmallerOrEqualTo425 ? 'md' : 'lg'}
               name={score.dancer?.ddrName}
               src={getAssetUrl(score.dancer?.profilePictureUrl || '')}
               mr={defaultSpacing / 2}
