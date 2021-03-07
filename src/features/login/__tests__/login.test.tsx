@@ -2,7 +2,7 @@ import { shallow } from 'enzyme';
 import React from 'react';
 
 import Login from '..';
-import LoginForm from '../components/login-form';
+import LoginForm from '../login-form';
 
 describe('Login', () => {
   test('should render LoginForm', () => {

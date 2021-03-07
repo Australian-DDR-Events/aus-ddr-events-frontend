@@ -10,7 +10,7 @@ import { AuthenticationRepositoryContext } from 'context/authentication';
 import React, { useContext } from 'react';
 import useLocation from 'wouter/use-location';
 
-import AboutUs from './components/about-us';
+import AboutUs from './about-us';
 import ContactUs from './components/contact-us';
 import HowTo from './components/how-to';
 

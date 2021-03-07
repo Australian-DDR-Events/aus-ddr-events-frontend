@@ -1,6 +1,6 @@
 import React from 'react';
 
-import UpdatePassword from './components/update-password';
+import UpdatePassword from './update-password';
 
 const Settings = () => {
   return <UpdatePassword />;

@@ -11,8 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { Badge } from 'context/badges/types';
 import React from 'react';
-
-import { defaultSpacing } from '~/types/styled-components';
+import { defaultSpacing } from 'types/styled-components';
 
 const BadgeDisplay = ({
   badge,

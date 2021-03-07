@@ -9,14 +9,16 @@ import { FormikErrors } from 'formik';
 import React from 'react';
 import { defaultSpacing } from 'types/styled-components';
 
-const ScoreSubmissionForm = ({
+const FileUploadFormField = ({
   fieldName,
+  label,
   onChange,
   isInvalid,
   scoreImageUrl,
   formError,
 }: {
   fieldName: string;
+  label: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   isInvalid: boolean;
   scoreImageUrl: string;
@@ -35,7 +37,7 @@ const ScoreSubmissionForm = ({
           mb={defaultSpacing / 2}
         />
       )}
-      <FormLabel>Profile picture</FormLabel>
+      <FormLabel>{label}</FormLabel>
       <Input
         type="file"
         pt={defaultSpacing / 4}
@@ -50,4 +52,4 @@ const ScoreSubmissionForm = ({
   );
 };
 
-export default ScoreSubmissionForm;
+export default FileUploadFormField;

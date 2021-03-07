@@ -9,8 +9,8 @@ import {
 import { Dancer } from 'context/dancer';
 import React from 'react';
 
-import BadgesTab from '../badges-tab';
-import ScoresTab from '../scores-tab';
+import BadgesTab from './badges-tab';
+import ScoresTab from './scores-tab';
 
 const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
   const [isSmallerThan1024] = useMediaQuery(['(max-width: 1023px)']);

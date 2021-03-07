@@ -5,7 +5,7 @@ import { Dancer } from 'context/dancer';
 import React, { useContext, useEffect, useState } from 'react';
 import { defaultSpacing } from 'types/styled-components';
 
-import BadgeDisplay from '../badge-display';
+import BadgeDisplay from './badge-display';
 
 const BadgesTab = ({ dancer }: { dancer: Dancer }) => {
   const badgesRepo = useContext(BadgesRepositoryContext);

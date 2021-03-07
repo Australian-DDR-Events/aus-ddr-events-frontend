@@ -32,10 +32,9 @@ src/
     ├── features/
     │   └── feature-name/
     │       ├── __tests__/
-    │       │   ├── index.test.ts
+    │       │   ├── feature-name.test.ts
     │       │   └── feature-specific-component-name.test.ts
-    │       ├── components/
-    │       │   └── feature-specific-component-name/
+    │       ├── feature-specific-component-name/
     │       │       ├── index.tsx
     │       │       └── ...
     │       ├── index.tsx
@@ -44,7 +43,7 @@ src/
     ├── context/
     │   └── context-name/
     │       ├── __tests__/
-    │       │   └── index.test.ts
+    │       │   └── dao.test.ts
     │       ├── index.tsx
     │       ├── types.tsx
     │       ├── context.tsx
@@ -52,13 +51,11 @@ src/
     ├── components/
     │   └── component-name/
     │       ├── __tests__/
-    │       │   └── index.test.ts
+    │       │   └── component-name.test.ts
     │       ├── index.tsx
     │       └── ...
     └── types/
         └── type-name/
-            ├── __test__/
-            │   └── index.test.ts
             └── index.tsx
 ```
 

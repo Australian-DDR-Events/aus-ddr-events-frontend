@@ -12,7 +12,7 @@ import {
   ModalFooter,
   Progress,
 } from '@chakra-ui/react';
-import ScoreSubmissionForm from 'components/score-submission-form';
+import FileUploadFormField from 'components/score-submission-form';
 import {
   IngredientsRepositoryContext,
   ScoreSubmissionRequest,
@@ -21,10 +21,10 @@ import {
   Field,
   Form,
   Formik,
+  FormikErrors,
   FormikHelpers,
   FormikProps,
   FormikState,
-  FormikValues,
 } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
 import { defaultSpacing } from 'types/styled-components';
@@ -90,13 +90,8 @@ const IngredientSubmissionForm = ({
     },
   };
 
-  const validateForm = (values: FormikValues) => {
-    interface ValidationErrors {
-      score?: any;
-      scoreImage?: any;
-    }
-
-    const errors: ValidationErrors = {};
+  const validateForm = (values: ScoreSubmissionRequest) => {
+    const errors: FormikErrors<ScoreSubmissionRequest> = {};
     if (values.score < 0 || values.score > maxScore)
       errors.score = 'Score provided is too high!';
     if (!values.scoreImage.type.startsWith('image/'))
@@ -124,7 +119,8 @@ const IngredientSubmissionForm = ({
 
             <Field type="file" name="scoreImage">
               {({ form }: { form: FormikState<ScoreSubmissionRequest> }) => (
-                <ScoreSubmissionForm
+                <FileUploadFormField
+                  label="Score image"
                   fieldName="scoreImage"
                   isInvalid={Boolean(
                     form.errors.scoreImage && form.touched.scoreImage,

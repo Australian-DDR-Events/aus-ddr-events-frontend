@@ -15,7 +15,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { defaultSpacing } from 'types/styled-components';
 import { DancerGradedIngredient, Ingredient } from 'types/summer2021';
 
-import IngredientSong from './components/ingredient-song';
+import IngredientSong from './ingredient-song';
 
 const IngredientSubmission = () => {
   const authRepo = useContext(AuthenticationRepositoryContext);

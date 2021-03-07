@@ -7,7 +7,7 @@ import { Song } from 'types/core';
 import { defaultSpacing } from 'types/styled-components';
 import { Summer2021Score } from 'types/summer2021';
 
-import ScoreDisplay from '../score-display';
+import ScoreDisplay from '../../score-display';
 
 const ScoresTab = ({ dancer }: { dancer: Dancer }) => {
   const [scores, setScores] = useState<Summer2021Score[]>(
