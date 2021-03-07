@@ -7,7 +7,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { defaultSpacing } from 'types/styled-components';
 import { DancerGradedIngredient, Dish } from 'types/summer2021';
 
-import DishDisplay from './components/dish-display';
+import DishDisplay from './dish-display';
 
 const CourseSubmission = () => {
   const authRepo = useContext(AuthenticationRepositoryContext);
