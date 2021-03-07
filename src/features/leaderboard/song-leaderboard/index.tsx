@@ -52,7 +52,7 @@ const SongLeaderboard = ({ songId }: { songId: string }) => {
       />
       <Center mb={4}>{scores[0] && <TopScore score={scores[0]} />}</Center>
       <List>
-        {scores.map((s, index) => (
+        {scores.slice(1).map((s, index) => (
           <ScoreLine
             index={index}
             score={s}

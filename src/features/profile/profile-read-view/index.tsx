@@ -51,7 +51,7 @@ const ProfileReadView = ({
             name={dancer.ddrName}
             src={getProfileImageUrl() || DEFAULT_PROFILE_PICTURE_URL}
             mb={defaultSpacing / 2}
-            {...(getProfileImageUrl() && { bg: 'white' })}
+            bgColor="transparent"
           />
         </Center>
         {isEditable && (

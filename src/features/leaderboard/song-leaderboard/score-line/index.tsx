@@ -20,7 +20,7 @@ const ScoreLine = ({
       <Center>
         <Box w="xl" maxW="xl" borderWidth="1px" borderRadius="sm" padding={1}>
           <Grid templateColumns="repeat(16, 1fr)" gap={2}>
-            <GridItem colSpan={1}>{index + 1}</GridItem>
+            <GridItem colSpan={1}>{index + 2}</GridItem>
             <GridItem colSpan={5} onClick={() => onClickName()}>
               {score.dancer?.ddrName}
             </GridItem>
