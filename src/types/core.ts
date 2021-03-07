@@ -1,9 +1,12 @@
+import { Dancer } from '../context/dancer';
+
 export type Score = {
   id: string;
   value: number;
   submissionTime: string;
   imageUrl: string;
-  dancerId: string;
+  dancerId: string | null;
+  dancer: Dancer | null;
   songId: string;
 };
 

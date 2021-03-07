@@ -25,7 +25,7 @@ const dancersApiDao = ({
             dancerId: response.data.ddrCode,
             dancerName: response.data.ddrName,
             primaryMachine: response.data.primaryMachineLocation,
-            profilePicture: response.data.profilePictureUrl,
+            profilePictureUrl: response.data.profilePictureUrl,
             newProfilePicture: new File([''], 'filename'),
             state: response.data.state,
             userName: '',
@@ -69,7 +69,7 @@ const dancersApiDao = ({
       ddrCode: dancer.dancerId || '',
       primaryMachineLocation: dancer.primaryMachine || '',
       state: dancer.state || '',
-      profilePictureUrl: dancer.profilePicture || '',
+      profilePictureUrl: dancer.profilePictureUrl || '',
     };
 
     const request: AxiosRequestConfig = {

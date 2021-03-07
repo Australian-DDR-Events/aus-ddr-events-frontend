@@ -35,7 +35,7 @@ const ProfileReadView = ({
   };
   const getProfileImageUrl = () =>
     `${process.env.ASSETS_URL}${
-      dancer.profilePicture
+      dancer.profilePictureUrl
     }?${new Date().toISOString()}`;
   const DEFAULT_PROFILE_PICTURE_URL = 'https://i.imgur.com/o0ulS6k.png';
 

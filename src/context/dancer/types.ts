@@ -5,7 +5,7 @@ export type Dancer = {
   id: string;
   dancerName: string;
   dancerId: string;
-  profilePicture: string;
+  profilePictureUrl: string;
   newProfilePicture: File;
   userName: string;
   state: string;
