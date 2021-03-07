@@ -1,4 +1,4 @@
-import { SimpleGrid, Spinner, useMediaQuery } from '@chakra-ui/react';
+import { Center, SimpleGrid, Spinner, useMediaQuery } from '@chakra-ui/react';
 import { Dancer } from 'context/dancer';
 import { IngredientsRepositoryContext } from 'context/ingredients';
 import { SongsRepositoryContext } from 'context/songs';
@@ -34,7 +34,18 @@ const ScoresTab = ({ dancer }: { dancer: Dancer }) => {
       });
   }, []);
 
-  if (isLoading) return <Spinner />;
+  if (isLoading)
+    return (
+      <Center>
+        <Spinner // todo: replace this with proper skeleton structure
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </Center>
+    );
 
   return (
     <SimpleGrid
