@@ -18,6 +18,7 @@ const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
       w={!isSmallerThan1024 ? 'fit-content' : '90vw'}
       variant="soft-rounded"
       align={!isSmallerThan1024 ? 'start' : 'center'}
+      isLazy
     >
       <TabList>
         <Tab>Badges</Tab>

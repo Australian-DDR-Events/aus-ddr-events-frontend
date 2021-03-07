@@ -2,26 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { BadgesRepositoryContext } from 'context/badges';
 import { Dancer } from 'context/dancer';
 import { Badge } from 'context/badges/types';
-import { Box, Center, SimpleGrid, Image, Text } from '@chakra-ui/react';
+import { Center, SimpleGrid } from '@chakra-ui/react';
 import { defaultSpacing } from 'types/styled-components';
-
-const BadgeComponent = ({
-  badge,
-  eventName,
-}: {
-  badge: Badge;
-  eventName: string;
-}) => (
-  <>
-    <Box w="fit-content" textAlign="center">
-      <Center>
-        <Image src={`${process.env.ASSETS_URL}${badge.image128}`} />
-      </Center>
-      <Text fontWeight="bold">{eventName}</Text>
-      <Text>{badge.name}</Text>
-    </Box>
-  </>
-);
+import BadgeDisplay from '../badge-display';
 
 const BadgesTab = ({ dancer }: { dancer: Dancer }) => {
   const badgesRepo = useContext(BadgesRepositoryContext);
@@ -50,7 +33,7 @@ const BadgesTab = ({ dancer }: { dancer: Dancer }) => {
     >
       {badges.map((b) => (
         <Center key={b.id}>
-          <BadgeComponent badge={b} eventName={b.event?.name || ''} />
+          <BadgeDisplay badge={b} eventName={b.event?.name || ''} />
         </Center>
       ))}
     </SimpleGrid>
