@@ -1,7 +1,6 @@
+import { Score } from 'types/core';
 import { Result } from 'types/result';
-
-import { Score } from '~/types/core';
-import { Summer2021Score } from '~/types/summer2021';
+import { Summer2021Score } from 'types/summer2021';
 
 import {
   GetScoresRequest,
@@ -17,6 +16,8 @@ const scoresRepository = (dao: ScoresDao): ScoresRepository => {
   const getAll = (
     request: GetScoresRequest,
   ): Promise<Result<Error, Array<Score>>> => dao.getAll(request);
+  const getTop = (songIds: string[]): Promise<Result<Error, Array<Score>>> =>
+    dao.getTop(songIds);
   const postScore = (
     submission: ScoreSubmissionRequest,
   ): Promise<Result<Error, boolean>> => dao.postScore(submission);
@@ -27,6 +28,7 @@ const scoresRepository = (dao: ScoresDao): ScoresRepository => {
   return {
     getById,
     getAll,
+    getTop,
     postScore,
     getSummer2021,
   };

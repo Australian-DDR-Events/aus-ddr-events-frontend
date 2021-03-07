@@ -56,6 +56,23 @@ const scoresApiDao = ({
       );
   };
 
+  const getTop = async (
+    songIds: string[],
+  ): Promise<Result<Error, Array<Score>>> => {
+    const params = songIds.map((s) => `song_id=${s}`).join('&');
+
+    return axiosClient
+      .get(`/scores/top?${params}`)
+      .then(
+        (response: AxiosResponse<Array<Score>>): Result<Error, Array<Score>> =>
+          ok(response.data),
+      )
+      .catch(
+        (): Result<Error, Array<Score>> =>
+          err(new Error(''), new Array<Score>()),
+      );
+  };
+
   const postScore = async (
     submission: ScoreSubmissionRequest,
   ): Promise<Result<Error, boolean>> => {
@@ -106,6 +123,7 @@ const scoresApiDao = ({
   return {
     getById,
     getAll,
+    getTop,
     postScore,
     getSummer2021,
   };

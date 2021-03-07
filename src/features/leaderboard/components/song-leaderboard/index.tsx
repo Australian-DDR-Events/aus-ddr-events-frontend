@@ -92,7 +92,7 @@ const SongLeaderboard = ({ songId }: { songId: string }) => {
             <GridItem rowSpan={2}>
               <Avatar
                 size="2xl"
-                src={getAssetUrl(scores[0].dancer?.profilePictureUrl || '')}
+                src={getAssetUrl(scores[0]?.dancer?.profilePictureUrl || '')}
               />
             </GridItem>
           </Grid>
@@ -135,7 +135,6 @@ const SongLeaderboard = ({ songId }: { songId: string }) => {
           );
         })}
       </List>
-      <div />
     </Container>
   );
 };
