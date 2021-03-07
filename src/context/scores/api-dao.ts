@@ -2,8 +2,7 @@ import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Score } from 'types/core';
 import { err, ok, Result } from 'types/result';
 import { Summer2021Score } from 'types/summer2021';
-
-import resizeImage from '~/utils/images';
+import resizeImage from 'utils/images';
 
 import { DefaultScore, DefaultSummer2021Score } from './constants';
 import {
@@ -47,6 +46,23 @@ const scoresApiDao = ({
 
     return axiosClient
       .get(`/scores?${params.join('&')}`)
+      .then(
+        (response: AxiosResponse<Array<Score>>): Result<Error, Array<Score>> =>
+          ok(response.data),
+      )
+      .catch(
+        (): Result<Error, Array<Score>> =>
+          err(new Error(''), new Array<Score>()),
+      );
+  };
+
+  const getTop = async (
+    songIds: string[],
+  ): Promise<Result<Error, Array<Score>>> => {
+    const params = songIds.map((s) => `song_id=${s}`).join('&');
+
+    return axiosClient
+      .get(`/scores/top?${params}`)
       .then(
         (response: AxiosResponse<Array<Score>>): Result<Error, Array<Score>> =>
           ok(response.data),
@@ -107,6 +123,7 @@ const scoresApiDao = ({
   return {
     getById,
     getAll,
+    getTop,
     postScore,
     getSummer2021,
   };

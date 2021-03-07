@@ -1,7 +1,6 @@
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { DefaultBadge } from 'context/badges/constants';
 import { err, ok, Result } from 'types/result';
-
-import { DefaultBadge } from '~/context/badges/constants';
 
 import { Badge, BadgesDao } from './types';
 

@@ -1,7 +1,6 @@
 import { createContext } from 'react';
+import { Score } from 'types/core';
 import { err } from 'types/result';
-
-import { Score } from '~/types/core';
 
 import { DefaultScore, DefaultSummer2021Score } from './constants';
 import { ScoresRepositoryContextInterface } from './types';
@@ -11,6 +10,8 @@ const initialContext = {
     getById: async () =>
       err(new Error('scores repository not initialized'), DefaultScore),
     getAll: async () =>
+      err(new Error('scores repository not initialized'), new Array<Score>()),
+    getTop: async () =>
       err(new Error('scores repository not initialized'), new Array<Score>()),
     postScore: async () =>
       err(new Error('scores repository not initialized'), false),

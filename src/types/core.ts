@@ -8,6 +8,7 @@ export type Score = {
   dancerId: string | null;
   dancer: Dancer | null;
   songId: string;
+  song: Song | null;
 };
 
 export type Song = {
