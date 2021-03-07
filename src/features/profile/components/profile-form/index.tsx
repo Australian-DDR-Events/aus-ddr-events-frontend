@@ -83,16 +83,12 @@ const ProfileForm = ({
       <Formik initialValues={formData} onSubmit={onSubmit}>
         {(props) => (
           <Form>
-            <Field
-              type="dancerName"
-              name="dancerName"
-              validate={validateDancerName}
-            >
+            <Field type="ddrName" name="ddrName" validate={validateDancerName}>
               {({ field, form }: { field: any; form: any }) => (
-                <FormControl id="dancerName" isRequired mb={defaultSpacing / 2}>
+                <FormControl id="ddrName" isRequired mb={defaultSpacing / 2}>
                   <FormLabel>Dancer name</FormLabel>
                   <Input type="text" {...field} />
-                  <FormErrorMessage>{form.errors.dancerName}</FormErrorMessage>
+                  <FormErrorMessage>{form.errors.ddrName}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>

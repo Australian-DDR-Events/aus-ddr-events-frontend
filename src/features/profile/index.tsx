@@ -9,8 +9,7 @@ import { AuthenticationRepositoryContext } from 'context/authentication';
 import { DancersRepositoryContext, DefaultDancer } from 'context/dancer';
 import React, { useContext, useEffect, useState } from 'react';
 import { Title } from 'react-head';
-
-import { defaultSpacing } from '~/types/styled-components';
+import { defaultSpacing } from 'types/styled-components';
 
 import ProfileForm from './components/profile-form';
 import ProfileReadView from './components/profile-read-view';
@@ -84,7 +83,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
 
   return (
     <Container maxW={isLargerThan767 ? '90%' : '100%'} w="fit-content">
-      {!loading && <Title>{dancer.dancerName} | Australian DDR Events</Title>}
+      {!loading && <Title>{dancer.ddrName} | Australian DDR Events</Title>}
       {isEditing ? renderProfileForm() : renderProfileReadView()}
     </Container>
   );

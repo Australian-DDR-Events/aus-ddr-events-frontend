@@ -3,8 +3,8 @@ import { Result } from 'types/result';
 
 export type Dancer = {
   id: string;
-  dancerName: string;
-  dancerId: string;
+  ddrName: string;
+  ddrCode: string;
   profilePictureUrl: string;
   newProfilePicture: File;
   userName: string;
