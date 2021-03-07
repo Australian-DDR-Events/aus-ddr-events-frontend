@@ -1,7 +1,6 @@
+import { DefaultBadge } from 'context/badges/constants';
 import { createContext } from 'react';
 import { err } from 'types/result';
-
-import { DefaultBadge } from '~/context/badges/constants';
 
 import { Badge, BadgesRepositoryContextInterface } from './types';
 

@@ -1,10 +1,10 @@
-import { DishSubmissionResponse } from '~/context/dishes/types';
-import { Dish, DishSong, GradedDish, Ingredient } from '~/types/summer2021';
+import { DishSubmissionResponse } from 'context/dishes/types';
+import { Dish, DishSong, GradedDish, Ingredient } from 'types/summer2021';
 
 export const DefaultDish: Dish = {
   id: '',
   name: '',
-  songs: new Array<DishSong>(),
+  dishSongs: new Array<DishSong>(),
   ingredients: new Array<Ingredient>(),
   type: 'dish',
   image32: '',

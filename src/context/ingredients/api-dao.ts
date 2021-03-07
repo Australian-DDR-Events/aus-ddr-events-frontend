@@ -6,8 +6,7 @@ import {
   Ingredient,
   Summer2021Score,
 } from 'types/summer2021';
-
-import resizeImage from '~/utils/images';
+import resizeImage from 'utils/images';
 
 import { DefaultSummer2021Score } from '../scores/constants';
 import { DefaultIngredient } from './constants';
