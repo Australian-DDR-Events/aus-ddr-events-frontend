@@ -7,17 +7,25 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Image,
   Input,
   ModalBody,
   ModalFooter,
   Progress,
 } from '@chakra-ui/react';
+import ScoreSubmissionForm from 'components/score-submission-form';
 import {
   IngredientsRepositoryContext,
   ScoreSubmissionRequest,
 } from 'context/ingredients';
-import { Field, Form, Formik, FormikHelpers, FormikValues } from 'formik';
+import {
+  Field,
+  Form,
+  Formik,
+  FormikHelpers,
+  FormikProps,
+  FormikState,
+  FormikValues,
+} from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
 import { defaultSpacing } from 'types/styled-components';
 import { Summer2021Score } from 'types/summer2021';
@@ -87,6 +95,7 @@ const IngredientSubmissionForm = ({
       score?: any;
       scoreImage?: any;
     }
+
     const errors: ValidationErrors = {};
     if (values.score < 0 || values.score > maxScore)
       errors.score = 'Score provided is too high!';
@@ -101,7 +110,7 @@ const IngredientSubmissionForm = ({
       onSubmit={onSubmit}
       validate={validateForm}
     >
-      {(props) => (
+      {(props: FormikProps<ScoreSubmissionRequest>) => (
         <Form>
           <ModalBody>
             {apiErrorMessage && (
@@ -114,51 +123,42 @@ const IngredientSubmissionForm = ({
             )}
 
             <Field type="file" name="scoreImage">
-              {({ form }: { form: any }) => (
-                <FormControl
-                  htmlFor="scoreImage"
-                  mb={defaultSpacing / 2}
-                  isInvalid={form.errors.scoreImage && form.touched.scoreImage}
-                >
-                  {scoreImageUrl && (
-                    <Image
-                      src={scoreImageUrl}
-                      w={defaultSpacing * 16}
-                      mb={defaultSpacing / 2}
-                    />
+              {({ form }: { form: FormikState<ScoreSubmissionRequest> }) => (
+                <ScoreSubmissionForm
+                  fieldName="scoreImage"
+                  isInvalid={Boolean(
+                    form.errors.scoreImage && form.touched.scoreImage,
                   )}
-                  <FormLabel>Profile picture</FormLabel>
-                  <Input
-                    type="file"
-                    pt={defaultSpacing / 4}
-                    h={defaultSpacing * 1.5}
-                    id="scoreImage"
-                    multiple={false}
-                    accept="image/*"
-                    onChange={(event) => {
-                      if (event.currentTarget.files) {
-                        // eslint-disable-next-line react/prop-types
-                        props.setFieldValue(
-                          'scoreImage',
-                          event.currentTarget.files[0],
-                        );
-                        setScoreImageUrl(
-                          URL.createObjectURL(event.currentTarget.files[0]),
-                        );
-                      }
-                    }}
-                  />
-                  <FormErrorMessage>{form.errors.scoreImage}</FormErrorMessage>
-                </FormControl>
+                  scoreImageUrl={scoreImageUrl}
+                  formError={form.errors.scoreImage}
+                  onChange={(event) => {
+                    if (event.currentTarget.files) {
+                      // eslint-disable-next-line react/prop-types
+                      props.setFieldValue(
+                        'scoreImage',
+                        event.currentTarget.files[0],
+                      );
+                      setScoreImageUrl(
+                        URL.createObjectURL(event.currentTarget.files[0]),
+                      );
+                    }
+                  }}
+                />
               )}
             </Field>
 
             <Field type="number" name="score">
-              {({ field, form }: { field: any; form: any }) => (
+              {({
+                field,
+                form,
+              }: {
+                field: string;
+                form: FormikState<ScoreSubmissionRequest>;
+              }) => (
                 <FormControl
                   htmlFor="score"
                   mb={defaultSpacing / 2}
-                  isInvalid={form.errors.score && form.touched.score}
+                  isInvalid={Boolean(form.errors.score && form.touched.score)}
                 >
                   <FormLabel>EX score</FormLabel>
                   <Input {...field} id="score" type="number" />

@@ -104,7 +104,10 @@ const IngredientSong = ({
               }
               borderWidth={2}
               borderColor="white"
-              {...(!dancerGradedIngredient && { filter: 'grayscale(100%)' })}
+              {...(!dancerGradedIngredient && {
+                filter: 'grayscale(100%)',
+                opacity: 0.5,
+              })}
             />
           </Box>
         </Box>
