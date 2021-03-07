@@ -48,7 +48,7 @@ const Router = () => (
       <Register />
     </Route>
     <Route path="/forgot-password">
-      <Title>Forgot Password | Australian DDR Events</Title>
+      <Title>Forgot password | Australian DDR Events</Title>
       <ForgotPassword />
     </Route>
     <Route path="/how-to">
@@ -68,11 +68,11 @@ const Router = () => (
       )}
     </ProtectedRoute>
     <ProtectedRoute path="/submission">
-      <Title>Submit Scores | Australian DDR Events</Title>
+      <Title>Submit scores | Australian DDR Events</Title>
       <IngredientSubmission />
     </ProtectedRoute>
     <ProtectedRoute path="/course-submission">
-      <Title>Submit Courses | Australian DDR Events</Title>
+      <Title>Submit courses | Australian DDR Events</Title>
       <CourseSubmission />
     </ProtectedRoute>
     <ProtectedRoute path="/settings">
