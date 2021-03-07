@@ -17,9 +17,8 @@ import {
 import { DancersRepositoryContext, DefaultDancer } from 'context/dancer';
 import { Field, Form, Formik, FormikHelpers, FormikValues } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
+import { defaultSpacing } from 'types/styled-components';
 import { useLocation } from 'wouter';
-
-import { defaultSpacing } from '~/types/styled-components';
 
 interface RegistrationFormData {
   displayName: string;
@@ -62,11 +61,11 @@ const RegistrationForm = () => {
               } else {
                 setApiErrorMessage(dancerResult.error.message);
               }
-              action.setSubmitting(false);
             });
         } else {
           setApiErrorMessage(authResult.error.message);
         }
+        action.setSubmitting(false);
       });
   };
 

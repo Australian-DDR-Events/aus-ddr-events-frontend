@@ -55,7 +55,13 @@ const IngredientSubmission = () => {
           ),
         ]).then(
           ([ingredientsResult, loggedInDancerGradedIngredientsResult]) => {
-            setIngredients(ingredientsResult.okOrDefault());
+            setIngredients(
+              ingredientsResult
+                .okOrDefault()
+                .sort(
+                  (i1, i2) => (i1.song?.level || 0) - (i2.song?.level || 0),
+                ),
+            );
             setLoggedInDancerGradedIngredients(
               new Map(
                 loggedInDancerGradedIngredientsResult

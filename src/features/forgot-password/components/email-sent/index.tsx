@@ -1,17 +1,19 @@
-import { Result } from 'antd';
+import { Box, Center, Container, Heading, Icon, Text } from '@chakra-ui/react';
 import React from 'react';
-import { FaEnvelopeOpenText } from 'react-icons/fa';
-
-import { EmailSentWrapper } from './styled';
+import { IoMailUnreadOutline } from 'react-icons/io5';
 
 const EmailSent = () => (
-  <EmailSentWrapper>
-    <Result
-      icon={<FaEnvelopeOpenText />}
-      title="Check your email "
-      subTitle="We have sent a password recover instruction to your email."
-    />
-  </EmailSentWrapper>
+  <Container maxW="container.xl" centerContent p={8}>
+    <Center w="100%">
+      <Icon color="blue.500" as={IoMailUnreadOutline} w="40%" h="40%" />
+    </Center>
+    <Box alignItems="center">
+      <Heading size="lg">Check your email</Heading>
+    </Box>
+    <Box alignItems="center">
+      <Text>We&apos;ve sent a password reset link to your email.</Text>
+    </Box>
+  </Container>
 );
 
 export default EmailSent;
