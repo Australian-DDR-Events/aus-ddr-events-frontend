@@ -1,21 +1,22 @@
 import {
-  Stack,
+  Avatar,
+  Badge,
   Box,
+  Button,
   Center,
   Heading,
-  Avatar,
-  Button,
-  Badge,
+  Icon,
+  Stack,
   Text,
   useMediaQuery,
-  Icon,
 } from '@chakra-ui/react';
-import React from 'react';
 import { Dancer } from 'context/dancer';
-import { defaultSpacing } from 'types/styled-components';
+import React from 'react';
 import { IoCheckmarkCircle } from 'react-icons/io5';
-import ProfileTabs from '../profile-tabs';
+import { defaultSpacing } from 'types/styled-components';
+
 import { StateOptions } from '../../constants';
+import ProfileTabs from '../profile-tabs';
 
 const ProfileReadView = ({
   isEditable,

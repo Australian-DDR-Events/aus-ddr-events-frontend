@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
 import {
+  Box,
+  Button,
+  Center,
+  Heading,
+  Image,
   Modal,
+  ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Image,
-  Heading,
-  Box,
   Text,
-  ModalBody,
-  Center,
-  ModalFooter,
-  Button,
 } from '@chakra-ui/react';
+import React, { useState } from 'react';
 import { Ingredient, Summer2021Score } from 'types/summer2021';
-import IngredientSubmissionForm from '../ingredient-submission-form';
+
 import { defaultSpacing } from '~/types/styled-components';
+
+import IngredientSubmissionForm from '../ingredient-submission-form';
 
 const IngredientSubmissionModal = ({
   ingredient,

@@ -1,6 +1,7 @@
+import { Button, Center, Heading, Text, useMediaQuery } from '@chakra-ui/react';
 import React from 'react';
-import { Center, Heading, Button, Text, useMediaQuery } from '@chakra-ui/react';
-import { FaFacebook, FaDiscord, FaTwitter } from 'react-icons/fa';
+import { FaDiscord, FaFacebook, FaTwitter } from 'react-icons/fa';
+
 import { defaultSpacing } from '~/types/styled-components';
 
 const ContactUs = ({ isLoggedIn }: { isLoggedIn: boolean }) => {

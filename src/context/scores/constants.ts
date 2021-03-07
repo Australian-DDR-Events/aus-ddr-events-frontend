@@ -1,5 +1,6 @@
 import { Score } from 'types/core';
 import { Summer2021Score } from 'types/summer2021';
+
 import { ScoreSubmissionRequest } from './types';
 
 export const DefaultScore: Score = {

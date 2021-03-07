@@ -1,8 +1,9 @@
-import { err, ok, Result } from 'types/result';
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { Song } from 'types/core';
-import { SongsDao } from './types';
+import { err, ok, Result } from 'types/result';
+
 import { DefaultSong } from './constants';
+import { SongsDao } from './types';
 
 const songsApiDao = ({
   axiosClient,

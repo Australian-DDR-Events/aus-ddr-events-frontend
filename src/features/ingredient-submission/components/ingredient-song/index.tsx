@@ -1,12 +1,13 @@
-import React from 'react';
-import { DancerGradedIngredient, Ingredient } from 'types/summer2021';
 import { Badge, Box, Image, Text, useDisclosure } from '@chakra-ui/react';
-import { defaultSpacing } from 'types/styled-components';
-import { IoStar } from 'react-icons/io5';
 import CustomIconRatings from 'components/custom-icon-ratings';
-import { convertGradeToNumber } from 'utils/summer2021';
+import React from 'react';
+import { IoStar } from 'react-icons/io5';
+import { defaultSpacing } from 'types/styled-components';
+import { DancerGradedIngredient, Ingredient } from 'types/summer2021';
 import { getAssetUrl } from 'utils/assets';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
+import { convertGradeToNumber } from 'utils/summer2021';
+
 import IngredientSubmissionModal from '../ingredient-submission-modal';
 
 const IngredientSong = ({

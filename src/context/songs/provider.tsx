@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { SongsRepositoryProviderOptions } from '~/context/songs/types';
+
 import SongsRepositoryContext from './context';
 
 const SongsRepositoryProvider = (options: SongsRepositoryProviderOptions) => (

@@ -1,4 +1,3 @@
-import { err, Result } from 'types/result';
 import {
   AuthStateChangedCallbackType,
   DefaultAuthenticationUser,
@@ -7,6 +6,7 @@ import {
   AuthenticationDao,
   AuthenticationUser,
 } from 'context/authentication/types';
+import { err, Result } from 'types/result';
 
 interface TestingAuthenticationDao extends AuthenticationDao {
   setLoginHook: (

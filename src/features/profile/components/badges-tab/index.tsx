@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { BadgesRepositoryContext } from 'context/badges';
-import { Dancer } from 'context/dancer';
-import { Badge } from 'context/badges/types';
 import { Center, SimpleGrid } from '@chakra-ui/react';
+import { BadgesRepositoryContext } from 'context/badges';
+import { Badge } from 'context/badges/types';
+import { Dancer } from 'context/dancer';
+import React, { useContext, useEffect, useState } from 'react';
 import { defaultSpacing } from 'types/styled-components';
+
 import BadgeDisplay from '../badge-display';
 
 const BadgesTab = ({ dancer }: { dancer: Dancer }) => {

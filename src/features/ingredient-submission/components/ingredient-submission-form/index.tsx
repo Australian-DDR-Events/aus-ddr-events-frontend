@@ -1,25 +1,25 @@
-import React, { useContext, useEffect, useState } from 'react';
 import {
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  Input,
-  Button,
-  Image,
+  Alert,
   AlertDescription,
   AlertTitle,
   Box,
-  Alert,
-  ModalFooter,
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Image,
+  Input,
   ModalBody,
+  ModalFooter,
   Progress,
 } from '@chakra-ui/react';
-import { Formik, FormikHelpers, Form, Field, FormikValues } from 'formik';
-import { defaultSpacing } from 'types/styled-components';
 import {
   IngredientsRepositoryContext,
   ScoreSubmissionRequest,
 } from 'context/ingredients';
+import { Field, Form, Formik, FormikHelpers, FormikValues } from 'formik';
+import React, { useContext, useEffect, useState } from 'react';
+import { defaultSpacing } from 'types/styled-components';
 import { Summer2021Score } from 'types/summer2021';
 
 const IngredientSubmissionForm = ({

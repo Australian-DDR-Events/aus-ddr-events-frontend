@@ -5,6 +5,7 @@ import {
   GradedIngredient,
   Ingredient,
 } from 'types/summer2021';
+
 import { DefaultSummer2021Score } from '../scores/constants';
 import { DefaultIngredient } from './constants';
 import { IngredientsRepositoryContextInterface } from './types';

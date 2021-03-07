@@ -1,13 +1,14 @@
-import React from 'react';
-import { Dancer } from 'context/dancer';
 import {
-  Tabs,
-  TabList,
-  TabPanels,
   Tab,
+  TabList,
   TabPanel,
+  TabPanels,
+  Tabs,
   useMediaQuery,
 } from '@chakra-ui/react';
+import { Dancer } from 'context/dancer';
+import React from 'react';
+
 import BadgesTab from '../badges-tab';
 import ScoresTab from '../scores-tab';
 

@@ -1,13 +1,13 @@
-import React from 'react';
 import {
   Box,
-  Text,
-  Heading,
   Center,
+  Heading,
   Image,
-  VStack,
   StackItem,
+  Text,
+  VStack,
 } from '@chakra-ui/react';
+import React from 'react';
 
 const Step1 = () => {
   return (

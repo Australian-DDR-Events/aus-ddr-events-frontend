@@ -1,6 +1,6 @@
+import { Event } from 'context/events';
 import { ReactNode } from 'react';
 import { Result } from 'types/result';
-import { Event } from 'context/events';
 
 export type Badge = {
   id: string;

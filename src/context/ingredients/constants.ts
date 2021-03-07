@@ -1,4 +1,5 @@
 import { GradedIngredient, Ingredient } from 'types/summer2021';
+
 import { DefaultSong } from '../songs';
 
 export const DefaultIngredient: Ingredient = {

@@ -1,5 +1,6 @@
 import { createContext } from 'react';
 import { err } from 'types/result';
+
 import { DefaultDancer } from './constants';
 import { DancersRepositoryContextInterface } from './types';
 

@@ -1,5 +1,5 @@
+import { Dancer, DancersDao, DefaultDancer } from 'context/dancer';
 import { err, Result } from 'types/result';
-import { Dancer, DefaultDancer, DancersDao } from 'context/dancer';
 
 interface TestingDancersDao extends DancersDao {
   setGetHook: (f: (id: string) => Promise<Result<Error, Dancer>>) => void;

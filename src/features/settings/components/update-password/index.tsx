@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
 import { Button, Form, Input, Spin } from 'antd';
 import {
-  AuthenticationRepositoryContextInterface,
   AuthenticationRepositoryContext,
+  AuthenticationRepositoryContextInterface,
 } from 'context/authentication';
+import React, { useContext, useState } from 'react';
 
 const layout = {
   labelCol: { span: 8 },

@@ -1,7 +1,8 @@
-import React from 'react';
 import { Space, Typography } from 'antd';
 import logo from 'assets/logo.png';
-import { ErrorWrapper, ErrorHeader, LargeWidthImage } from './styled';
+import React from 'react';
+
+import { ErrorHeader, ErrorWrapper, LargeWidthImage } from './styled';
 
 const { Title, Link } = Typography;
 const Error = () => {

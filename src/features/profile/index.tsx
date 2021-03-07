@@ -1,7 +1,3 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthenticationRepositoryContext } from 'context/authentication';
-import { DefaultDancer, DancersRepositoryContext } from 'context/dancer';
-import { Title } from 'react-head';
 import {
   Box,
   Container,
@@ -9,9 +5,15 @@ import {
   SkeletonCircle,
   useMediaQuery,
 } from '@chakra-ui/react';
+import { AuthenticationRepositoryContext } from 'context/authentication';
+import { DancersRepositoryContext, DefaultDancer } from 'context/dancer';
+import React, { useContext, useEffect, useState } from 'react';
+import { Title } from 'react-head';
+
+import { defaultSpacing } from '~/types/styled-components';
+
 import ProfileForm from './components/profile-form';
 import ProfileReadView from './components/profile-read-view';
-import { defaultSpacing } from '~/types/styled-components';
 
 interface ProfileProps {
   id?: string;

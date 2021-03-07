@@ -1,22 +1,22 @@
-import AuthenticationRepositoryProvider from './provider';
-import AuthenticationRepositoryContext from './context';
-import {
-  AuthenticationRepositoryContextInterface,
-  AuthStateChangedCallback,
-  AuthenticationUser,
-} from './types';
-import authenticationFirebaseDao from './firebase-dao';
 import authenticationRepository from './authentication-repository';
 import { DefaultAuthenticationUser } from './constants';
+import AuthenticationRepositoryContext from './context';
+import authenticationFirebaseDao from './firebase-dao';
+import AuthenticationRepositoryProvider from './provider';
+import {
+  AuthenticationRepositoryContextInterface,
+  AuthenticationUser,
+  AuthStateChangedCallback,
+} from './types';
 
 export {
-  AuthenticationRepositoryProvider,
-  AuthenticationRepositoryContext,
-  AuthenticationRepositoryContextInterface,
   authenticationFirebaseDao,
   authenticationRepository,
-  DefaultAuthenticationUser,
+  AuthenticationRepositoryContext,
+  AuthenticationRepositoryContextInterface,
+  AuthenticationRepositoryProvider,
   AuthenticationUser,
+  DefaultAuthenticationUser,
 };
 
 export type AuthStateChangedCallbackType = AuthStateChangedCallback;

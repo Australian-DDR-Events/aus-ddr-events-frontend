@@ -1,6 +1,7 @@
 import React from 'react';
-import { ScoresRepositoryProviderOptions } from './types';
+
 import ScoresRepositoryContext from './context';
+import { ScoresRepositoryProviderOptions } from './types';
 
 const ScoresRepositoryProvider = (options: ScoresRepositoryProviderOptions) => (
   <ScoresRepositoryContext.Provider

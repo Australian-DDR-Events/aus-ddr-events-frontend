@@ -1,7 +1,9 @@
 import { createContext } from 'react';
 import { err } from 'types/result';
-import { Badge, BadgesRepositoryContextInterface } from './types';
+
 import { DefaultBadge } from '~/context/badges/constants';
+
+import { Badge, BadgesRepositoryContextInterface } from './types';
 
 const initialContext = {
   badgesRepositoryInstance: {

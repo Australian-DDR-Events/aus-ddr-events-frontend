@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
-import { Form, Input, Button, Typography } from 'antd';
+import { Button, Form, Input, Typography } from 'antd';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from 'context/authentication';
+import React, { useContext } from 'react';
+
 import { StyledForm } from './styled';
 
 const EmailForm = ({ onSubmit }: { onSubmit: Function }) => {

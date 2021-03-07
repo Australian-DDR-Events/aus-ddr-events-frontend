@@ -1,23 +1,24 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'wouter';
-import {
-  AuthenticationRepositoryContext,
-  AuthenticationRepositoryContextInterface,
-} from 'context/authentication';
-import { DefaultDancer, DancersRepositoryContext } from 'context/dancer';
 import {
   Alert,
   AlertDescription,
   AlertTitle,
   Box,
-  Container,
-  Input,
   Button,
+  Container,
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Input,
 } from '@chakra-ui/react';
+import {
+  AuthenticationRepositoryContext,
+  AuthenticationRepositoryContextInterface,
+} from 'context/authentication';
+import { DancersRepositoryContext, DefaultDancer } from 'context/dancer';
 import { Field, Form, Formik, FormikHelpers, FormikValues } from 'formik';
+import React, { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'wouter';
+
 import { defaultSpacing } from '~/types/styled-components';
 
 interface RegistrationFormData {

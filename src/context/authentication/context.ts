@@ -1,6 +1,7 @@
+import { DefaultAuthenticationUser } from 'context/authentication/index';
 import { createContext } from 'react';
 import { err } from 'types/result';
-import { DefaultAuthenticationUser } from 'context/authentication/index';
+
 import { AuthenticationRepositoryContextInterface } from './types';
 
 const initialContext = {

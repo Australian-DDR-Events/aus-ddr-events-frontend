@@ -1,7 +1,8 @@
 import firebase from 'firebase';
 import { ok, Result } from 'types/result';
-import { Dancer, DancersDao } from './types';
+
 import { DefaultDancer } from './constants';
+import { Dancer, DancersDao } from './types';
 
 const userFirebaseDao = (firebaseApp: firebase.app.App): DancersDao => {
   const storage = firebaseApp.storage();

@@ -1,5 +1,6 @@
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { err, ok, Result } from 'types/result';
+
 import { Event, EventsDao } from './types';
 
 const eventsApiDao = ({

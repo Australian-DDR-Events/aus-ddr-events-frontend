@@ -1,14 +1,14 @@
-import React from 'react';
-import { IoArrowForward } from 'react-icons/io5';
 import {
   Box,
   Center,
   Heading,
   Image,
   StackItem,
-  VStack,
   Text,
+  VStack,
 } from '@chakra-ui/react';
+import React from 'react';
+import { IoArrowForward } from 'react-icons/io5';
 
 const Step4 = () => {
   return (

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import EventsRepositoryContext from './context';
 import { EventsRepositoryProviderOptions } from './types';
 

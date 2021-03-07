@@ -1,15 +1,17 @@
-import { err, ok, Result } from 'types/result';
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { err, ok, Result } from 'types/result';
 import {
   DancerGradedIngredient,
   GradedIngredient,
   Ingredient,
   Summer2021Score,
 } from 'types/summer2021';
-import { IngredientsDao, ScoreSubmissionRequest } from './types';
-import { DefaultIngredient } from './constants';
-import { DefaultSummer2021Score } from '../scores/constants';
+
 import resizeImage from '~/utils/images';
+
+import { DefaultSummer2021Score } from '../scores/constants';
+import { DefaultIngredient } from './constants';
+import { IngredientsDao, ScoreSubmissionRequest } from './types';
 
 const ingredientsApiDao = ({
   getIdTokenFunc,

@@ -1,5 +1,5 @@
-import React from 'react';
 import { Center, Heading, Image, Text, useMediaQuery } from '@chakra-ui/react';
+import React from 'react';
 
 const AboutUs = () => {
   const [isLargerThan750] = useMediaQuery('(min-width: 750px)');

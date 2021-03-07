@@ -1,18 +1,18 @@
-import React, { useContext } from 'react';
 import {
   Box,
+  Button,
   Container,
   Heading,
-  Button,
   Image,
   useMediaQuery,
 } from '@chakra-ui/react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
+import React, { useContext } from 'react';
 import useLocation from 'wouter/use-location';
 
-import HowTo from './components/how-to';
 import AboutUs from './components/about-us';
 import ContactUs from './components/contact-us';
+import HowTo from './components/how-to';
 
 const Home = () => {
   const [, setLocation] = useLocation();

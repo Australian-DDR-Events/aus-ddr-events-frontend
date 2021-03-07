@@ -1,15 +1,17 @@
-import { err, ok, Result } from 'types/result';
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Score } from 'types/core';
+import { err, ok, Result } from 'types/result';
 import { Summer2021Score } from 'types/summer2021';
+
+import resizeImage from '~/utils/images';
+
+import { DefaultScore, DefaultSummer2021Score } from './constants';
 import {
   GetScoresRequest,
   GetSummer2021Request,
   ScoresDao,
   ScoreSubmissionRequest,
 } from './types';
-import { DefaultScore, DefaultSummer2021Score } from './constants';
-import resizeImage from '~/utils/images';
 
 const scoresApiDao = ({
   getIdTokenFunc,

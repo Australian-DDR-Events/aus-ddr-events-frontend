@@ -1,4 +1,8 @@
 import { Result } from 'types/result';
+
+import { Score } from '~/types/core';
+import { Summer2021Score } from '~/types/summer2021';
+
 import {
   GetScoresRequest,
   GetSummer2021Request,
@@ -6,8 +10,6 @@ import {
   ScoresRepository,
   ScoreSubmissionRequest,
 } from './types';
-import { Score } from '~/types/core';
-import { Summer2021Score } from '~/types/summer2021';
 
 const scoresRepository = (dao: ScoresDao): ScoresRepository => {
   const getById = (id: string): Promise<Result<Error, Score>> =>

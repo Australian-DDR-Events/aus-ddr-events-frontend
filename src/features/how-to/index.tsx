@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
 import {
   Button,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
   Center,
-  useMediaQuery,
   Heading,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  useMediaQuery,
 } from '@chakra-ui/react';
-
+import React, { useState } from 'react';
 import { defaultSpacing } from 'types/styled-components';
+
 import Step1 from './components/step-1';
 import Step2 from './components/step-2';
 import Step3 from './components/step-3';

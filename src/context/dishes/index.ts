@@ -5,9 +5,9 @@ import dishesRepository from './repository';
 import { DishesRepositoryContextInterface } from './types';
 
 export {
-  DishesRepositoryContext,
-  DishesRepositoryProvider,
   dishesApiDao,
-  DishesRepositoryContextInterface,
   dishesRepository,
+  DishesRepositoryContext,
+  DishesRepositoryContextInterface,
+  DishesRepositoryProvider,
 };

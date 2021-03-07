@@ -1,10 +1,11 @@
-import React, { useContext, useEffect } from 'react';
-import { Form, Input, Button, Typography } from 'antd';
-import { useLocation } from 'wouter';
+import { Button, Form, Input, Typography } from 'antd';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from 'context/authentication';
+import React, { useContext, useEffect } from 'react';
+import { useLocation } from 'wouter';
+
 import { StyledForm } from './styled';
 
 /* This component is currently not being used as 

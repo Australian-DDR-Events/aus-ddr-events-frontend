@@ -1,12 +1,14 @@
-import firebase from 'firebase/app';
 import 'firebase/auth';
-import { Result, Ok, Err, ok, err } from 'types/result';
+
+import firebase from 'firebase/app';
+import { Err, err, Ok, ok, Result } from 'types/result';
+
+import { DefaultAuthenticationUser } from './constants';
 import {
   AuthenticationDao,
   AuthenticationUser,
   AuthStateChangedCallback,
 } from './types';
-import { DefaultAuthenticationUser } from './constants';
 import EmailAuthProvider = firebase.auth.EmailAuthProvider;
 
 const authenticationFirebaseDao = (

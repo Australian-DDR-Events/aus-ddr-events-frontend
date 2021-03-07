@@ -1,5 +1,6 @@
 import { createContext } from 'react';
 import { err } from 'types/result';
+
 import { Event, EventsRepositoryContextInterface } from './types';
 
 const initialContext = {

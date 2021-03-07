@@ -1,17 +1,17 @@
-import React, { useContext } from 'react';
 import {
   Box,
-  Flex,
   Button,
-  Stack,
-  Image,
-  Icon,
+  Flex,
   HStack,
+  Icon,
+  Image,
+  Stack,
 } from '@chakra-ui/react';
-import { useLocation } from 'wouter';
 import logo from 'assets/logo.png';
 import { AuthenticationRepositoryContext } from 'context/authentication';
-import { IoChevronUp, IoChevronDown } from 'react-icons/io5';
+import React, { useContext } from 'react';
+import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
+import { useLocation } from 'wouter';
 
 const MenuToggle = ({ toggle, isOpen }: { toggle: any; isOpen: boolean }) => {
   return (

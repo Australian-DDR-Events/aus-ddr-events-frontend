@@ -1,58 +1,59 @@
-import dotenv from 'dotenv';
-import firebase from 'firebase/app';
-import React, { useContext, useState } from 'react';
-import ReactDOM from 'react-dom';
+import 'antd/dist/antd.css';
+
+import { ChakraProvider } from '@chakra-ui/react';
 import { Skeleton } from 'antd';
+import axios from 'axios';
+import Router from 'components/router';
+import Wrapper from 'components/wrapper';
 import {
   authenticationFirebaseDao,
   authenticationRepository,
-  AuthenticationRepositoryProvider,
-  AuthenticationRepositoryContextInterface,
   AuthenticationRepositoryContext,
+  AuthenticationRepositoryContextInterface,
+  AuthenticationRepositoryProvider,
 } from 'context/authentication';
-import Wrapper from 'components/wrapper';
-import Router from 'components/router';
 import {
-  DancersRepositoryContextProvider,
-  dancersRepository,
+  badgesApiDao,
+  badgesRepository,
+  BadgesRepositoryProvider,
+} from 'context/badges';
+import {
   dancersApiDao,
+  dancersRepository,
+  DancersRepositoryContextProvider,
 } from 'context/dancer';
-import 'antd/dist/antd.css';
-import styled, { defaultSpacing } from 'types/styled-components';
-import { HeadProvider, Title } from 'react-head';
 import {
-  songsApiDao,
-  songsRepository,
-  SongsRepositoryProvider,
-} from 'context/songs';
+  dishesApiDao,
+  dishesRepository,
+  DishesRepositoryProvider,
+} from 'context/dishes';
+import {
+  eventsApiDao,
+  eventsRepository,
+  EventsRepositoryProvider,
+} from 'context/events';
+import {
+  ingredientsApiDao,
+  ingredientsRepository,
+  IngredientsRepositoryProvider,
+} from 'context/ingredients';
 import {
   scoresApiDao,
   scoresRepository,
   ScoresRepositoryProvider,
 } from 'context/scores';
 import {
-  ingredientsApiDao,
-  ingredientsRepository,
-  IngredientsRepositoryProvider,
-} from 'context/ingredients';
+  songsApiDao,
+  songsRepository,
+  SongsRepositoryProvider,
+} from 'context/songs';
+import dotenv from 'dotenv';
+import firebase from 'firebase/app';
+import React, { useContext, useState } from 'react';
+import ReactDOM from 'react-dom';
+import { HeadProvider, Title } from 'react-head';
+import styled, { defaultSpacing } from 'types/styled-components';
 import compose, { ComposeProps } from 'utils/compose';
-import { ChakraProvider } from '@chakra-ui/react';
-import {
-  badgesApiDao,
-  badgesRepository,
-  BadgesRepositoryProvider,
-} from 'context/badges';
-import axios from 'axios';
-import {
-  dishesRepository,
-  dishesApiDao,
-  DishesRepositoryProvider,
-} from 'context/dishes';
-import {
-  eventsRepository,
-  eventsApiDao,
-  EventsRepositoryProvider,
-} from 'context/events';
 
 dotenv.config();
 

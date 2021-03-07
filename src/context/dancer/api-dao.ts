@@ -1,7 +1,7 @@
-import { DefaultDancer, Dancer } from 'context/dancer';
-import { err, ok, Result } from 'types/result';
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { Dancer, DefaultDancer } from 'context/dancer';
 import { DancersDao } from 'context/dancer/types';
+import { err, ok, Result } from 'types/result';
 
 const dancersApiDao = ({
   getIdTokenFunc,

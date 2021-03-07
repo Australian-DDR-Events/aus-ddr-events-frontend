@@ -1,19 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { IngredientsRepositoryContext } from 'context/ingredients';
-import { AuthenticationRepositoryContext } from 'context/authentication';
-import { DancerGradedIngredient, Ingredient } from 'types/summer2021';
 import {
   Box,
   Center,
-  Text,
-  SimpleGrid,
   Container,
   Heading,
+  SimpleGrid,
   Spinner,
+  Text,
   useMediaQuery,
 } from '@chakra-ui/react';
-import { defaultSpacing } from 'types/styled-components';
+import { AuthenticationRepositoryContext } from 'context/authentication';
 import { DancersRepositoryContext } from 'context/dancer';
+import { IngredientsRepositoryContext } from 'context/ingredients';
+import React, { useContext, useEffect, useState } from 'react';
+import { defaultSpacing } from 'types/styled-components';
+import { DancerGradedIngredient, Ingredient } from 'types/summer2021';
+
 import IngredientSong from './components/ingredient-song';
 
 const IngredientSubmission = () => {

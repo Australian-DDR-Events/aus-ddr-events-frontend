@@ -1,7 +1,9 @@
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { err, ok, Result } from 'types/result';
-import { Badge, BadgesDao } from './types';
+
 import { DefaultBadge } from '~/context/badges/constants';
+
+import { Badge, BadgesDao } from './types';
 
 const badgesApiDao = ({
   axiosClient,

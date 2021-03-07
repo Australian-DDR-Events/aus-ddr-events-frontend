@@ -12,7 +12,7 @@ module.exports = {
     sourceType: 'module',
     extraFileExtensions: ['.json'],
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'simple-import-sort'],
   env: {
     browser: true,
     commonjs: true,
@@ -62,5 +62,7 @@ module.exports = {
     'react/props-types': 'off',
     'react/require-default-props': 'off',
     'import/extensions': 'off',
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
   },
 };

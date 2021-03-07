@@ -1,20 +1,20 @@
-import React, { useContext, useEffect } from 'react';
-import { Route, RouteProps, Switch, useLocation } from 'wouter';
-import Login from 'features/login';
 import {
-  AuthenticationRepositoryContextInterface,
   AuthenticationRepositoryContext,
+  AuthenticationRepositoryContextInterface,
 } from 'context/authentication';
-import Profile from 'features/profile';
-import Settings from 'features/settings';
-import Register from 'features/register';
-import Home from 'features/home';
-import ForgotPassword from 'features/forgot-password';
-import HowTo from 'features/how-to';
-import CourseSubmission from 'features/course-submission';
+import CourseSubmission from 'features/course-submission-old';
 import Error from 'features/error';
-import { Title } from 'react-head';
+import ForgotPassword from 'features/forgot-password';
+import Home from 'features/home';
+import HowTo from 'features/how-to';
 import IngredientSubmission from 'features/ingredient-submission';
+import Login from 'features/login';
+import Profile from 'features/profile';
+import Register from 'features/register';
+import Settings from 'features/settings';
+import React, { useContext, useEffect } from 'react';
+import { Title } from 'react-head';
+import { Route, RouteProps, Switch, useLocation } from 'wouter';
 
 const ProtectedRoute = (props: RouteProps) => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(

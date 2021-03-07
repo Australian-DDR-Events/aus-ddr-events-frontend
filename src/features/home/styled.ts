@@ -1,4 +1,5 @@
 import { Image, Space } from 'antd';
+
 import styled, { defaultSpacing } from '../../types/styled-components';
 
 export const HomeWrapper = styled.div`

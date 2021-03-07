@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { Result } from 'types/result';
 import { Score } from 'types/core';
+import { Result } from 'types/result';
 import { Summer2021Score } from 'types/summer2021';
 
 export type ScoreSubmissionRequest = {

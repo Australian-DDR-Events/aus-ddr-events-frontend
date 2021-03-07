@@ -1,11 +1,13 @@
 import { Result } from 'types/result';
+
+import { Dish, DishSong, GradedDish } from '~/types/summer2021';
+
 import {
   DishesDao,
   DishesRepository,
   DishSubmissionRequest,
   DishSubmissionResponse,
 } from './types';
-import { Dish, DishSong, GradedDish } from '~/types/summer2021';
 
 const dishesRepository = (dao: DishesDao): DishesRepository => {
   const getById = (id: string): Promise<Result<Error, Dish>> => dao.getById(id);

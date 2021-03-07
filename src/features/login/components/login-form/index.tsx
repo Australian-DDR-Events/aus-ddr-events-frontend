@@ -1,9 +1,3 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'wouter';
-import {
-  AuthenticationRepositoryContext,
-  AuthenticationRepositoryContextInterface,
-} from 'context/authentication';
 import {
   Alert,
   AlertDescription,
@@ -18,8 +12,14 @@ import {
   FormLabel,
   Input,
 } from '@chakra-ui/react';
+import {
+  AuthenticationRepositoryContext,
+  AuthenticationRepositoryContextInterface,
+} from 'context/authentication';
+import { Field, Form, Formik, FormikHelpers } from 'formik';
+import React, { useContext, useEffect, useState } from 'react';
 import { defaultSpacing } from 'types/styled-components';
-import { Formik, FormikHelpers, Form, Field } from 'formik';
+import { useLocation } from 'wouter';
 
 interface LoginFormData {
   email: string;

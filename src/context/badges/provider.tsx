@@ -1,4 +1,5 @@
 import React from 'react';
+
 import BadgesRepositoryContext from './context';
 import { BadgesRepositoryProviderOptions } from './types';
 

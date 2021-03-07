@@ -1,5 +1,6 @@
 import { Result } from 'types/result';
-import { Dancer, DancersRepository, DancersDao } from './types';
+
+import { Dancer, DancersDao, DancersRepository } from './types';
 
 const dancersRepository = (dao: DancersDao): DancersRepository => {
   const get = (id: string): Promise<Result<Error, Dancer>> => dao.get(id);

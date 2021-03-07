@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Result } from 'types/result';
 import { Dish, DishSong, GradedDish } from 'types/summer2021';
+
 import { ScoreSubmissionRequest } from '../scores/types';
 
 export type DishSubmissionRequest = {

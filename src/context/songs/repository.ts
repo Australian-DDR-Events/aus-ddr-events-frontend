@@ -1,5 +1,6 @@
-import { Result } from 'types/result';
 import { Song } from 'types/core';
+import { Result } from 'types/result';
+
 import { SongsDao, SongsRepository } from './types';
 
 const songsRepository = (dao: SongsDao): SongsRepository => {

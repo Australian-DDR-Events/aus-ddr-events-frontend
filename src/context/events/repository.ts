@@ -1,4 +1,5 @@
 import { Result } from 'types/result';
+
 import { Event, EventsDao, EventsRepository } from './types';
 
 const eventsRepository = (dao: EventsDao): EventsRepository => {

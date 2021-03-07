@@ -1,8 +1,10 @@
 import { createContext } from 'react';
 import { err } from 'types/result';
+
+import { Score } from '~/types/core';
+
 import { DefaultScore, DefaultSummer2021Score } from './constants';
 import { ScoresRepositoryContextInterface } from './types';
-import { Score } from '~/types/core';
 
 const initialContext = {
   scoresRepositoryInstance: {

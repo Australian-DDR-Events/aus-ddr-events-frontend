@@ -1,5 +1,3 @@
-import React from 'react';
-import { Badge } from 'context/badges/types';
 import {
   Box,
   Center,
@@ -11,6 +9,9 @@ import {
   PopoverTrigger,
   Text,
 } from '@chakra-ui/react';
+import { Badge } from 'context/badges/types';
+import React from 'react';
+
 import { defaultSpacing } from '~/types/styled-components';
 
 const BadgeDisplay = ({

@@ -1,4 +1,5 @@
 import { Result } from 'types/result';
+
 import {
   AuthenticationDao,
   AuthenticationRepository,

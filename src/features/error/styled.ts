@@ -1,4 +1,4 @@
-import { Typography, Image } from 'antd';
+import { Image, Typography } from 'antd';
 import styled, { defaultSpacing } from 'types/styled-components';
 
 export const ErrorHeader = styled(Typography.Title)`

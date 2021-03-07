@@ -13,7 +13,7 @@ export type Dancer = {
 };
 
 export type DancersRepository = {
-  get: (id: string) => Promise<Result<Error, Dancer>>;
+  get: (authenticationId: string) => Promise<Result<Error, Dancer>>;
   update: (user: Dancer) => Promise<Result<Error, boolean>>;
 };
 

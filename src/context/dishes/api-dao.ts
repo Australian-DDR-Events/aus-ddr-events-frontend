@@ -1,13 +1,15 @@
-import { err, ok, Result } from 'types/result';
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { err, ok, Result } from 'types/result';
+
+import { Dish, DishSong, GradedDish } from '~/types/summer2021';
+import resizeImage from '~/utils/images';
+
+import { DefaultDish, DefaultDishSubmissionResponse } from './constants';
 import {
   DishesDao,
   DishSubmissionRequest,
   DishSubmissionResponse,
 } from './types';
-import { DefaultDish, DefaultDishSubmissionResponse } from './constants';
-import { Dish, DishSong, GradedDish } from '~/types/summer2021';
-import resizeImage from '~/utils/images';
 
 const dishesApiDao = ({
   getIdTokenFunc,

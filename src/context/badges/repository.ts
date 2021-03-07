@@ -1,4 +1,5 @@
 import { Result } from 'types/result';
+
 import { Badge, BadgesDao, BadgesRepository } from './types';
 
 const badgesRepository = (dao: BadgesDao): BadgesRepository => {

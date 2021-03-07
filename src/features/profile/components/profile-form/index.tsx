@@ -1,22 +1,23 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { StateOptions } from 'features/profile/constants';
-import { DancersRepositoryContext } from 'context/dancer';
 import {
-  Container,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  Input,
-  Select,
-  Button,
-  Image,
+  Alert,
   AlertDescription,
   AlertTitle,
   Box,
-  Alert,
+  Button,
+  Container,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Image,
+  Input,
+  Select,
 } from '@chakra-ui/react';
-import { Formik, FormikHelpers, Form, Field } from 'formik';
+import { DancersRepositoryContext } from 'context/dancer';
+import { StateOptions } from 'features/profile/constants';
+import { Field, Form, Formik, FormikHelpers } from 'formik';
+import React, { useContext, useEffect, useState } from 'react';
 import { defaultSpacing } from 'types/styled-components';
+
 import { ProfileFormData } from './types';
 
 const ProfileForm = ({

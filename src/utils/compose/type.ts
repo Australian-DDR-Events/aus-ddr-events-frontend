@@ -1,12 +1,12 @@
-import React from 'react';
 import { AuthenticationRepository } from 'context/authentication/types';
-import { DancersRepository } from 'context/dancer/types';
-import { SongsRepository } from 'context/songs/types';
-import { ScoresRepository } from 'context/scores/types';
-import { IngredientsRepository } from 'context/ingredients/types';
-import { DishesRepository } from 'context/dishes/types';
 import { BadgesRepository } from 'context/badges/types';
+import { DancersRepository } from 'context/dancer/types';
+import { DishesRepository } from 'context/dishes/types';
 import { EventsRepository } from 'context/events/types';
+import { IngredientsRepository } from 'context/ingredients/types';
+import { ScoresRepository } from 'context/scores/types';
+import { SongsRepository } from 'context/songs/types';
+import React from 'react';
 
 export interface ComposeProps {
   Provider: React.JSXElementConstructor<React.PropsWithChildren<any>>;

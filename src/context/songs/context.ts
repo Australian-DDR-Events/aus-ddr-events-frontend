@@ -1,6 +1,7 @@
 import { createContext } from 'react';
-import { err } from 'types/result';
 import { Song } from 'types/core';
+import { err } from 'types/result';
+
 import { DefaultSong } from './constants';
 import { SongsRepositoryContextInterface } from './types';
 

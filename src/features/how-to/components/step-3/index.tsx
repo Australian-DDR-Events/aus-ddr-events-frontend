@@ -1,15 +1,15 @@
-import React from 'react';
 import {
-  VStack,
-  Center,
-  StackItem,
-  Heading,
   Box,
+  Center,
+  Heading,
   Image,
+  ListItem,
+  StackItem,
   Text,
   UnorderedList,
-  ListItem,
+  VStack,
 } from '@chakra-ui/react';
+import React from 'react';
 
 const Step3 = () => {
   return (

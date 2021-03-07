@@ -4,8 +4,8 @@ import BadgesRepositoryProvider from './provider';
 import badgesRepository from './repository';
 
 export {
-  BadgesRepositoryContext,
-  BadgesRepositoryProvider,
   badgesApiDao,
   badgesRepository,
+  BadgesRepositoryContext,
+  BadgesRepositoryProvider,
 };

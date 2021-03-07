@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { Result } from 'types/result';
 import { Song } from 'types/core';
+import { Result } from 'types/result';
 
 export type SongsRepository = {
   getAll: () => Promise<Result<Error, Song[]>>;

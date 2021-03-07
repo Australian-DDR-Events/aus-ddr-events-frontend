@@ -1,5 +1,6 @@
-import React from 'react';
 import { IngredientsRepositoryProviderOptions } from 'context/ingredients/types';
+import React from 'react';
+
 import IngredientsRepositoryContext from './context';
 
 const IngredientsRepositoryProvider = (

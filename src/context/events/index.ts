@@ -1,13 +1,13 @@
-import { Event } from './types';
 import eventsApiDao from './api-dao';
 import EventsRepositoryContext from './context';
 import EventsRepositoryProvider from './provider';
 import eventsRepository from './repository';
+import { Event } from './types';
 
 export {
-  EventsRepositoryContext,
-  EventsRepositoryProvider,
+  Event,
   eventsApiDao,
   eventsRepository,
-  Event,
+  EventsRepositoryContext,
+  EventsRepositoryProvider,
 };
