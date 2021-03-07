@@ -17,9 +17,9 @@ const dishesRepository = (dao: DishesDao): DishesRepository => {
   const postSubmission = (
     id: string,
     submission: DishSubmissionRequest,
-    onUploadSubmission: any,
+    onUploadProgress: any,
   ): Promise<Result<Error, DishSubmissionResponse>> =>
-    dao.postSubmission(id, submission, onUploadSubmission);
+    dao.postSubmission(id, submission, onUploadProgress);
 
   return {
     getById,
