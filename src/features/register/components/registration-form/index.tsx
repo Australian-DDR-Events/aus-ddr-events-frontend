@@ -1,36 +1,39 @@
-import React, { useContext, useEffect } from 'react';
-import { Form, Input, Tooltip, Button, Typography } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from 'context/authentication';
 import { DefaultDancer, DancersRepositoryContext } from 'context/dancer';
-import { StyledForm } from './styled';
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Box,
+  Container,
+  Input,
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+} from '@chakra-ui/react';
+import { Field, Form, Formik, FormikHelpers, FormikValues } from 'formik';
+import { defaultSpacing } from '~/types/styled-components';
 
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 8 },
-    sm: { span: 8 },
-  },
-  wrapperCol: {
-    xs: { span: 16 },
-    sm: { span: 16 },
-  },
-};
-
-const buttonLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
+interface RegistrationFormData {
+  displayName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 const RegistrationForm = () => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
     AuthenticationRepositoryContext,
   );
   const dancersRepository = useContext(DancersRepositoryContext);
-  const [form] = Form.useForm();
   const [, setLocation] = useLocation();
+  const [apiErrorMessage, setApiErrorMessage] = useState('');
 
   useEffect(() => {
     const loggedInUser = authRepo.authenticationRepositoryInstance
@@ -39,124 +42,148 @@ const RegistrationForm = () => {
     if (loggedInUser.id) setLocation('/profile');
   });
 
-  const onFinish = (values: any) => {
+  const onSubmit = (
+    values: RegistrationFormData,
+    action: FormikHelpers<RegistrationFormData>,
+  ) => {
     authRepo.authenticationRepositoryInstance
       .register(values.email, values.password)
-      .then(() => {
-        dancersRepository.dancersRepositoryInstance
-          .update({
-            ...DefaultDancer,
-            userName: values.displayName,
-          })
-          .then(() => {
-            setLocation('/profile');
-          });
+      .then((authResult) => {
+        if (authResult.isOk()) {
+          dancersRepository.dancersRepositoryInstance
+            .update({
+              ...DefaultDancer,
+              userName: values.displayName,
+            })
+            .then((dancerResult) => {
+              if (dancerResult.isOk()) {
+                setLocation('/profile');
+              } else {
+                setApiErrorMessage(dancerResult.error.message);
+              }
+              action.setSubmitting(false);
+            });
+        } else {
+          setApiErrorMessage(authResult.error.message);
+        }
       });
   };
 
+  const validateForm = (values: FormikValues) => {
+    interface ValidationErrors {
+      displayName?: any;
+      email?: any;
+      password?: any;
+      confirmPassword?: any;
+    }
+    const errors: ValidationErrors = {};
+    if (!values.displayName) errors.displayName = 'Please enter a display name';
+    if (!values.email) errors.email = 'Please enter your email address';
+    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email))
+      errors.email = 'Please enter a valid email address';
+    if (!values.password) errors.password = 'Please enter a password';
+    else if (values.password !== values.confirmPassword)
+      errors.confirmPassword = 'Passwords must match';
+    return errors;
+  };
+
   return (
-    <StyledForm
-      {...formItemLayout}
-      form={form}
-      name="register"
-      onFinish={onFinish}
-      scrollToFirstError
-    >
-      <Typography.Title>Registration</Typography.Title>
-      <Form.Item
-        name="email"
-        label="E-mail"
-        rules={[
-          {
-            type: 'email',
-            message: 'The input is not valid E-mail!',
-          },
-          {
-            required: true,
-            message: 'Please input your E-mail!',
-          },
-        ]}
+    <Container maxW="sm">
+      {apiErrorMessage && (
+        <Alert status="error" borderRadius="md" mb={defaultSpacing / 2}>
+          <Box flex="1">
+            <AlertTitle mr={2}>Uh oh!</AlertTitle>
+            <AlertDescription>{apiErrorMessage}</AlertDescription>
+          </Box>
+        </Alert>
+      )}
+      <Formik
+        initialValues={{
+          displayName: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+        }}
+        onSubmit={onSubmit}
+        validate={validateForm}
       >
-        <Input />
-      </Form.Item>
+        {(props) => (
+          <Form>
+            <Field type="text" name="displayName">
+              {({ field, form }: { field: any; form: any }) => (
+                <FormControl
+                  htmlFor="displayName"
+                  isInvalid={
+                    form.errors.displayName && form.touched.displayName
+                  }
+                  mb={4}
+                >
+                  <FormLabel>Display Name</FormLabel>
+                  <Input {...field} id="displayName" />
+                  <FormErrorMessage>{form.errors.displayName}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
 
-      <Form.Item
-        name="password"
-        label="Password"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your password!',
-          },
+            <Field type="email" name="email">
+              {({ field, form }: { field: any; form: any }) => (
+                <FormControl
+                  htmlFor="email"
+                  isInvalid={form.errors.email && form.touched.email}
+                  mb={4}
+                >
+                  <FormLabel>Email address</FormLabel>
+                  <Input {...field} id="email" />
+                  <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
 
-          () => ({
-            validator(_, value) {
-              if (value.length >= 8) {
-                return Promise.resolve();
-              }
-              return Promise.reject(
-                new Error('Must have at least 8 characters!'),
-              );
-            },
-          }),
-        ]}
-        hasFeedback
-      >
-        <Input.Password />
-      </Form.Item>
+            <Field type="password" name="password">
+              {({ field, form }: { field: any; form: any }) => (
+                <FormControl
+                  htmlFor="password"
+                  isInvalid={form.errors.password && form.touched.password}
+                  mb={4}
+                >
+                  <FormLabel>Password</FormLabel>
+                  <Input id="password" type="password" {...field} />
+                  <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
 
-      <Form.Item
-        name="confirm"
-        label="Confirm Password"
-        dependencies={['password']}
-        hasFeedback
-        rules={[
-          {
-            required: true,
-            message: 'Please confirm your password!',
-          },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue('password') === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(
-                new Error('The two passwords that you entered do not match!'),
-              );
-            },
-          }),
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
+            <Field type="password" name="confirmPassword">
+              {({ field, form }: { field: any; form: any }) => (
+                <FormControl
+                  htmlFor="confirmPassword"
+                  isInvalid={
+                    form.errors.confirmPassword && form.touched.confirmPassword
+                  }
+                  mb={4}
+                >
+                  <FormLabel>Confirm Password</FormLabel>
+                  <Input id="confirmPassword" type="password" {...field} />
+                  <FormErrorMessage>
+                    {form.errors.confirmPassword}
+                  </FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
 
-      <Form.Item
-        name="displayName"
-        label={
-          <span>
-            Display Name&nbsp;
-            <Tooltip title="What do you want others to call you?">
-              <QuestionCircleOutlined />
-            </Tooltip>
-          </span>
-        }
-        rules={[
-          {
-            required: true,
-            message: 'Please input your display name!',
-            whitespace: true,
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item {...buttonLayout}>
-        <Button type="primary" htmlType="submit">
-          Register
-        </Button>
-      </Form.Item>
-    </StyledForm>
+            <Button
+              colorScheme="blue"
+              type="submit"
+              // eslint-disable-next-line react/prop-types
+              isLoading={props.isSubmitting}
+              mr={defaultSpacing / 2}
+            >
+              Register
+            </Button>
+          </Form>
+        )}
+      </Formik>
+    </Container>
   );
 };
 
