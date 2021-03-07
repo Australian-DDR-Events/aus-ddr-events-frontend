@@ -1,6 +1,4 @@
 import { Text } from '@chakra-ui/react';
-import { AuthenticationRepositoryContext } from 'context/authentication';
-import { DancersRepositoryContext } from 'context/dancer';
 import { DishesRepositoryContext } from 'context/dishes';
 import React, { useContext, useEffect, useState } from 'react';
 import { Dish } from 'types/summer2021';
