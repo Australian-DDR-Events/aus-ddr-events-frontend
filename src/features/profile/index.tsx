@@ -11,8 +11,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Title } from 'react-head';
 import { defaultSpacing } from 'types/styled-components';
 
-import ProfileForm from './components/profile-form';
-import ProfileReadView from './components/profile-read-view';
+import ProfileForm from './profile-form';
+import ProfileReadView from './profile-read-view';
 
 interface ProfileProps {
   id?: string;

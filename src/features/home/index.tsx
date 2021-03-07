@@ -11,8 +11,8 @@ import React, { useContext } from 'react';
 import useLocation from 'wouter/use-location';
 
 import AboutUs from './about-us';
-import ContactUs from './components/contact-us';
-import HowTo from './components/how-to';
+import ContactUs from './contact-us';
+import HowTo from './how-to';
 
 const Home = () => {
   const [, setLocation] = useLocation();

@@ -5,8 +5,8 @@ import { Score, Song } from 'types/core';
 import { useLocation } from 'wouter';
 
 import { ScoresRepositoryContext } from '../../context/scores';
-import SongDisplay from './components/song-display';
-import SongLeaderboard from './components/song-leaderboard';
+import SongDisplay from './song-display';
+import SongLeaderboard from './song-leaderboard';
 
 interface SongListing {
   song: Song;

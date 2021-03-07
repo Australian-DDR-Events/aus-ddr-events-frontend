@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import EmailSent from './components/email-sent';
+import EmailSent from './email-sent';
 import EmailForm from './email-form';
 import { ForgotPasswordState } from './types';
 

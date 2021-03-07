@@ -15,7 +15,7 @@ import React from 'react';
 import { IoCheckmarkCircle } from 'react-icons/io5';
 import { defaultSpacing } from 'types/styled-components';
 
-import { StateOptions } from '../../constants';
+import { StateOptions } from '../constants';
 import ProfileTabs from '../profile-tabs';
 
 const ProfileReadView = ({
