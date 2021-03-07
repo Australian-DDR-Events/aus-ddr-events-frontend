@@ -87,6 +87,9 @@ const Navigation = (props: any) => {
           <MenuItem onClick={() => setLocation('/how-to')}>
             How to participate
           </MenuItem>
+          <MenuItem onClick={() => setLocation('/leaderboard')}>
+            Leaderboards
+          </MenuItem>
           {loggedInUser.id ? (
             <>
               <MenuItem onClick={() => setLocation('/submission')}>
