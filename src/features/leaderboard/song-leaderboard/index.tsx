@@ -65,7 +65,18 @@ const SongLeaderboard = ({ songId }: { songId: string }) => {
         onClose={() => setModalIsOpen(false)}
       />
 
-      <Center mb={4}>{scores[0] && <TopScore score={scores[0]} />}</Center>
+      <Center mb={4}>
+        {scores[0] && (
+          <TopScore
+            onClickImage={() => {
+              setModalUrl(getAssetUrl(scores[0].imageUrl));
+              setModalIsOpen(true);
+            }}
+            onClickUser={() => setLocation(`/profile/${scores[0].dancer?.id}`)}
+            score={scores[0]}
+          />
+        )}
+      </Center>
       {scores.slice(1).map((s, index) => (
         <ScoreLine
           index={index}

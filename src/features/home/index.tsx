@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  Heading,
-  Image,
-  useMediaQuery,
-} from '@chakra-ui/react';
+import { Box, Button, Container, Heading, Image } from '@chakra-ui/react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import React, { useContext } from 'react';
 import useLocation from 'wouter/use-location';
@@ -21,21 +14,19 @@ const Home = () => {
   const authRepo = useContext(AuthenticationRepositoryContext)
     .authenticationRepositoryInstance;
   const loggedInUser = authRepo.get().okOrDefault();
-  const [isLargerThan750] = useMediaQuery('(min-width: 750px)');
 
   return (
     <Container maxW="container.xl" centerContent p={8}>
       <Box align="center" mb={8}>
-        <Heading>Coming Soon...</Heading>
+        <Heading>Current season</Heading>
+        <Heading size="lg">05 March - 16 April</Heading>
         <Image
-          boxSize={isLargerThan750 ? '50%' : '90%'}
           objectFit="cover"
           src={getAssetUrl(`/common/season-logo.png`)}
           alt="Summer BBQ Logo"
         />
         <Heading as="h2" size="md">
-          Show off your moves and join in on the hottest DDR seasonal event
-          starting February 2021. Pre-register your account today!
+          Join the barbecue today, sign-up to participate!
         </Heading>
         {!loggedInUser.id && (
           <Button onClick={() => setLocation('/register')}>Sign Up</Button>

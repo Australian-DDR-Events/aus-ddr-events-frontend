@@ -5,6 +5,7 @@ import {
   Heading,
   Icon,
   Spinner,
+  Text,
   useMediaQuery,
   VStack,
 } from '@chakra-ui/react';
@@ -73,6 +74,9 @@ const Leaderboard = ({ songId }: { songId?: string }) => {
         />
         Leaderboards
       </Heading>
+      <Text textAlign="center" fontSize="lg">
+        Click or tap the song card for comprehensive leaderboard
+      </Text>
       {isLoading ? (
         <Center>
           <Spinner // todo: replace this with proper skeleton structure
@@ -81,6 +85,7 @@ const Leaderboard = ({ songId }: { songId?: string }) => {
             emptyColor="gray.200"
             color="blue.500"
             size="xl"
+            mt={4}
           />
         </Center>
       ) : (
