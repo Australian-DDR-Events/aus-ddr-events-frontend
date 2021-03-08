@@ -42,12 +42,6 @@ const Step4 = () => {
                   />
                 </Center>
               </Box>
-              <IoArrowForward style={{ fontSize: '24px' }} />
-              <Box w="25%" h="25%" minW="75">
-                <Center>
-                  <Image src="https://i.imgur.com/nGWCDfu.png" align="center" />
-                </Center>
-              </Box>
             </Center>
           </StackItem>
         </VStack>

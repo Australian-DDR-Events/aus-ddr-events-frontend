@@ -8,6 +8,8 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 
+import { getAssetUrl } from '../../../utils/assets';
+
 const HowTo = () => {
   const [isLargerThan750] = useMediaQuery('(min-width: 750px)');
   return (
@@ -46,9 +48,21 @@ const HowTo = () => {
         profile.
       </Text>
       <Center mb={8}>
-        <Image maxW="25%" src="https://i.imgur.com/C6eZJ0L.png" alt="badges" />
-        <Image maxW="25%" src="https://i.imgur.com/kmTnnyd.png" alt="badges" />
-        <Image maxW="25%" src="https://i.imgur.com/HUBlbyf.png" alt="badges" />
+        <Image
+          maxW="25%"
+          src={getAssetUrl(`/common/sample-badge-0.png`)}
+          alt="badges"
+        />
+        <Image
+          maxW="25%"
+          src={getAssetUrl(`/common/sample-badge-1.png`)}
+          alt="badges"
+        />
+        <Image
+          maxW="25%"
+          src={getAssetUrl(`/common/sample-badge-2.png`)}
+          alt="badges"
+        />
       </Center>
     </Box>
   );

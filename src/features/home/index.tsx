@@ -10,6 +10,7 @@ import { AuthenticationRepositoryContext } from 'context/authentication';
 import React, { useContext } from 'react';
 import useLocation from 'wouter/use-location';
 
+import { getAssetUrl } from '../../utils/assets';
 import AboutUs from './about-us';
 import ContactUs from './contact-us';
 import HowTo from './how-to';
@@ -29,7 +30,7 @@ const Home = () => {
         <Image
           boxSize={isLargerThan750 ? '50%' : '90%'}
           objectFit="cover"
-          src="https://i.imgur.com/vgn9VFo.png"
+          src={getAssetUrl(`/common/season-logo.png`)}
           alt="Summer BBQ Logo"
         />
         <Heading as="h2" size="md">
