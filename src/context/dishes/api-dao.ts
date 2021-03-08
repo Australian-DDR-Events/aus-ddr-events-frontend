@@ -91,12 +91,16 @@ const dishesApiDao = ({
       data.append(`scores[${i}].score`, `${submission.scores[i].score}`);
       data.append(
         `scores[${i}].scoreImage`,
-        resizeImage(submission.scores[i].scoreImage, 1000, 1000),
+        // eslint-disable-next-line no-await-in-loop
+        await resizeImage(submission.scores[i].scoreImage, 1000, 1000),
       );
       data.append(`scores[${i}].songId`, submission.scores[i].songId);
     }
     data.append('pairBonus', `${submission.pairBonus}`);
-    data.append('finalImage', resizeImage(submission.finalImage, 1000, 1000));
+    data.append(
+      'finalImage',
+      await resizeImage(submission.finalImage, 1000, 1000),
+    );
 
     const request: AxiosRequestConfig = {
       headers: {

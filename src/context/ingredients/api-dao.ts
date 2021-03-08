@@ -116,7 +116,10 @@ const ingredientsApiDao = ({
   ): Promise<Result<Error, Summer2021Score>> => {
     const data = new FormData();
     data.append('score', `${submission.score}`);
-    data.append('scoreImage', resizeImage(submission.scoreImage, 1000, 1000));
+    data.append(
+      'scoreImage',
+      await resizeImage(submission.scoreImage, 1000, 1000),
+    );
 
     const request: AxiosRequestConfig = {
       headers: {
