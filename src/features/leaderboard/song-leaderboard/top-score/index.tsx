@@ -18,7 +18,6 @@ const TopScore = ({ score }: { score: Score }) => {
         />
         <Avatar
           size="2xl"
-          bgColor="transparent"
           name={score.dancer?.ddrName || ''}
           src={getProfileImageUrl(score.dancer?.profilePictureUrl || '')}
           borderWidth={defaultSpacing / 2}
