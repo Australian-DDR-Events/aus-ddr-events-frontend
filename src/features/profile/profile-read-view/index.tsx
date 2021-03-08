@@ -8,7 +8,9 @@ import {
   Icon,
   Stack,
   Text,
+  useClipboard,
   useMediaQuery,
+  useToast,
 } from '@chakra-ui/react';
 import { Dancer } from 'context/dancer';
 import React from 'react';
@@ -39,6 +41,22 @@ const ProfileReadView = ({
     }?${new Date().toISOString()}`;
   const DEFAULT_PROFILE_PICTURE_URL = 'https://i.imgur.com/o0ulS6k.png';
 
+  const { onCopy } = useClipboard(
+    `${process.env.BASE_URL}/profile/${dancer.id}`,
+  );
+
+  const toast = useToast();
+  const onShareButtonClick = () => {
+    onCopy();
+    toast({
+      description: 'Copied profile link ✨',
+      status: 'success',
+      duration: 1500,
+      isClosable: true,
+      position: 'top',
+    });
+  };
+
   return (
     <Stack
       direction={['column', 'column', 'column', 'row']}
@@ -59,12 +77,24 @@ const ProfileReadView = ({
             <Button
               w={isLargerThan769 ? '100%' : '50%'}
               onClick={onEditButtonClick}
-              mb={defaultSpacing / 2}
             >
               Edit profile
             </Button>
           </Center>
         )}
+
+        <Center>
+          <Button
+            colorScheme="blue"
+            w={isLargerThan769 ? '100%' : '50%'}
+            onClick={onShareButtonClick}
+            mb={defaultSpacing / 2}
+            mt={isEditable ? defaultSpacing / 4 : 0}
+          >
+            Share profile
+          </Button>
+        </Center>
+
         <Box textAlign={isLargerThan769 ? 'left' : 'center'}>
           <Heading>
             {dancer.ddrName}
