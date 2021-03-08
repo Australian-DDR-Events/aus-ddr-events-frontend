@@ -34,6 +34,9 @@ const DishDisplay = ({
   const [dishResult, setDishResult] = useState<DishSubmissionResponse>(
     DefaultDishSubmissionResponse,
   );
+  const hasObtainedAllRequiredIngredients = dish.ingredients.every((i) =>
+    obtainedIngredients.some((oi) => oi.gradedIngredient.name === i.name),
+  );
   const onDishReceived = (dishResponse: DishSubmissionResponse) => {
     setDishResult(dishResponse);
     setModalView(DISH_VIEW);
@@ -84,8 +87,11 @@ const DishDisplay = ({
             setModalView(COOK_VIEW);
             onOpen();
           }}
+          disabled={!hasObtainedAllRequiredIngredients}
         >
-          Cook this course
+          {hasObtainedAllRequiredIngredients
+            ? 'Cook this course'
+            : 'Not enough ingredients to cook'}
         </Button>
         <DishModal
           view={modalView}
