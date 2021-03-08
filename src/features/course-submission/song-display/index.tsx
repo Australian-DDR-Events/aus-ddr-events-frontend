@@ -5,7 +5,13 @@ import { defaultSpacing } from 'types/styled-components';
 import { getAssetUrl } from 'utils/assets';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 
-const SongDisplay = ({ song }: { song: Song }) => {
+const SongDisplay = ({
+  song,
+  cookingMethod,
+}: {
+  song: Song;
+  cookingMethod: string;
+}) => {
   const songColors = getColorByDifficulty(song.difficulty);
   const [isSmallerThan1024] = useMediaQuery('(max-width: 1024px');
   return (
@@ -28,13 +34,17 @@ const SongDisplay = ({ song }: { song: Song }) => {
       }}
       w="100%"
     >
-      <Image src={getAssetUrl(song.image128)} h="96px" />
+      <Image src={getAssetUrl(song.image128)} h="100%" />
       <Box mt={defaultSpacing / 4} ml={defaultSpacing / 4} textAlign="left">
         <Text
           fontWeight="bold"
-          fontSize={isSmallerThan1024 ? 'md' : 'lg'}
-          mt={defaultSpacing / 4}
+          fontSize="md"
+          color={songColors.shadow}
+          lineHeight={1}
         >
+          Play to {cookingMethod} your ingredients
+        </Text>
+        <Text fontWeight="bold" fontSize={isSmallerThan1024 ? 'md' : 'lg'}>
           {song.name}
         </Text>
         <Text color="gray" mt={-1} mb={1}>

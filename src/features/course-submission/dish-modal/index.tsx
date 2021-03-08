@@ -54,7 +54,14 @@ const DishModal = ({
           <ModalBody>
             {view === SONGS_VIEW &&
               dish.dishSongs.map(
-                (ds) => ds.song && <SongDisplay key={ds.id} song={ds.song} />,
+                (ds) =>
+                  ds.song && (
+                    <SongDisplay
+                      key={ds.id}
+                      song={ds.song}
+                      cookingMethod={ds.cookingMethod}
+                    />
+                  ),
               )}
             {view === COOK_VIEW && (
               <DishSubmissionForm dish={dish} onDishReceived={onDishReceived} />
