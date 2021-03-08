@@ -1,7 +1,4 @@
-import 'antd/dist/antd.css';
-
-import { ChakraProvider } from '@chakra-ui/react';
-import { Skeleton } from 'antd';
+import { ChakraProvider, Skeleton } from '@chakra-ui/react';
 import axios from 'axios';
 import Router from 'components/router';
 import Wrapper from 'components/wrapper';

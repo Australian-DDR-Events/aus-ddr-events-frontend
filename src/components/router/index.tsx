@@ -12,7 +12,6 @@ import Leaderboard from 'features/leaderboard';
 import Login from 'features/login';
 import Profile from 'features/profile';
 import Register from 'features/register';
-import Settings from 'features/settings';
 import React, { useContext, useEffect } from 'react';
 import { Title } from 'react-head';
 import { Route, RouteProps, Switch, useLocation } from 'wouter';
@@ -87,10 +86,6 @@ const Router = () => (
     <ProtectedRoute path="/course-submission">
       <Title>Submit courses | Australian DDR Events</Title>
       <CourseSubmission />
-    </ProtectedRoute>
-    <ProtectedRoute path="/settings">
-      <Title>Settings | Australian DDR Events</Title>
-      <Settings />
     </ProtectedRoute>
     <Route>
       <Error />
