@@ -8,7 +8,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 import { DancerGradedIngredient, Dish } from 'types/summer2021';
 import { getAssetUrl } from 'utils/assets';
 

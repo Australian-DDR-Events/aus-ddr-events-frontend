@@ -17,7 +17,7 @@ import {
 import { DancersRepositoryContext, DefaultDancer } from 'context/dancer';
 import { Field, Form, Formik, FormikHelpers, FormikValues } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 import { useLocation } from 'wouter';
 
 interface RegistrationFormData {

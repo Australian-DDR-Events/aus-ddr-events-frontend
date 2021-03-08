@@ -19,7 +19,7 @@ import {
   FormikState,
 } from 'formik';
 import React, { useState } from 'react';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 import { DishSong } from 'types/summer2021';
 import { getAssetUrl } from 'utils/assets';
 

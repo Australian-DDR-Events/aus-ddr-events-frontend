@@ -1,9 +1,9 @@
-import { Center, SimpleGrid } from '@chakra-ui/react';
+import { Center, SimpleGrid, Spinner } from '@chakra-ui/react';
 import { BadgesRepositoryContext } from 'context/badges';
 import { Badge } from 'context/badges/types';
 import { Dancer } from 'context/dancer';
 import React, { useContext, useEffect, useState } from 'react';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 
 import BadgeDisplay from './badge-display';
 
@@ -25,6 +25,19 @@ const BadgesTab = ({ dancer }: { dancer: Dancer }) => {
         });
     }
   }, []);
+
+  if (loading)
+    return (
+      <Center>
+        <Spinner // todo: replace this with proper skeleton structure
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </Center>
+    );
 
   return (
     <SimpleGrid

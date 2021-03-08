@@ -13,7 +13,7 @@ import { SongsRepositoryContext } from 'context/songs';
 import React, { useContext, useEffect, useState } from 'react';
 import { FaCrown } from 'react-icons/fa';
 import { Score, Song } from 'types/core';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 import { useLocation } from 'wouter';
 
 import { ScoresRepositoryContext } from '../../context/scores';

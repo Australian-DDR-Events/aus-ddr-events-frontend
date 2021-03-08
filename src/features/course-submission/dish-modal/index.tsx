@@ -17,7 +17,7 @@ import CustomIconRatings from 'components/custom-icon-ratings';
 import { DishSubmissionResponse } from 'context/dishes/types';
 import React from 'react';
 import { IoStar } from 'react-icons/io5';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 import { Dish } from 'types/summer2021';
 import { convertGradeToNumber } from 'utils/summer2021';
 

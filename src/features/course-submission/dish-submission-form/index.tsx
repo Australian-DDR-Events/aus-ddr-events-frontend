@@ -21,7 +21,7 @@ import {
   FormikState,
 } from 'formik';
 import React, { useContext, useState } from 'react';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 import { Dish } from 'types/summer2021';
 
 import { DishSubmissionFormData, ScoreSubmissonFormData } from '../types';

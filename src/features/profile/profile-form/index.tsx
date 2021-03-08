@@ -12,11 +12,11 @@ import {
   Input,
   Select,
 } from '@chakra-ui/react';
-import { DancersRepositoryContext } from 'context/dancer';
+import { Dancer, DancersRepositoryContext } from 'context/dancer';
 import { StateOptions } from 'features/profile/constants';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 
 import { ProfileFormData } from './types';
 
@@ -26,7 +26,7 @@ const ProfileForm = ({
   onCancelSubmit,
 }: {
   formData: ProfileFormData;
-  onSuccessfulSubmit: Function;
+  onSuccessfulSubmit: (dancer: Dancer) => void;
   onCancelSubmit: Function;
 }) => {
   const dancersRepository = useContext(DancersRepositoryContext);
@@ -62,16 +62,16 @@ const ProfileForm = ({
       })
       .then((result) => {
         if (result.isOk()) {
-          onSuccessfulSubmit();
+          onSuccessfulSubmit(values);
         } else if (result.isErr()) {
           setApiErrorMessage(result.error.message);
+          actions.setSubmitting(false);
         }
-        actions.setSubmitting(false);
       });
   };
 
   return (
-    <Container>
+    <Container mb={defaultSpacing}>
       {apiErrorMessage && (
         <Alert status="error" borderRadius="md" mb={defaultSpacing / 2}>
           <Box flex="1">

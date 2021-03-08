@@ -3,7 +3,7 @@ import React from 'react';
 import { FaCrown } from 'react-icons/fa';
 import { IoCamera } from 'react-icons/io5';
 import { Score } from 'types/core';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 import { getProfileImageUrl } from 'utils/assets';
 
 const TopScore = ({

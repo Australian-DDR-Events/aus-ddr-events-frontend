@@ -15,7 +15,7 @@ import {
 import { Dancer } from 'context/dancer';
 import React from 'react';
 import { IoCheckmarkCircle } from 'react-icons/io5';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 
 import { StateOptions } from '../constants';
 import ProfileTabs from '../profile-tabs';

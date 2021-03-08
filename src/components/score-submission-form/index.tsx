@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { FormikErrors } from 'formik';
 import React from 'react';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 
 const FileUploadFormField = ({
   fieldName,

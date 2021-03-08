@@ -41,6 +41,37 @@ const dancersApiDao = ({
       );
   };
 
+  const getByAuthenticationId = async (
+    authenticationId: string,
+  ): Promise<Result<Error, Dancer>> => {
+    const activeDancer = activeDancers.get('authUser');
+    if (activeDancer) return ok(activeDancer);
+
+    return axiosClient
+      .get(`/dancers/${authenticationId}`)
+      .then(
+        (response: AxiosResponse): Result<Error, Dancer> => {
+          const dancer: Dancer = {
+            id: response.data.id,
+            ddrCode: response.data.ddrCode,
+            ddrName: response.data.ddrName,
+            primaryMachine: response.data.primaryMachineLocation,
+            profilePictureUrl: response.data.profilePictureUrl,
+            newProfilePicture: new File([''], 'filename'),
+            state: response.data.state,
+            userName: '',
+          };
+          activeDancers.set('authUser', dancer);
+          return ok(dancer);
+        },
+      )
+      .catch(
+        (): Result<Error, Dancer> => {
+          return err(new Error('failed to get user'), DefaultDancer);
+        },
+      );
+  };
+
   const uploadProfilePicture = async (
     file: File,
   ): Promise<Result<Error, boolean>> => {
@@ -93,11 +124,13 @@ const dancersApiDao = ({
     if (dancer.newProfilePicture.size > 0) {
       result = uploadProfilePicture(dancer.newProfilePicture);
     }
-    if (activeDancers.get(dancer.id)) activeDancers.delete(dancer.id);
+
+    activeDancers.delete('authUser');
+
     return result;
   };
 
-  return { get, update };
+  return { get, getByAuthenticationId, update };
 };
 
 export default dancersApiDao;

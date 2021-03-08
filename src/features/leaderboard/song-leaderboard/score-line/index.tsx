@@ -10,7 +10,7 @@ import {
 import React from 'react';
 import { IoCamera } from 'react-icons/io5';
 import { Score } from 'types/core';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 import { getProfileImageUrl } from 'utils/assets';
 
 const ScoreLine = ({

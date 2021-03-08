@@ -10,7 +10,7 @@ import { DancersRepositoryContext } from 'context/dancer';
 import { DishesRepositoryContext } from 'context/dishes';
 import { IngredientsRepositoryContext } from 'context/ingredients';
 import React, { useContext, useEffect, useState } from 'react';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 import { DancerGradedIngredient, Dish } from 'types/summer2021';
 
 import DishDisplay from './dish-display';
@@ -31,7 +31,7 @@ const CourseSubmission = () => {
       .okOrDefault();
 
     dancerRepo.dancersRepositoryInstance
-      .get(loggedInUser.id)
+      .getByAuthenticationId(loggedInUser.id)
       .then((dancerIdResult) => {
         const dancer = dancerIdResult.okOrDefault();
         Promise.all([

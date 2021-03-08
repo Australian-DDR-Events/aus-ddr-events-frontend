@@ -16,7 +16,7 @@ import {
 } from 'context/authentication';
 import { Field, Form, Formik, FormikHelpers, FormikValues } from 'formik';
 import React, { useContext, useState } from 'react';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 import { useLocation } from 'wouter';
 
 interface ResetPasswordFormData {

@@ -1,7 +1,7 @@
 import { Badge, Box, Flex, Image, Text, useMediaQuery } from '@chakra-ui/react';
 import React from 'react';
 import { Song } from 'types/core';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 import { getAssetUrl } from 'utils/assets';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 

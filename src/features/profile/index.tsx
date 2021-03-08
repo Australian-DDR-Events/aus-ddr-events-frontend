@@ -6,10 +6,15 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
-import { DancersRepositoryContext, DefaultDancer } from 'context/dancer';
+import {
+  Dancer,
+  DancersRepositoryContext,
+  DefaultDancer,
+} from 'context/dancer';
 import React, { useContext, useEffect, useState } from 'react';
 import { Title } from 'react-head';
-import { defaultSpacing } from 'types/styled-components';
+import { Result } from 'types/result';
+import { defaultSpacing } from 'types/styled';
 
 import ProfileForm from './profile-form';
 import ProfileReadView from './profile-read-view';
@@ -31,18 +36,25 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
 
   const [isLargerThan767] = useMediaQuery('(min-width: 767px)');
 
-  const loggedInUserId = loggedInUser.id;
+  const authId = loggedInUser.id;
   const emailVerified = loggedInUser.hasVerifiedEmail;
-  const isEditable = !id || loggedInUserId === id;
+  const isEditable = !id || authId === id;
 
   useEffect(() => {
     if (!isEditing) {
       setLoading(true);
-      const lookupId = id ?? loggedInUserId;
-      dancersRepository.dancersRepositoryInstance.get(lookupId).then((u) => {
+
+      const onGetFinished = (u: Result<Error, Dancer>) => {
         setDancer(u.okOrDefault());
         setLoading(false);
-      });
+      };
+
+      if (id)
+        dancersRepository.dancersRepositoryInstance.get(id).then(onGetFinished);
+      else if (authId)
+        dancersRepository.dancersRepositoryInstance
+          .getByAuthenticationId(authId)
+          .then(onGetFinished);
     }
   }, [isEditing]);
 
@@ -72,7 +84,8 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
   const renderProfileForm = () => (
     <ProfileForm
       formData={dancer}
-      onSuccessfulSubmit={() => {
+      onSuccessfulSubmit={(updatedDancer: Dancer) => {
+        setDancer(updatedDancer);
         setIsEditing(false);
       }}
       onCancelSubmit={() => {

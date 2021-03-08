@@ -1,4 +1,4 @@
-import styled from 'types/styled-components';
+import styled from 'types/styled';
 
 // eslint-disable-next-line import/prefer-default-export
 export const WhiteBackgroundLayout = styled.div`

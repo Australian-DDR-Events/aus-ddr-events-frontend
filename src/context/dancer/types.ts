@@ -13,7 +13,10 @@ export type Dancer = {
 };
 
 export type DancersRepository = {
-  get: (authenticationId: string) => Promise<Result<Error, Dancer>>;
+  get: (id: string) => Promise<Result<Error, Dancer>>;
+  getByAuthenticationId: (
+    authenticationId: string,
+  ) => Promise<Result<Error, Dancer>>;
   update: (user: Dancer) => Promise<Result<Error, boolean>>;
 };
 
@@ -27,6 +30,7 @@ export interface Update {
 
 export interface DancersDao {
   get: Get;
+  getByAuthenticationId: Get;
   update: Update;
 }
 

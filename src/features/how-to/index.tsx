@@ -10,7 +10,7 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 
 import Step1 from './step-1';
 import Step2 from './step-2';

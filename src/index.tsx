@@ -1,4 +1,4 @@
-import { ChakraProvider, Skeleton } from '@chakra-ui/react';
+import { Center, ChakraProvider, Spinner } from '@chakra-ui/react';
 import axios from 'axios';
 import Router from 'components/router';
 import Wrapper from 'components/wrapper';
@@ -49,7 +49,6 @@ import firebase from 'firebase/app';
 import React, { useContext, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { HeadProvider, Title } from 'react-head';
-import styled, { defaultSpacing } from 'types/styled-components';
 import compose, { ComposeProps } from 'utils/compose';
 
 dotenv.config();
@@ -122,10 +121,6 @@ const eventsRepositoryInstance = eventsRepository(
   }),
 );
 
-const SkeletonWrapper = styled.div`
-  padding: ${defaultSpacing * 2}px;
-`;
-
 const App = (): React.ReactElement => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
     AuthenticationRepositoryContext,
@@ -139,9 +134,15 @@ const App = (): React.ReactElement => {
   return (
     <Wrapper>
       {loading ? (
-        <SkeletonWrapper>
-          <Skeleton active />
-        </SkeletonWrapper>
+        <Center>
+          <Spinner // todo: replace this with proper skeleton structure
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
+          />
+        </Center>
       ) : (
         <Router />
       )}

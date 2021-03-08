@@ -1,7 +1,7 @@
 import { Box, Heading } from '@chakra-ui/react';
 import React from 'react';
 import { Song } from 'types/core';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 
 const Index = ({ song }: { song: Song }) => {

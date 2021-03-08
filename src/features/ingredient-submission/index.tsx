@@ -12,7 +12,7 @@ import { AuthenticationRepositoryContext } from 'context/authentication';
 import { DancersRepositoryContext } from 'context/dancer';
 import { IngredientsRepositoryContext } from 'context/ingredients';
 import React, { useContext, useEffect, useState } from 'react';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 import { DancerGradedIngredient, Ingredient } from 'types/summer2021';
 
 import IngredientSong from './ingredient-song';
@@ -42,7 +42,7 @@ const IngredientSubmission = () => {
       .okOrDefault();
 
     dancersRepository.dancersRepositoryInstance
-      .get(loggedInUser.id)
+      .getByAuthenticationId(loggedInUser.id)
       .then((result) => {
         const dancer = result.okOrDefault();
 

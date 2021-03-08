@@ -10,7 +10,7 @@ import CustomIconRatings from 'components/custom-icon-ratings';
 import React from 'react';
 import { IoStar } from 'react-icons/io5';
 import { Song } from 'types/core';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 import { Summer2021Score } from 'types/summer2021';
 import { getAssetUrl } from 'utils/assets';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';

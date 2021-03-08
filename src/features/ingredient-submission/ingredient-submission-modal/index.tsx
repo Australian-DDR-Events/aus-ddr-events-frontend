@@ -14,7 +14,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { defaultSpacing } from 'types/styled-components';
+import { defaultSpacing } from 'types/styled';
 import { Ingredient, Summer2021Score } from 'types/summer2021';
 
 import IngredientSubmissionForm from '../ingredient-submission-form';
