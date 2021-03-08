@@ -1,4 +1,10 @@
-import { Center, Container, SimpleGrid, Spinner } from '@chakra-ui/react';
+import {
+  Center,
+  Container,
+  Heading,
+  SimpleGrid,
+  Spinner,
+} from '@chakra-ui/react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import { DancersRepositoryContext } from 'context/dancer';
 import { DishesRepositoryContext } from 'context/dishes';
@@ -58,38 +64,41 @@ const CourseSubmission = () => {
   const gridColumns = 4;
   const totalCourseCoverWidth = defaultSpacing * 34 + defaultSpacing / 2;
 
-  if (isLoading)
-    return (
-      <Center>
-        <Spinner // todo: replace this with proper skeleton structure
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
-          color="blue.500"
-          size="xl"
-        />
-      </Center>
-    );
-
   return (
     <Container maxW={gridColumns * totalCourseCoverWidth} p={defaultSpacing}>
-      <SimpleGrid
-        spacing={defaultSpacing / 2}
-        columns={5}
-        minChildWidth={`${defaultSpacing * 34}px`}
-      >
-        {dishes?.map((d) => (
-          <DishDisplay
-            key={d.id}
-            dish={d}
-            obtainedIngredients={d.ingredients
-              .map((i) => dancerIngredients?.get(i.name))
-              .filter<DancerGradedIngredient>(
-                (gi): gi is DancerGradedIngredient => Boolean(gi),
-              )}
+      <Heading textAlign="center" mb={defaultSpacing / 2}>
+        Stamina course submission
+      </Heading>
+      {isLoading && (
+        <Center>
+          <Spinner // todo: replace this with proper skeleton structure
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
           />
-        ))}
-      </SimpleGrid>
+        </Center>
+      )}
+      {!isLoading && (
+        <SimpleGrid
+          spacing={defaultSpacing / 2}
+          columns={5}
+          minChildWidth={`${defaultSpacing * 34}px`}
+        >
+          {dishes?.map((d) => (
+            <DishDisplay
+              key={d.id}
+              dish={d}
+              obtainedIngredients={d.ingredients
+                .map((i) => dancerIngredients?.get(i.name))
+                .filter<DancerGradedIngredient>(
+                  (gi): gi is DancerGradedIngredient => Boolean(gi),
+                )}
+            />
+          ))}
+        </SimpleGrid>
+      )}
     </Container>
   );
 };
