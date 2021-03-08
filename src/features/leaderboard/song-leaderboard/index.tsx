@@ -1,4 +1,4 @@
-import { Center, Container } from '@chakra-ui/react';
+import { Center, Container, Spinner } from '@chakra-ui/react';
 import { ScoresRepositoryContext } from 'context/scores';
 import { DefaultSong, SongsRepositoryContext } from 'context/songs';
 import React, { useContext, useEffect, useState } from 'react';
@@ -39,10 +39,23 @@ const SongLeaderboard = ({ songId }: { songId: string }) => {
         setIsLoading(false);
       });
   }, []);
-  if (isLoading) return <></>;
+
+  if (isLoading) {
+    return (
+      <Center>
+        <Spinner // todo: replace this with proper skeleton structure
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </Center>
+    );
+  }
 
   return (
-    <Container maxW="container.xl">
+    <Container maxW="100%" w="fit-content">
       <Center>
         <SongBanner song={song} />
       </Center>
@@ -51,6 +64,7 @@ const SongLeaderboard = ({ songId }: { songId: string }) => {
         isOpen={modalIsOpen}
         onClose={() => setModalIsOpen(false)}
       />
+
       <Center mb={4}>{scores[0] && <TopScore score={scores[0]} />}</Center>
       {scores.slice(1).map((s, index) => (
         <ScoreLine

@@ -48,6 +48,7 @@ const SongDisplay = ({
         }px 0 ${songColors.shadow}`,
       }}
       w="100%"
+      cursor="pointer"
     >
       <Image src={getAssetUrl(song.image128)} h={songCoverSize} />
       <Center>

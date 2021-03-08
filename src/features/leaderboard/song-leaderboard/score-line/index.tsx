@@ -1,4 +1,12 @@
-import { Avatar, Center, Flex, Icon, Spacer, Text } from '@chakra-ui/react';
+import {
+  Avatar,
+  Center,
+  Flex,
+  Icon,
+  Spacer,
+  Text,
+  useMediaQuery,
+} from '@chakra-ui/react';
 import React from 'react';
 import { IoCamera } from 'react-icons/io5';
 import { Score } from 'types/core';
@@ -18,17 +26,18 @@ const ScoreLine = ({
   onClickName: Function;
   color: string;
 }) => {
+  const [isSmallerOrEqualTo768] = useMediaQuery(['(max-width: 768px)']);
   const leaderNumber: number = index + 2;
   return (
-    <Center key={score.id} mb={defaultSpacing / 4}>
-      <Flex w="xl" maxW="xl">
+    <Center key={score.id} mb={defaultSpacing / 4} maxW="100%">
+      <Flex>
         <Center fontWeight="bold" color={color} mr={defaultSpacing / 2}>
           <Text fontSize="3xl">{leaderNumber}</Text>
         </Center>
         <Spacer />
 
         <Flex
-          w="xl"
+          w={isSmallerOrEqualTo768 ? '80vw' : 'xl'}
           maxW="100%"
           borderRadius="full"
           padding={defaultSpacing / 4}
