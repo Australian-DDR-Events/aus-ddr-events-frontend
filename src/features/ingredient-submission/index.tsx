@@ -82,7 +82,9 @@ const IngredientSubmission = () => {
     >
       <Box mb={defaultSpacing} textAlign="center">
         <Heading>Score submission</Heading>
-        <Text>Click or tap on the song jacket to submit your score</Text>
+        <Text fontSize="lg">
+          Click or tap on the song jacket to submit your score
+        </Text>
       </Box>
       <SimpleGrid
         minChildWidth={`${defaultSpacing * 32}px`}
