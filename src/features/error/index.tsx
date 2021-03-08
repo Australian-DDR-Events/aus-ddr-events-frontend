@@ -1,21 +1,20 @@
-import { Space, Typography } from 'antd';
+import { Box, Heading, Link, Text } from '@chakra-ui/react';
 import logo from 'assets/logo.png';
 import React from 'react';
 
 import { ErrorHeader, ErrorWrapper, LargeWidthImage } from './styled';
 
-const { Title, Link } = Typography;
 const Error = () => {
   return (
     <ErrorWrapper>
-      <Space>
+      <Box>
         <LargeWidthImage src={logo} alt="logo" />
         <ErrorHeader>404</ErrorHeader>
-      </Space>
-      <Title level={2}>Page not Found</Title>
-      <Typography.Paragraph>
+      </Box>
+      <Heading level={2}>Page not Found</Heading>
+      <Text>
         Go to <Link href="/">Home</Link> page.
-      </Typography.Paragraph>
+      </Text>
     </ErrorWrapper>
   );
 };
