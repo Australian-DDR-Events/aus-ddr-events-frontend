@@ -27,7 +27,13 @@ import { DishSubmissionFormData, ScoreSubmissonFormData } from '../types';
 import DishSongSubmissionForm from './dish-song-submission-form';
 import { DefaultDishSubmissionSongForm, FinalSubmissionForm } from './types';
 
-const DishSubmissionForm = ({ dish }: { dish: Dish }) => {
+const DishSubmissionForm = ({
+  dish,
+  onDishReceived,
+}: {
+  dish: Dish;
+  onDishReceived: Function;
+}) => {
   const [scoreSubmissions] = useState(new Array<ScoreSubmissonFormData>());
   const [finalImageUrl, setFinalImageUrl] = useState<string>('');
   const [dishSongSelections, setDishSongSelections] = useState(dish.dishSongs);
@@ -71,7 +77,10 @@ const DishSubmissionForm = ({ dish }: { dish: Dish }) => {
     );
   };
 
-  const onFinalSubmission = (values: FinalSubmissionForm) => {
+  const onFinalSubmission = (
+    values: FinalSubmissionForm,
+    helpers: FormikHelpers<FinalSubmissionForm>,
+  ) => {
     const dishSubmission: DishSubmissionRequest = {
       // @ts-ignore
       scores: scoreSubmissions,
@@ -80,7 +89,12 @@ const DishSubmissionForm = ({ dish }: { dish: Dish }) => {
     };
     dishesRepo.dishesRepositoryInstance
       .postSubmission(dish.id, dishSubmission, () => {})
-      .then(() => {});
+      .then((result) => {
+        helpers.setSubmitting(false);
+        if (result.isOk()) {
+          onDishReceived(result.value);
+        }
+      });
   };
 
   const validateForm = (values: FinalSubmissionForm) => {

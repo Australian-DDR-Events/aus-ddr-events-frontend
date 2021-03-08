@@ -12,7 +12,14 @@ import { defaultSpacing } from 'types/styled-components';
 import { DancerGradedIngredient, Dish } from 'types/summer2021';
 import { getAssetUrl } from 'utils/assets';
 
-import DishModal, { COOK_VIEW, SONGS_VIEW, View } from '../dish-modal';
+import { DefaultDishSubmissionResponse } from '../../../context/dishes/constants';
+import { DishSubmissionResponse } from '../../../context/dishes/types';
+import DishModal, {
+  COOK_VIEW,
+  DISH_VIEW,
+  SONGS_VIEW,
+  View,
+} from '../dish-modal';
 import RequiredIngredientDisplay from '../required-ingredient-display';
 
 const DishDisplay = ({
@@ -24,6 +31,13 @@ const DishDisplay = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalView, setModalView] = useState<View>(SONGS_VIEW);
+  const [dishResult, setDishResult] = useState<DishSubmissionResponse>(
+    DefaultDishSubmissionResponse,
+  );
+  const onDishReceived = (dishResponse: DishSubmissionResponse) => {
+    setDishResult(dishResponse);
+    setModalView(DISH_VIEW);
+  };
   return (
     <Box
       p={defaultSpacing / 2}
@@ -78,6 +92,8 @@ const DishDisplay = ({
           dish={dish}
           isOpen={isOpen}
           onClose={onClose}
+          dishResult={dishResult}
+          onDishReceived={onDishReceived}
         />
       </Center>
     </Box>

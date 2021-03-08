@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { Result } from 'types/result';
 import { Dish, DishSong, GradedDish } from 'types/summer2021';
 
+import { Score } from '../../types/core';
 import { ScoreSubmissionRequest } from '../scores/types';
 
 export type DishSubmissionRequest = {
@@ -12,8 +13,10 @@ export type DishSubmissionRequest = {
 
 export type DishSubmissionResponse = {
   id: string;
-  gradedDishId: string;
+  gradedDish: GradedDish;
   dancerId: string;
+  resultImage: string;
+  scores: Array<Score>;
 };
 
 export interface GetById {
