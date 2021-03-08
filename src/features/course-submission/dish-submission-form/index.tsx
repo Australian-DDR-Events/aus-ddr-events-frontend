@@ -176,7 +176,7 @@ const DishSubmissionForm = ({
                 isLoading={props.isSubmitting}
                 mr={defaultSpacing / 2}
               >
-                Save
+                Submit
               </Button>
             </Form>
           )}

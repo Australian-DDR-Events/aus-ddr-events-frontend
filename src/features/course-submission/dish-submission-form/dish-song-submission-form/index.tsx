@@ -174,12 +174,12 @@ const DishSongSubmissionForm = ({
             </Field>
             {hasPrevious && (
               <Button
-                colorScheme="blue"
                 type="submit"
                 onClick={() => setDirection(false)}
                 // eslint-disable-next-line react/prop-types
                 isLoading={props.isSubmitting}
                 mr={defaultSpacing / 2}
+                mb={defaultSpacing / 2}
               >
                 Previous
               </Button>
@@ -191,6 +191,7 @@ const DishSongSubmissionForm = ({
               // eslint-disable-next-line react/prop-types
               isLoading={props.isSubmitting}
               mr={defaultSpacing / 2}
+              mb={defaultSpacing / 2}
             >
               Next
             </Button>
