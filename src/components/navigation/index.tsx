@@ -4,20 +4,28 @@ import {
   Flex,
   HStack,
   Icon,
+  IconButton,
   Image,
+  Spacer,
   Stack,
 } from '@chakra-ui/react';
 import logo from 'assets/logo.png';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import React, { useContext } from 'react';
-import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
+import { FiMenu, FiX } from 'react-icons/fi';
 import { useLocation } from 'wouter';
+
+import ColorModeSwitch from './color-mode-switch';
 
 const MenuToggle = ({ toggle, isOpen }: { toggle: any; isOpen: boolean }) => {
   return (
-    <Box display={{ base: 'block', lg: 'none' }} onClick={toggle}>
-      <Icon as={isOpen ? IoChevronUp : IoChevronDown} w={6} h={6} />
-    </Box>
+    <IconButton
+      aria-label="Menu toggle"
+      icon={<Icon as={isOpen ? FiX : FiMenu} w={6} h={6} />}
+      onClick={toggle}
+      color="gray.500"
+      variant="ghost"
+    />
   );
 };
 
@@ -43,10 +51,12 @@ const MenuItem = ({
 const Navigation = (props: any) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [, setLocation] = useLocation();
+
   const authRepo = useContext(AuthenticationRepositoryContext)
     .authenticationRepositoryInstance;
   const loggedInUser = authRepo.get().okOrDefault();
   const toggle = () => setIsOpen(!isOpen);
+
   const onLogout = () => {
     authRepo.logout().then((result) => {
       if (result.isOk()) {
@@ -73,6 +83,8 @@ const Navigation = (props: any) => {
         onClick={() => setLocation('/')}
         cursor="pointer"
       />
+      <Spacer />
+      <ColorModeSwitch />
       <MenuToggle toggle={toggle} isOpen={isOpen} />
       <Box
         display={{ base: isOpen ? 'block' : 'none', lg: 'block' }}

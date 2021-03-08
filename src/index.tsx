@@ -1,4 +1,9 @@
-import { Center, ChakraProvider, Spinner } from '@chakra-ui/react';
+import {
+  Center,
+  ChakraProvider,
+  ColorModeScript,
+  Spinner,
+} from '@chakra-ui/react';
 import axios from 'axios';
 import Router from 'components/router';
 import Wrapper from 'components/wrapper';
@@ -50,6 +55,8 @@ import React, { useContext, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { HeadProvider, Title } from 'react-head';
 import compose, { ComposeProps } from 'utils/compose';
+
+import theme from './theme';
 
 dotenv.config();
 
@@ -153,35 +160,35 @@ const App = (): React.ReactElement => {
 const providers: Array<ComposeProps> = [
   {
     Provider: AuthenticationRepositoryProvider,
-    instance: authenticationRepositoryInstance,
+    props: { instance: authenticationRepositoryInstance },
   },
   {
     Provider: DancersRepositoryContextProvider,
-    instance: dancersRepositoryInstance,
+    props: { instance: dancersRepositoryInstance },
   },
   {
     Provider: SongsRepositoryProvider,
-    instance: songsRepositoryInstance,
+    props: { instance: songsRepositoryInstance },
   },
   {
     Provider: ScoresRepositoryProvider,
-    instance: scoresRepositoryInstance,
+    props: { instance: scoresRepositoryInstance },
   },
   {
     Provider: IngredientsRepositoryProvider,
-    instance: ingredientsRepositoryInstance,
+    props: { instance: ingredientsRepositoryInstance },
   },
   {
     Provider: DishesRepositoryProvider,
-    instance: dishesRepositoryInstance,
+    props: { instance: dishesRepositoryInstance },
   },
   {
     Provider: BadgesRepositoryProvider,
-    instance: badgesRepositoryInstance,
+    props: { instance: badgesRepositoryInstance },
   },
   {
     Provider: EventsRepositoryProvider,
-    instance: eventsRepositoryInstance,
+    props: { instance: eventsRepositoryInstance },
   },
   {
     Provider: HeadProvider,
@@ -196,6 +203,7 @@ ReactDOM.render(
     providers,
     <>
       <Title>Australian DDR Events</Title>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <App />
     </>,
   ),

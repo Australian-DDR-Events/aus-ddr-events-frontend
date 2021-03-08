@@ -8,13 +8,8 @@ const compose = (
   providers.reduceRight(
     (
       acc: React.ReactElement,
-      { Provider, instance }: ComposeProps,
-    ): React.ReactElement =>
-      instance ? (
-        <Provider instance={instance}>{acc}</Provider>
-      ) : (
-        <Provider>{acc}</Provider>
-      ),
+      { Provider, props }: ComposeProps,
+    ): React.ReactElement => <Provider {...props}>{acc}</Provider>,
     children,
   );
 
