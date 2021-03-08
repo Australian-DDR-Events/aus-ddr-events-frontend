@@ -4,6 +4,7 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Progress,
   Switch,
 } from '@chakra-ui/react';
 import FileUploadFormField from 'components/score-submission-form';
@@ -37,6 +38,7 @@ const DishSubmissionForm = ({
   const [scoreSubmissions] = useState(new Array<ScoreSubmissonFormData>());
   const [finalImageUrl, setFinalImageUrl] = useState<string>('');
   const [dishSongSelections, setDishSongSelections] = useState(dish.dishSongs);
+  const [progressBarPercent, setProgressBarPercent] = useState(0);
   const dishesRepo = useContext(DishesRepositoryContext);
 
   const initialValues: DishSubmissionFormData = {
@@ -88,7 +90,11 @@ const DishSubmissionForm = ({
       finalImage: values.finalImage,
     };
     dishesRepo.dishesRepositoryInstance
-      .postSubmission(dish.id, dishSubmission, () => {})
+      .postSubmission(dish.id, dishSubmission, (progressEvent: any) => {
+        setProgressBarPercent(
+          Math.round(progressEvent.loaded * 100) / progressEvent.total,
+        );
+      })
       .then((result) => {
         helpers.setSubmitting(false);
         if (result.isOk()) {
@@ -178,6 +184,13 @@ const DishSubmissionForm = ({
               >
                 Submit
               </Button>
+              {progressBarPercent > 0 && (
+                <Progress
+                  value={progressBarPercent}
+                  hasStripe
+                  isAnimated={progressBarPercent === 100}
+                />
+              )}
             </Form>
           )}
         </Formik>
