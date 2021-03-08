@@ -85,6 +85,7 @@ const Leaderboard = ({ songId }: { songId?: string }) => {
             emptyColor="gray.200"
             color="blue.500"
             size="xl"
+            mt={4}
           />
         </Center>
       ) : (
