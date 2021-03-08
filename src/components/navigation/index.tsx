@@ -23,6 +23,7 @@ const MenuToggle = ({ toggle, isOpen }: { toggle: any; isOpen: boolean }) => {
       aria-label="Menu toggle"
       icon={<Icon as={isOpen ? FiX : FiMenu} w={6} h={6} />}
       onClick={toggle}
+      display={{ lg: 'none' }}
       color="gray.500"
       variant="ghost"
     />
