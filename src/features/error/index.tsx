@@ -1,21 +1,19 @@
-import { Box, Heading, Link, Text } from '@chakra-ui/react';
+import { Box, Container, Heading, Image, Link, Text } from '@chakra-ui/react';
 import logo from 'assets/logo.png';
 import React from 'react';
 
-import { ErrorHeader, ErrorWrapper, LargeWidthImage } from './styled';
-
 const Error = () => {
   return (
-    <ErrorWrapper>
+    <Container>
       <Box>
-        <LargeWidthImage src={logo} alt="logo" />
-        <ErrorHeader>404</ErrorHeader>
+        <Image src={logo} alt="logo" />
+        <Heading>404</Heading>
       </Box>
       <Heading level={2}>Page not Found</Heading>
       <Text>
         Go to <Link href="/">Home</Link> page.
       </Text>
-    </ErrorWrapper>
+    </Container>
   );
 };
 
