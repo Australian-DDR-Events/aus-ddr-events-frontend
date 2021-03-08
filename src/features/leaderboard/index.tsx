@@ -71,7 +71,7 @@ const Leaderboard = ({ songId }: { songId?: string }) => {
           mr={defaultSpacing / 4}
           mb={defaultSpacing / 4}
         />
-        Leaderboard
+        Leaderboards
       </Heading>
       {isLoading ? (
         <Center>
