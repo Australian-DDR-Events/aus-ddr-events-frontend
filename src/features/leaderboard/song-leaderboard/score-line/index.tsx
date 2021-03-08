@@ -38,10 +38,10 @@ const ScoreLine = ({
           <Flex onClick={() => onClickName()} cursor="pointer">
             <Center>
               <Avatar
+                name={score.dancer?.ddrName || ''}
                 src={getProfileImageUrl(score.dancer?.profilePictureUrl || '')}
                 size="md"
                 mr={defaultSpacing / 2}
-                bgColor="transparent"
               />
             </Center>
             <Center>

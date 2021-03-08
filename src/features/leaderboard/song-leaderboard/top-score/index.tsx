@@ -3,7 +3,7 @@ import React from 'react';
 import { FaCrown } from 'react-icons/fa';
 import { Score } from 'types/core';
 import { defaultSpacing } from 'types/styled-components';
-import { getAssetUrl } from 'utils/assets';
+import { getProfileImageUrl } from 'utils/assets';
 
 const TopScore = ({ score }: { score: Score }) => {
   return (
@@ -19,7 +19,8 @@ const TopScore = ({ score }: { score: Score }) => {
         <Avatar
           size="2xl"
           bgColor="transparent"
-          src={getAssetUrl(score.dancer?.profilePictureUrl || '')}
+          name={score.dancer?.ddrName || ''}
+          src={getProfileImageUrl(score.dancer?.profilePictureUrl || '')}
           borderWidth={defaultSpacing / 2}
           borderColor="gold"
         />
