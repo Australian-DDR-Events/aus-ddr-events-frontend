@@ -51,6 +51,7 @@ const Navigation = (props: any) => {
     authRepo.logout().then((result) => {
       if (result.isOk()) {
         setLocation('/');
+        window.location.reload();
       }
     });
   };
