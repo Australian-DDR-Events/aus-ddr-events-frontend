@@ -1,10 +1,9 @@
 import { Avatar, Box, Heading, Icon, Stack } from '@chakra-ui/react';
 import React from 'react';
 import { FaCrown } from 'react-icons/fa';
+import { Score } from 'types/core';
 import { defaultSpacing } from 'types/styled-components';
-
-import { Score } from '../../../../types/core';
-import { getAssetUrl } from '../../../../utils/assets';
+import { getAssetUrl } from 'utils/assets';
 
 const TopScore = ({ score }: { score: Score }) => {
   return (
@@ -15,6 +14,7 @@ const TopScore = ({ score }: { score: Score }) => {
           color="gold"
           w={defaultSpacing * 2}
           h={defaultSpacing * 2}
+          mb={-defaultSpacing / 4}
         />
         <Avatar
           size="2xl"

@@ -1,9 +1,10 @@
-import { Center, Container, List } from '@chakra-ui/react';
+import { Center, Container } from '@chakra-ui/react';
 import { ScoresRepositoryContext } from 'context/scores';
 import { DefaultSong, SongsRepositoryContext } from 'context/songs';
 import React, { useContext, useEffect, useState } from 'react';
 import { Score } from 'types/core';
 import { getAssetUrl } from 'utils/assets';
+import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 import { useLocation } from 'wouter';
 
 import ScoreImageModal from '../score-image-modal';
@@ -51,19 +52,18 @@ const SongLeaderboard = ({ songId }: { songId: string }) => {
         onClose={() => setModalIsOpen(false)}
       />
       <Center mb={4}>{scores[0] && <TopScore score={scores[0]} />}</Center>
-      <List>
-        {scores.slice(1).map((s, index) => (
-          <ScoreLine
-            index={index}
-            score={s}
-            onClickImage={() => {
-              setModalUrl(getAssetUrl(s.imageUrl));
-              setModalIsOpen(true);
-            }}
-            onClickName={() => setLocation(`/profile/${s.dancer?.id}`)}
-          />
-        ))}
-      </List>
+      {scores.slice(1).map((s, index) => (
+        <ScoreLine
+          index={index}
+          score={s}
+          onClickImage={() => {
+            setModalUrl(getAssetUrl(s.imageUrl));
+            setModalIsOpen(true);
+          }}
+          onClickName={() => setLocation(`/profile/${s.dancer?.id}`)}
+          color={getColorByDifficulty(song.difficulty).shadow}
+        />
+      ))}
     </Container>
   );
 };
