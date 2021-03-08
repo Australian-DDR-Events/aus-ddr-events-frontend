@@ -93,15 +93,15 @@ const ProfileForm = ({
               )}
             </Field>
 
-            <Field type="text" name="dancerId" validate={validateDancerId}>
+            <Field type="text" name="ddrCode" validate={validateDancerId}>
               {({ field, form }: { field: any; form: any }) => (
                 <FormControl
-                  htmlFor="dancerId"
+                  htmlFor="ddrCode"
                   isInvalid={form.errors.dancerId && form.touched.dancerId}
                   mb={defaultSpacing / 2}
                 >
                   <FormLabel>Dancer code</FormLabel>
-                  <Input {...field} id="dancerId" />
+                  <Input {...field} id="ddrCode" />
                   <FormErrorMessage>{form.errors.dancerId}</FormErrorMessage>
                 </FormControl>
               )}
