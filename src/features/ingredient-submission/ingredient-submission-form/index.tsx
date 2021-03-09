@@ -12,7 +12,7 @@ import {
   ModalFooter,
   Progress,
 } from '@chakra-ui/react';
-import FileUploadFormField from 'components/score-submission-form';
+import ImageUploadFormField from 'components/image-upload-form-field';
 import {
   IngredientsRepositoryContext,
   ScoreSubmissionRequest,
@@ -119,13 +119,14 @@ const IngredientSubmissionForm = ({
 
             <Field type="file" name="scoreImage">
               {({ form }: { form: FormikState<ScoreSubmissionRequest> }) => (
-                <FileUploadFormField
+                <ImageUploadFormField
                   label="Score image"
                   fieldName="scoreImage"
                   isInvalid={Boolean(
                     form.errors.scoreImage && form.touched.scoreImage,
                   )}
-                  scoreImageUrl={scoreImageUrl}
+                  imagePosition="top"
+                  imageUrl={scoreImageUrl}
                   formError={form.errors.scoreImage}
                   onChange={(event) => {
                     if (event.currentTarget.files) {

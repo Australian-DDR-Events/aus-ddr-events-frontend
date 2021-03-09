@@ -7,7 +7,6 @@ export type Dancer = {
   ddrCode: string;
   profilePictureUrl: string;
   newProfilePicture: File;
-  userName: string;
   state: string;
   primaryMachine: string;
 };
@@ -17,20 +16,26 @@ export type DancersRepository = {
   getByAuthenticationId: (
     authenticationId: string,
   ) => Promise<Result<Error, Dancer>>;
-  update: (user: Dancer) => Promise<Result<Error, boolean>>;
+  create: (dancer: Dancer) => Promise<Result<Error, boolean>>;
+  update: (dancer: Dancer) => Promise<Result<Error, boolean>>;
 };
 
 export interface Get {
   (id: string): Promise<Result<Error, Dancer>>;
 }
 
+export interface Create {
+  (dancer: Dancer): Promise<Result<Error, boolean>>;
+}
+
 export interface Update {
-  (user: Dancer): Promise<Result<Error, boolean>>;
+  (dancer: Dancer): Promise<Result<Error, boolean>>;
 }
 
 export interface DancersDao {
   get: Get;
   getByAuthenticationId: Get;
+  create: Create;
   update: Update;
 }
 

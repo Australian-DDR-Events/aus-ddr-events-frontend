@@ -6,8 +6,7 @@ export const DefaultDancer: Dancer = {
   ddrCode: '',
   ddrName: '',
   primaryMachine: '',
-  profilePicture: '',
+  profilePictureUrl: '',
   newProfilePicture: new File([''], 'filename'),
   state: '',
-  userName: '',
 };

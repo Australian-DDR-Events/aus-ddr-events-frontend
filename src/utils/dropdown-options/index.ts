@@ -1,20 +1,20 @@
 /* eslint-disable import/prefer-default-export */
 export const StateOptions = [
   {
-    value: 'Victoria',
-    key: 'vic',
+    value: 'Australian Capital Territory',
+    key: 'act',
   },
   {
     value: 'New South Wales',
     key: 'nsw',
   },
   {
-    value: 'Queensland',
-    key: 'qld',
+    value: 'Northern Territory',
+    key: 'nt',
   },
   {
-    value: 'Western Australia',
-    key: 'wa',
+    value: 'Queensland',
+    key: 'qld',
   },
   {
     value: 'South Australia',
@@ -25,11 +25,11 @@ export const StateOptions = [
     key: 'tas',
   },
   {
-    value: 'Australian Capital Territory',
-    key: 'act',
+    value: 'Victoria',
+    key: 'vic',
   },
   {
-    value: 'Northern Territory',
-    key: 'nt',
+    value: 'Western Australia',
+    key: 'wa',
   },
 ];

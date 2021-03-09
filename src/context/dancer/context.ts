@@ -10,6 +10,8 @@ const initialContext = {
       err(new Error('dancers repository not initialized'), DefaultDancer),
     getByAuthenticationId: async () =>
       err(new Error('dancers repository not initialized'), DefaultDancer),
+    create: async () =>
+      err(new Error('dancers repository not initialized'), false),
     update: async () =>
       err(new Error('dancers repository not initialized'), false),
   },

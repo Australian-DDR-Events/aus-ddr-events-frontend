@@ -16,8 +16,8 @@ import { Dancer } from 'context/dancer';
 import React from 'react';
 import { IoCheckmarkCircle } from 'react-icons/io5';
 import { defaultSpacing } from 'types/styled';
+import { StateOptions } from 'utils/dropdown-options';
 
-import { StateOptions } from '../constants';
 import ProfileTabs from '../profile-tabs';
 
 const ProfileReadView = ({
@@ -107,6 +107,7 @@ const ProfileReadView = ({
               />
             )}
           </Heading>
+
           {emailVerified && isLargerThan769 && (
             <Badge
               fontSize="xs"
@@ -118,24 +119,36 @@ const ProfileReadView = ({
             </Badge>
           )}
 
-          <Text fontSize="sm" mb={-1} color="gray">
-            Dancer code
-          </Text>
-          <Text fontSize="lg" mb={defaultSpacing / 8}>
-            {dancer.ddrCode}
-          </Text>
+          {dancer.ddrCode && (
+            <>
+              <Text fontSize="sm" mb={-1} color="gray">
+                Dancer code
+              </Text>
+              <Text fontSize="lg" mb={defaultSpacing / 8}>
+                {dancer.ddrCode}
+              </Text>
+            </>
+          )}
 
-          <Text fontSize="sm" mb={-1} color="gray">
-            State
-          </Text>
-          <Text fontSize="lg" mb={defaultSpacing / 8}>
-            {getStateTextualRepresentation(dancer.state)}
-          </Text>
+          {dancer.state && (
+            <>
+              <Text fontSize="sm" mb={-1} color="gray">
+                State
+              </Text>
+              <Text fontSize="lg" mb={defaultSpacing / 8}>
+                {getStateTextualRepresentation(dancer.state)}
+              </Text>
+            </>
+          )}
 
-          <Text fontSize="sm" mb={-1} color="gray">
-            Primary machine
-          </Text>
-          <Text fontSize="lg">{dancer.primaryMachine}</Text>
+          {dancer.primaryMachine && (
+            <>
+              <Text fontSize="sm" mb={-1} color="gray">
+                Primary machine
+              </Text>
+              <Text fontSize="lg">{dancer.primaryMachine}</Text>
+            </>
+          )}
         </Box>
       </Box>
       <ProfileTabs dancer={dancer} />
