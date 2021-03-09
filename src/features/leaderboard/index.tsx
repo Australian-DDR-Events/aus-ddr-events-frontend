@@ -13,7 +13,7 @@ import { SongsRepositoryContext } from 'context/songs';
 import React, { useContext, useEffect, useState } from 'react';
 import { FaCrown } from 'react-icons/fa';
 import { Score, Song } from 'types/core';
-import { defaultSpacing } from 'types/styled';
+import { defaultPixel } from 'types/styled';
 import { useLocation } from 'wouter';
 
 import { ScoresRepositoryContext } from '../../context/scores';
@@ -66,12 +66,7 @@ const Leaderboard = ({ songId }: { songId?: string }) => {
   return (
     <>
       <Heading textAlign="center">
-        <Icon
-          as={FaCrown}
-          color="gold"
-          mr={defaultSpacing / 4}
-          mb={defaultSpacing / 4}
-        />
+        <Icon as={FaCrown} color="gold" mr={2} mb={2} />
         Leaderboards
       </Heading>
       <Text textAlign="center" fontSize="lg">
@@ -89,8 +84,8 @@ const Leaderboard = ({ songId }: { songId?: string }) => {
           />
         </Center>
       ) : (
-        <Container p={defaultSpacing} maxW="100%" w="fit-content">
-          <VStack align="stretch" spacing={defaultSpacing / 4}>
+        <Container p={defaultPixel} maxW="100%" w="fit-content">
+          <VStack align="stretch" spacing={2}>
             {songListing.map((songListingEntry) => (
               <Box
                 key={songListingEntry.song.id}

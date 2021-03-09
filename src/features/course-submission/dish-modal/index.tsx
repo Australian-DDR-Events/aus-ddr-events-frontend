@@ -17,7 +17,7 @@ import CustomIconRatings from 'components/custom-icon-ratings';
 import { DishSubmissionResponse } from 'context/dishes/types';
 import React from 'react';
 import { IoStar } from 'react-icons/io5';
-import { defaultSpacing } from 'types/styled';
+import { defaultPixel } from 'types/styled';
 import { Dish } from 'types/summer2021';
 import { convertGradeToNumber } from 'utils/summer2021';
 
@@ -68,7 +68,7 @@ const DishModal = ({
             )}
             {view === DISH_VIEW && (
               <>
-                <Box textAlign="center" mt={defaultSpacing * 2}>
+                <Box textAlign="center" mt={defaultPixel * 2}>
                   <Heading>Congratulations!</Heading>
                   <Text>
                     You have obtained a {dishResult.gradedDish.grade}{' '}

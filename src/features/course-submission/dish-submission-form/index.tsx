@@ -21,7 +21,6 @@ import {
   FormikState,
 } from 'formik';
 import React, { useContext, useState } from 'react';
-import { defaultSpacing } from 'types/styled';
 import { Dish } from 'types/summer2021';
 
 import { DishSubmissionFormData, ScoreSubmissonFormData } from '../types';
@@ -140,7 +139,7 @@ const DishSubmissionForm = ({
                 }) => (
                   <FormControl
                     htmlFor="pairBonus"
-                    mb={defaultSpacing / 2}
+                    mb={4}
                     isInvalid={Boolean(
                       form.errors.pairBonus && form.touched.pairBonus,
                     )}
@@ -181,7 +180,7 @@ const DishSubmissionForm = ({
                 colorScheme="blue"
                 type="submit"
                 isLoading={props.isSubmitting}
-                mr={defaultSpacing / 2}
+                mr={4}
               >
                 Submit
               </Button>

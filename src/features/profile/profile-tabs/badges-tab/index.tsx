@@ -14,7 +14,7 @@ import { BadgesRepositoryContext } from 'context/badges';
 import { Badge } from 'context/badges/types';
 import { Dancer } from 'context/dancer';
 import React, { useContext, useEffect, useState } from 'react';
-import { defaultSpacing } from 'types/styled';
+import { defaultPixel } from 'types/styled';
 
 import BadgeAllocationModal from './badge-allocation-modal';
 import BadgeDisplay from './badge-display';
@@ -78,10 +78,10 @@ const BadgesTab = ({ dancer }: { dancer: Dancer }) => {
           </Alert>
           <Button
             onClick={() => setIsOpen(true)}
-            p={defaultSpacing / 4}
+            p={2}
             colorScheme="red"
-            mt={defaultSpacing / 4}
-            mb={defaultSpacing / 4}
+            mt={2}
+            mb={2}
           >
             Badge allocation
           </Button>
@@ -97,8 +97,8 @@ const BadgesTab = ({ dancer }: { dancer: Dancer }) => {
       )}
       <SimpleGrid
         minChildWidth="128px"
-        spacing={defaultSpacing / 2}
-        maxW={defaultSpacing * 18 * gridWidth}
+        spacing={4}
+        maxW={defaultPixel * 18 * gridWidth}
       >
         {dancerBadges.map((b) => (
           <Center key={b.id}>

@@ -27,7 +27,6 @@ import {
   FormikState,
 } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
-import { defaultSpacing } from 'types/styled';
 import { Summer2021Score } from 'types/summer2021';
 
 const IngredientSubmissionForm = ({
@@ -109,7 +108,7 @@ const IngredientSubmissionForm = ({
         <Form>
           <ModalBody>
             {apiErrorMessage && (
-              <Alert status="error" borderRadius="md" mb={defaultSpacing / 2}>
+              <Alert status="error" borderRadius="md" mb={4}>
                 <Box flex="1">
                   <AlertTitle mr={2}>Uh oh!</AlertTitle>
                   <AlertDescription>{apiErrorMessage}</AlertDescription>
@@ -154,7 +153,7 @@ const IngredientSubmissionForm = ({
               }) => (
                 <FormControl
                   htmlFor="score"
-                  mb={defaultSpacing / 2}
+                  mb={4}
                   isInvalid={Boolean(form.errors.score && form.touched.score)}
                 >
                   <FormLabel>EX score</FormLabel>
@@ -171,7 +170,7 @@ const IngredientSubmissionForm = ({
               type="submit"
               // eslint-disable-next-line react/prop-types
               isLoading={props.isSubmitting}
-              mr={defaultSpacing / 2}
+              mr={4}
             >
               Save
             </Button>

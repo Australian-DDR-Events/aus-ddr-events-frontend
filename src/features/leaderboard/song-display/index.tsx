@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { Score, Song } from 'types/core';
-import { defaultSpacing } from 'types/styled';
+import { defaultPixel } from 'types/styled';
 import { getAssetUrl } from 'utils/assets';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 
@@ -33,18 +33,18 @@ const SongDisplay = ({
   return (
     <Flex
       maxW="100%"
-      mb={defaultSpacing}
+      mb={defaultPixel}
       overflow="hidden"
       borderWidth={2}
       borderRadius="lg"
       borderColor={songColors.border}
-      boxShadow={`${defaultSpacing * 1.5}px ${defaultSpacing * 1.5}px 0 ${
+      boxShadow={`${defaultPixel * 1.5}px ${defaultPixel * 1.5}px 0 ${
         songColors.shadow
       }`}
       transition="box-shadow 300ms ease-in-out"
       _hover={{
-        boxShadow: `${defaultSpacing * 1.5 * 1.5}px ${
-          defaultSpacing * 1.5 * 1.5
+        boxShadow: `${defaultPixel * 1.5 * 1.5}px ${
+          defaultPixel * 1.5 * 1.5
         }px 0 ${songColors.shadow}`,
       }}
       w="100%"
@@ -52,7 +52,7 @@ const SongDisplay = ({
     >
       <Image src={getAssetUrl(song.image128)} h={songCoverSize} />
       <Center>
-        <Box ml={defaultSpacing / 4} textAlign="left">
+        <Box ml={2} textAlign="left">
           <Tooltip label={song.name} fontSize="md" placement="top">
             <Text
               fontWeight="bold"
@@ -78,7 +78,10 @@ const SongDisplay = ({
           >
             {song.artist}
           </Text>
-          <Badge colorScheme={songColors.badge} mb={defaultSpacing / 4}>
+          <Badge colorScheme="gray" mb={2} mr={1}>
+            Level {song.level}
+          </Badge>
+          <Badge colorScheme={songColors.badge} mb={2}>
             {song.difficulty}
           </Badge>
         </Box>
@@ -89,7 +92,7 @@ const SongDisplay = ({
           <Spacer />
           {!isSmallerOrEqualTo425 && (
             <Center>
-              <Box mr={defaultSpacing / 2} textAlign="right" w="100%">
+              <Box mr={4} textAlign="right" w="100%">
                 <Text fontWeight="bold" fontSize="xl" isTruncated>
                   {score.dancer?.ddrName}
                 </Text>
@@ -109,7 +112,7 @@ const SongDisplay = ({
               size={isSmallerOrEqualTo425 ? 'md' : 'lg'}
               name={score.dancer?.ddrName}
               src={getAssetUrl(score.dancer?.profilePictureUrl || '')}
-              mr={defaultSpacing / 2}
+              mr={4}
             />
           </Center>
         </>

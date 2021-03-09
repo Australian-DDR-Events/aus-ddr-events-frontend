@@ -16,7 +16,6 @@ import {
 } from 'context/authentication';
 import { Field, Form, Formik, FormikHelpers, FormikValues } from 'formik';
 import React, { useContext, useState } from 'react';
-import { defaultSpacing } from 'types/styled';
 import { useLocation } from 'wouter';
 
 interface ResetPasswordFormData {
@@ -60,7 +59,7 @@ const EmailForm = ({ onSubmitCallback }: { onSubmitCallback: Function }) => {
   return (
     <Container maxW="sm">
       {apiErrorMessage && (
-        <Alert status="error" borderRadius="md" mb={defaultSpacing / 2}>
+        <Alert status="error" borderRadius="md" mb={4}>
           <Box flex="1">
             <AlertTitle mr={2}>Uh oh!</AlertTitle>
             <AlertDescription>{apiErrorMessage}</AlertDescription>
@@ -96,7 +95,7 @@ const EmailForm = ({ onSubmitCallback }: { onSubmitCallback: Function }) => {
               type="submit"
               // eslint-disable-next-line react/prop-types
               isLoading={props.isSubmitting}
-              mr={defaultSpacing / 2}
+              mr={4}
             >
               Reset Password
             </Button>

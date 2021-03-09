@@ -11,7 +11,6 @@ import {
 } from '@chakra-ui/react';
 import { Badge } from 'context/badges/types';
 import React from 'react';
-import { defaultSpacing } from 'types/styled';
 
 const BadgeDisplay = ({
   badge,
@@ -34,7 +33,7 @@ const BadgeDisplay = ({
       <PopoverContent>
         <PopoverCloseButton />
         <PopoverBody>
-          <Text p={defaultSpacing / 2}>{badge.description}</Text>
+          <Text p={4}>{badge.description}</Text>
         </PopoverBody>
       </PopoverContent>
     </Popover>

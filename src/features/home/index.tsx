@@ -1,7 +1,6 @@
 import { Box, Button, Container, Heading, Image } from '@chakra-ui/react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import React, { useContext } from 'react';
-import { defaultSpacing } from 'types/styled';
 import useLocation from 'wouter/use-location';
 
 import { getAssetUrl } from '../../utils/assets';
@@ -30,10 +29,7 @@ const Home = () => {
           Join the barbecue today, sign-up to participate!
         </Heading>
         {!loggedInUser.id && (
-          <Button
-            onClick={() => setLocation('/register')}
-            mt={defaultSpacing / 2}
-          >
+          <Button onClick={() => setLocation('/register')} mt={4}>
             Register now!
           </Button>
         )}

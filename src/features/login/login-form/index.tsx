@@ -18,7 +18,6 @@ import {
 } from 'context/authentication';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
-import { defaultSpacing } from 'types/styled';
 import { useLocation } from 'wouter';
 
 interface LoginFormData {
@@ -77,7 +76,7 @@ const LoginForm = () => {
   return (
     <Container maxW="sm">
       {apiErrorMessage && (
-        <Alert status="error" borderRadius="md" mb={defaultSpacing / 2}>
+        <Alert status="error" borderRadius="md" mb={4}>
           <Box flex="1">
             <AlertTitle mr={2}>Uh oh!</AlertTitle>
             <AlertDescription>{apiErrorMessage}</AlertDescription>
@@ -136,7 +135,7 @@ const LoginForm = () => {
               <Button
                 variant="link"
                 size="sm"
-                mr={defaultSpacing / 2}
+                mr={4}
                 onClick={() => {
                   setLocation('/forgot-password');
                 }}
@@ -149,7 +148,7 @@ const LoginForm = () => {
               type="submit"
               // eslint-disable-next-line react/prop-types
               isLoading={props.isSubmitting}
-              mr={defaultSpacing / 2}
+              mr={4}
             >
               Login
             </Button>

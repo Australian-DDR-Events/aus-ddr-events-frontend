@@ -1,16 +1,7 @@
-import {
-  Avatar,
-  Center,
-  Flex,
-  Icon,
-  Spacer,
-  Text,
-  useMediaQuery,
-} from '@chakra-ui/react';
+import { Avatar, Center, Flex, Icon, Spacer, Text } from '@chakra-ui/react';
 import React from 'react';
 import { IoCamera } from 'react-icons/io5';
 import { Score } from 'types/core';
-import { defaultSpacing } from 'types/styled';
 import { getProfileImageUrl } from 'utils/assets';
 
 const ScoreLine = ({
@@ -26,21 +17,20 @@ const ScoreLine = ({
   onClickName: Function;
   color: string;
 }) => {
-  const [isSmallerOrEqualTo768] = useMediaQuery(['(max-width: 768px)']);
   const leaderNumber: number = index + 2;
   return (
-    <Center key={score.id} mb={defaultSpacing / 4} maxW="100%">
+    <Center key={score.id} mb={2} maxW="100%">
       <Flex>
-        <Center fontWeight="bold" color={color} mr={defaultSpacing / 2}>
+        <Center fontWeight="bold" color={color} mr={4}>
           <Text fontSize="3xl">{leaderNumber}</Text>
         </Center>
         <Spacer />
 
         <Flex
-          w={isSmallerOrEqualTo768 ? '80vw' : 'xl'}
+          w={{ base: '80vw', md: 'xl' }}
           maxW="100%"
           borderRadius="full"
-          padding={defaultSpacing / 4}
+          padding={2}
           borderWidth={2}
           borderColor={color}
         >
@@ -50,7 +40,7 @@ const ScoreLine = ({
                 name={score.dancer?.ddrName || ''}
                 src={getProfileImageUrl(score.dancer?.profilePictureUrl || '')}
                 size="md"
-                mr={defaultSpacing / 2}
+                mr={4}
               />
             </Center>
             <Center>
@@ -63,7 +53,7 @@ const ScoreLine = ({
           <Spacer />
 
           <Center>
-            <Text fontSize="2xl" mr={defaultSpacing / 2}>
+            <Text fontSize="2xl" mr={4}>
               {score.value}
             </Text>
           </Center>
@@ -74,7 +64,7 @@ const ScoreLine = ({
               h={6}
               color={color}
               onClick={() => onClickImage()}
-              mr={defaultSpacing / 2}
+              mr={4}
               cursor="pointer"
             />
           </Center>

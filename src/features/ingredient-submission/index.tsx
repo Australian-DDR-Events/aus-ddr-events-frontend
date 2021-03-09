@@ -12,7 +12,7 @@ import { AuthenticationRepositoryContext } from 'context/authentication';
 import { DancersRepositoryContext } from 'context/dancer';
 import { IngredientsRepositoryContext } from 'context/ingredients';
 import React, { useContext, useEffect, useState } from 'react';
-import { defaultSpacing } from 'types/styled';
+import { defaultPixel } from 'types/styled';
 import { DancerGradedIngredient, Ingredient } from 'types/summer2021';
 
 import IngredientSong from './ingredient-song';
@@ -76,20 +76,17 @@ const IngredientSubmission = () => {
   }, []);
 
   return (
-    <Container
-      maxW={(defaultSpacing * 38 + defaultSpacing / 2) * columnNumber}
-      p={defaultSpacing}
-    >
-      <Box mb={defaultSpacing} textAlign="center">
+    <Container maxW={(defaultPixel * 38 + 4) * columnNumber} p={defaultPixel}>
+      <Box mb={defaultPixel} textAlign="center">
         <Heading>Score submission</Heading>
         <Text fontSize="lg">
           Click or tap on the song jacket to submit your score
         </Text>
       </Box>
       <SimpleGrid
-        minChildWidth={`${defaultSpacing * 32}px`}
-        spacing={defaultSpacing / 2}
-        maxW={(defaultSpacing * 38 + defaultSpacing / 2) * columnNumber}
+        minChildWidth={`${defaultPixel * 32}px`}
+        spacing={4}
+        maxW={(defaultPixel * 38 + 4) * columnNumber}
       >
         {isLoading && (
           <Center>

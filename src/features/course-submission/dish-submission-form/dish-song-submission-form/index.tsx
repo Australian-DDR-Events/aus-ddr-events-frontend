@@ -19,7 +19,6 @@ import {
   FormikState,
 } from 'formik';
 import React, { useState } from 'react';
-import { defaultSpacing } from 'types/styled';
 import { DishSong } from 'types/summer2021';
 import { getAssetUrl } from 'utils/assets';
 
@@ -110,7 +109,7 @@ const DishSongSubmissionForm = ({
               }) => (
                 <FormControl
                   htmlFor="songId"
-                  mb={defaultSpacing / 2}
+                  mb={4}
                   isInvalid={Boolean(form.errors.songId && form.touched.songId)}
                 >
                   <FormLabel>Cooking Method</FormLabel>
@@ -164,7 +163,7 @@ const DishSongSubmissionForm = ({
               }) => (
                 <FormControl
                   htmlFor="score"
-                  mb={defaultSpacing / 2}
+                  mb={4}
                   isInvalid={Boolean(form.errors.score && form.touched.score)}
                 >
                   <FormLabel>EX score</FormLabel>
@@ -179,8 +178,8 @@ const DishSongSubmissionForm = ({
                 onClick={() => setDirection(false)}
                 // eslint-disable-next-line react/prop-types
                 isLoading={props.isSubmitting}
-                mr={defaultSpacing / 2}
-                mb={defaultSpacing / 2}
+                mr={4}
+                mb={4}
               >
                 Previous
               </Button>
@@ -191,8 +190,8 @@ const DishSongSubmissionForm = ({
               onClick={() => setDirection(true)}
               // eslint-disable-next-line react/prop-types
               isLoading={props.isSubmitting}
-              mr={defaultSpacing / 2}
-              mb={defaultSpacing / 2}
+              mr={4}
+              mb={4}
             >
               Next
             </Button>

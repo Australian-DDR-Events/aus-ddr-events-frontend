@@ -1,7 +1,6 @@
 import { Box, Heading } from '@chakra-ui/react';
 import React from 'react';
 import { Song } from 'types/core';
-import { defaultSpacing } from 'types/styled';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 
 const Index = ({ song }: { song: Song }) => {
@@ -9,10 +8,10 @@ const Index = ({ song }: { song: Song }) => {
   return (
     <Box
       bgColor={songColors.shadow}
-      pt={defaultSpacing / 4}
-      pb={defaultSpacing / 4}
-      pl={defaultSpacing / 2}
-      pr={defaultSpacing / 2}
+      pt={2}
+      pb={2}
+      pl={4}
+      pr={4}
       borderRadius="full"
     >
       <Heading color="white" size="md">

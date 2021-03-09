@@ -1,7 +1,7 @@
 import { Button, Center, Heading, Text, useMediaQuery } from '@chakra-ui/react';
 import React from 'react';
 import { FaDiscord, FaFacebook, FaTwitter } from 'react-icons/fa';
-import { defaultSpacing } from 'types/styled';
+import { defaultPixel } from 'types/styled';
 
 const ContactUs = () => {
   const [isLargerThan750] = useMediaQuery('(min-width: 750px)');
@@ -11,7 +11,7 @@ const ContactUs = () => {
   };
   return (
     <>
-      <Heading as="h2" mb={defaultSpacing} textAlign="center">
+      <Heading as="h2" mb={defaultPixel} textAlign="center">
         Want more information?
       </Heading>
       <Text fontSize="md">
@@ -19,11 +19,11 @@ const ContactUs = () => {
         AUSDDREvents team, feel free to get in touch with us via the following
         services:
       </Text>
-      <Center mt={defaultSpacing} mb={defaultSpacing}>
+      <Center mt={defaultPixel} mb={defaultPixel}>
         <Button
           colorScheme="facebook"
           leftIcon={<FaFacebook />}
-          mr={isLargerThan750 ? defaultSpacing / 2 : defaultSpacing / 4}
+          mr={isLargerThan750 ? 4 : 2}
           size={isLargerThan750 ? 'md' : 'sm'}
           onClick={() =>
             openLinkInNewTab('https://www.facebook.com/groups/2053507828081261')
@@ -34,7 +34,7 @@ const ContactUs = () => {
         <Button
           colorScheme="twitter"
           leftIcon={<FaTwitter />}
-          mr={isLargerThan750 ? defaultSpacing / 2 : defaultSpacing / 4}
+          mr={isLargerThan750 ? 4 : 2}
           size={isLargerThan750 ? 'md' : 'sm'}
           onClick={() => openLinkInNewTab('https://twitter.com/AusddrE')}
         >

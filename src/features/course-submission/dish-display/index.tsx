@@ -8,7 +8,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { defaultSpacing } from 'types/styled';
+import { defaultPixel } from 'types/styled';
 import { DancerGradedIngredient, Dish } from 'types/summer2021';
 import { getAssetUrl } from 'utils/assets';
 
@@ -42,20 +42,15 @@ const DishDisplay = ({
     setModalView(DISH_VIEW);
   };
   return (
-    <Box
-      p={defaultSpacing / 2}
-      w="fit-content"
-      borderWidth={defaultSpacing / 4}
-      borderRadius="lg"
-    >
+    <Box p={4} w="fit-content" borderWidth={2} borderRadius="lg">
       <Heading textAlign="center" fontSize="xl">
         {dish.name}
       </Heading>
       <Center>
         <Image src={getAssetUrl(dish.image256)} />
       </Center>
-      <Center w="100%" mb={defaultSpacing}>
-        <HStack spacing={defaultSpacing / 2}>
+      <Center w="100%" mb={defaultPixel}>
+        <HStack spacing={4}>
           {dish.ingredients.map((i) => (
             <RequiredIngredientDisplay
               key={i.id}
@@ -67,7 +62,7 @@ const DishDisplay = ({
           ))}
         </HStack>
       </Center>
-      <Center mb={defaultSpacing / 2}>
+      <Center mb={4}>
         <Button
           variant="solid"
           w="100%"

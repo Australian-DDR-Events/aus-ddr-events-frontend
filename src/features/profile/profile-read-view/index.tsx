@@ -15,7 +15,7 @@ import {
 import { Dancer } from 'context/dancer';
 import React from 'react';
 import { IoCheckmarkCircle } from 'react-icons/io5';
-import { defaultSpacing } from 'types/styled';
+import { defaultPixel } from 'types/styled';
 import { StateOptions } from 'utils/dropdown-options';
 
 import ProfileTabs from '../profile-tabs';
@@ -60,15 +60,15 @@ const ProfileReadView = ({
   return (
     <Stack
       direction={['column', 'column', 'column', 'row']}
-      spacing={defaultSpacing}
+      spacing={defaultPixel}
     >
-      <Box w={isLargerThan769 ? `${defaultSpacing * 40}px` : '100%'}>
+      <Box w={isLargerThan769 ? `${defaultPixel * 40}px` : '100%'}>
         <Center>
           <Avatar
             size="2xl"
             name={dancer.ddrName}
             src={getProfileImageUrl() || DEFAULT_PROFILE_PICTURE_URL}
-            mb={defaultSpacing / 2}
+            mb={4}
             bgColor="transparent"
           />
         </Center>
@@ -88,8 +88,8 @@ const ProfileReadView = ({
             colorScheme="blue"
             w={isLargerThan769 ? '100%' : '50%'}
             onClick={onShareButtonClick}
-            mb={defaultSpacing / 2}
-            mt={isEditable ? defaultSpacing / 4 : 0}
+            mb={4}
+            mt={isEditable ? 2 : 0}
           >
             Share profile
           </Button>
@@ -102,19 +102,14 @@ const ProfileReadView = ({
               <Icon
                 as={IoCheckmarkCircle}
                 color="green"
-                w={defaultSpacing * 0.75}
-                h={defaultSpacing * 0.75}
+                w={defaultPixel * 0.75}
+                h={defaultPixel * 0.75}
               />
             )}
           </Heading>
 
           {emailVerified && isLargerThan769 && (
-            <Badge
-              fontSize="xs"
-              colorScheme="green"
-              borderRadius="full"
-              mb={defaultSpacing / 4}
-            >
+            <Badge fontSize="xs" colorScheme="green" borderRadius="full" mb={2}>
               &nbsp;Verified&nbsp;
             </Badge>
           )}
@@ -124,7 +119,7 @@ const ProfileReadView = ({
               <Text fontSize="sm" mb={-1} color="gray">
                 Dancer code
               </Text>
-              <Text fontSize="lg" mb={defaultSpacing / 8}>
+              <Text fontSize="lg" mb={defaultPixel / 8}>
                 {dancer.ddrCode}
               </Text>
             </>
@@ -135,7 +130,7 @@ const ProfileReadView = ({
               <Text fontSize="sm" mb={-1} color="gray">
                 State
               </Text>
-              <Text fontSize="lg" mb={defaultSpacing / 8}>
+              <Text fontSize="lg" mb={defaultPixel / 8}>
                 {getStateTextualRepresentation(dancer.state)}
               </Text>
             </>

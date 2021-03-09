@@ -10,7 +10,7 @@ import { DancersRepositoryContext } from 'context/dancer';
 import { DishesRepositoryContext } from 'context/dishes';
 import { IngredientsRepositoryContext } from 'context/ingredients';
 import React, { useContext, useEffect, useState } from 'react';
-import { defaultSpacing } from 'types/styled';
+import { defaultPixel } from 'types/styled';
 import { DancerGradedIngredient, Dish } from 'types/summer2021';
 
 import DishDisplay from './dish-display';
@@ -62,11 +62,11 @@ const CourseSubmission = () => {
   }, []);
 
   const gridColumns = 4;
-  const totalCourseCoverWidth = defaultSpacing * 34 + defaultSpacing / 2;
+  const totalCourseCoverWidth = 8 * 34 + 4;
 
   return (
-    <Container maxW={gridColumns * totalCourseCoverWidth} p={defaultSpacing}>
-      <Heading textAlign="center" mb={defaultSpacing / 2}>
+    <Container maxW={gridColumns * totalCourseCoverWidth} p={8}>
+      <Heading textAlign="center" mb={4}>
         Stamina course submission
       </Heading>
       {isLoading && (
@@ -82,9 +82,9 @@ const CourseSubmission = () => {
       )}
       {!isLoading && (
         <SimpleGrid
-          spacing={defaultSpacing / 2}
+          spacing={4}
           columns={5}
-          minChildWidth={`${defaultSpacing * 34}px`}
+          minChildWidth={`${defaultPixel * 34}px`}
         >
           {dishes?.map((d) => (
             <DishDisplay

@@ -10,7 +10,7 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { defaultSpacing } from 'types/styled';
+import { defaultPixel } from 'types/styled';
 
 import Step1 from './step-1';
 import Step2 from './step-2';
@@ -30,7 +30,7 @@ const HowTo = () => {
       variant="soft-rounded"
       index={tabIndex}
       onChange={handleTabsChange}
-      pb={defaultSpacing}
+      pb={defaultPixel}
       align="center"
     >
       {isSmallerThan425 ? (
@@ -74,7 +74,7 @@ const HowTo = () => {
       <Center>
         <Button
           width="120px"
-          mr={defaultSpacing / 4}
+          mr={2}
           size="lg"
           onClick={() => setTabIndex(tabIndex - 1)}
           disabled={tabIndex === 0}

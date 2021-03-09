@@ -15,7 +15,7 @@ import ImageUploadFormField from 'components/image-upload-form-field';
 import { Dancer, DancersRepositoryContext } from 'context/dancer';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
-import { defaultSpacing } from 'types/styled';
+import { defaultPixel } from 'types/styled';
 import { StateOptions } from 'utils/dropdown-options';
 
 import { ProfileFormData } from './types';
@@ -71,9 +71,9 @@ const ProfileForm = ({
   };
 
   return (
-    <Container mb={defaultSpacing}>
+    <Container mb={defaultPixel}>
       {apiErrorMessage && (
-        <Alert status="error" borderRadius="md" mb={defaultSpacing / 2}>
+        <Alert status="error" borderRadius="md" mb={4}>
           <Box flex="1">
             <AlertTitle mr={2}>Uh oh!</AlertTitle>
             <AlertDescription>{apiErrorMessage}</AlertDescription>
@@ -85,7 +85,7 @@ const ProfileForm = ({
           <Form>
             <Field type="ddrName" name="ddrName" validate={validateDancerName}>
               {({ field, form }: { field: any; form: any }) => (
-                <FormControl id="ddrName" isRequired mb={defaultSpacing / 2}>
+                <FormControl id="ddrName" isRequired mb={4}>
                   <FormLabel>Dancer name</FormLabel>
                   <Input type="text" {...field} />
                   <FormErrorMessage>{form.errors.ddrName}</FormErrorMessage>
@@ -98,7 +98,7 @@ const ProfileForm = ({
                 <FormControl
                   htmlFor="ddrCode"
                   isInvalid={form.errors.dancerId && form.touched.dancerId}
-                  mb={defaultSpacing / 2}
+                  mb={4}
                 >
                   <FormLabel>Dancer code</FormLabel>
                   <Input {...field} id="ddrCode" />
@@ -109,7 +109,7 @@ const ProfileForm = ({
 
             <Field name="state">
               {({ field }: { field: any }) => (
-                <FormControl htmlFor="state" mb={defaultSpacing / 2}>
+                <FormControl htmlFor="state" mb={4}>
                   <FormLabel>State of residence</FormLabel>
                   <Select
                     {...field}
@@ -128,7 +128,7 @@ const ProfileForm = ({
 
             <Field type="text" name="primaryMachine">
               {({ field, form }: { field: any; form: any }) => (
-                <FormControl htmlFor="primaryMachine" mb={defaultSpacing / 2}>
+                <FormControl htmlFor="primaryMachine" mb={4}>
                   <FormLabel>Primary machine</FormLabel>
                   <Input {...field} id="primaryMachine" />
                   <FormErrorMessage>
@@ -141,8 +141,8 @@ const ProfileForm = ({
             <Field type="file" name="newProfilePicture">
               {({ form }: { form: any }) => (
                 <ImageUploadFormField
-                  pt={defaultSpacing / 4}
-                  h={defaultSpacing * 1.5}
+                  pt={2}
+                  h={defaultPixel * 1.5}
                   fieldName="newProfilePicture"
                   label="Profile picture"
                   onChange={(event) => {
@@ -170,7 +170,7 @@ const ProfileForm = ({
               type="submit"
               // eslint-disable-next-line react/prop-types
               isLoading={props.isSubmitting}
-              mr={defaultSpacing / 2}
+              mr={4}
             >
               Save
             </Button>

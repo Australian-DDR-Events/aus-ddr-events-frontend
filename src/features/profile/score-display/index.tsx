@@ -10,7 +10,7 @@ import CustomIconRatings from 'components/custom-icon-ratings';
 import React from 'react';
 import { IoStar } from 'react-icons/io5';
 import { Song } from 'types/core';
-import { defaultSpacing } from 'types/styled';
+import { defaultPixel } from 'types/styled';
 import { Summer2021Score } from 'types/summer2021';
 import { getAssetUrl } from 'utils/assets';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
@@ -33,13 +33,13 @@ const ScoreDisplay = ({
       borderWidth={2}
       borderRadius="lg"
       borderColor={songColors.border}
-      boxShadow={`${defaultSpacing * 1.5}px ${defaultSpacing * 1.5}px 0 ${
+      boxShadow={`${defaultPixel * 1.5}px ${defaultPixel * 1.5}px 0 ${
         songColors.shadow
       }`}
       transition="box-shadow 300ms ease-in-out"
       _hover={{
-        boxShadow: `${defaultSpacing * 1.5 * 1.5}px ${
-          defaultSpacing * 1.5 * 1.5
+        boxShadow: `${defaultPixel * 1.5 * 1.5}px ${
+          defaultPixel * 1.5 * 1.5
         }px 0 ${songColors.shadow}`,
       }}
       {...(isSmallerThan1024 && { w: '100%' })}
@@ -48,7 +48,7 @@ const ScoreDisplay = ({
         src={getAssetUrl(song.image128)}
         h={isSmallerThan1024 ? '95px' : '128px'}
       />
-      <Box mt={defaultSpacing / 4} ml={defaultSpacing / 4} textAlign="left">
+      <Box mt={2} ml={2} textAlign="left">
         <Text fontWeight="bold">EX score</Text>
         <Text
           fontSize={isSmallerThan1024 ? 'md' : 'xl'}

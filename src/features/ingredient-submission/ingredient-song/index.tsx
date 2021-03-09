@@ -2,7 +2,7 @@ import { Badge, Box, Image, Text, useDisclosure } from '@chakra-ui/react';
 import CustomIconRatings from 'components/custom-icon-ratings';
 import React from 'react';
 import { IoStar } from 'react-icons/io5';
-import { defaultSpacing } from 'types/styled';
+import { defaultPixel } from 'types/styled';
 import { DancerGradedIngredient, Ingredient } from 'types/summer2021';
 import { getAssetUrl } from 'utils/assets';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
@@ -26,21 +26,21 @@ const IngredientSong = ({
   return (
     <>
       <Box
-        w={defaultSpacing * 32}
+        w={defaultPixel * 32}
         borderWidth={2}
         borderColor={currentSongColor.border}
-        boxShadow={`${defaultSpacing * 1.5}px ${defaultSpacing * 1.5}px 0 ${
+        boxShadow={`${defaultPixel * 1.5}px ${defaultPixel * 1.5}px 0 ${
           currentSongColor.shadow
         }`}
         transition="box-shadow 300ms ease-in-out"
         _hover={{
-          boxShadow: `${defaultSpacing * 1.5 * 1.5}px ${
-            defaultSpacing * 1.5 * 1.5
+          boxShadow: `${defaultPixel * 1.5 * 1.5}px ${
+            defaultPixel * 1.5 * 1.5
           }px 0 ${currentSongColor.shadow}`,
         }}
         borderRadius="lg"
         overflow="hidden"
-        mb={defaultSpacing}
+        mb={defaultPixel}
         cursor="pointer"
         onClick={onOpen}
       >
@@ -48,20 +48,23 @@ const IngredientSong = ({
           src={getAssetUrl(ingredient.song.image256)}
           alt={ingredient.song.name}
         />
-        <Box ml={defaultSpacing / 2}>
-          <Text fontWeight="bold" fontSize="lg" mt={defaultSpacing / 4}>
+        <Box ml={4}>
+          <Text fontWeight="bold" fontSize="lg" mt={2}>
             {ingredient.song.name}
           </Text>
           <Text color="gray" mt={-1} mb={1}>
             {ingredient.song.artist}
           </Text>
-          <Badge colorScheme={currentSongColor.badge} mb={defaultSpacing / 4}>
+          <Badge colorScheme="gray" mb={2} mr={1}>
+            Level {ingredient.song.level}
+          </Badge>
+          <Badge colorScheme={currentSongColor.badge} mb={2}>
             {ingredient.song.difficulty}
           </Badge>
         </Box>
 
-        <Box d="flex" mb={defaultSpacing / 4} minH="90px">
-          <Box ml={defaultSpacing / 2} mt={defaultSpacing / 4}>
+        <Box d="flex" mb={2} minH="90px">
+          <Box ml={4} mt={2}>
             <Text
               m={0}
               color={
@@ -92,7 +95,7 @@ const IngredientSong = ({
               />
             )}
           </Box>
-          <Box mr={defaultSpacing / 2}>
+          <Box mr={4}>
             <Image
               w={`${ingredientIconWidth}px`}
               src={

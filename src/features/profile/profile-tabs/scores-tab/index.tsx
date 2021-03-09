@@ -4,7 +4,7 @@ import { IngredientsRepositoryContext } from 'context/ingredients';
 import { SongsRepositoryContext } from 'context/songs';
 import React, { useContext, useEffect, useState } from 'react';
 import { Song } from 'types/core';
-import { defaultSpacing } from 'types/styled';
+import { defaultPixel } from 'types/styled';
 import { Summer2021Score } from 'types/summer2021';
 
 import ScoreDisplay from '../../score-display';
@@ -49,12 +49,12 @@ const ScoresTab = ({ dancer }: { dancer: Dancer }) => {
 
   return (
     <SimpleGrid
-      spacing={defaultSpacing}
+      spacing={defaultPixel}
       columns={isLargerThan1440 ? 2 : 1}
-      mt={defaultSpacing / 4}
-      mb={defaultSpacing}
+      mt={2}
+      mb={defaultPixel}
       w="fit-content"
-      pr={isLargerThan1440 ? defaultSpacing : 0}
+      pr={isLargerThan1440 ? defaultPixel : 0}
     >
       {scores.map((score) => (
         <ScoreDisplay

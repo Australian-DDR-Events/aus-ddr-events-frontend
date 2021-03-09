@@ -14,7 +14,6 @@ import {
 import React, { useContext, useEffect, useState } from 'react';
 import { Title } from 'react-head';
 import { Result } from 'types/result';
-import { defaultSpacing } from 'types/styled';
 
 import ProfileForm from './profile-form';
 import ProfileReadView from './profile-read-view';
@@ -62,10 +61,10 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
     <>
       {loading && (
         <Box w="70vw">
-          <SkeletonCircle size="20" mb={defaultSpacing / 2} />
-          <Skeleton height={defaultSpacing / 2} mb={defaultSpacing / 4} />
-          <Skeleton height={defaultSpacing / 2} mb={defaultSpacing / 4} />
-          <Skeleton height={defaultSpacing / 2} />
+          <SkeletonCircle size="20" mb={4} />
+          <Skeleton height={4} mb={2} />
+          <Skeleton height={4} mb={2} />
+          <Skeleton height={4} />
         </Box>
       )}
       {!loading && (

@@ -3,7 +3,7 @@ import React from 'react';
 import { FaCrown } from 'react-icons/fa';
 import { IoCamera } from 'react-icons/io5';
 import { Score } from 'types/core';
-import { defaultSpacing } from 'types/styled';
+import { defaultPixel } from 'types/styled';
 import { getProfileImageUrl } from 'utils/assets';
 
 const TopScore = ({
@@ -21,15 +21,15 @@ const TopScore = ({
         <Icon
           as={FaCrown}
           color="gold"
-          w={defaultSpacing * 2}
-          h={defaultSpacing * 2}
-          mb={-defaultSpacing / 4}
+          w={defaultPixel * 2}
+          h={defaultPixel * 2}
+          mb={-2}
         />
         <Avatar
           size="2xl"
           name={score.dancer?.ddrName || ''}
           src={getProfileImageUrl(score.dancer?.profilePictureUrl || '')}
-          borderWidth={defaultSpacing / 2}
+          borderWidth={4}
           borderColor="gold"
           onClick={() => onClickUser()}
           cursor="pointer"
@@ -49,7 +49,7 @@ const TopScore = ({
         color="yellow.400"
         size="2xl"
         textAlign="center"
-        mt={-defaultSpacing / 4}
+        mt={-2}
         onClick={() => onClickImage()}
         cursor="pointer"
       >
@@ -60,7 +60,7 @@ const TopScore = ({
           h={8}
           color="yellow.400"
           onClick={() => onClickImage()}
-          ml={defaultSpacing / 4}
+          ml={2}
           cursor="pointer"
         />
       </Heading>
