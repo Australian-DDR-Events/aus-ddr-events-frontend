@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   Flex,
@@ -6,22 +7,33 @@ import {
   Icon,
   IconButton,
   Image,
+  SkeletonCircle,
   Spacer,
   Stack,
 } from '@chakra-ui/react';
 import logo from 'assets/logo.png';
 import { AuthenticationRepositoryContext } from 'context/authentication';
-import React, { useContext } from 'react';
-import { FiMenu, FiX } from 'react-icons/fi';
+import {
+  Dancer,
+  DancersRepositoryContext,
+  DefaultDancer,
+} from 'context/dancer';
+import React, { useContext, useEffect } from 'react';
+import { FiMoreVertical, FiX } from 'react-icons/fi';
+import { Result } from 'types/result';
+import { getProfileImageUrl } from 'utils/assets';
 import { useLocation } from 'wouter';
 
 import ColorModeSwitch from './color-mode-switch';
+import LoggedInMenuItems from './logged-in-menu-items';
+import MenuItem from './menu-item';
+import ProfileMenuItem from './profile-menu-item';
 
 const MenuToggle = ({ toggle, isOpen }: { toggle: any; isOpen: boolean }) => {
   return (
     <IconButton
       aria-label="Menu toggle"
-      icon={<Icon as={isOpen ? FiX : FiMenu} w={6} h={6} />}
+      icon={<Icon as={isOpen ? FiX : FiMoreVertical} w={6} h={6} />}
       onClick={toggle}
       display={{ lg: 'none' }}
       color="gray.500"
@@ -30,36 +42,32 @@ const MenuToggle = ({ toggle, isOpen }: { toggle: any; isOpen: boolean }) => {
   );
 };
 
-const MenuItem = ({
-  children,
-  onClick,
-}: {
-  children: React.ReactChild;
-  onClick: any;
-}) => {
-  return (
-    <Button
-      variant="link"
-      fontWeight="normal"
-      colorScheme="blue"
-      onClick={onClick}
-    >
-      {children}
-    </Button>
-  );
-};
-
 const Navigation = (props: any) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [, setLocation] = useLocation();
 
-  const authRepo = useContext(AuthenticationRepositoryContext)
-    .authenticationRepositoryInstance;
-  const loggedInUser = authRepo.get().okOrDefault();
+  const authRepo = useContext(AuthenticationRepositoryContext);
+  const loggedInUser = authRepo.authenticationRepositoryInstance
+    .get()
+    .okOrDefault();
   const toggle = () => setIsOpen(!isOpen);
+  const [dancer, setDancer] = React.useState(DefaultDancer);
+
+  const onGetFinished = (u: Result<Error, Dancer>) => {
+    setDancer(u.okOrDefault());
+  };
+
+  const dancersRepository = useContext(DancersRepositoryContext);
+
+  useEffect(() => {
+    if (loggedInUser.id)
+      dancersRepository.dancersRepositoryInstance
+        .getByAuthenticationId(loggedInUser.id)
+        .then(onGetFinished);
+  }, [loggedInUser]);
 
   const onLogout = () => {
-    authRepo.logout().then((result) => {
+    authRepo.authenticationRepositoryInstance.logout().then((result) => {
       if (result.isOk()) {
         setLocation('/');
         window.location.reload();
@@ -86,18 +94,43 @@ const Navigation = (props: any) => {
       />
       <Spacer />
       <ColorModeSwitch mr={2} display={{ lg: 'none' }} />
-      <MenuToggle toggle={toggle} isOpen={isOpen} />
+
+      {!dancer.id && <SkeletonCircle display={{ lg: 'none' }} />}
+      {dancer.id && !isOpen && (
+        <Avatar
+          size="sm"
+          name={dancer.ddrName}
+          src={getProfileImageUrl(dancer.profilePictureUrl)}
+          display={{ lg: 'none' }}
+          showBorder
+          borderColor="blue.500"
+          borderWidth={2}
+          onClick={toggle}
+          {...(getProfileImageUrl(dancer.profilePictureUrl) && {
+            bgColor: 'transparent',
+          })}
+        />
+      )}
+
+      {dancer.id && isOpen && <MenuToggle toggle={toggle} isOpen={isOpen} />}
       <Box
         display={{ base: isOpen ? 'block' : 'none', lg: 'block' }}
         flexBasis={{ base: '100%', lg: 'auto' }}
       >
         <Stack
-          spacing={8}
+          spacing={6}
           align="center"
           justify={['center', 'center', 'flex-end', 'flex-end']}
           direction={['column', 'column', 'column', 'row']}
           pt={[4, 4, 0, 0]}
         >
+          {loggedInUser.id && (
+            <ProfileMenuItem
+              isMobileView
+              dancer={dancer}
+              onProfileMenuItemClick={() => setLocation('/profile')}
+            />
+          )}
           <MenuItem onClick={() => setLocation('/how-to')}>
             How to participate
           </MenuItem>
@@ -105,38 +138,7 @@ const Navigation = (props: any) => {
             Leaderboards
           </MenuItem>
           {loggedInUser.id ? (
-            <>
-              <MenuItem onClick={() => setLocation('/submission')}>
-                Submit scores
-              </MenuItem>
-              <MenuItem onClick={() => setLocation('/course-submission')}>
-                Submit courses
-              </MenuItem>
-              <HStack>
-                <ColorModeSwitch
-                  mr={2}
-                  display={{ base: 'none', lg: 'inline-block' }}
-                />
-
-                <Button
-                  size="md"
-                  rounded="md"
-                  colorScheme="blue"
-                  onClick={() => setLocation('/profile')}
-                >
-                  Profile
-                </Button>
-                <Button
-                  size="md"
-                  rounded="md"
-                  colorScheme="gray"
-                  variant="outline"
-                  onClick={onLogout}
-                >
-                  Log out
-                </Button>
-              </HStack>
-            </>
+            <LoggedInMenuItems dancer={dancer} onLogoutClick={onLogout} />
           ) : (
             <HStack>
               <ColorModeSwitch
