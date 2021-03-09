@@ -9,6 +9,7 @@ describe('authenticationRepository', () => {
     register: jest.fn(),
     updatePassword: jest.fn(),
     sendPasswordResetEmail: jest.fn(),
+    getClaim: jest.fn(),
   };
   const authRepo = authenticationRepository(firebaseDaoMock);
 

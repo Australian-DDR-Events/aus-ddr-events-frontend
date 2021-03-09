@@ -130,6 +130,13 @@ const authenticationFirebaseDao = (
       );
   };
 
+  const getClaim = async (claim: string): Promise<Result<Error, any>> => {
+    if (user) {
+      return user.getIdTokenResult().then((result) => ok(result.claims[claim]));
+    }
+    return err(new Error('user not signed in'), undefined);
+  };
+
   const onAuthStateChanged = (callback: AuthStateChangedCallback) => {
     onAuthStateChangedCallbacks.push(callback);
   };
@@ -141,6 +148,7 @@ const authenticationFirebaseDao = (
     updatePassword,
     register,
     sendPasswordResetEmail,
+    getClaim,
     onAuthStateChanged,
   };
 };

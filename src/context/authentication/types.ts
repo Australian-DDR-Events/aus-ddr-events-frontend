@@ -20,6 +20,8 @@ export type AuthenticationRepository = {
     newPassword: string,
   ) => Promise<Result<Error, void>>;
   sendPasswordResetEmail: (email: string) => Promise<Result<Error, void>>;
+  getClaim: (claim: string) => Promise<Result<Error, any>>;
+
   onAuthStateChanged: (cb: AuthStateChangedCallback) => void;
 };
 
@@ -49,6 +51,10 @@ export interface SendPasswordResetEmail {
   (email: string): Promise<Result<Error, void>>;
 }
 
+export interface GetClaim {
+  (claim: string): Promise<Result<Error, any>>;
+}
+
 export interface OnAuthStateChanged {
   (cb: AuthStateChangedCallback): void;
 }
@@ -60,6 +66,7 @@ export interface AuthenticationDao {
   register: Register;
   updatePassword: UpdatePassword;
   sendPasswordResetEmail: SendPasswordResetEmail;
+  getClaim: GetClaim;
   onAuthStateChanged: OnAuthStateChanged;
 }
 
