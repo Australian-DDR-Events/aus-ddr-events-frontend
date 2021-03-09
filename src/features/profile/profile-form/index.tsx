@@ -21,7 +21,7 @@ import { defaultSpacing } from 'types/styled';
 import { ProfileFormData } from './types';
 
 const ProfileForm = ({
-  formData,
+  formData: initialFormData,
   onSuccessfulSubmit,
   onCancelSubmit,
 }: {
@@ -57,7 +57,7 @@ const ProfileForm = ({
   ) => {
     dancersRepository.dancersRepositoryInstance
       .update({
-        ...formData,
+        ...initialFormData,
         ...values,
       })
       .then((result) => {
@@ -80,7 +80,7 @@ const ProfileForm = ({
           </Box>
         </Alert>
       )}
-      <Formik initialValues={formData} onSubmit={onSubmit}>
+      <Formik initialValues={initialFormData} onSubmit={onSubmit}>
         {(props) => (
           <Form>
             <Field type="ddrName" name="ddrName" validate={validateDancerName}>
@@ -111,7 +111,7 @@ const ProfileForm = ({
               {({ field }: { field: any }) => (
                 <FormControl htmlFor="state" mb={defaultSpacing / 2}>
                   <FormLabel>State of residence</FormLabel>
-                  <Select {...field} id="state">
+                  <Select {...field} id="state" placeholder="Select a state">
                     {StateOptions.map((option) => (
                       <option key={option.key} value={option.key}>
                         {option.value}
