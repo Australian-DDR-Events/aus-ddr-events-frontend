@@ -17,7 +17,9 @@ const ProfileMenuItem = ({
       <Avatar
         size="sm"
         name={dancer.ddrName}
-        src={getProfileImageUrl(dancer.profilePictureUrl)}
+        src={getProfileImageUrl(
+          `${dancer.profilePictureUrl}?${new Date().toISOString()}`,
+        )}
         display={{ lg: 'none' }}
         showBorder
         borderColor="blue.500"
@@ -35,7 +37,7 @@ const ProfileMenuItem = ({
         display={{ lg: 'none' }}
         fontSize="xl"
       >
-        {dancer.ddrName}
+        My profile
       </Button>
     </Center>
   ) : (
@@ -46,7 +48,9 @@ const ProfileMenuItem = ({
           <Avatar
             size="md"
             name={dancer.ddrName}
-            src={getProfileImageUrl(dancer.profilePictureUrl)}
+            src={getProfileImageUrl(
+              `${dancer.profilePictureUrl}?${new Date().toISOString()}`,
+            )}
             display={{ base: 'none', lg: 'inline-block' }}
             showBorder
             borderColor="blue.500"
@@ -65,7 +69,7 @@ const ProfileMenuItem = ({
             isLoading={!dancer.id}
             display={{ base: 'none', lg: 'inline-block' }}
           >
-            {dancer.ddrName}
+            My profile
           </Button>
         </>
       )}

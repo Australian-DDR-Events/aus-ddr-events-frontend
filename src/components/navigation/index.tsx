@@ -19,7 +19,7 @@ import {
   DefaultDancer,
 } from 'context/dancer';
 import React, { useContext, useEffect } from 'react';
-import { FiMoreVertical, FiX } from 'react-icons/fi';
+import { FiMenu, FiX } from 'react-icons/fi';
 import { Result } from 'types/result';
 import { getProfileImageUrl } from 'utils/assets';
 import { useLocation } from 'wouter';
@@ -33,7 +33,7 @@ const MenuToggle = ({ toggle, isOpen }: { toggle: any; isOpen: boolean }) => {
   return (
     <IconButton
       aria-label="Menu toggle"
-      icon={<Icon as={isOpen ? FiX : FiMoreVertical} w={6} h={6} />}
+      icon={<Icon as={isOpen ? FiX : FiMenu} w={6} h={6} />}
       onClick={toggle}
       display={{ lg: 'none' }}
       color="gray.500"
@@ -95,12 +95,16 @@ const Navigation = (props: any) => {
       <Spacer />
       <ColorModeSwitch mr={2} display={{ lg: 'none' }} />
 
-      {!dancer.id && <SkeletonCircle display={{ lg: 'none' }} />}
+      {loggedInUser.id && !dancer.id && (
+        <SkeletonCircle display={{ lg: 'none' }} />
+      )}
       {dancer.id && !isOpen && (
         <Avatar
           size="sm"
           name={dancer.ddrName}
-          src={getProfileImageUrl(dancer.profilePictureUrl)}
+          src={getProfileImageUrl(
+            `${dancer.profilePictureUrl}?${new Date().toISOString()}`,
+          )}
           display={{ lg: 'none' }}
           showBorder
           borderColor="blue.500"
@@ -113,6 +117,9 @@ const Navigation = (props: any) => {
       )}
 
       {dancer.id && isOpen && <MenuToggle toggle={toggle} isOpen={isOpen} />}
+      {!dancer.id && !loggedInUser.id && (
+        <MenuToggle toggle={toggle} isOpen={isOpen} />
+      )}
       <Box
         display={{ base: isOpen ? 'block' : 'none', lg: 'block' }}
         flexBasis={{ base: '100%', lg: 'auto' }}
