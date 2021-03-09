@@ -76,8 +76,8 @@ const IngredientSubmission = () => {
   }, []);
 
   return (
-    <Container maxW={(defaultPixel * 38 + 4) * columnNumber} p={defaultPixel}>
-      <Box mb={defaultPixel} textAlign="center">
+    <Container maxW={(defaultPixel * 38 + 4) * columnNumber} p={8}>
+      <Box mb={8} textAlign="center">
         <Heading>Score submission</Heading>
         <Text fontSize="lg">
           Click or tap on the song jacket to submit your score

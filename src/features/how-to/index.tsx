@@ -10,7 +10,6 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { defaultPixel } from 'types/styled';
 
 import Step1 from './step-1';
 import Step2 from './step-2';
@@ -30,7 +29,7 @@ const HowTo = () => {
       variant="soft-rounded"
       index={tabIndex}
       onChange={handleTabsChange}
-      pb={defaultPixel}
+      pb={8}
       align="center"
     >
       {isSmallerThan425 ? (

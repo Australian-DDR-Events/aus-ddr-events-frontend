@@ -33,7 +33,7 @@ const SongDisplay = ({
   return (
     <Flex
       maxW="100%"
-      mb={defaultPixel}
+      mb={8}
       overflow="hidden"
       borderWidth={2}
       borderRadius="lg"

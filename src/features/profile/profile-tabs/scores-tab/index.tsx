@@ -49,10 +49,10 @@ const ScoresTab = ({ dancer }: { dancer: Dancer }) => {
 
   return (
     <SimpleGrid
-      spacing={defaultPixel}
+      spacing={8}
       columns={isLargerThan1440 ? 2 : 1}
       mt={2}
-      mb={defaultPixel}
+      mb={8}
       w="fit-content"
       pr={isLargerThan1440 ? defaultPixel : 0}
     >

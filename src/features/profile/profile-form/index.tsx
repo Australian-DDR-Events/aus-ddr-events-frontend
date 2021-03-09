@@ -71,7 +71,7 @@ const ProfileForm = ({
   };
 
   return (
-    <Container mb={defaultPixel}>
+    <Container mb={8}>
       {apiErrorMessage && (
         <Alert status="error" borderRadius="md" mb={4}>
           <Box flex="1">

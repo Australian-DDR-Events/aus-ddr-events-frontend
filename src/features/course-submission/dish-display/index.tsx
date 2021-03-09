@@ -8,7 +8,6 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { defaultPixel } from 'types/styled';
 import { DancerGradedIngredient, Dish } from 'types/summer2021';
 import { getAssetUrl } from 'utils/assets';
 
@@ -49,7 +48,7 @@ const DishDisplay = ({
       <Center>
         <Image src={getAssetUrl(dish.image256)} />
       </Center>
-      <Center w="100%" mb={defaultPixel}>
+      <Center w="100%" mb={8}>
         <HStack spacing={4}>
           {dish.ingredients.map((i) => (
             <RequiredIngredientDisplay

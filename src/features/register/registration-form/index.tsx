@@ -108,7 +108,7 @@ const RegistrationForm = () => {
   };
 
   return (
-    <Container maxW="sm" mb={defaultPixel}>
+    <Container maxW="sm" mb={8}>
       <Heading mb={4}>Register</Heading>
       {apiErrorMessage && (
         <Alert status="error" borderRadius="md" mb={4}>

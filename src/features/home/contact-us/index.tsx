@@ -1,7 +1,6 @@
 import { Button, Center, Heading, Text, useMediaQuery } from '@chakra-ui/react';
 import React from 'react';
 import { FaDiscord, FaFacebook, FaTwitter } from 'react-icons/fa';
-import { defaultPixel } from 'types/styled';
 
 const ContactUs = () => {
   const [isLargerThan750] = useMediaQuery('(min-width: 750px)');
@@ -11,7 +10,7 @@ const ContactUs = () => {
   };
   return (
     <>
-      <Heading as="h2" mb={defaultPixel} textAlign="center">
+      <Heading as="h2" mb={8} textAlign="center">
         Want more information?
       </Heading>
       <Text fontSize="md">
@@ -19,7 +18,7 @@ const ContactUs = () => {
         AUSDDREvents team, feel free to get in touch with us via the following
         services:
       </Text>
-      <Center mt={defaultPixel} mb={defaultPixel}>
+      <Center mt={8} mb={8}>
         <Button
           colorScheme="facebook"
           leftIcon={<FaFacebook />}

@@ -58,10 +58,7 @@ const ProfileReadView = ({
   };
 
   return (
-    <Stack
-      direction={['column', 'column', 'column', 'row']}
-      spacing={defaultPixel}
-    >
+    <Stack direction={['column', 'column', 'column', 'row']} spacing={8}>
       <Box w={isLargerThan769 ? `${defaultPixel * 40}px` : '100%'}>
         <Center>
           <Avatar

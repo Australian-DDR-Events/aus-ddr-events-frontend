@@ -13,7 +13,6 @@ import { SongsRepositoryContext } from 'context/songs';
 import React, { useContext, useEffect, useState } from 'react';
 import { FaCrown } from 'react-icons/fa';
 import { Score, Song } from 'types/core';
-import { defaultPixel } from 'types/styled';
 import { useLocation } from 'wouter';
 
 import { ScoresRepositoryContext } from '../../context/scores';
@@ -84,7 +83,7 @@ const Leaderboard = ({ songId }: { songId?: string }) => {
           />
         </Center>
       ) : (
-        <Container p={defaultPixel} maxW="100%" w="fit-content">
+        <Container p={8} maxW="100%" w="fit-content">
           <VStack align="stretch" spacing={2}>
             {songListing.map((songListingEntry) => (
               <Box

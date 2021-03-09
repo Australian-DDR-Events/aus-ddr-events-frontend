@@ -40,7 +40,7 @@ const IngredientSong = ({
         }}
         borderRadius="lg"
         overflow="hidden"
-        mb={defaultPixel}
+        mb={8}
         cursor="pointer"
         onClick={onOpen}
       >
