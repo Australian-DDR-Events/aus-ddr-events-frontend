@@ -8,15 +8,15 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Image,
   Input,
   Select,
 } from '@chakra-ui/react';
+import ImageUploadFormField from 'components/image-upload-form-field';
 import { Dancer, DancersRepositoryContext } from 'context/dancer';
-import { StateOptions } from 'features/profile/constants';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
 import { defaultSpacing } from 'types/styled';
+import { StateOptions } from 'utils/dropdown-options';
 
 import { ProfileFormData } from './types';
 
@@ -111,7 +111,11 @@ const ProfileForm = ({
               {({ field }: { field: any }) => (
                 <FormControl htmlFor="state" mb={defaultSpacing / 2}>
                   <FormLabel>State of residence</FormLabel>
-                  <Select {...field} id="state" placeholder="Select a state">
+                  <Select
+                    {...field}
+                    id="state"
+                    placeholder="Prefer not to disclose"
+                  >
                     {StateOptions.map((option) => (
                       <option key={option.key} value={option.key}>
                         {option.value}
@@ -134,36 +138,32 @@ const ProfileForm = ({
               )}
             </Field>
 
-            <FormControl htmlFor="newProfilePicture" mb={defaultSpacing / 2}>
-              <FormLabel>Profile picture</FormLabel>
-              <Input
-                type="file"
-                pt={defaultSpacing / 4}
-                h={defaultSpacing * 1.5}
-                id="newProfilePicture"
-                multiple={false}
-                accept="image/*"
-                onChange={(event) => {
-                  if (event.currentTarget.files) {
-                    // eslint-disable-next-line react/prop-types
-                    props.setFieldValue(
-                      'newProfilePicture',
-                      event.currentTarget.files[0],
-                    );
-                    setProfilePictureUrl(
-                      URL.createObjectURL(event.currentTarget.files[0]),
-                    );
-                  }
-                }}
-              />
-              {profilePictureUrl && (
-                <Image
-                  src={profilePictureUrl}
-                  w={defaultSpacing * 16}
-                  mt={defaultSpacing / 2}
+            <Field type="file" name="newProfilePicture">
+              {({ form }: { form: any }) => (
+                <ImageUploadFormField
+                  pt={defaultSpacing / 4}
+                  h={defaultSpacing * 1.5}
+                  fieldName="newProfilePicture"
+                  label="Profile picture"
+                  onChange={(event) => {
+                    if (event.currentTarget.files) {
+                      // eslint-disable-next-line react/prop-types
+                      props.setFieldValue(
+                        'newProfilePicture',
+                        event.currentTarget.files[0],
+                      );
+                      setProfilePictureUrl(
+                        URL.createObjectURL(event.currentTarget.files[0]),
+                      );
+                    }
+                  }}
+                  isInvalid={form.errors.new}
+                  imageUrl={profilePictureUrl}
+                  imagePosition="bottom"
+                  formError={form.errors.newProfilePicture}
                 />
               )}
-            </FormControl>
+            </Field>
 
             <Button
               colorScheme="blue"

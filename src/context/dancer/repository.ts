@@ -12,7 +12,10 @@ const dancersRepository = (dao: DancersDao): DancersRepository => {
   const update = (user: Dancer): Promise<Result<Error, boolean>> =>
     dao.update(user);
 
-  return { get, getByAuthenticationId, update };
+  const create = (user: Dancer): Promise<Result<Error, boolean>> =>
+    dao.create(user);
+
+  return { get, getByAuthenticationId, create, update };
 };
 
 export default dancersRepository;

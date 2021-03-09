@@ -7,7 +7,7 @@ import {
   Progress,
   Switch,
 } from '@chakra-ui/react';
-import FileUploadFormField from 'components/score-submission-form';
+import ImageUploadFormField from 'components/image-upload-form-field';
 import { DishesRepositoryContext } from 'context/dishes';
 import { DishSubmissionRequest } from 'context/dishes/types';
 import { ScoreSubmissionRequest } from 'context/scores';
@@ -154,13 +154,14 @@ const DishSubmissionForm = ({
 
               <Field type="file" name="finalImage">
                 {({ form }: { form: FormikState<ScoreSubmissionRequest> }) => (
-                  <FileUploadFormField
+                  <ImageUploadFormField
                     label="Final score image"
                     fieldName="finalImage"
                     isInvalid={Boolean(
                       form.errors.scoreImage && form.touched.scoreImage,
                     )}
-                    scoreImageUrl={finalImageUrl}
+                    imagePosition="top"
+                    imageUrl={finalImageUrl}
                     formError={form.errors.scoreImage}
                     onChange={(event) => {
                       if (event.currentTarget.files) {

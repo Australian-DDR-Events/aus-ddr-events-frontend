@@ -28,7 +28,6 @@ const dancersApiDao = ({
             profilePictureUrl: response.data.profilePictureUrl,
             newProfilePicture: new File([''], 'filename'),
             state: response.data.state,
-            userName: '',
           };
           activeDancers.set(dancerId, dancer);
           return ok(dancer);
@@ -59,7 +58,6 @@ const dancersApiDao = ({
             profilePictureUrl: response.data.profilePictureUrl,
             newProfilePicture: new File([''], 'filename'),
             state: response.data.state,
-            userName: '',
           };
           activeDancers.set('authUser', dancer);
           return ok(dancer);
@@ -94,6 +92,40 @@ const dancersApiDao = ({
       );
   };
 
+  const create = async (dancer: Dancer): Promise<Result<Error, boolean>> => {
+    const dancerSubmission = {
+      ddrName: dancer.ddrName || '',
+      ddrCode: dancer.ddrCode || '',
+      primaryMachineLocation: dancer.primaryMachine || '',
+      state: dancer.state || '',
+      profilePictureUrl: dancer.profilePictureUrl || '',
+    };
+
+    const request: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${await getIdTokenFunc()}`,
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      url: 'dancers',
+      data: dancerSubmission,
+    };
+
+    let result = axiosClient
+      .request(request)
+      .then((): Result<Error, boolean> => ok(true))
+      .catch(
+        (): Result<Error, boolean> =>
+          err(new Error('failed to update dancer'), false),
+      );
+
+    if (dancer.newProfilePicture.size > 0) {
+      result = uploadProfilePicture(dancer.newProfilePicture);
+    }
+
+    return result;
+  };
+
   const update = async (dancer: Dancer): Promise<Result<Error, boolean>> => {
     const dancerSubmission = {
       ddrName: dancer.ddrName || '',
@@ -108,8 +140,8 @@ const dancersApiDao = ({
         Authorization: `Bearer ${await getIdTokenFunc()}`,
         'Content-Type': 'application/json',
       },
-      method: dancer.id ? 'PUT' : 'POST',
-      url: dancer.id ? `dancers/${dancer.id}` : 'dancers',
+      method: 'PUT',
+      url: `dancers/${dancer.id}`,
       data: dancerSubmission,
     };
 
@@ -130,7 +162,7 @@ const dancersApiDao = ({
     return result;
   };
 
-  return { get, getByAuthenticationId, update };
+  return { get, getByAuthenticationId, create, update };
 };
 
 export default dancersApiDao;

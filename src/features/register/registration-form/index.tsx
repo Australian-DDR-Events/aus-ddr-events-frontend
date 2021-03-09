@@ -8,20 +8,27 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Heading,
   Input,
+  Select,
 } from '@chakra-ui/react';
+import ImageUploadFormField from 'components/image-upload-form-field';
 import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from 'context/authentication';
-import { DancersRepositoryContext, DefaultDancer } from 'context/dancer';
-import { Field, Form, Formik, FormikHelpers, FormikValues } from 'formik';
+import {
+  Dancer,
+  DancersRepositoryContext,
+  DefaultDancer,
+} from 'context/dancer';
+import { Field, Form, Formik, FormikErrors, FormikHelpers } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
 import { defaultSpacing } from 'types/styled';
+import { StateOptions } from 'utils/dropdown-options';
 import { useLocation } from 'wouter';
 
-interface RegistrationFormData {
-  displayName: string;
+interface RegistrationFormData extends Dancer {
   email: string;
   password: string;
   confirmPassword: string;
@@ -34,6 +41,14 @@ const RegistrationForm = () => {
   const dancersRepository = useContext(DancersRepositoryContext);
   const [, setLocation] = useLocation();
   const [apiErrorMessage, setApiErrorMessage] = useState('');
+  const [profilePictureUrl, setProfilePictureUrl] = useState<string>('');
+
+  useEffect(
+    () => () => {
+      URL.revokeObjectURL(profilePictureUrl);
+    },
+    [],
+  );
 
   useEffect(() => {
     const loggedInUser = authRepo.authenticationRepositoryInstance
@@ -51,9 +66,13 @@ const RegistrationForm = () => {
       .then((authResult) => {
         if (authResult.isOk()) {
           dancersRepository.dancersRepositoryInstance
-            .update({
+            .create({
               ...DefaultDancer,
-              userName: values.displayName,
+              ddrName: values.ddrName,
+              ddrCode: values.ddrCode,
+              state: values.state,
+              primaryMachine: values.primaryMachine,
+              newProfilePicture: values.newProfilePicture,
             })
             .then((dancerResult) => {
               if (dancerResult.isOk()) {
@@ -69,26 +88,28 @@ const RegistrationForm = () => {
       });
   };
 
-  const validateForm = (values: FormikValues) => {
-    interface ValidationErrors {
-      displayName?: any;
-      email?: any;
-      password?: any;
-      confirmPassword?: any;
-    }
-    const errors: ValidationErrors = {};
-    if (!values.displayName) errors.displayName = 'Please enter a display name';
+  const validateForm = (values: RegistrationFormData) => {
+    const errors: FormikErrors<RegistrationFormData> = {};
+
+    if (!values.ddrName) errors.ddrName = 'Please enter a dancer name';
+
+    if (!/^\d+$/.test(values.ddrCode))
+      errors.ddrCode = 'Please enter a valid dancer code';
+
     if (!values.email) errors.email = 'Please enter your email address';
     else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email))
       errors.email = 'Please enter a valid email address';
+
     if (!values.password) errors.password = 'Please enter a password';
     else if (values.password !== values.confirmPassword)
       errors.confirmPassword = 'Passwords must match';
+
     return errors;
   };
 
   return (
-    <Container maxW="sm">
+    <Container maxW="sm" mb={defaultSpacing}>
+      <Heading mb={defaultSpacing / 2}>Register</Heading>
       {apiErrorMessage && (
         <Alert status="error" borderRadius="md" mb={defaultSpacing / 2}>
           <Box flex="1">
@@ -99,7 +120,7 @@ const RegistrationForm = () => {
       )}
       <Formik
         initialValues={{
-          displayName: '',
+          ...DefaultDancer,
           email: '',
           password: '',
           confirmPassword: '',
@@ -109,26 +130,11 @@ const RegistrationForm = () => {
       >
         {(props) => (
           <Form>
-            <Field type="text" name="displayName">
-              {({ field, form }: { field: any; form: any }) => (
-                <FormControl
-                  htmlFor="displayName"
-                  isInvalid={
-                    form.errors.displayName && form.touched.displayName
-                  }
-                  mb={4}
-                >
-                  <FormLabel>Display Name</FormLabel>
-                  <Input {...field} id="displayName" />
-                  <FormErrorMessage>{form.errors.displayName}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-
             <Field type="email" name="email">
               {({ field, form }: { field: any; form: any }) => (
                 <FormControl
                   htmlFor="email"
+                  isRequired
                   isInvalid={form.errors.email && form.touched.email}
                   mb={4}
                 >
@@ -143,6 +149,7 @@ const RegistrationForm = () => {
               {({ field, form }: { field: any; form: any }) => (
                 <FormControl
                   htmlFor="password"
+                  isRequired
                   isInvalid={form.errors.password && form.touched.password}
                   mb={4}
                 >
@@ -157,6 +164,7 @@ const RegistrationForm = () => {
               {({ field, form }: { field: any; form: any }) => (
                 <FormControl
                   htmlFor="confirmPassword"
+                  isRequired
                   isInvalid={
                     form.errors.confirmPassword && form.touched.confirmPassword
                   }
@@ -168,6 +176,88 @@ const RegistrationForm = () => {
                     {form.errors.confirmPassword}
                   </FormErrorMessage>
                 </FormControl>
+              )}
+            </Field>
+
+            <Field type="ddrName" name="ddrName">
+              {({ field, form }: { field: any; form: any }) => (
+                <FormControl id="ddrName" isRequired mb={defaultSpacing / 2}>
+                  <FormLabel>Dancer name</FormLabel>
+                  <Input type="text" {...field} />
+                  <FormErrorMessage>{form.errors.ddrName}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
+
+            <Field type="text" name="ddrCode">
+              {({ field, form }: { field: any; form: any }) => (
+                <FormControl
+                  htmlFor="ddrCode"
+                  isInvalid={form.errors.dancerId && form.touched.dancerId}
+                  mb={defaultSpacing / 2}
+                >
+                  <FormLabel>Dancer code</FormLabel>
+                  <Input {...field} id="ddrCode" />
+                  <FormErrorMessage>{form.errors.dancerId}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
+
+            <Field name="state">
+              {({ field }: { field: any }) => (
+                <FormControl htmlFor="state" mb={defaultSpacing / 2}>
+                  <FormLabel>State of residence</FormLabel>
+                  <Select
+                    {...field}
+                    id="state"
+                    placeholder="Prefer not to disclose"
+                  >
+                    {StateOptions.map((option) => (
+                      <option key={option.key} value={option.key}>
+                        {option.value}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
+              )}
+            </Field>
+
+            <Field type="text" name="primaryMachine">
+              {({ field, form }: { field: any; form: any }) => (
+                <FormControl htmlFor="primaryMachine" mb={defaultSpacing / 2}>
+                  <FormLabel>Primary machine</FormLabel>
+                  <Input {...field} id="primaryMachine" />
+                  <FormErrorMessage>
+                    {form.errors.primaryMachine}
+                  </FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
+
+            <Field type="file" name="newProfilePicture">
+              {({ form }: { form: any }) => (
+                <ImageUploadFormField
+                  pt={defaultSpacing / 4}
+                  h={defaultSpacing * 1.5}
+                  fieldName="newProfilePicture"
+                  label="Profile picture"
+                  onChange={(event) => {
+                    if (event.currentTarget.files) {
+                      // eslint-disable-next-line react/prop-types
+                      props.setFieldValue(
+                        'newProfilePicture',
+                        event.currentTarget.files[0],
+                      );
+                      setProfilePictureUrl(
+                        URL.createObjectURL(event.currentTarget.files[0]),
+                      );
+                    }
+                  }}
+                  isInvalid={form.errors.new}
+                  imageUrl={profilePictureUrl}
+                  formError={form.errors.newProfilePicture}
+                  imagePosition="bottom"
+                />
               )}
             </Field>
 
