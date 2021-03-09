@@ -85,7 +85,7 @@ const Navigation = (props: any) => {
         cursor="pointer"
       />
       <Spacer />
-      <ColorModeSwitch />
+      <ColorModeSwitch mr={2} display={{ lg: 'none' }} />
       <MenuToggle toggle={toggle} isOpen={isOpen} />
       <Box
         display={{ base: isOpen ? 'block' : 'none', lg: 'block' }}
@@ -113,6 +113,11 @@ const Navigation = (props: any) => {
                 Submit courses
               </MenuItem>
               <HStack>
+                <ColorModeSwitch
+                  mr={2}
+                  display={{ base: 'none', lg: 'inline-block' }}
+                />
+
                 <Button
                   size="md"
                   rounded="md"
@@ -133,15 +138,31 @@ const Navigation = (props: any) => {
               </HStack>
             </>
           ) : (
-            <Button
-              size="md"
-              rounded="md"
-              variant="solid"
-              colorScheme="blue"
-              onClick={() => setLocation('/login')}
-            >
-              Login
-            </Button>
+            <HStack>
+              <ColorModeSwitch
+                mr={2}
+                display={{ base: 'none', lg: 'inline-block' }}
+              />
+              <Button
+                size="md"
+                rounded="md"
+                variant="solid"
+                colorScheme="blue"
+                onClick={() => setLocation('/login')}
+              >
+                Login
+              </Button>
+
+              <Button
+                size="md"
+                rounded="md"
+                variant="solid"
+                colorScheme="pink"
+                onClick={() => setLocation('/login')}
+              >
+                Register
+              </Button>
+            </HStack>
           )}
         </Stack>
       </Box>

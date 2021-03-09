@@ -14,7 +14,7 @@ const HowTo = () => {
   const [isLargerThan750] = useMediaQuery('(min-width: 750px)');
   return (
     <Box>
-      <Heading as="h2" mb={4}>
+      <Heading as="h2" textAlign="center" mb={4}>
         How to Participate
       </Heading>
       <Text fontSize="md" mb={8}>
