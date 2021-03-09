@@ -2,9 +2,15 @@ import { Button, Center, Heading, Text, useMediaQuery } from '@chakra-ui/react';
 import React from 'react';
 import { FaDiscord, FaFacebook, FaTwitter } from 'react-icons/fa';
 import { defaultSpacing } from 'types/styled';
+import { useLocation } from 'wouter';
 
 const ContactUs = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const [isLargerThan750] = useMediaQuery('(min-width: 750px)');
+  const [, setLocation] = useLocation();
+  const openLinkInNewTab = (url: string) => {
+    const win = window?.open(url, '_blank');
+    win?.focus();
+  };
   return (
     <>
       <Heading as="h2" mb={defaultSpacing} textAlign="center">
@@ -21,6 +27,9 @@ const ContactUs = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
           leftIcon={<FaFacebook />}
           mr={isLargerThan750 ? defaultSpacing / 2 : defaultSpacing / 4}
           size={isLargerThan750 ? 'md' : 'sm'}
+          onClick={() =>
+            openLinkInNewTab('https://www.facebook.com/groups/2053507828081261')
+          }
         >
           Facebook
         </Button>
@@ -29,6 +38,7 @@ const ContactUs = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
           leftIcon={<FaTwitter />}
           mr={isLargerThan750 ? defaultSpacing / 2 : defaultSpacing / 4}
           size={isLargerThan750 ? 'md' : 'sm'}
+          onClick={() => openLinkInNewTab('https://twitter.com/AusddrE')}
         >
           Twitter
         </Button>
@@ -37,6 +47,7 @@ const ContactUs = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
           color="white"
           leftIcon={<FaDiscord />}
           size={isLargerThan750 ? 'md' : 'sm'}
+          onClick={() => openLinkInNewTab('https://discord.gg/DsKWPxY4V7')}
         >
           Discord
         </Button>
@@ -46,7 +57,7 @@ const ContactUs = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
       </Text>
       {!isLoggedIn && (
         <Center>
-          <Button>Sign up</Button>
+          <Button onClick={() => setLocation('/register')}>Sign up</Button>
         </Center>
       )}
     </>
