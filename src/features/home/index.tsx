@@ -29,7 +29,7 @@ const Home = () => {
           Join the barbecue today, sign-up to participate!
         </Heading>
         {!loggedInUser.id && (
-          <Button onClick={() => setLocation('/register')}>Sign Up</Button>
+          <Button onClick={() => setLocation('/register')}>Sign up</Button>
         )}
       </Box>
 

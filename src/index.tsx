@@ -118,6 +118,7 @@ const dishesRepositoryInstance = dishesRepository(
 
 const badgesRepositoryInstance = badgesRepository(
   badgesApiDao({
+    getIdTokenFunc: getTokenOrDefault,
     axiosClient,
   }),
 );
