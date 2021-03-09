@@ -158,7 +158,7 @@ const Navigation = (props: any) => {
                 rounded="md"
                 variant="solid"
                 colorScheme="pink"
-                onClick={() => setLocation('/login')}
+                onClick={() => setLocation('/register')}
               >
                 Register
               </Button>
