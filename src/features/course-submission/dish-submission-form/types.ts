@@ -1,7 +1,7 @@
-export interface DishSubmissionSongForm {
-  songId: string;
+export interface ScoreSubmissonFormData {
   score: number;
   scoreImage: File;
+  songId: string;
 }
 
 export interface FinalSubmissionForm {
@@ -9,7 +9,12 @@ export interface FinalSubmissionForm {
   finalImage: File;
 }
 
-export const DefaultDishSubmissionSongForm: DishSubmissionSongForm = {
+export interface DishSubmissionFormData extends FinalSubmissionForm {
+  dishId: string;
+  scores: ScoreSubmissonFormData[];
+}
+
+export const DefaultDishSubmissionSongForm: ScoreSubmissonFormData = {
   songId: '',
   score: 0,
   scoreImage: {

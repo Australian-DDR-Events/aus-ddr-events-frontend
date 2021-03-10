@@ -28,6 +28,12 @@ const ImageUploadFormField = ({
   formError?: FormikErrors<File>;
   [x: string]: any;
 }) => {
+  const handleFileInputChanged = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    onChange(event);
+  };
+
   return (
     <FormControl htmlFor={fieldName} mb={4} isInvalid={isInvalid}>
       {imageUrl && imagePosition === 'top' && (
@@ -42,7 +48,7 @@ const ImageUploadFormField = ({
         id={fieldName}
         multiple={false}
         accept="image/*"
-        onChange={onChange}
+        onChange={handleFileInputChanged}
         {...rest}
       />
       <FormErrorMessage>{formError}</FormErrorMessage>

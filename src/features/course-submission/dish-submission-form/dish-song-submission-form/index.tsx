@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   FormControl,
   FormErrorMessage,
@@ -14,7 +15,6 @@ import {
   Form,
   Formik,
   FormikErrors,
-  FormikHelpers,
   FormikProps,
   FormikState,
 } from 'formik';
@@ -24,7 +24,7 @@ import { getAssetUrl } from 'utils/assets';
 
 import {
   DefaultDishSubmissionSongForm,
-  DishSubmissionSongForm,
+  ScoreSubmissonFormData,
 } from '../types';
 
 const DishSongSubmissionForm = ({
@@ -32,20 +32,16 @@ const DishSongSubmissionForm = ({
   onSubmit,
   hasPrevious,
   onPrevious,
+  isHidden,
 }: {
+  isHidden: boolean;
   dishSongs: DishSong[];
-  onSubmit: (
-    values: DishSubmissionSongForm,
-    formikHelpers: FormikHelpers<DishSubmissionSongForm>,
-  ) => void;
+  onSubmit: (values: ScoreSubmissonFormData) => void;
   hasPrevious: boolean;
-  onPrevious: (
-    values: DishSubmissionSongForm,
-    formikHelpers: FormikHelpers<DishSubmissionSongForm>,
-  ) => void;
+  onPrevious: () => void;
 }) => {
   const [scoreImageUrl, setScoreImageUrl] = useState<string>('');
-  const [direction, setDirection] = useState(true);
+  const [direction, setDirection] = useState('');
   const [selectedSong, setSelectedSong] = useState<DishSong | undefined>(
     undefined,
   );
@@ -53,36 +49,36 @@ const DishSongSubmissionForm = ({
   const getSelectedSong = (id: string) =>
     dishSongs.find((ds) => ds.song?.id === id);
 
-  const handleFormMovement = (
-    values: DishSubmissionSongForm,
-    formikHelpers: FormikHelpers<DishSubmissionSongForm>,
-  ) => {
-    if (direction) onSubmit(values, formikHelpers);
-    else onPrevious(values, formikHelpers);
+  const handleFormMovement = (values: ScoreSubmissionRequest) => {
+    if (direction === 'next') onSubmit(values);
+    else if (direction === 'previous') onPrevious();
   };
 
   const validateForm = (
-    values: DishSubmissionSongForm,
+    values: ScoreSubmissonFormData,
   ): FormikErrors<ScoreSubmissionRequest> => {
     const errors: FormikErrors<ScoreSubmissionRequest> = {};
-    if (!direction) return errors;
+
+    if (direction === 'previous') return errors;
+
     if (!values.songId) errors.songId = 'No song selected!';
+
     if (
       values.score < 0 ||
       values.score > (getSelectedSong(values.songId)?.song?.maxScore || 0)
     )
       errors.score = 'Score provided is too high!';
+
     if (!values.scoreImage?.type.startsWith('image/'))
       errors.scoreImage = 'Score image must be an image file!';
+
     return errors;
   };
 
   return (
-    <>
-      {selectedSong ? (
-        <Image src={getAssetUrl(selectedSong.song?.image128 || '')} />
-      ) : (
-        <Image />
+    <Box {...(isHidden && { display: 'none' })}>
+      {selectedSong && (
+        <Image src={getAssetUrl(selectedSong.song?.image128 || '')} mb={2} />
       )}
       <Formik
         initialValues={DefaultDishSubmissionSongForm}
@@ -97,7 +93,7 @@ const DishSongSubmissionForm = ({
           setSelectedSong(dishSongs.find((s) => s.song?.id === values.songId));
         }}
       >
-        {(props: FormikProps<DishSubmissionSongForm>) => (
+        {(props: FormikProps<ScoreSubmissionRequest>) => (
           <Form>
             <Field type="select" name="songId">
               {({
@@ -105,14 +101,14 @@ const DishSongSubmissionForm = ({
                 form,
               }: {
                 field: string;
-                form: FormikState<DishSubmissionSongForm>;
+                form: FormikState<ScoreSubmissionRequest>;
               }) => (
                 <FormControl
                   htmlFor="songId"
                   mb={4}
                   isInvalid={Boolean(form.errors.songId && form.touched.songId)}
                 >
-                  <FormLabel>Cooking Method</FormLabel>
+                  <FormLabel>Cooking method</FormLabel>
                   <Select id="songId" {...field} placeholder="Select a song">
                     {dishSongs.map((dishSong) => (
                       <option
@@ -127,7 +123,7 @@ const DishSongSubmissionForm = ({
             </Field>
 
             <Field type="file" name="scoreImage">
-              {({ form }: { form: FormikState<DishSubmissionSongForm> }) => (
+              {({ form }: { form: FormikState<ScoreSubmissionRequest> }) => (
                 <ImageUploadFormField
                   label="Score image"
                   fieldName="scoreImage"
@@ -159,7 +155,7 @@ const DishSongSubmissionForm = ({
                 form,
               }: {
                 field: string;
-                form: FormikState<DishSubmissionSongForm>;
+                form: FormikState<ScoreSubmissonFormData>;
               }) => (
                 <FormControl
                   htmlFor="score"
@@ -175,9 +171,7 @@ const DishSongSubmissionForm = ({
             {hasPrevious && (
               <Button
                 type="submit"
-                onClick={() => setDirection(false)}
-                // eslint-disable-next-line react/prop-types
-                isLoading={props.isSubmitting}
+                onClick={() => setDirection('previous')}
                 mr={4}
                 mb={4}
               >
@@ -187,9 +181,7 @@ const DishSongSubmissionForm = ({
             <Button
               colorScheme="blue"
               type="submit"
-              onClick={() => setDirection(true)}
-              // eslint-disable-next-line react/prop-types
-              isLoading={props.isSubmitting}
+              onClick={() => setDirection('next')}
               mr={4}
               mb={4}
             >
@@ -198,7 +190,7 @@ const DishSongSubmissionForm = ({
           </Form>
         )}
       </Formik>
-    </>
+    </Box>
   );
 };
 
