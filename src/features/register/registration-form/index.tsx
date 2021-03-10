@@ -93,9 +93,6 @@ const RegistrationForm = () => {
 
     if (!values.ddrName) errors.ddrName = 'Please enter a dancer name';
 
-    if (!/^\d+$/.test(values.ddrCode))
-      errors.ddrCode = 'Please enter a valid dancer code';
-
     if (!values.email) errors.email = 'Please enter your email address';
     else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email))
       errors.email = 'Please enter a valid email address';
@@ -190,15 +187,10 @@ const RegistrationForm = () => {
             </Field>
 
             <Field type="text" name="ddrCode">
-              {({ field, form }: { field: any; form: any }) => (
-                <FormControl
-                  htmlFor="ddrCode"
-                  isInvalid={form.errors.dancerId && form.touched.dancerId}
-                  mb={4}
-                >
+              {({ field }: { field: any }) => (
+                <FormControl htmlFor="ddrCode" mb={4}>
                   <FormLabel>Dancer code</FormLabel>
                   <Input {...field} id="ddrCode" />
-                  <FormErrorMessage>{form.errors.dancerId}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>
