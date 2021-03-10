@@ -121,6 +121,8 @@ const DishSubmissionForm = ({
       setValidationError(
         'You have a song that appears in more than 1 step in your cooking order. Please go back and make sure there is no song duplication.',
       );
+    } else {
+      setValidationError('');
     }
 
     if (!values.finalImage?.type.startsWith('image/'))
