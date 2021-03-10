@@ -88,6 +88,19 @@ const DishSubmissionForm = ({
     const newScoreSubmissions = [...scoreSubmissions];
     newScoreSubmissions.splice(currentStep, 1, values);
     setScoreSubmissions(newScoreSubmissions);
+
+    if (
+      // if the next step is the final step
+      currentStep + 1 === 3 &&
+      // and there are duplicated songs
+      new Set(scoreSubmissions.map((s) => s.songId)).size < 3
+    ) {
+      setValidationError(
+        'You have a song that appears in more than 1 step in your cooking order. Please go back and make sure there is no song duplication.',
+      );
+    } else {
+      setValidationError('');
+    }
   };
 
   const onFinalSubmission = (
@@ -116,14 +129,6 @@ const DishSubmissionForm = ({
 
   const validateForm = (values: FinalSubmissionForm) => {
     const errors: FormikErrors<FinalSubmissionForm> = {};
-
-    if (new Set(scoreSubmissions.map((s) => s.songId)).size < 3) {
-      setValidationError(
-        'You have a song that appears in more than 1 step in your cooking order. Please go back and make sure there is no song duplication.',
-      );
-    } else {
-      setValidationError('');
-    }
 
     if (!values.finalImage?.type.startsWith('image/'))
       errors.finalImage = 'Score image must be an image file!';
