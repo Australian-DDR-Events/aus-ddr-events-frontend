@@ -22,6 +22,7 @@ import ImageUploadFormField from 'components/image-upload-form-field';
 import { DishesRepositoryContext } from 'context/dishes';
 import { DishSubmissionRequest } from 'context/dishes/types';
 import { ScoreSubmissionRequest } from 'context/scores';
+import { DefaultScoreSubmissionRequest } from 'context/scores/constants';
 import {
   Field,
   Form,
@@ -50,9 +51,11 @@ const DishSubmissionForm = ({
   dish: Dish;
   onDishReceived: Function;
 }) => {
-  const [scoreSubmissions, setScoreSubmissions] = useState(
-    new Array<ScoreSubmissonFormData>(),
-  );
+  const [scoreSubmissions, setScoreSubmissions] = useState([
+    DefaultScoreSubmissionRequest,
+    DefaultScoreSubmissionRequest,
+    DefaultScoreSubmissionRequest,
+  ]);
   const [currentStep, setCurrentStep] = useState(0);
   const [finalImageUrl, setFinalImageUrl] = useState<string>('');
   const [progressBarPercent, setProgressBarPercent] = useState(0);
@@ -81,13 +84,10 @@ const DishSubmissionForm = ({
 
   const onSubmitSongScore = (values: ScoreSubmissonFormData) => {
     setCurrentStep(currentStep + 1);
-    if (scoreSubmissions.length === 3) {
-      const newScoreSubmissions = [...scoreSubmissions];
-      newScoreSubmissions.splice(2, 1, values);
-      setScoreSubmissions(newScoreSubmissions);
-    } else if (scoreSubmissions.length < 3) {
-      setScoreSubmissions(scoreSubmissions.concat([values]));
-    }
+
+    const newScoreSubmissions = [...scoreSubmissions];
+    newScoreSubmissions.splice(currentStep, 1, values);
+    setScoreSubmissions(newScoreSubmissions);
   };
 
   const onFinalSubmission = (
