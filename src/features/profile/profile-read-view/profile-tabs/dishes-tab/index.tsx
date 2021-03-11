@@ -1,5 +1,5 @@
 import { Center, SimpleGrid, Spinner } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DancerGradedDish } from 'types/summer2021';
 
 import DishScoreDisplay from './dish-score-display';
@@ -7,10 +7,16 @@ import DishScoreDisplay from './dish-score-display';
 const DishesTab = ({
   isLoading,
   dancerGradedDishes,
+  loadDishScores,
 }: {
   isLoading: boolean;
   dancerGradedDishes: DancerGradedDish[];
+  loadDishScores: () => void;
 }) => {
+  useEffect(() => {
+    loadDishScores();
+  }, []);
+
   if (isLoading)
     return (
       <Center mt={2}>

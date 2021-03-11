@@ -10,7 +10,7 @@ import { BadgesRepositoryContext } from 'context/badges';
 import { Badge } from 'context/badges/types';
 import { Dancer } from 'context/dancer';
 import { DishesRepositoryContext } from 'context/dishes';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { DancerGradedDish } from 'types/summer2021';
 
 import BadgesTab from './badges-tab';
@@ -21,35 +21,44 @@ const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
   // Set up badges tab
   const badgesRepo = useContext(BadgesRepositoryContext);
   const [dancerBadges, setDancerBadges] = useState(new Array<Badge>());
+  const [isBadgesTabLoaded, setIsBadgesTabLoaded] = useState(false);
   const [isBadgesTabLoading, setIsBadgesTabLoading] = useState(true);
+  const loadBadges = () => {
+    if (isBadgesTabLoaded) return;
+
+    badgesRepo.badgesRepositoryInstance
+      .getForDancerId(dancer.id)
+      .then((badgeResult) => {
+        if (badgeResult.isOk()) {
+          setDancerBadges(badgeResult.value);
+          setIsBadgesTabLoaded(true);
+          setIsBadgesTabLoading(false);
+        }
+      });
+  };
+
+  // TODO - Set up ingredient tab
 
   // Set up for dishes tab
   const dishesRepository = useContext(DishesRepositoryContext);
   const [dancerGradedDishes, setDancerGradedDishes] = useState(
     new Array<DancerGradedDish>(),
   );
+  const [isDishesTabLoaded, setIsDishesTabLoaded] = useState(false);
   const [isDishesTabLoading, setIsDishesTabLoading] = useState(true);
+  const loadDishScores = () => {
+    if (isDishesTabLoaded) return;
 
-  // Request all the tabs information
-  useEffect(() => {
-    if (dancer.id) {
-      Promise.all([
-        badgesRepo.badgesRepositoryInstance.getForDancerId(dancer.id),
-        dishesRepository.dishesRepositoryInstance.getDancerGradedDishes(
-          dancer.id,
-        ),
-      ]).then(([badgeResult, dancerGradedDishesResult]) => {
-        if (badgeResult.isOk()) {
-          setDancerBadges(badgeResult.value);
-          setIsBadgesTabLoading(false);
-        }
+    dishesRepository.dishesRepositoryInstance
+      .getDancerGradedDishes(dancer.id)
+      .then((dancerGradedDishesResult) => {
         if (dancerGradedDishesResult.isOk()) {
           setDancerGradedDishes(dancerGradedDishesResult.value);
+          setIsDishesTabLoaded(true);
           setIsDishesTabLoading(false);
         }
       });
-    }
-  }, [dancer]);
+  };
 
   const [isSmallerThan1024] = useMediaQuery(['(max-width: 1023px)']);
   return (
@@ -72,6 +81,7 @@ const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
             dancerId={dancer.id}
             dancerBadges={dancerBadges}
             onDancerBadgesChanged={setDancerBadges}
+            loadBadges={loadBadges}
           />
         </TabPanel>
 
@@ -83,6 +93,7 @@ const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
           <DishesTab
             isLoading={isDishesTabLoading}
             dancerGradedDishes={dancerGradedDishes}
+            loadDishScores={loadDishScores}
           />
         </TabPanel>
       </TabPanels>

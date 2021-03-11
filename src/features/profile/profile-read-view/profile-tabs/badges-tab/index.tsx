@@ -1,7 +1,7 @@
 import { Button, Center, SimpleGrid, Spinner } from '@chakra-ui/react';
 import AdminWrapper from 'components/admin-wrapper';
 import { Badge } from 'context/badges/types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { defaultPixel } from 'types/styled';
 
 import BadgeAllocationModal from './badge-allocation-modal';
@@ -12,12 +12,18 @@ const BadgesTab = ({
   dancerBadges,
   isLoading,
   onDancerBadgesChanged,
+  loadBadges,
 }: {
   dancerId: string;
   dancerBadges: Badge[];
   isLoading: boolean;
   onDancerBadgesChanged: (badges: Badge[]) => void;
+  loadBadges: () => void;
 }) => {
+  useEffect(() => {
+    loadBadges();
+  }, []);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const gridWidth = dancerBadges.length > 5 ? 5 : dancerBadges.length;
