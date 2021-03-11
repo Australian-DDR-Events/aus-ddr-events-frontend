@@ -15,6 +15,7 @@ import { Summer2021Score } from 'types/summer2021';
 import { getAssetUrl } from 'utils/assets';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 import { convertGradeToNumber } from 'utils/summer2021';
+import { useLocation } from 'wouter';
 
 const ScoreDisplay = ({
   dancerGradedIngredient,
@@ -26,6 +27,7 @@ const ScoreDisplay = ({
   if (!song) return <Text>Uh oh</Text>;
   const songColors = getColorByDifficulty(song.difficulty);
   const [isSmallerThan1024] = useMediaQuery('(max-width: 1024px');
+  const [, setLocation] = useLocation();
   return (
     <Flex
       maxW={isSmallerThan1024 ? '100%' : 'fit-content'}
@@ -42,6 +44,8 @@ const ScoreDisplay = ({
           defaultPixel * 1.5 * 1.5
         }px 0 ${songColors.shadow}`,
       }}
+      cursor="pointer"
+      onClick={() => setLocation(`/leaderboard/${song.id}`)}
       {...(isSmallerThan1024 && { w: '100%' })}
     >
       <Image

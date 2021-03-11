@@ -132,6 +132,7 @@ const DishSubmissionForm = ({
 
     if (!values.finalImage?.type.startsWith('image/'))
       errors.finalImage = 'Score image must be an image file!';
+
     return errors;
   };
 
