@@ -15,13 +15,9 @@ const DishScoreDisplay = ({
   return (
     <Box textAlign="center" w="fit-content">
       <Center>
-        <Image
-          width={{ md: 40 }}
-          src={getAssetUrl(gradedDish.image256)}
-          alt={gradedDish.name}
-        />
+        <Image src={getAssetUrl(gradedDish.image256)} alt={gradedDish.name} />
       </Center>
-      <Text fontWeight="bold">
+      <Text fontWeight="bold" fontSize="lg">
         {gradedDish.description} {gradedDish.name}
       </Text>
       <CustomIconRatings
@@ -29,9 +25,8 @@ const DishScoreDisplay = ({
         id={dancerGradedDish.id}
         rating={convertGradeToNumber(gradedDish.grade)}
         color="gold"
-        w={{ base: 4, md: 6 }}
-        h={{ base: 4, md: 6 }}
-        mt={{ base: -2, md: 0 }}
+        w={6}
+        h={6}
       />
       <Text fontSize="2xl">
         {scores.reduce((acc, score) => acc + score.value, 0)}

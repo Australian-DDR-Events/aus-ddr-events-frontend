@@ -26,7 +26,7 @@ const DishesTab = ({
 
   return (
     <SimpleGrid
-      columns={{ base: 1, md: 2, lg: 3 }}
+      columns={{ base: 1, md: 2, xl: 3 }}
       mt={4}
       mb={4}
       spacing={4}
