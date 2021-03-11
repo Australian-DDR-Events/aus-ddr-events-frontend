@@ -17,7 +17,7 @@ import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 import { convertGradeToNumber } from 'utils/summer2021';
 import { useLocation } from 'wouter';
 
-const ScoreDisplay = ({
+const IngredientScoreDisplay = ({
   dancerGradedIngredient,
   song,
 }: {
@@ -86,4 +86,4 @@ const ScoreDisplay = ({
   );
 };
 
-export default ScoreDisplay;
+export default IngredientScoreDisplay;

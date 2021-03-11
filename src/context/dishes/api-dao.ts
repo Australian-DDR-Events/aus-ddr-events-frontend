@@ -1,6 +1,6 @@
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { err, ok, Result } from 'types/result';
-import { Dish, DishSong, GradedDish } from 'types/summer2021';
+import { DancerGradedDish, Dish, DishSong, GradedDish } from 'types/summer2021';
 import resizeImage from 'utils/images';
 
 import { DefaultDish, DefaultDishSubmissionResponse } from './constants';
@@ -81,6 +81,31 @@ const dishesApiDao = ({
       );
   };
 
+  /**
+   * Get a list of graded dishes for the given dancer's ID
+   * @param dancerId The dancer's ID
+   * @returns a list of the given dancer's graded dishes
+   */
+  const getDancerGradedDishes = async (
+    dancerId: string,
+  ): Promise<Result<Error, DancerGradedDish[]>> => {
+    return axiosClient
+      .get(`/summer2021/dancers/${dancerId}/dishes`)
+      .then(
+        (
+          response: AxiosResponse<DancerGradedDish[]>,
+        ): Result<Error, DancerGradedDish[]> => ok(response.data),
+      )
+      .catch(
+        (): Result<Error, DancerGradedDish[]> => {
+          return err(
+            new Error('failed to get grades'),
+            new Array<DancerGradedDish>(),
+          );
+        },
+      );
+  };
+
   const postSubmission = async (
     id: string,
     submission: DishSubmissionRequest,
@@ -128,6 +153,7 @@ const dishesApiDao = ({
     getAll,
     getSongs,
     getGrades,
+    getDancerGradedDishes,
     postSubmission,
   };
 };

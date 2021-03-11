@@ -16,9 +16,10 @@ import { Dancer } from 'context/dancer';
 import React from 'react';
 import { IoCheckmarkCircle } from 'react-icons/io5';
 import { defaultPixel } from 'types/styled';
+import { getProfileImageUrl } from 'utils/assets';
 import { StateOptions } from 'utils/dropdown-options';
 
-import ProfileTabs from '../profile-tabs';
+import ProfileTabs from './profile-tabs';
 
 const ProfileReadView = ({
   isEditable,
@@ -35,11 +36,6 @@ const ProfileReadView = ({
   const getStateTextualRepresentation = (inputState: string): string => {
     return StateOptions.find((state) => state.key === inputState)?.value || '';
   };
-  const getProfileImageUrl = () =>
-    `${process.env.ASSETS_URL}${
-      dancer.profilePictureUrl
-    }?${new Date().toISOString()}`;
-  const DEFAULT_PROFILE_PICTURE_URL = 'https://i.imgur.com/o0ulS6k.png';
 
   const { onCopy } = useClipboard(
     `${process.env.BASE_URL}/profile/${dancer.id}`,
@@ -64,7 +60,9 @@ const ProfileReadView = ({
           <Avatar
             size="2xl"
             name={dancer.ddrName}
-            src={getProfileImageUrl() || DEFAULT_PROFILE_PICTURE_URL}
+            src={getProfileImageUrl(
+              `${dancer.profilePictureUrl}?${new Date().toISOString()}`,
+            )}
             mb={4}
             bgColor="transparent"
           />

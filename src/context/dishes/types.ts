@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Result } from 'types/result';
-import { Dish, DishSong, GradedDish } from 'types/summer2021';
+import { DancerGradedDish, Dish, DishSong, GradedDish } from 'types/summer2021';
 
 import { Score } from '../../types/core';
 import { ScoreSubmissionRequest } from '../scores/types';
@@ -35,6 +35,10 @@ export interface GetGrades {
   (id: string): Promise<Result<Error, Array<GradedDish>>>;
 }
 
+export interface GetDancerGradedDishes {
+  (dancerId: string): Promise<Result<Error, Array<DancerGradedDish>>>;
+}
+
 export interface PostSubmission {
   (
     id: string,
@@ -48,6 +52,7 @@ export type DishesRepository = {
   getAll: GetAll;
   getSongs: GetSongs;
   getGrades: GetGrades;
+  getDancerGradedDishes: GetDancerGradedDishes;
   postSubmission: PostSubmission;
 };
 
@@ -56,6 +61,7 @@ export interface DishesDao {
   getAll: GetAll;
   getSongs: GetSongs;
   getGrades: GetGrades;
+  getDancerGradedDishes: GetDancerGradedDishes;
   postSubmission: PostSubmission;
 }
 

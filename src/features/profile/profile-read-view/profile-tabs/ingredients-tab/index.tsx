@@ -7,7 +7,7 @@ import { Song } from 'types/core';
 import { defaultPixel } from 'types/styled';
 import { Summer2021Score } from 'types/summer2021';
 
-import ScoreDisplay from '../../score-display';
+import IngredientScoreDisplay from './ingredient-score-display';
 
 const ScoresTab = ({ dancer }: { dancer: Dancer }) => {
   const [scores, setScores] = useState<Summer2021Score[]>(
@@ -57,7 +57,7 @@ const ScoresTab = ({ dancer }: { dancer: Dancer }) => {
       pr={isLargerThan1440 ? defaultPixel : 0}
     >
       {scores.map((score) => (
-        <ScoreDisplay
+        <IngredientScoreDisplay
           key={score.id}
           dancerGradedIngredient={score}
           song={songs.get(score.score.songId)}
