@@ -102,9 +102,7 @@ const Navigation = (props: any) => {
         <Avatar
           size="sm"
           name={dancer.ddrName}
-          src={getProfileImageUrl(
-            `${dancer.profilePictureUrl}?${new Date().toISOString()}`,
-          )}
+          src={getProfileImageUrl(dancer.profilePictureUrl)}
           display={{ lg: 'none' }}
           showBorder
           borderColor="blue.500"

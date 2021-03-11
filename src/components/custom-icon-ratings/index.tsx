@@ -8,9 +8,7 @@ interface CustomIconRatingsProps extends React.HTMLAttributes<any> {
   maxRating?: number;
   color: string;
   icon: IconType;
-  w: number;
-  h: number;
-  mt?: number;
+  [x: string]: any;
 }
 
 const CustomIconRatings = ({

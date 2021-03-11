@@ -1,4 +1,5 @@
 import { DishSubmissionResponse } from 'context/dishes/types';
+import { Score } from 'types/core';
 import { Dish, DishSong, GradedDish, Ingredient } from 'types/summer2021';
 
 export const DefaultDish: Dish = {
@@ -34,6 +35,8 @@ export const DefaultDishGrade: GradedDish = {
 
 export const DefaultDishSubmissionResponse: DishSubmissionResponse = {
   id: '',
-  gradedDishId: '',
   dancerId: '',
+  gradedDish: DefaultDishGrade,
+  resultImage: '',
+  scores: new Array<Score>(),
 };

@@ -1,6 +1,5 @@
 import { Result } from 'types/result';
-
-import { Dish, DishSong, GradedDish } from '~/types/summer2021';
+import { DancerGradedDish, Dish, DishSong, GradedDish } from 'types/summer2021';
 
 import {
   DishesDao,
@@ -16,6 +15,10 @@ const dishesRepository = (dao: DishesDao): DishesRepository => {
     dao.getSongs(id);
   const getGrades = (id: string): Promise<Result<Error, Array<GradedDish>>> =>
     dao.getGrades(id);
+  const getDancerGradedDishes = (
+    dancerId: string,
+  ): Promise<Result<Error, Array<DancerGradedDish>>> =>
+    dao.getDancerGradedDishes(dancerId);
   const postSubmission = (
     id: string,
     submission: DishSubmissionRequest,
@@ -28,6 +31,7 @@ const dishesRepository = (dao: DishesDao): DishesRepository => {
     getAll,
     getSongs,
     getGrades,
+    getDancerGradedDishes,
     postSubmission,
   };
 };

@@ -26,6 +26,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
   const dancersRepository = useContext(DancersRepositoryContext);
   const authRepo = useContext(AuthenticationRepositoryContext);
   const [dancer, setDancer] = useState(DefaultDancer);
+
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
 

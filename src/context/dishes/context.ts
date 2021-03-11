@@ -1,7 +1,6 @@
 import { createContext } from 'react';
 import { err } from 'types/result';
-
-import { Dish, DishSong, GradedDish } from '~/types/summer2021';
+import { DancerGradedDish, Dish, DishSong, GradedDish } from 'types/summer2021';
 
 import { DefaultDish, DefaultDishSubmissionResponse } from './constants';
 import { DishesRepositoryContextInterface } from './types';
@@ -21,6 +20,11 @@ const initialContext = {
       err(
         new Error('dishes repository not initialized'),
         new Array<GradedDish>(),
+      ),
+    getDancerGradedDishes: async () =>
+      err(
+        new Error('dishes repository not initialized'),
+        new Array<DancerGradedDish>(),
       ),
     postSubmission: async () =>
       err(

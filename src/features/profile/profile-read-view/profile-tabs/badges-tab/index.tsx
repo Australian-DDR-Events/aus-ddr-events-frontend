@@ -1,35 +1,34 @@
 import { Button, Center, SimpleGrid, Spinner } from '@chakra-ui/react';
 import AdminWrapper from 'components/admin-wrapper';
-import { BadgesRepositoryContext } from 'context/badges';
 import { Badge } from 'context/badges/types';
-import { Dancer } from 'context/dancer';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { defaultPixel } from 'types/styled';
 
 import BadgeAllocationModal from './badge-allocation-modal';
 import BadgeDisplay from './badge-display';
 
-const BadgesTab = ({ dancer }: { dancer: Dancer }) => {
-  const badgesRepo = useContext(BadgesRepositoryContext);
+const BadgesTab = ({
+  dancerId,
+  dancerBadges,
+  isLoading,
+  onDancerBadgesChanged,
+  loadBadges,
+}: {
+  dancerId: string;
+  dancerBadges: Badge[];
+  isLoading: boolean;
+  onDancerBadgesChanged: (badges: Badge[]) => void;
+  loadBadges: () => void;
+}) => {
+  useEffect(() => {
+    loadBadges();
+  }, []);
 
-  const [dancerBadges, setDancerBadges] = useState(new Array<Badge>());
-  const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
   const gridWidth = dancerBadges.length > 5 ? 5 : dancerBadges.length;
 
-  useEffect(() => {
-    if (loading && dancer.id) {
-      badgesRepo.badgesRepositoryInstance
-        .getForDancerId(dancer.id)
-        .then((badgeResult) => {
-          setDancerBadges(badgeResult.okOrDefault());
-          setLoading(false);
-        });
-    }
-  }, []);
-
-  if (loading)
+  if (isLoading)
     return (
       <Center>
         <Spinner // todo: replace this with proper skeleton structure
@@ -55,9 +54,9 @@ const BadgesTab = ({ dancer }: { dancer: Dancer }) => {
           Badge allocation
         </Button>
         <BadgeAllocationModal
-          dancerId={dancer.id}
+          dancerId={dancerId}
           dancerBadges={dancerBadges}
-          setDancerBadges={setDancerBadges}
+          setDancerBadges={onDancerBadgesChanged}
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
         />

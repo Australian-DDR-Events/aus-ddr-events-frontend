@@ -1,5 +1,14 @@
 import { Dancer } from '../context/dancer';
 
+export type BaseScore = {
+  id: string;
+  value: number;
+  submissionTime: string;
+  imageUrl: string;
+  dancerId: string | null;
+  songId: string;
+};
+
 export type Score = {
   id: string;
   value: number;

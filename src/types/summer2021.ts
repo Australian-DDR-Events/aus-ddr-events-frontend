@@ -39,6 +39,14 @@ export interface GradedDish extends DishBase<'gradedDish'> {
   description: string;
 }
 
+export type DancerGradedDish = {
+  id: string;
+  gradedDish: GradedDish;
+  dancerId: string;
+  resultImage?: string;
+  scores: Score[];
+};
+
 export type DishSong = {
   id: string;
   cookingOrder: number;

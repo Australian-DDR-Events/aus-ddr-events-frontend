@@ -17,9 +17,7 @@ const ProfileMenuItem = ({
       <Avatar
         size="sm"
         name={dancer.ddrName}
-        src={getProfileImageUrl(
-          `${dancer.profilePictureUrl}?${new Date().toISOString()}`,
-        )}
+        src={getProfileImageUrl(dancer.profilePictureUrl)}
         display={{ lg: 'none' }}
         showBorder
         borderColor="blue.500"
@@ -42,15 +40,15 @@ const ProfileMenuItem = ({
     </Center>
   ) : (
     <>
-      {!dancer.id && <SkeletonCircle mr={4} />}
+      {!dancer.id && (
+        <SkeletonCircle mr={4} display={{ base: 'none', lg: 'inline-block' }} />
+      )}
       {dancer.id && (
         <>
           <Avatar
             size="md"
             name={dancer.ddrName}
-            src={getProfileImageUrl(
-              `${dancer.profilePictureUrl}?${new Date().toISOString()}`,
-            )}
+            src={getProfileImageUrl(dancer.profilePictureUrl)}
             display={{ base: 'none', lg: 'inline-block' }}
             showBorder
             borderColor="blue.500"
