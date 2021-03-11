@@ -60,9 +60,7 @@ const ProfileReadView = ({
           <Avatar
             size="2xl"
             name={dancer.ddrName}
-            src={getProfileImageUrl(
-              `${dancer.profilePictureUrl}?${new Date().toISOString()}`,
-            )}
+            src={getProfileImageUrl(dancer.profilePictureUrl)}
             mb={4}
             bgColor="transparent"
           />
