@@ -6,13 +6,9 @@ import {
   Box,
 } from '@chakra-ui/react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
-import React, { ReactChild, useContext, useEffect, useState } from 'react';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
 
-const AdminWrapper = ({
-  children,
-}: {
-  children: ReactChild | ReactChild[];
-}) => {
+const AdminWrapper = ({ children }: { children: ReactNode }) => {
   const authRepo = useContext(AuthenticationRepositoryContext);
 
   const [isAdmin, setIsAdmin] = useState(false);

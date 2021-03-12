@@ -8,6 +8,11 @@ import axios from 'axios';
 import Router from 'components/router';
 import Wrapper from 'components/wrapper';
 import {
+  adminApiDao,
+  adminRepository,
+  AdminRepositoryProvider,
+} from 'context/admin';
+import {
   authenticationFirebaseDao,
   authenticationRepository,
   AuthenticationRepositoryContext,
@@ -129,6 +134,13 @@ const eventsRepositoryInstance = eventsRepository(
   }),
 );
 
+const adminRepositoryInstance = adminRepository(
+  adminApiDao({
+    getIdTokenFunc: getTokenOrDefault,
+    axiosClient,
+  }),
+);
+
 const App = (): React.ReactElement => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
     AuthenticationRepositoryContext,
@@ -190,6 +202,10 @@ const providers: Array<ComposeProps> = [
   {
     Provider: EventsRepositoryProvider,
     props: { instance: eventsRepositoryInstance },
+  },
+  {
+    Provider: AdminRepositoryProvider,
+    props: { instance: adminRepositoryInstance },
   },
   {
     Provider: HeadProvider,
