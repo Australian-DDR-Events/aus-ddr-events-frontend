@@ -1,4 +1,4 @@
-import { Badge, Box, Flex, Image, Text, useMediaQuery } from '@chakra-ui/react';
+import { Badge, Box, Flex, Image, Text } from '@chakra-ui/react';
 import React from 'react';
 import { Score } from 'types/core';
 import { defaultPixel } from 'types/styled';
@@ -6,18 +6,15 @@ import { getAssetUrl } from 'utils/assets';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 import { useLocation } from 'wouter';
 
-// DON'T DELETE THIS...
 const SongScoreDisplay = ({ score }: { score: Score }) => {
   const { song } = score;
 
   if (!song) <></>; // TODO Display a proper error box here
 
   const songColors = getColorByDifficulty(song!.difficulty);
-  const [isSmallerThan1024] = useMediaQuery('(max-width: 1024px');
   const [, setLocation] = useLocation();
   return (
     <Flex
-      // maxW={isSmallerThan1024 ? '100%' : 'fit-content'}
       overflow="hidden"
       borderWidth={2}
       borderRadius="lg"
@@ -33,34 +30,30 @@ const SongScoreDisplay = ({ score }: { score: Score }) => {
       }}
       cursor="pointer"
       onClick={() => setLocation(`/leaderboard/${song!.id}`)}
-      {...(isSmallerThan1024 && { w: '100%' })}
     >
       <Image
-        src={getAssetUrl(song!.image64)}
-        // h={isSmallerThan1024 ? '95px' : '128px'}
+        src={getAssetUrl(song!.image128)}
+        w={{ base: '96px', md: '128px' }}
+        h={{ base: '96px', md: '128px' }}
       />
       <Box ml={4} textAlign="left">
-        <Text fontWeight="bold" fontSize="lg" mt={2}>
+        <Text
+          fontWeight="bold"
+          fontSize="lg"
+          w={{ base: '196px', md: '320px' }}
+          isTruncated
+          mr={2}
+          mt={2}
+        >
           {song!.name}
         </Text>
-        <Text color="gray" mt={-1} mb={1}>
-          {song!.artist}
-        </Text>
-        <Badge colorScheme="gray" mb={2} mr={1}>
+        <Badge colorScheme="gray" mr={1} mt={-2}>
           Level {song!.level}
         </Badge>
-        <Badge colorScheme={songColors.badge} mb={2}>
+        <Badge colorScheme={songColors.badge} mt={-2}>
           {song!.difficulty}
         </Badge>
-      </Box>
-      <Box mt={2} ml={2} textAlign="left">
-        <Text fontWeight="bold">EX score</Text>
-        <Text
-          fontSize={isSmallerThan1024 ? 'md' : 'xl'}
-          mt={isSmallerThan1024 ? -2 : 0}
-        >
-          {score.value}
-        </Text>
+        <Text fontSize="2xl">{score.value}</Text>
       </Box>
     </Flex>
   );
