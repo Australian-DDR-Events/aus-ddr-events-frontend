@@ -11,7 +11,7 @@ import React from 'react';
 import { IoStar } from 'react-icons/io5';
 import { Song } from 'types/core';
 import { defaultPixel } from 'types/styled';
-import { Summer2021Score } from 'types/summer2021';
+import { DancerGradedIngredient } from 'types/summer2021';
 import { getAssetUrl } from 'utils/assets';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 import { convertGradeToNumber } from 'utils/summer2021';
@@ -21,7 +21,7 @@ const IngredientScoreDisplay = ({
   dancerGradedIngredient,
   song,
 }: {
-  dancerGradedIngredient: Summer2021Score;
+  dancerGradedIngredient: DancerGradedIngredient;
   song?: Song;
 }) => {
   if (!song) return <Text>Uh oh</Text>;
