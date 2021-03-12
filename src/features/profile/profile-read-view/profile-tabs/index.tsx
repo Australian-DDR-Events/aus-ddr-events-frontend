@@ -10,12 +10,15 @@ import { BadgesRepositoryContext } from 'context/badges';
 import { Badge } from 'context/badges/types';
 import { Dancer } from 'context/dancer';
 import { DishesRepositoryContext } from 'context/dishes';
+import { IngredientsRepositoryContext } from 'context/ingredients';
+import { SongsRepositoryContext } from 'context/songs';
 import React, { useContext, useState } from 'react';
-import { DancerGradedDish } from 'types/summer2021';
+import { Song } from 'types/core';
+import { DancerGradedDish, DancerGradedIngredient } from 'types/summer2021';
 
 import BadgesTab from './badges-tab';
 import DishesTab from './dishes-tab';
-import ScoresTab from './ingredients-tab';
+import IngredientsTab from './ingredients-tab';
 
 const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
   // Set up badges tab
@@ -23,6 +26,11 @@ const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
   const [dancerBadges, setDancerBadges] = useState(new Array<Badge>());
   const [isBadgesTabLoaded, setIsBadgesTabLoaded] = useState(false);
   const [isBadgesTabLoading, setIsBadgesTabLoading] = useState(true);
+  /**
+   * Load the badges for the user of the profile being viewed
+   * if the badges have not already been loaded
+   * @returns the profile user's badges
+   */
   const loadBadges = () => {
     if (isBadgesTabLoaded) return;
 
@@ -37,7 +45,43 @@ const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
       });
   };
 
-  // TODO - Set up ingredient tab
+  // Set up ingredient tab
+  const [dancerGradedIngredients, setDancerGradedIngredients] = useState<
+    DancerGradedIngredient[]
+  >(new Array<DancerGradedIngredient>());
+  const ingredientsRepository = useContext(IngredientsRepositoryContext);
+  const songsRepository = useContext(SongsRepositoryContext);
+  const [songs, setSongs] = useState<Map<string, Song>>(new Map());
+  const [isIngredientsTabLoaded, setIsIngredientsTabLoaded] = useState(false);
+  const [isIngredientsTabLoading, setIsIngredientsTabLoading] = useState(true);
+  /**
+   * Load the graded ingredients and the related songs
+   * for the user of the profile being viewed
+   * if these information have not already been loaded
+   * @returns the profile user's graded
+   */
+  const loadGradedIngredients = () => {
+    if (isIngredientsTabLoaded) return;
+
+    ingredientsRepository.ingredientsRepositoryInstance
+      .getGradedIngredientsByDancer(dancer.id, true)
+      .then((result) => {
+        if (result.isOk()) {
+          const songIds = result.value.map((r) => r.score.songId);
+
+          songsRepository.songsRepositoryInstance
+            .getByIds(songIds)
+            .then((songsResult) => {
+              if (songsResult.isOk()) {
+                setDancerGradedIngredients(result.value);
+                setSongs(new Map(songsResult.value.map((s) => [s.id, s])));
+                setIsIngredientsTabLoading(false);
+                setIsIngredientsTabLoaded(true);
+              }
+            });
+        }
+      });
+  };
 
   // Set up for dishes tab
   const dishesRepository = useContext(DishesRepositoryContext);
@@ -46,6 +90,11 @@ const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
   );
   const [isDishesTabLoaded, setIsDishesTabLoaded] = useState(false);
   const [isDishesTabLoading, setIsDishesTabLoading] = useState(true);
+  /**
+   * Load the graded dishes for the user of the profile being viewed
+   * if the graded dishes have not already been loaded
+   * @returns the profile user's graded dishes
+   */
   const loadDishScores = () => {
     if (isDishesTabLoaded) return;
 
@@ -85,8 +134,13 @@ const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
           />
         </TabPanel>
 
-        <TabPanel minW={isSmallerThan1024 ? '100%' : '65vw'}>
-          <ScoresTab dancer={dancer} />
+        <TabPanel minW={{ base: '100%', md: '65vw' }}>
+          <IngredientsTab
+            dancerGradedIngredients={dancerGradedIngredients}
+            songs={songs}
+            isLoading={isIngredientsTabLoading}
+            loadGradedIngredients={loadGradedIngredients}
+          />
         </TabPanel>
 
         <TabPanel minW={isSmallerThan1024 ? '100%' : '65vw'}>

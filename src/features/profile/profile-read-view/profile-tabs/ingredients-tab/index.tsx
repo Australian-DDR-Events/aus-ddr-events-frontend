@@ -1,38 +1,27 @@
 import { Center, SimpleGrid, Spinner, useMediaQuery } from '@chakra-ui/react';
-import { Dancer } from 'context/dancer';
-import { IngredientsRepositoryContext } from 'context/ingredients';
-import { SongsRepositoryContext } from 'context/songs';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Song } from 'types/core';
 import { defaultPixel } from 'types/styled';
-import { Summer2021Score } from 'types/summer2021';
+import { DancerGradedIngredient } from 'types/summer2021';
 
 import IngredientScoreDisplay from './ingredient-score-display';
 
-const ScoresTab = ({ dancer }: { dancer: Dancer }) => {
-  const [scores, setScores] = useState<Summer2021Score[]>(
-    new Array<Summer2021Score>(),
-  );
-  const ingredientsRepository = useContext(IngredientsRepositoryContext);
-  const songsRepository = useContext(SongsRepositoryContext);
-  const [isLargerThan1440] = useMediaQuery(['(min-width: 1440px)']);
-  const [songs, setSongs] = useState<Map<string, Song>>(new Map());
-  const [isLoading, setIsLoading] = useState(true);
-
+const IngredientsTab = ({
+  dancerGradedIngredients,
+  songs,
+  isLoading,
+  loadGradedIngredients,
+}: {
+  dancerGradedIngredients: DancerGradedIngredient[];
+  songs: Map<string, Song>;
+  isLoading: boolean;
+  loadGradedIngredients: () => void;
+}) => {
   useEffect(() => {
-    ingredientsRepository.ingredientsRepositoryInstance
-      .getGradedIngredientsByDancer(dancer.id, true)
-      .then((result) => {
-        const songIds = result.okOrDefault().map((r) => r.score.songId);
-        songsRepository.songsRepositoryInstance
-          .getByIds(songIds)
-          .then((songsResult) => {
-            setScores(result.okOrDefault());
-            setSongs(new Map(songsResult.okOrDefault().map((s) => [s.id, s])));
-            setIsLoading(false);
-          });
-      });
+    loadGradedIngredients();
   }, []);
+
+  const [isLargerThan1440] = useMediaQuery(['(min-width: 1440px)']);
 
   if (isLoading)
     return (
@@ -56,15 +45,15 @@ const ScoresTab = ({ dancer }: { dancer: Dancer }) => {
       w="fit-content"
       pr={isLargerThan1440 ? defaultPixel : 0}
     >
-      {scores.map((score) => (
+      {dancerGradedIngredients.map((dgi) => (
         <IngredientScoreDisplay
-          key={score.id}
-          dancerGradedIngredient={score}
-          song={songs.get(score.score.songId)}
+          key={dgi.id}
+          dancerGradedIngredient={dgi}
+          song={songs.get(dgi.score.songId)}
         />
       ))}
     </SimpleGrid>
   );
 };
 
-export default ScoresTab;
+export default IngredientsTab;
