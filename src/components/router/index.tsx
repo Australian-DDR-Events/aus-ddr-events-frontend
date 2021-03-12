@@ -2,6 +2,7 @@ import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from 'context/authentication';
+import ImageUploader from 'features/admin/image-uploader';
 import CourseSubmission from 'features/course-submission';
 import Error from 'features/error';
 import ForgotPassword from 'features/forgot-password';
@@ -86,6 +87,10 @@ const Router = () => (
     <ProtectedRoute path="/course-submission">
       <Title>Submit courses | Australian DDR Events</Title>
       <CourseSubmission />
+    </ProtectedRoute>
+    <ProtectedRoute path="/admin/uploadimage">
+      <Title>Image uploading | Australian DDR Events</Title>
+      <ImageUploader />
     </ProtectedRoute>
     <Route>
       <Error />
