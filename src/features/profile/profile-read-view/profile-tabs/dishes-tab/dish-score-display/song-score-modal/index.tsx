@@ -27,7 +27,7 @@ const SongScoreModal = ({
     <Modal size="lg" isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Songs breakdown</ModalHeader>
+        <ModalHeader>Course breakdown</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Stack direction="column" spacing={8}>
