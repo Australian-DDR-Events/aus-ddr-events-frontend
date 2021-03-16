@@ -9,6 +9,8 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 
+import { getAssetUrl } from '../../../utils/assets';
+
 const Step5 = () => {
   return (
     <>
@@ -34,7 +36,11 @@ const Step5 = () => {
           <StackItem>
             <Center>
               <Box w="60%" minW="150px">
-                <Image src="https://i.imgur.com/vgn9VFo.png" align="center" />
+                <Image
+                  objectFit="cover"
+                  src={getAssetUrl(`/common/season-logo.png`)}
+                  alt="Summer BBQ Logo"
+                />
               </Box>
             </Center>
           </StackItem>
