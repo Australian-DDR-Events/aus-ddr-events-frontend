@@ -14,7 +14,7 @@ import React from 'react';
 const Step3 = () => {
   return (
     <>
-      <Center>
+      <Center marginBottom={16}>
         <VStack w="80%" alignContent="center">
           <StackItem>
             <Heading size="lg">Let&apos;s get cooking!</Heading>

@@ -12,7 +12,7 @@ import React from 'react';
 const Step5 = () => {
   return (
     <>
-      <Center>
+      <Center marginBottom={16}>
         <VStack w="80%" alignContent="center">
           <StackItem>
             <Heading size="lg">Try and try again!</Heading>
