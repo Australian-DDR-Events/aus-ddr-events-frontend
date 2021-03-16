@@ -28,7 +28,7 @@ const Step2 = () => {
           <StackItem>
             <Center>
               <Box w="60%" minW="150px">
-                <Image src="https://i.imgur.com/nNm2M8z.png" align="center" />
+                <Image src="https://i.imgur.com/3UUUZIN.png" align="center" />
               </Box>
             </Center>
           </StackItem>
