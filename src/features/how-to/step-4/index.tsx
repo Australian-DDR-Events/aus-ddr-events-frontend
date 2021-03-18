@@ -13,7 +13,7 @@ import { IoArrowForward } from 'react-icons/io5';
 const Step4 = () => {
   return (
     <>
-      <Center marginBottom={16}>
+      <Center mb={16}>
         <VStack w="80%" alignContent="center">
           <StackItem>
             <Heading size="lg">Earn rewards</Heading>

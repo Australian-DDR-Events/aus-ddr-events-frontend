@@ -27,7 +27,7 @@ const Step1 = () => {
             </Text>
           </StackItem>
           <StackItem>
-            <Center marginBottom={16}>
+            <Center mb={16}>
               <Button
                 size="md"
                 rounded="md"

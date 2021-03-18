@@ -12,7 +12,7 @@ import React from 'react';
 const Step2 = () => {
   return (
     <>
-      <Center marginBottom={16}>
+      <Center mb={16}>
         <VStack w="80%" alignContent="center">
           <StackItem>
             <Heading size="lg">Find ingredients</Heading>
