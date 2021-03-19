@@ -14,7 +14,7 @@ import { getAssetUrl } from '../../../utils/assets';
 const Step5 = () => {
   return (
     <>
-      <Center marginBottom={16}>
+      <Center mb={16}>
         <VStack w="80%" alignContent="center">
           <StackItem>
             <Heading size="lg">Try and try again!</Heading>
