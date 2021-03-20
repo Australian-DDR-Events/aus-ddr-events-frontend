@@ -1,15 +1,16 @@
 import {
-  Box,
+  Button,
   Center,
   Heading,
-  Image,
   StackItem,
   Text,
   VStack,
 } from '@chakra-ui/react';
 import React from 'react';
+import { useLocation } from 'wouter';
 
 const Step1 = () => {
+  const [, setLocation] = useLocation();
   return (
     <>
       <Center>
@@ -26,20 +27,30 @@ const Step1 = () => {
             </Text>
           </StackItem>
           <StackItem>
-            <Center>
-              <Box w="30%" minW="100px">
-                <Center>
-                  <Image src="https://i.imgur.com/m6CRQeh.png" />
-                </Center>
-              </Box>
+            <Center mb={16}>
+              <Button
+                size="md"
+                rounded="md"
+                variant="solid"
+                colorScheme="blue"
+                onClick={() => setLocation('/login')}
+              >
+                Login
+              </Button>
+
               <Heading style={{ margin: '24px' }} level={5}>
                 OR
               </Heading>
-              <Box w="30%" minW="100px">
-                <Center>
-                  <Image src="https://i.imgur.com/IbgnoVC.png" />
-                </Center>
-              </Box>
+
+              <Button
+                size="md"
+                rounded="md"
+                variant="solid"
+                colorScheme="pink"
+                onClick={() => setLocation('/register')}
+              >
+                Register
+              </Button>
             </Center>
           </StackItem>
         </VStack>

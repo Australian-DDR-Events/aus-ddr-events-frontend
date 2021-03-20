@@ -12,7 +12,7 @@ import React from 'react';
 const Step2 = () => {
   return (
     <>
-      <Center>
+      <Center mb={16}>
         <VStack w="80%" alignContent="center">
           <StackItem>
             <Heading size="lg">Find ingredients</Heading>
@@ -28,7 +28,7 @@ const Step2 = () => {
           <StackItem>
             <Center>
               <Box w="60%" minW="150px">
-                <Image src="https://i.imgur.com/nNm2M8z.png" align="center" />
+                <Image src="https://i.imgur.com/3UUUZIN.png" align="center" />
               </Box>
             </Center>
           </StackItem>
