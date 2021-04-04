@@ -2,8 +2,8 @@ import {
   Box,
   Button,
   Center,
+  Flex,
   Heading,
-  HStack,
   Image,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -49,7 +49,7 @@ const DishDisplay = ({
         <Image src={getAssetUrl(dish.image256)} />
       </Center>
       <Center w="100%" mb={8}>
-        <HStack spacing={4}>
+        <Flex spacing={4}>
           {dish.ingredients.map((i) => (
             <RequiredIngredientDisplay
               key={i.id}
@@ -59,7 +59,7 @@ const DishDisplay = ({
               )}
             />
           ))}
-        </HStack>
+        </Flex>
       </Center>
       <Center mb={4}>
         <Button

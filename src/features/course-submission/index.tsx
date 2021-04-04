@@ -84,7 +84,7 @@ const CourseSubmission = () => {
         <SimpleGrid
           spacing={4}
           columns={5}
-          minChildWidth={`${defaultPixel * 34}px`}
+          minChildWidth={`${defaultPixel * 36}px`}
         >
           {dishes?.map((d) => (
             <DishDisplay
