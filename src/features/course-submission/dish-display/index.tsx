@@ -49,7 +49,7 @@ const DishDisplay = ({
         <Image src={getAssetUrl(dish.image256)} />
       </Center>
       <Center w="100%" mb={8}>
-        <Flex maxW="100%" margin="0 auto" spacing={4}>
+        <Flex spacing={4}>
           {dish.ingredients.map((i) => (
             <RequiredIngredientDisplay
               key={i.id}
