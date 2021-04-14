@@ -6,6 +6,7 @@ import ImageUploader from 'features/admin/image-uploader';
 import CourseSubmission from 'features/course-submission';
 import Error from 'features/error';
 import ForgotPassword from 'features/forgot-password';
+import GraphqlTestbed from 'features/graphql-testbed';
 import Home from 'features/home';
 import HowTo from 'features/how-to';
 import IngredientSubmission from 'features/ingredient-submission';
@@ -79,6 +80,9 @@ const Router = () => (
           <Leaderboard songId={params.id} />
         </>
       )}
+    </Route>
+    <Route path="/testbed">
+      <GraphqlTestbed />
     </Route>
     <ProtectedRoute path="/submission">
       <Title>Submit scores | Australian DDR Events</Title>
