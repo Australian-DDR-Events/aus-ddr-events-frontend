@@ -17,10 +17,11 @@ const authenticationFirebaseDao = (
   let user: firebase.User | null = null;
   const onAuthStateChangedCallbacks: AuthStateChangedCallback[] = [];
 
-  firebaseApp.auth().onAuthStateChanged((a) => {
+  firebaseApp.auth().onAuthStateChanged(async (a) => {
     user = a;
+    const token = await user?.getIdToken();
     onAuthStateChangedCallbacks.forEach((cb) => {
-      cb();
+      cb({ token });
     });
   });
 
