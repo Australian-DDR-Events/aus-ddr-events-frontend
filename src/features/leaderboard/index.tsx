@@ -13,6 +13,7 @@ import { SongsRepositoryContext } from 'context/songs';
 import React, { useContext, useEffect, useState } from 'react';
 import { FaCrown } from 'react-icons/fa';
 import { Score, Song } from 'types/core';
+import { useClient } from 'urql';
 import { useLocation } from 'wouter';
 
 import { ScoresRepositoryContext } from '../../context/scores';
