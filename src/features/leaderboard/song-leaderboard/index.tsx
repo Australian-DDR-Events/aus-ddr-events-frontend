@@ -1,8 +1,10 @@
 import { Center, Container, Spinner } from '@chakra-ui/react';
-import { ScoresRepositoryContext } from 'context/scores';
-import { DefaultSong, SongsRepositoryContext } from 'context/songs';
-import React, { useContext, useEffect, useState } from 'react';
+import { DefaultDancer } from 'context/dancer';
+import { DefaultScore } from 'context/scores/constants';
+import { DefaultSong } from 'context/songs';
+import React, { useEffect, useState } from 'react';
 import { Score } from 'types/core';
+import { useQuery } from 'urql';
 import { getAssetUrl } from 'utils/assets';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 import { useLocation } from 'wouter';
@@ -12,33 +14,93 @@ import ScoreLine from './score-line';
 import SongBanner from './song-banner';
 import TopScore from './top-score';
 
-const SongLeaderboard = ({ songId }: { songId: string }) => {
-  const songsRepo = useContext(SongsRepositoryContext);
-  const scoresRepo = useContext(ScoresRepositoryContext);
+const SCORES_QUERY = `
+query ( $songId: ID!) {
+  songById (id:  $songId) {
+    name
+    artist
+    difficulty
+    level
+    scores {
+      dancer {
+        id
+        ddrName
+        ddrCode
+        profilePictureTimestamp
+      }
+      submissionTime
+      value
+    }
+  }
+}
+`;
 
+type ScoresQueryType = {
+  songById: {
+    name: string;
+    artist: string;
+    difficulty: string;
+    level: number;
+    image128: string;
+    scores: [
+      {
+        value: number;
+        submissionTime: string;
+        imageUrl: string;
+        dancer: {
+          id: string;
+          ddrName: string;
+          ddrCode: string;
+          profilePictureTimestamp: string;
+        };
+      },
+    ];
+  };
+};
+
+const SongLeaderboard = ({ songId }: { songId: string }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [scores, setScores] = useState<Score[]>([]);
   const [song, setSong] = useState(DefaultSong);
-  const [scores, setScores] = useState(new Array<Score>());
 
   const [, setLocation] = useLocation();
+  const [result] = useQuery<ScoresQueryType>({
+    query: SCORES_QUERY,
+    variables: { songId },
+  });
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalUrl, setModalUrl] = useState('');
 
   useEffect(() => {
-    songsRepo.songsRepositoryInstance.getById(songId).then((result) => {
-      if (result.isOk()) setSong(result.value);
+    if (!result || result.fetching || !result.data) return;
+    const songByIdData = result.data.songById;
+    setSong({
+      ...DefaultSong,
+      name: songByIdData.name,
+      artist: songByIdData.artist,
+      difficulty: songByIdData.difficulty,
+      level: songByIdData.level,
+      image128: songByIdData.image128,
     });
-    scoresRepo.scoresRepositoryInstance
-      .getAll({
-        songId: new Array<string>(songId),
-      })
-      .then((result) => {
-        if (result.isOk())
-          setScores(result.value.sort((s1, s2) => s2.value - s1.value));
-        setIsLoading(false);
-      });
-  }, []);
+    setScores(
+      songByIdData.scores.map((s) => {
+        return {
+          ...DefaultScore,
+          value: s.value,
+          submissionTime: s.submissionTime,
+          imageUrl: s.imageUrl,
+          dancer: {
+            ...DefaultDancer,
+            id: s.dancer.id,
+            ddrName: s.dancer.ddrName,
+            code: s.dancer.ddrCode,
+          },
+        };
+      }),
+    );
+    setIsLoading(false);
+  }, [result]);
 
   if (isLoading) {
     return (
