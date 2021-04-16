@@ -18,12 +18,6 @@ const LoggedInMenuItems = ({
 
   return (
     <>
-      <MenuItem onClick={() => setLocation('/submission')}>
-        Submit scores
-      </MenuItem>
-      <MenuItem onClick={() => setLocation('/course-submission')}>
-        Submit courses
-      </MenuItem>
       <HStack>
         <ColorModeSwitch
           mr={2}

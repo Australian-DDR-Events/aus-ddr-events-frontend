@@ -3,12 +3,9 @@ import {
   AuthenticationRepositoryContextInterface,
 } from 'context/authentication';
 import ImageUploader from 'features/admin/image-uploader';
-import CourseSubmission from 'features/course-submission';
 import Error from 'features/error';
 import ForgotPassword from 'features/forgot-password';
 import Home from 'features/home';
-import HowTo from 'features/how-to';
-import IngredientSubmission from 'features/ingredient-submission';
 import Leaderboard from 'features/leaderboard';
 import Login from 'features/login';
 import Profile from 'features/profile';
@@ -52,10 +49,6 @@ const Router = () => (
       <Title>Forgot password | Australian DDR Events</Title>
       <ForgotPassword />
     </Route>
-    <Route path="/how-to">
-      <Title>How to participate | Australian DDR Events</Title>
-      <HowTo />
-    </Route>
     <ProtectedRoute path="/profile">
       <Title>Profile | Australian DDR Events</Title>
       <Profile />
@@ -80,14 +73,6 @@ const Router = () => (
         </>
       )}
     </Route>
-    <ProtectedRoute path="/submission">
-      <Title>Submit scores | Australian DDR Events</Title>
-      <IngredientSubmission />
-    </ProtectedRoute>
-    <ProtectedRoute path="/course-submission">
-      <Title>Submit courses | Australian DDR Events</Title>
-      <CourseSubmission />
-    </ProtectedRoute>
     <ProtectedRoute path="/admin/uploadimage">
       <Title>Image uploading | Australian DDR Events</Title>
       <ImageUploader />
