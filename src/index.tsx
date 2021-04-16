@@ -53,11 +53,9 @@ const App = (): React.ReactElement => {
   const urqlClient = useMemo(
     () =>
       createClient({
-        url: '',
-        fetchOptions: () => {
-          return {
-            headers: { authorization: authId ? `Bearer ${authId}` : '' },
-          };
+        url: `${process.env.API_URL}/graphql`,
+        fetchOptions: {
+          headers: { authorization: authId ? `Bearer ${authId}` : '' },
         },
       }),
     [authId],

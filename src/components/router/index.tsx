@@ -3,6 +3,7 @@ import {
   AuthenticationRepositoryContextInterface,
 } from 'context/authentication';
 import ImageUploader from 'features/admin/image-uploader';
+import SongsManagement from 'features/admin/songs-management';
 import CourseSubmission from 'features/course-submission';
 import Error from 'features/error';
 import ForgotPassword from 'features/forgot-password';
@@ -96,6 +97,10 @@ const Router = () => (
       <Title>Image uploading | Australian DDR Events</Title>
       <ImageUploader />
     </ProtectedRoute>
+    <Route path="/admin/songs">
+      <Title>Manage songs | Australian DDR Events</Title>
+      <SongsManagement />
+    </Route>
     <Route>
       <Error />
     </Route>
