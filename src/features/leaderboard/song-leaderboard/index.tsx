@@ -7,7 +7,7 @@ import { Score } from 'types/core';
 import { useQuery } from 'urql';
 import { useLocation } from 'wouter';
 
-import SongLeaderboardPresenter from './presenter';
+import SongLeaderboardView from './view';
 
 const SCORES_QUERY = `
 query ( $songId: ID!) {
@@ -115,7 +115,7 @@ const SongLeaderboard = ({ songId }: { songId: string }) => {
   }
 
   return (
-    <SongLeaderboardPresenter
+    <SongLeaderboardView
       song={song}
       scores={scores}
       modalUrl={modalUrl}

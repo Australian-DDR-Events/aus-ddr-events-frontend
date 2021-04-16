@@ -9,7 +9,7 @@ import ScoreLine from './score-line';
 import SongBanner from './song-banner';
 import TopScore from './top-score';
 
-const SongLeaderboardPresenter = ({
+const SongLeaderboardView = ({
   song,
   scores,
   modalUrl,
@@ -66,4 +66,4 @@ const SongLeaderboardPresenter = ({
   );
 };
 
-export default SongLeaderboardPresenter;
+export default SongLeaderboardView;
