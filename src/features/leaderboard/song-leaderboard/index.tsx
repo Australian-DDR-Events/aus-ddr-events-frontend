@@ -1,18 +1,13 @@
-import { Center, Container, Spinner } from '@chakra-ui/react';
+import { Center, Spinner } from '@chakra-ui/react';
 import { DefaultDancer } from 'context/dancer';
 import { DefaultScore } from 'context/scores/constants';
 import { DefaultSong } from 'context/songs';
 import React, { useEffect, useState } from 'react';
 import { Score } from 'types/core';
 import { useQuery } from 'urql';
-import { getAssetUrl } from 'utils/assets';
-import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 import { useLocation } from 'wouter';
 
-import ScoreImageModal from '../score-image-modal';
-import ScoreLine from './score-line';
-import SongBanner from './song-banner';
-import TopScore from './top-score';
+import SongLeaderboardPresenter from './presenter';
 
 const SCORES_QUERY = `
 query ( $songId: ID!) {
@@ -28,6 +23,7 @@ query ( $songId: ID!) {
         ddrCode
         profilePictureTimestamp
       }
+      id
       submissionTime
       value
     }
@@ -44,6 +40,7 @@ type ScoresQueryType = {
     image128: string;
     scores: [
       {
+        id: string;
         value: number;
         submissionTime: string;
         imageUrl: string;
@@ -87,6 +84,7 @@ const SongLeaderboard = ({ songId }: { songId: string }) => {
       songByIdData.scores.map((s) => {
         return {
           ...DefaultScore,
+          id: s.id,
           value: s.value,
           submissionTime: s.submissionTime,
           imageUrl: s.imageUrl,
@@ -117,41 +115,15 @@ const SongLeaderboard = ({ songId }: { songId: string }) => {
   }
 
   return (
-    <Container maxW="100%" w="fit-content">
-      <Center>
-        <SongBanner song={song} />
-      </Center>
-      <ScoreImageModal
-        imageUrl={modalUrl}
-        isOpen={modalIsOpen}
-        onClose={() => setModalIsOpen(false)}
-      />
-
-      <Center mb={4}>
-        {scores[0] && (
-          <TopScore
-            onClickImage={() => {
-              setModalUrl(getAssetUrl(scores[0].imageUrl));
-              setModalIsOpen(true);
-            }}
-            onClickUser={() => setLocation(`/profile/${scores[0].dancer?.id}`)}
-            score={scores[0]}
-          />
-        )}
-      </Center>
-      {scores.slice(1).map((s, index) => (
-        <ScoreLine
-          index={index}
-          score={s}
-          onClickImage={() => {
-            setModalUrl(getAssetUrl(s.imageUrl));
-            setModalIsOpen(true);
-          }}
-          onClickName={() => setLocation(`/profile/${s.dancer?.id}`)}
-          color={getColorByDifficulty(song.difficulty).shadow}
-        />
-      ))}
-    </Container>
+    <SongLeaderboardPresenter
+      song={song}
+      scores={scores}
+      modalUrl={modalUrl}
+      modalIsOpen={modalIsOpen}
+      setModalIsOpen={setModalIsOpen}
+      setModalUrl={setModalUrl}
+      setLocation={setLocation}
+    />
   );
 };
 
