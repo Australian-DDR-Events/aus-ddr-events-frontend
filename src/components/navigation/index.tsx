@@ -136,9 +136,6 @@ const Navigation = (props: any) => {
               onProfileMenuItemClick={() => setLocation('/profile')}
             />
           )}
-          <MenuItem onClick={() => setLocation('/how-to')}>
-            How to participate
-          </MenuItem>
           <MenuItem onClick={() => setLocation('/leaderboard')}>
             Leaderboards
           </MenuItem>
