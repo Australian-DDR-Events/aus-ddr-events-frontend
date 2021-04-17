@@ -16,7 +16,7 @@ query ( $songId: ID!) {
     artist
     difficulty
     level
-    scores {
+    dancerTopScores {
       dancer {
         id
         ddrName
@@ -38,7 +38,7 @@ type ScoresQueryType = {
     difficulty: string;
     level: number;
     image128: string;
-    scores: [
+    dancerTopScores: [
       {
         id: string;
         value: number;
@@ -81,7 +81,7 @@ const SongLeaderboard = ({ songId }: { songId: string }) => {
       image128: songByIdData.image128,
     });
     setScores(
-      songByIdData.scores.map((s) => {
+      songByIdData.dancerTopScores.map((s) => {
         return {
           ...DefaultScore,
           id: s.id,
