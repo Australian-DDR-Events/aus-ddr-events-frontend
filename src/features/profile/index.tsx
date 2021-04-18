@@ -6,38 +6,35 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
-import {
-  Dancer,
-  DancersRepositoryContext,
-  DefaultDancer,
-} from 'context/dancer';
+import { Dancer, DefaultDancer } from 'context/dancer';
 import React, { useContext, useEffect, useState } from 'react';
 import { Title } from 'react-head';
-import { Result } from 'types/result';
+import { useQuery } from 'urql';
 
 import ProfileForm from './profile-form';
 import ProfileReadView from './profile-read-view';
 
 const DANCER_QUERY = `
 query ( $dancerId: ID!) {
-{
   dancerById (id: $dancerId) {
     id
     ddrCode
     ddrName
-    primaryMachine
+    primaryMachineLocation
     profilePictureUrl
     state
   }
 }`;
 
 type DancerQueryType = {
-  id: string;
-  ddrCode: string;
-  ddrName: string;
-  primaryMachine: string;
-  profilePictureUrl: string;
-  state: string;
+  dancerById: {
+    id: string;
+    ddrCode: string;
+    ddrName: string;
+    primaryMachineLocation: string;
+    profilePictureUrl: string;
+    state: string;
+  };
 };
 
 interface ProfileProps {
@@ -45,7 +42,6 @@ interface ProfileProps {
 }
 
 const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
-  const dancersRepository = useContext(DancersRepositoryContext);
   const authRepo = useContext(AuthenticationRepositoryContext);
   const [dancer, setDancer] = useState(DefaultDancer);
 
@@ -62,23 +58,30 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
   const emailVerified = loggedInUser.hasVerifiedEmail;
   const isEditable = !id || authId === id;
 
+  const [result] = useQuery<DancerQueryType>({
+    query: DANCER_QUERY,
+    variables: {
+      dancerId: id || authId,
+    },
+  });
+
   useEffect(() => {
     if (!isEditing) {
       setLoading(true);
 
-      const onGetFinished = (u: Result<Error, Dancer>) => {
-        setDancer(u.okOrDefault());
-        setLoading(false);
-      };
-
-      if (id)
-        dancersRepository.dancersRepositoryInstance.get(id).then(onGetFinished);
-      else if (authId)
-        dancersRepository.dancersRepositoryInstance
-          .getByAuthenticationId(authId)
-          .then(onGetFinished);
+      if (!result || result.fetching || !result.data) return;
+      setDancer({
+        ...DefaultDancer,
+        id: result.data.dancerById.id,
+        ddrName: result.data.dancerById.ddrName,
+        ddrCode: result.data.dancerById.ddrCode,
+        primaryMachine: result.data.dancerById.primaryMachineLocation,
+        profilePictureUrl: result.data.dancerById.profilePictureUrl,
+        state: result.data.dancerById.state,
+      });
+      setLoading(false);
     }
-  }, [isEditing]);
+  }, [result, isEditing]);
 
   const renderProfileReadView = () => (
     <>
