@@ -18,6 +18,28 @@ import { Result } from 'types/result';
 import ProfileForm from './profile-form';
 import ProfileReadView from './profile-read-view';
 
+const DANCER_QUERY = `
+query ( $dancerId: ID!) {
+{
+  dancerById (id: $dancerId) {
+    id
+    ddrCode
+    ddrName
+    primaryMachine
+    profilePictureUrl
+    state
+  }
+}`;
+
+type DancerQueryType = {
+  id: string;
+  ddrCode: string;
+  ddrName: string;
+  primaryMachine: string;
+  profilePictureUrl: string;
+  state: string;
+};
+
 interface ProfileProps {
   id?: string;
 }

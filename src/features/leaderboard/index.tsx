@@ -28,61 +28,106 @@ interface SongListing {
 
 const SONGS_QUERY = `
 {
-  songs (order: {
-    level: ASC
-  }) {
+  songs {
     nodes {
       id
       name
       artist
-      difficulty
-      level
       image128
-      topScore {
-        dancer {
-          id
-          ddrName
-          ddrCode
-          profilePictureUrl
-        }
+      songDifficulties {
         id
-        imageUrl
-        value
+        difficulty
+        level
+        topScore {
+          dancer {
+            id
+            ddrName
+            ddrCode
+            profilePictureUrl
+          }
+          id
+          imageUrl
+          value
+        }
       }
     }
   }
 }
 `;
 
+type SongsQueryNode = {
+  id: string;
+  name: string;
+  artist: string;
+  image128: string;
+  songDifficulties: [
+    {
+      id: string;
+      difficulty: string;
+      level: number;
+      topScore: {
+        id: string;
+        value: number;
+        submissionTime: string;
+        imageUrl: string;
+        dancer: {
+          id: string;
+          ddrName: string;
+          ddrCode: string;
+          profilePictureUrl: string;
+        };
+      };
+    },
+  ];
+};
+
 type SongsQueryType = {
   songs: {
-    nodes: [
-      {
-        id: string;
-        name: string;
-        artist: string;
-        difficulty: string;
-        level: number;
-        image128: string;
-        topScore: {
-          id: string;
-          value: number;
-          submissionTime: string;
-          imageUrl: string;
-          dancer: {
-            id: string;
-            ddrName: string;
-            ddrCode: string;
-            profilePictureUrl: string;
-          };
-        };
-      },
-    ];
+    nodes: SongsQueryNode[];
   };
 };
 
-const Leaderboard = ({ songId }: { songId?: string }) => {
-  if (songId) return <SongLeaderboard songId={songId} />;
+const SplitSong = ({ songNode }: { songNode: SongsQueryNode }): SongListing[] =>
+  songNode.songDifficulties.map((songDifficulty) => {
+    let response: SongListing = {
+      song: {
+        ...DefaultSong,
+      },
+      score: undefined,
+    };
+    response.song = {
+      ...DefaultSong,
+      id: songDifficulty.id,
+      name: songNode.name,
+      artist: songNode.artist,
+      difficulty: songDifficulty.difficulty,
+      level: songDifficulty.level,
+      image128: songNode.image128,
+    };
+    if (songDifficulty.topScore) {
+      response = {
+        ...response,
+      };
+      response.score = {
+        ...DefaultScore,
+        id: songDifficulty.topScore.id,
+        value: songDifficulty.topScore.value,
+        submissionTime: songDifficulty.topScore.submissionTime,
+        imageUrl: songDifficulty.topScore.imageUrl,
+        dancer: {
+          ...DefaultDancer,
+          id: songDifficulty.topScore.dancer.id,
+          ddrName: songDifficulty.topScore.dancer.ddrName,
+          profilePictureUrl: songDifficulty.topScore.dancer.profilePictureUrl,
+        },
+      };
+    }
+    return response;
+  });
+
+const Leaderboard = ({ songDifficultyId }: { songDifficultyId?: string }) => {
+  if (songDifficultyId)
+    return <SongLeaderboard songDifficultyId={songDifficultyId} />;
 
   const [songListing, setSongListing] = useState(new Array<SongListing>());
   const [isLoading, setIsLoading] = useState(true);
@@ -97,34 +142,8 @@ const Leaderboard = ({ songId }: { songId?: string }) => {
   useEffect(() => {
     if (!result || result.fetching || !result.data) return;
     const songs = result.data.songs.nodes;
-    setSongListing(
-      songs.map((s) => {
-        return {
-          song: {
-            ...DefaultSong,
-            id: s.id,
-            name: s.name,
-            artist: s.artist,
-            difficulty: s.difficulty,
-            level: s.level,
-            image128: s.image128,
-          },
-          score: {
-            ...DefaultScore,
-            id: s.topScore.id,
-            value: s.topScore.value,
-            submissionTime: s.topScore.submissionTime,
-            imageUrl: s.topScore.imageUrl,
-            dancer: {
-              ...DefaultDancer,
-              id: s.topScore.dancer.id,
-              ddrName: s.topScore.dancer.ddrName,
-              profilePictureUrl: s.topScore.dancer.profilePictureUrl,
-            },
-          },
-        };
-      }),
-    );
+    const mappedSongListings = songs.map((s) => SplitSong({ songNode: s }));
+    setSongListing(new Array<SongListing>().concat(...mappedSongListings));
     setIsLoading(false);
   }, [result]);
 

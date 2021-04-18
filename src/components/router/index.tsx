@@ -78,7 +78,7 @@ const Router = () => (
       {(params) => (
         <>
           <Title>Leaderboards | Australian DDR Events</Title>
-          <Leaderboard songId={params.id} />
+          <Leaderboard songDifficultyId={params.id} />
         </>
       )}
     </Route>

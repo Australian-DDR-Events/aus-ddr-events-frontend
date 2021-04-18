@@ -10,13 +10,15 @@ import { useLocation } from 'wouter';
 import SongLeaderboardView from './view';
 
 const SCORES_QUERY = `
-query ( $songId: ID!) {
-  songById (id:  $songId) {
-    name
-    artist
+query ($songDifficultyId: ID!) {
+  songDifficultyById (id: $songDifficultyId) {
     difficulty
     level
-    image256
+    song {
+      name
+      artist
+      image256
+    }
     dancerTopScores (order: {
       value: DESC
       submissionTime: DESC
@@ -36,12 +38,14 @@ query ( $songId: ID!) {
 `;
 
 type ScoresQueryType = {
-  songById: {
-    name: string;
-    artist: string;
+  songDifficultyById: {
     difficulty: string;
     level: number;
-    image256: string;
+    song: {
+      name: string;
+      artist: string;
+      image256: string;
+    };
     dancerTopScores: [
       {
         id: string;
@@ -59,7 +63,11 @@ type ScoresQueryType = {
   };
 };
 
-const SongLeaderboard = ({ songId }: { songId: string }) => {
+const SongLeaderboard = ({
+  songDifficultyId,
+}: {
+  songDifficultyId: string;
+}) => {
   const [isLoading, setIsLoading] = useState(true);
   const [scores, setScores] = useState<Score[]>([]);
   const [song, setSong] = useState(DefaultSong);
@@ -67,7 +75,7 @@ const SongLeaderboard = ({ songId }: { songId: string }) => {
   const [, setLocation] = useLocation();
   const [result] = useQuery<ScoresQueryType>({
     query: SCORES_QUERY,
-    variables: { songId },
+    variables: { songDifficultyId },
   });
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -75,17 +83,17 @@ const SongLeaderboard = ({ songId }: { songId: string }) => {
 
   useEffect(() => {
     if (!result || result.fetching || !result.data) return;
-    const songByIdData = result.data.songById;
+    const songDifficultyByIdData = result.data.songDifficultyById;
     setSong({
       ...DefaultSong,
-      name: songByIdData.name,
-      artist: songByIdData.artist,
-      difficulty: songByIdData.difficulty,
-      level: songByIdData.level,
-      image256: songByIdData.image256,
+      name: songDifficultyByIdData.song.name,
+      artist: songDifficultyByIdData.song.artist,
+      difficulty: songDifficultyByIdData.difficulty,
+      level: songDifficultyByIdData.level,
+      image256: songDifficultyByIdData.song.image256,
     });
     setScores(
-      songByIdData.dancerTopScores.map((s) => {
+      songDifficultyByIdData.dancerTopScores.map((s) => {
         return {
           ...DefaultScore,
           id: s.id,
