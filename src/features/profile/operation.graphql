@@ -6,8 +6,9 @@ query getDancerById($dancerId: ID!) {
 
 fragment DancerFields on Dancer {
   id
-  name
-  description
-  eventId
-  image128
+  ddrCode
+  ddrName
+  primaryMachineLocation
+  profilePictureUrl
+  state
 }

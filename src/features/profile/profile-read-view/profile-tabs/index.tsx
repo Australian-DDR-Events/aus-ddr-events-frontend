@@ -6,9 +6,7 @@ import {
   Tabs,
   useMediaQuery,
 } from '@chakra-ui/react';
-import { BadgesRepositoryContext } from 'context/badges';
-import { DefaultBadge } from 'context/badges/constants';
-import { Badge } from 'context/badges/types';
+import { Badge } from 'context/badges';
 import { Dancer } from 'context/dancer';
 import { DishesRepositoryContext } from 'context/dishes';
 import { IngredientsRepositoryContext } from 'context/ingredients';
@@ -16,67 +14,13 @@ import { SongsRepositoryContext } from 'context/songs';
 import React, { useContext, useState } from 'react';
 import { Song } from 'types/core';
 import { DancerGradedDish, DancerGradedIngredient } from 'types/summer2021';
-import { Context as urqlContext, OperationResult } from 'urql';
 
 import BadgesTab from './badges-tab';
 import DishesTab from './dishes-tab';
 import IngredientsTab from './ingredients-tab';
 
-const BADGES_QUERY = `
-query ( $dancerId: ID!) {
-  dancerById (id: $dancerId) {
-    badges {
-      id
-      name
-      description
-      eventId
-      image128
-    }
-  }
-}`;
-
-type BadgesQueryType = {
-  dancerById: {
-    badges: [
-      {
-        id: string;
-        name: string;
-        description: string;
-        eventId: string;
-        image128: string;
-      },
-    ];
-  };
-};
-
 const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
-  // Set up badges tab
-  const [dancerBadges, setDancerBadges] = useState(new Array<Badge>());
-  const [isBadgesTabLoaded, setIsBadgesTabLoaded] = useState(false);
-  const [isBadgesTabLoading, setIsBadgesTabLoading] = useState(true);
-
-  const client = useContext(urqlContext);
-
-  const loadBadges = () => {
-    client
-      .query(BADGES_QUERY, { dancerId: dancer.id })
-      .toPromise()
-      .then((result: OperationResult<BadgesQueryType>) => {
-        if (!result || !result.data) return;
-        setDancerBadges(
-          result.data.dancerById.badges.map((badge) => ({
-            ...DefaultBadge,
-            id: badge.id,
-            name: badge.name,
-            description: badge.description,
-            eventId: badge.eventId,
-            image128: badge.image128,
-          })),
-        );
-        setIsBadgesTabLoaded(true);
-        setIsBadgesTabLoading(false);
-      });
-  };
+  const [badges, setBadges] = useState<Badge[]>([]);
 
   // Set up ingredient tab
   const [dancerGradedIngredients, setDancerGradedIngredients] = useState<
@@ -159,11 +103,9 @@ const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
       <TabPanels>
         <TabPanel minW={isSmallerThan1024 ? '100%' : '65vw'}>
           <BadgesTab
-            isLoading={isBadgesTabLoading}
             dancerId={dancer.id}
-            dancerBadges={dancerBadges}
-            onDancerBadgesChanged={setDancerBadges}
-            loadBadges={loadBadges}
+            badges={badges}
+            setBadges={setBadges}
           />
         </TabPanel>
 

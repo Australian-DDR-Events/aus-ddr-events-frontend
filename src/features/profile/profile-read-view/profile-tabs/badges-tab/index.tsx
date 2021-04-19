@@ -6,27 +6,40 @@ import { defaultPixel } from 'types/styled';
 
 import BadgeAllocationModal from './badge-allocation-modal';
 import BadgeDisplay from './badge-display';
+import {
+  BadgeFieldsFragment,
+  useGetAllBadgesForDancerQuery,
+} from './operation.generated';
 
 const BadgesTab = ({
   dancerId,
-  dancerBadges,
-  isLoading,
-  onDancerBadgesChanged,
-  loadBadges,
+  badges,
+  setBadges,
 }: {
   dancerId: string;
-  dancerBadges: Badge[];
-  isLoading: boolean;
-  onDancerBadgesChanged: (badges: Badge[]) => void;
-  loadBadges: () => void;
+  badges: Badge[];
+  setBadges: Function;
 }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [result] = useGetAllBadgesForDancerQuery({
+    variables: {
+      dancerId,
+    },
+  });
+
   useEffect(() => {
-    loadBadges();
-  }, []);
+    if (!result || result.fetching || !result.data) return;
+    setBadges(
+      result.data.dancerById.badges.map((badge: BadgeFieldsFragment) => ({
+        ...badge,
+      })),
+    );
+    setIsLoading(false);
+  }, [result]);
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const gridWidth = dancerBadges.length > 5 ? 5 : dancerBadges.length;
+  const gridWidth = badges.length > 5 ? 5 : badges.length;
 
   if (isLoading)
     return (
@@ -55,8 +68,8 @@ const BadgesTab = ({
         </Button>
         <BadgeAllocationModal
           dancerId={dancerId}
-          dancerBadges={dancerBadges}
-          setDancerBadges={onDancerBadgesChanged}
+          dancerBadges={badges}
+          setDancerBadges={setBadges}
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
         />
@@ -66,7 +79,7 @@ const BadgesTab = ({
         spacing={4}
         maxW={defaultPixel * 18 * gridWidth}
       >
-        {dancerBadges.map((b) => (
+        {badges.map((b) => (
           <Center key={b.id}>
             <BadgeDisplay badge={b} eventName={b.event?.name || ''} />
           </Center>
