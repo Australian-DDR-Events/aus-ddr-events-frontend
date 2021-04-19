@@ -9,33 +9,10 @@ import { AuthenticationRepositoryContext } from 'context/authentication';
 import { Dancer, DefaultDancer } from 'context/dancer';
 import React, { useContext, useEffect, useState } from 'react';
 import { Title } from 'react-head';
-import { useQuery } from 'urql';
 
+import { useGetDancerByIdQuery } from './operation.generated';
 import ProfileForm from './profile-form';
 import ProfileReadView from './profile-read-view';
-
-const DANCER_QUERY = `
-query ( $dancerId: ID!) {
-  dancerById (id: $dancerId) {
-    id
-    ddrCode
-    ddrName
-    primaryMachineLocation
-    profilePictureUrl
-    state
-  }
-}`;
-
-type DancerQueryType = {
-  dancerById: {
-    id: string;
-    ddrCode: string;
-    ddrName: string;
-    primaryMachineLocation: string;
-    profilePictureUrl: string;
-    state: string;
-  };
-};
 
 interface ProfileProps {
   id?: string;
@@ -58,8 +35,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
   const emailVerified = loggedInUser.hasVerifiedEmail;
   const isEditable = !id || authId === id;
 
-  const [result] = useQuery<DancerQueryType>({
-    query: DANCER_QUERY,
+  const [result] = useGetDancerByIdQuery({
     variables: {
       dancerId: id || authId,
     },
@@ -72,12 +48,7 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
       if (!result || result.fetching || !result.data) return;
       setDancer({
         ...DefaultDancer,
-        id: result.data.dancerById.id,
-        ddrName: result.data.dancerById.ddrName,
-        ddrCode: result.data.dancerById.ddrCode,
-        primaryMachine: result.data.dancerById.primaryMachineLocation,
-        profilePictureUrl: result.data.dancerById.profilePictureUrl,
-        state: result.data.dancerById.state,
+        ...result.data.dancerById,
       });
       setLoading(false);
     }
