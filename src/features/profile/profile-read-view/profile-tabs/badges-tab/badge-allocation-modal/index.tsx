@@ -17,6 +17,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import { defaultPixel } from 'types/styled';
 import { getAssetUrl } from 'utils/assets';
 
+import {
+  BadgeAllocationModelFieldsFragment,
+  useAssignBadgeForDancerMutation,
+  useGetBadgesQuery,
+} from './operation.generated';
+
 const BadgeAllocationModal = ({
   dancerId,
   dancerBadges,
@@ -34,17 +40,26 @@ const BadgeAllocationModal = ({
   const [badges, setBadges] = useState(new Array<Badge>());
   const [isLoading, setIsLoading] = useState(true);
 
+  const [badgesResult] = useGetBadgesQuery();
+
+  const [, assignBadges] = useAssignBadgeForDancerMutation();
+
   useEffect(() => {
-    if (isLoading && isOpen) {
-      badgesRepo.badgesRepositoryInstance.getAll().then((badgeResult) => {
-        setBadges(badgeResult.okOrDefault());
-        setIsLoading(false);
-      });
-    }
-  }, [isOpen]);
+    if (!isOpen || !badgesResult || badgesResult.fetching || !badgesResult.data)
+      return;
+    setBadges(
+      badgesResult.data.badges.nodes.map(
+        (badge: BadgeAllocationModelFieldsFragment) => ({ ...badge }),
+      ),
+    );
+    setIsLoading(false);
+  }, [badgesResult, isOpen]);
 
   const onAssignBadge = (badge: Badge) => {
-    badgesRepo.badgesRepositoryInstance.assignBadge(dancerId, badge.id);
+    assignBadges({
+      dancerId,
+      badgeId: badge.id,
+    });
     setDancerBadges(new Array<Badge>(...dancerBadges, badge));
   };
 

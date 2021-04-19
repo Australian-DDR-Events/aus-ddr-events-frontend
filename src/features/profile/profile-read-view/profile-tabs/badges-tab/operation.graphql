@@ -11,5 +11,6 @@ fragment BadgeFields on Badge {
   name
   description
   eventId
+  image64
   image128
 }

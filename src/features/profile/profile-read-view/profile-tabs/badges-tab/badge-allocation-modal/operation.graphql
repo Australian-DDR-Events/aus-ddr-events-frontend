@@ -1,0 +1,22 @@
+mutation assignBadgeForDancer($dancerId: ID!, $badgeId: ID!) {
+  addBadgeAllocation(input: { dancerId: $dancerId, badgeId: $badgeId }) {
+    errors {
+      message
+    }
+  }
+}
+
+query getBadges {
+  badges {
+    nodes {
+      ...BadgeAllocationModelFields
+    }
+  }
+}
+
+fragment BadgeAllocationModelFields on Badge {
+  id
+  name
+  image64
+  image128
+}
