@@ -20,3 +20,4 @@ dist
 yarn-error.log
 
 .parcel-cache
+*.generated.ts

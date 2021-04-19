@@ -1,0 +1,23 @@
+overwrite: true
+schema: "http://localhost:5000/graphql"
+documents: 
+  - "src/**/*.graphql"
+generates:
+  src/types/graphql.generated.ts:
+    plugins:
+      - add:
+          content: 
+            - '/* eslint-disable */'
+            - '// @ts-nocheck'
+      - "typescript"
+  src/:
+    preset: near-operation-file
+    presetConfig:
+      baseTypesPath: src/types/graphql.generated.ts
+    plugins:
+      - add:
+          content: 
+            - '/* eslint-disable */'
+            - '// @ts-nocheck'
+      - "typescript-operations"
+      - "typescript-urql"

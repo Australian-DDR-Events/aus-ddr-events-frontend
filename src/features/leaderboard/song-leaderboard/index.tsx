@@ -1,4 +1,4 @@
-import { Center, Spinner } from '@chakra-ui/react';
+import { Center, Container, Spinner } from '@chakra-ui/react';
 import { DefaultDancer } from 'context/dancer';
 import { DefaultScore } from 'context/scores/constants';
 import { DefaultSong } from 'context/songs';
@@ -7,7 +7,7 @@ import { Score } from 'types/core';
 import { useQuery } from 'urql';
 import { useLocation } from 'wouter';
 
-import SongLeaderboardView from './view';
+import SongLeaderboardView from './song-leaderboard-view';
 
 const SCORES_QUERY = `
 query ($songDifficultyId: ID!) {
@@ -127,15 +127,17 @@ const SongLeaderboard = ({
   }
 
   return (
-    <SongLeaderboardView
-      song={song}
-      scores={scores}
-      modalUrl={modalUrl}
-      modalIsOpen={modalIsOpen}
-      setModalIsOpen={setModalIsOpen}
-      setModalUrl={setModalUrl}
-      setLocation={setLocation}
-    />
+    <Container maxW="100%" w="fit-content">
+      <SongLeaderboardView
+        song={song}
+        scores={scores}
+        modalUrl={modalUrl}
+        modalIsOpen={modalIsOpen}
+        setModalIsOpen={setModalIsOpen}
+        setModalUrl={setModalUrl}
+        setLocation={setLocation}
+      />
+    </Container>
   );
 };
 

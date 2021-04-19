@@ -1,13 +1,13 @@
-import { Center, Container } from '@chakra-ui/react';
+import { Center } from '@chakra-ui/react';
 import React from 'react';
 import { Score, Song } from 'types/core';
 import { getAssetUrl } from 'utils/assets';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 
-import ScoreImageModal from '../score-image-modal';
-import ScoreLine from './score-line';
-import SongBanner from './song-banner';
-import TopScore from './top-score';
+import ScoreImageModal from '../../score-image-modal';
+import ScoreLine from '../score-line';
+import SongBanner from '../song-banner';
+import TopScore from '../top-score';
 
 const SongLeaderboardView = ({
   song,
@@ -27,7 +27,7 @@ const SongLeaderboardView = ({
   setLocation: Function;
 }) => {
   return (
-    <Container maxW="100%" w="fit-content">
+    <>
       <Center>
         <SongBanner song={song} />
       </Center>
@@ -62,7 +62,7 @@ const SongLeaderboardView = ({
           color={getColorByDifficulty(song.difficulty).shadow}
         />
       ))}
-    </Container>
+    </>
   );
 };
 

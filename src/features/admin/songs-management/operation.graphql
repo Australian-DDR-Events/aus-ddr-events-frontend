@@ -1,0 +1,26 @@
+query getAllSongDifficulties {
+  songDifficulties(first: 50) {
+    nodes {
+      id
+      difficulty
+      level
+      song {
+        ...SongFields
+      }
+    }
+  }
+}
+
+fragment SongFields on Song {
+  name
+  artist
+  image256
+}
+
+mutation addNewSong($name: String!, $artist: String!, $songJacket: Upload!) {
+  addSong(input: {name: $name, artist: $artist, songJacket: $songJacket}) {
+    song {
+      id
+    }
+  }
+}
