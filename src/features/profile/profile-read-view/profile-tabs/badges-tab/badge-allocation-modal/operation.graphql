@@ -6,6 +6,14 @@ mutation assignBadgeForDancer($dancerId: ID!, $badgeId: ID!) {
   }
 }
 
+mutation revokeBadgeForDancer($dancerId: ID!, $badgeId: ID!) {
+  revokeBadgeAllocation(input: { dancerId: $dancerId, badgeId: $badgeId }) {
+    errors {
+      message
+    }
+  }
+}
+
 query getBadges {
   badges {
     nodes {

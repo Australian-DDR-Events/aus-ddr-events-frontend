@@ -11,9 +11,8 @@ import {
   SimpleGrid,
   Spinner,
 } from '@chakra-ui/react';
-import { BadgesRepositoryContext } from 'context/badges';
 import { Badge } from 'context/badges/types';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { defaultPixel } from 'types/styled';
 import { getAssetUrl } from 'utils/assets';
 
@@ -21,6 +20,7 @@ import {
   BadgeAllocationModelFieldsFragment,
   useAssignBadgeForDancerMutation,
   useGetBadgesQuery,
+  useRevokeBadgeForDancerMutation,
 } from './operation.generated';
 
 const BadgeAllocationModal = ({
@@ -36,13 +36,13 @@ const BadgeAllocationModal = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  const badgesRepo = useContext(BadgesRepositoryContext);
   const [badges, setBadges] = useState(new Array<Badge>());
   const [isLoading, setIsLoading] = useState(true);
 
   const [badgesResult] = useGetBadgesQuery();
 
   const [, assignBadges] = useAssignBadgeForDancerMutation();
+  const [, revokeBadges] = useRevokeBadgeForDancerMutation();
 
   useEffect(() => {
     if (!isOpen || !badgesResult || badgesResult.fetching || !badgesResult.data)
@@ -64,7 +64,10 @@ const BadgeAllocationModal = ({
   };
 
   const onRevokeBadge = (badge: Badge) => {
-    badgesRepo.badgesRepositoryInstance.revokeBadge(dancerId, badge.id);
+    revokeBadges({
+      dancerId,
+      badgeId: badge.id,
+    });
     setDancerBadges(dancerBadges.filter((db) => db.id !== badge.id));
   };
 
