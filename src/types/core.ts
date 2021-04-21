@@ -33,3 +33,14 @@ export type Song = {
   image256: string;
   image512: string;
 };
+
+export type Badge = {
+  id: string;
+  name: string;
+  description: string;
+  event: Event | null;
+  image32: string;
+  image64: string;
+  image128: string;
+  image256: string;
+};

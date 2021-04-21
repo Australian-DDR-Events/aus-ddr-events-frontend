@@ -11,8 +11,8 @@ import {
   SimpleGrid,
   Spinner,
 } from '@chakra-ui/react';
-import { Badge } from 'context/badges/types';
 import React, { useEffect, useState } from 'react';
+import { Badge } from 'types/core';
 import { defaultPixel } from 'types/styled';
 import { getAssetUrl } from 'utils/assets';
 
