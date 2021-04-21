@@ -10,7 +10,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import React from 'react';
-import { Badge } from 'types/core';
+import { Badge } from 'types/graphql.generated';
 
 const BadgeDisplay = ({
   badge,
