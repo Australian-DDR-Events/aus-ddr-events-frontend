@@ -6,13 +6,12 @@ import {
   Tabs,
   useMediaQuery,
 } from '@chakra-ui/react';
-import { Badge } from 'context/badges';
 import { Dancer } from 'context/dancer';
 import { DishesRepositoryContext } from 'context/dishes';
 import { IngredientsRepositoryContext } from 'context/ingredients';
 import { SongsRepositoryContext } from 'context/songs';
 import React, { useContext, useState } from 'react';
-import { Song } from 'types/core';
+import { Badge, Song } from 'types/core';
 import { DancerGradedDish, DancerGradedIngredient } from 'types/summer2021';
 
 import BadgesTab from './badges-tab';

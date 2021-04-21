@@ -1,7 +1,7 @@
 import { Button, Center, SimpleGrid, Spinner } from '@chakra-ui/react';
 import AdminWrapper from 'components/admin-wrapper';
-import { Badge } from 'context/badges/types';
 import React, { useEffect, useState } from 'react';
+import { Badge } from 'types/core';
 import { defaultPixel } from 'types/styled';
 
 import BadgeAllocationModal from './badge-allocation-modal';
