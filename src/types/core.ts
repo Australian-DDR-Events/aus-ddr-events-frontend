@@ -16,6 +16,15 @@ export type Score = {
   imageUrl: string;
   dancerId: string | null;
   dancer: Dancer | null;
+  songDifficultyId: string;
+  songDifficulty: SongDifficulty | null;
+};
+
+export type SongDifficulty = {
+  id: string;
+  difficulty: string;
+  maxScore: number;
+  level: number;
   songId: string;
   song: Song | null;
 };
@@ -24,9 +33,6 @@ export type Song = {
   id: string;
   name: string;
   artist: string;
-  difficulty: string;
-  maxScore: number;
-  level: number;
   image32: string;
   image64: string;
   image128: string;

@@ -9,7 +9,7 @@ import {
 import CustomIconRatings from 'components/custom-icon-ratings';
 import React from 'react';
 import { IoStar } from 'react-icons/io5';
-import { Song } from 'types/core';
+import { SongDifficulty } from 'types/core';
 import { defaultPixel } from 'types/styled';
 import { DancerGradedIngredient } from 'types/summer2021';
 import { getAssetUrl } from 'utils/assets';
@@ -19,13 +19,13 @@ import { useLocation } from 'wouter';
 
 const IngredientScoreDisplay = ({
   dancerGradedIngredient,
-  song,
+  songDifficulty,
 }: {
   dancerGradedIngredient: DancerGradedIngredient;
-  song?: Song;
+  songDifficulty?: SongDifficulty;
 }) => {
-  if (!song) return <Text>Uh oh</Text>;
-  const songColors = getColorByDifficulty(song.difficulty);
+  if (!songDifficulty) return <Text>Uh oh</Text>;
+  const songColors = getColorByDifficulty(songDifficulty.difficulty);
   const [isSmallerThan1024] = useMediaQuery('(max-width: 1024px');
   const [, setLocation] = useLocation();
   return (
@@ -45,11 +45,11 @@ const IngredientScoreDisplay = ({
         }px 0 ${songColors.shadow}`,
       }}
       cursor="pointer"
-      onClick={() => setLocation(`/leaderboard/${song.id}`)}
+      onClick={() => setLocation(`/leaderboard/${songDifficulty.id}`)}
       {...(isSmallerThan1024 && { w: '100%' })}
     >
       <Image
-        src={getAssetUrl(song.image128)}
+        src={getAssetUrl(songDifficulty.song!.image128)}
         h={isSmallerThan1024 ? '95px' : '128px'}
       />
       <Box mt={2} ml={2} textAlign="left">

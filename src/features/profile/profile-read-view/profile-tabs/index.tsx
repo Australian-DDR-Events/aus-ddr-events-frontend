@@ -8,10 +8,8 @@ import {
 } from '@chakra-ui/react';
 import { Dancer } from 'context/dancer';
 import { DishesRepositoryContext } from 'context/dishes';
-import { IngredientsRepositoryContext } from 'context/ingredients';
-import { SongsRepositoryContext } from 'context/songs';
 import React, { useContext, useState } from 'react';
-import { Badge, Song } from 'types/core';
+import { Badge } from 'types/core';
 import { DancerGradedDish, DancerGradedIngredient } from 'types/summer2021';
 
 import BadgesTab from './badges-tab';
@@ -21,43 +19,9 @@ import IngredientsTab from './ingredients-tab';
 const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
   const [badges, setBadges] = useState<Badge[]>([]);
 
-  // Set up ingredient tab
   const [dancerGradedIngredients, setDancerGradedIngredients] = useState<
     DancerGradedIngredient[]
-  >(new Array<DancerGradedIngredient>());
-  const ingredientsRepository = useContext(IngredientsRepositoryContext);
-  const songsRepository = useContext(SongsRepositoryContext);
-  const [songs, setSongs] = useState<Map<string, Song>>(new Map());
-  const [isIngredientsTabLoaded, setIsIngredientsTabLoaded] = useState(false);
-  const [isIngredientsTabLoading, setIsIngredientsTabLoading] = useState(true);
-  /**
-   * Load the graded ingredients and the related songs
-   * for the user of the profile being viewed
-   * if these information have not already been loaded
-   * @returns the profile user's graded
-   */
-  const loadGradedIngredients = () => {
-    if (isIngredientsTabLoaded) return;
-
-    ingredientsRepository.ingredientsRepositoryInstance
-      .getGradedIngredientsByDancer(dancer.id, true)
-      .then((result) => {
-        if (result.isOk()) {
-          const songIds = result.value.map((r) => r.score.songId);
-
-          songsRepository.songsRepositoryInstance
-            .getByIds(songIds)
-            .then((songsResult) => {
-              if (songsResult.isOk()) {
-                setDancerGradedIngredients(result.value);
-                setSongs(new Map(songsResult.value.map((s) => [s.id, s])));
-                setIsIngredientsTabLoading(false);
-                setIsIngredientsTabLoaded(true);
-              }
-            });
-        }
-      });
-  };
+  >([]);
 
   // Set up for dishes tab
   const dishesRepository = useContext(DishesRepositoryContext);
@@ -110,10 +74,9 @@ const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
 
         <TabPanel minW={{ base: '100%', md: '65vw' }}>
           <IngredientsTab
+            dancerId={dancer.id}
             dancerGradedIngredients={dancerGradedIngredients}
-            songs={songs}
-            isLoading={isIngredientsTabLoading}
-            loadGradedIngredients={loadGradedIngredients}
+            setDancerGradedIngredients={setDancerGradedIngredients}
           />
         </TabPanel>
 

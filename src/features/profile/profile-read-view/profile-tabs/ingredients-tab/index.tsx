@@ -1,25 +1,36 @@
 import { Center, SimpleGrid, Spinner, useMediaQuery } from '@chakra-ui/react';
-import React, { useEffect } from 'react';
-import { Song } from 'types/core';
+import React, { useEffect, useState } from 'react';
 import { defaultPixel } from 'types/styled';
 import { DancerGradedIngredient } from 'types/summer2021';
 
 import IngredientScoreDisplay from './ingredient-score-display';
+import { useGetAllGradedIngredientsForDancerIdQuery } from './operation.generated';
 
 const IngredientsTab = ({
+  dancerId,
   dancerGradedIngredients,
-  songs,
-  isLoading,
-  loadGradedIngredients,
+  setDancerGradedIngredients,
 }: {
+  dancerId: string;
   dancerGradedIngredients: DancerGradedIngredient[];
-  songs: Map<string, Song>;
-  isLoading: boolean;
-  loadGradedIngredients: () => void;
+  setDancerGradedIngredients: Function;
 }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [result] = useGetAllGradedIngredientsForDancerIdQuery({
+    variables: {
+      dancerId,
+    },
+  });
+
   useEffect(() => {
-    loadGradedIngredients();
-  }, []);
+    if (!result || result.fetching || !result.data) return;
+    setDancerGradedIngredients(
+      result.data.ingredientsByDancerId.map((dgi: DancerGradedIngredient) => ({
+        ...dgi,
+      })),
+    );
+    setIsLoading(false);
+  }, [result]);
 
   const [isLargerThan1440] = useMediaQuery(['(min-width: 1440px)']);
 
@@ -49,7 +60,7 @@ const IngredientsTab = ({
         <IngredientScoreDisplay
           key={dgi.id}
           dancerGradedIngredient={dgi}
-          song={songs.get(dgi.score.songId)}
+          songDifficulty={dgi.score.songDifficulty!}
         />
       ))}
     </SimpleGrid>
