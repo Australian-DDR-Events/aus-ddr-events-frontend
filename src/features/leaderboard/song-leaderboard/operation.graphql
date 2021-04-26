@@ -1,0 +1,26 @@
+query getSongDifficultyWithScoresForId($songDifficultyId: ID!) {
+  songDifficultyById(id: $songDifficultyId) {
+    ...IndividualSongLeaderboard
+  }
+}
+
+fragment IndividualSongLeaderboard on SongDifficulty {
+  difficulty
+  level
+  song {
+    name
+    artist
+    image256
+  }
+  dancerTopScores(order: { value: DESC, submissionTime: DESC }) {
+    dancer {
+      id
+      ddrName
+      ddrCode
+      profilePictureTimestamp
+    }
+    id
+    imageUrl
+    value
+  }
+}

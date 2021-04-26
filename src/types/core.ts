@@ -1,5 +1,3 @@
-import { Dancer } from '../context/dancer';
-
 export type BaseScore = {
   id: string;
   value: number;
@@ -7,26 +5,6 @@ export type BaseScore = {
   imageUrl: string;
   dancerId: string | null;
   songId: string;
-};
-
-export type Score = {
-  id: string;
-  value: number;
-  submissionTime: string;
-  imageUrl: string;
-  dancerId: string | null;
-  dancer: Dancer | null;
-  songDifficultyId: string;
-  songDifficulty: SongDifficulty | null;
-};
-
-export type SongDifficulty = {
-  id: string;
-  difficulty: string;
-  maxScore: number;
-  level: number;
-  songId: string;
-  song: Song | null;
 };
 
 export type Song = {

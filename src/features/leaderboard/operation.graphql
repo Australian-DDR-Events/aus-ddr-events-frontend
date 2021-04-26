@@ -1,0 +1,34 @@
+query getSongsForLeaderboardListing {
+  songDifficulties {
+    nodes {
+      ...AllSongDifficultiesLeaderboard
+    }
+  }
+}
+
+fragment AllSongDifficultiesLeaderboard on SongDifficulty {
+  id
+  difficulty
+  level
+  topScore {
+    ...AllSongDifficultiesTopScore
+  }
+  song {
+    id
+    name
+    artist
+    image128
+  }
+}
+
+fragment AllSongDifficultiesTopScore on Score {
+  dancer {
+    id
+    ddrName
+    ddrCode
+    profilePictureUrl
+  }
+  id
+  imageUrl
+  value
+}

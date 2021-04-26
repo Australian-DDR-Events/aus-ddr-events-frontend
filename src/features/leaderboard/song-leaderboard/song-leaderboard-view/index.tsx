@@ -1,6 +1,6 @@
 import { Center } from '@chakra-ui/react';
 import React from 'react';
-import { Score, Song } from 'types/core';
+import { IndividualSongLeaderboardFragment } from 'types/graphql.generated';
 import { getAssetUrl } from 'utils/assets';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 
@@ -10,16 +10,14 @@ import SongBanner from '../song-banner';
 import TopScore from '../top-score';
 
 const SongLeaderboardView = ({
-  song,
-  scores,
+  songDifficulty,
   modalUrl,
   modalIsOpen,
   setModalIsOpen,
   setModalUrl,
   setLocation,
 }: {
-  song: Song;
-  scores: Score[];
+  songDifficulty: IndividualSongLeaderboardFragment;
   modalUrl: string;
   modalIsOpen: boolean;
   setModalIsOpen: Function;
@@ -29,7 +27,7 @@ const SongLeaderboardView = ({
   return (
     <>
       <Center>
-        <SongBanner song={song} />
+        <SongBanner songDifficulty={songDifficulty} />
       </Center>
       <ScoreImageModal
         imageUrl={modalUrl}
@@ -38,28 +36,34 @@ const SongLeaderboardView = ({
       />
 
       <Center mb={4}>
-        {scores[0] && (
+        {songDifficulty.dancerTopScores.length && (
           <TopScore
             onClickImage={() => {
-              setModalUrl(getAssetUrl(scores[0].imageUrl));
+              setModalUrl(
+                getAssetUrl(songDifficulty.dancerTopScores[0].imageUrl),
+              );
               setModalIsOpen(true);
             }}
-            onClickUser={() => setLocation(`/profile/${scores[0].dancer?.id}`)}
-            score={scores[0]}
+            onClickUser={() =>
+              setLocation(
+                `/profile/${songDifficulty.dancerTopScores[0].dancer.id}`,
+              )
+            }
+            score={songDifficulty.dancerTopScores[0]}
           />
         )}
       </Center>
-      {scores.slice(1).map((s, index) => (
+      {songDifficulty.dancerTopScores.slice(1).map((s, index) => (
         <ScoreLine
           key={s.id}
           index={index}
           score={s}
           onClickImage={() => {
-            setModalUrl(getAssetUrl(s.imageUrl));
+            setModalUrl(getAssetUrl(s!.imageUrl));
             setModalIsOpen(true);
           }}
-          onClickName={() => setLocation(`/profile/${s.dancer?.id}`)}
-          color={getColorByDifficulty(song.difficulty).shadow}
+          onClickName={() => setLocation(`/profile/${s.dancer.id}`)}
+          color={getColorByDifficulty(songDifficulty.difficulty).shadow}
         />
       ))}
     </>

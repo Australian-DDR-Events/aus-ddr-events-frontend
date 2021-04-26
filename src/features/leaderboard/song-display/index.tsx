@@ -11,21 +11,19 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react';
 import React from 'react';
-import { Score, Song } from 'types/core';
+import { AllSongDifficultiesLeaderboardFragment } from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
 import { getAssetUrl } from 'utils/assets';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 
 const SongDisplay = ({
-  song,
-  score,
+  songDifficulty,
   songCoverSize,
 }: {
-  song: Song;
-  score?: Score;
+  songDifficulty: AllSongDifficultiesLeaderboardFragment;
   songCoverSize: string;
 }) => {
-  const songColors = getColorByDifficulty(song.difficulty);
+  const songColors = getColorByDifficulty(songDifficulty.difficulty);
   const [isSmallerOrEqualTo375, isSmallerOrEqualTo425] = useMediaQuery([
     '(max-width: 375px)',
     '(max-width: 425px)',
@@ -50,20 +48,31 @@ const SongDisplay = ({
       w="100%"
       cursor="pointer"
     >
-      <Image src={getAssetUrl(song.image128)} h={songCoverSize} />
+      <Image
+        src={getAssetUrl(songDifficulty.song!.image128)}
+        h={songCoverSize}
+      />
       <Center>
         <Box ml={2} textAlign="left">
-          <Tooltip label={song.name} fontSize="md" placement="top">
+          <Tooltip
+            label={songDifficulty.song!.name}
+            fontSize="md"
+            placement="top"
+          >
             <Text
               fontWeight="bold"
               fontSize={isSmallerOrEqualTo425 ? 'md' : 'xl'}
               isTruncated
-              {...(score && isSmallerOrEqualTo425 && { w: '40vw' })}
-              {...(!score && isSmallerOrEqualTo425 && { w: '60vw' })}
-              {...(score && isSmallerOrEqualTo375 && { w: '32vw' })}
-              {...(!score && isSmallerOrEqualTo375 && { w: '55vw' })}
+              {...(songDifficulty.topScore &&
+                isSmallerOrEqualTo425 && { w: '40vw' })}
+              {...(!songDifficulty.topScore &&
+                isSmallerOrEqualTo425 && { w: '60vw' })}
+              {...(songDifficulty.topScore &&
+                isSmallerOrEqualTo375 && { w: '32vw' })}
+              {...(!songDifficulty.topScore &&
+                isSmallerOrEqualTo375 && { w: '55vw' })}
             >
-              {song.name}
+              {songDifficulty.song!.name}
             </Text>
           </Tooltip>
           <Text
@@ -71,30 +80,34 @@ const SongDisplay = ({
             mt={-1}
             mb={1}
             isTruncated
-            {...(score && isSmallerOrEqualTo425 && { w: '40vw' })}
-            {...(!score && isSmallerOrEqualTo425 && { w: '60vw' })}
-            {...(score && isSmallerOrEqualTo375 && { w: '32vw' })}
-            {...(!score && isSmallerOrEqualTo375 && { w: '52vw' })}
+            {...(songDifficulty.topScore &&
+              isSmallerOrEqualTo425 && { w: '40vw' })}
+            {...(!songDifficulty.topScore &&
+              isSmallerOrEqualTo425 && { w: '60vw' })}
+            {...(songDifficulty.topScore &&
+              isSmallerOrEqualTo375 && { w: '32vw' })}
+            {...(!songDifficulty.topScore &&
+              isSmallerOrEqualTo375 && { w: '52vw' })}
           >
-            {song.artist}
+            {songDifficulty.song!.artist}
           </Text>
           <Badge colorScheme="gray" mb={2} mr={1}>
-            Level {song.level}
+            Level {songDifficulty.level}
           </Badge>
           <Badge colorScheme={songColors.badge} mb={2}>
-            {song.difficulty}
+            {songDifficulty.difficulty}
           </Badge>
         </Box>
       </Center>
 
-      {score && (
+      {songDifficulty.topScore && (
         <>
           <Spacer />
           {!isSmallerOrEqualTo425 && (
             <Center>
               <Box mr={4} textAlign="right" w="100%">
                 <Text fontWeight="bold" fontSize="xl" isTruncated>
-                  {score.dancer?.ddrName}
+                  {songDifficulty.topScore.dancer?.ddrName}
                 </Text>
                 <Text
                   fontSize="2xl"
@@ -102,7 +115,7 @@ const SongDisplay = ({
                   color={songColors.shadow}
                   fontWeight="bold"
                 >
-                  {score.value}
+                  {songDifficulty.topScore.value}
                 </Text>
               </Box>
             </Center>
@@ -110,8 +123,10 @@ const SongDisplay = ({
           <Center>
             <Avatar
               size={isSmallerOrEqualTo425 ? 'md' : 'lg'}
-              name={score.dancer?.ddrName}
-              src={getAssetUrl(score.dancer?.profilePictureUrl || '')}
+              name={songDifficulty.topScore.dancer?.ddrName}
+              src={getAssetUrl(
+                songDifficulty.topScore.dancer?.profilePictureUrl || '',
+              )}
               mr={4}
             />
           </Center>
