@@ -16,11 +16,3 @@ fragment SongFields on Song {
   artist
   image256
 }
-
-mutation addNewSong($name: String!, $artist: String!, $songJacket: Upload!) {
-  addSong(input: {name: $name, artist: $artist, songJacket: $songJacket}) {
-    song {
-      id
-    }
-  }
-}

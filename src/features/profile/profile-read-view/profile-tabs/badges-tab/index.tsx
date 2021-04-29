@@ -1,6 +1,6 @@
 import { Button, Center, SimpleGrid, Spinner } from '@chakra-ui/react';
 import AdminWrapper from 'components/admin-wrapper';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   BadgeFieldsFragment,
   useGetAllBadgesForDancerQuery,
@@ -19,24 +19,13 @@ const BadgesTab = ({
   badges: BadgeFieldsFragment[];
   setBadges: Function;
 }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [result] = useGetAllBadgesForDancerQuery({
+  const [{ data, fetching }] = useGetAllBadgesForDancerQuery({
     variables: {
       dancerId,
     },
   });
 
-  useEffect(() => {
-    if (!result || result.fetching || !result.data) return;
-    setBadges(result.data!.dancerById!.badges);
-    setIsLoading(false);
-  }, [result]);
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  const gridWidth = badges.length > 5 ? 5 : badges.length;
-
-  if (isLoading)
+  if (fetching)
     return (
       <Center>
         <Spinner // todo: replace this with proper skeleton structure
@@ -49,11 +38,21 @@ const BadgesTab = ({
       </Center>
     );
 
+  if (data?.dancerById) {
+    setBadges(data.dancerById.badges);
+  }
+
+  const [isBadgeAllocationModalOpen, setIsBadgeAllocationModalOpen] = useState(
+    false,
+  );
+
+  const gridWidth = badges.length > 5 ? 5 : badges.length;
+
   return (
     <>
       <AdminWrapper>
         <Button
-          onClick={() => setIsOpen(true)}
+          onClick={() => setIsBadgeAllocationModalOpen(true)}
           p={2}
           colorScheme="red"
           mt={2}
@@ -65,8 +64,8 @@ const BadgesTab = ({
           dancerId={dancerId}
           dancerBadges={badges}
           setDancerBadges={setBadges}
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
+          isOpen={isBadgeAllocationModalOpen}
+          onClose={() => setIsBadgeAllocationModalOpen(false)}
         />
       </AdminWrapper>
       <SimpleGrid

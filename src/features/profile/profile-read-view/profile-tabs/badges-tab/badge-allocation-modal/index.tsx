@@ -11,7 +11,7 @@ import {
   SimpleGrid,
   Spinner,
 } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   BadgeAllocationModelFieldsFragment,
   BadgeFieldsFragment,
@@ -38,19 +38,15 @@ const BadgeAllocationModal = ({
   const [badges, setBadges] = useState(
     new Array<BadgeAllocationModelFieldsFragment>(),
   );
-  const [isLoading, setIsLoading] = useState(true);
 
-  const [badgesResult] = useGetBadgesQuery();
+  const [{ data, fetching }] = useGetBadgesQuery();
 
   const [, assignBadges] = useAssignBadgeForDancerMutation();
   const [, revokeBadges] = useRevokeBadgeForDancerMutation();
 
-  useEffect(() => {
-    if (!isOpen || !badgesResult || badgesResult.fetching || !badgesResult.data)
-      return;
-    setBadges(badgesResult.data!.badges!.nodes!);
-    setIsLoading(false);
-  }, [badgesResult, isOpen]);
+  if (data?.badges?.nodes) {
+    setBadges(data.badges.nodes);
+  }
 
   const onAssignBadge = (badge: BadgeAllocationModelFieldsFragment) => {
     assignBadges({
@@ -95,7 +91,7 @@ const BadgeAllocationModal = ({
       <ModalOverlay />
       <ModalContent p={4}>
         <ModalCloseButton />
-        {isLoading ? (
+        {fetching ? (
           <Center>
             <Spinner size="lg" />
           </Center>

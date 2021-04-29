@@ -27,10 +27,9 @@ query {
 }`;
 
 const SongsManagement = () => {
-  const [result] = useQuery({
+  const [{ data, fetching, error }] = useQuery({
     query: GetAllSongs,
   });
-  const { data, fetching, error } = result;
 
   if (fetching) return <p>Loading...</p>;
   if (error) return <p>Oh no... {error.message}</p>;

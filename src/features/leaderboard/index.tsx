@@ -9,7 +9,7 @@ import {
   useMediaQuery,
   VStack,
 } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FaCrown } from 'react-icons/fa';
 import {
   AllSongDifficultiesLeaderboardFragment,
@@ -27,19 +27,15 @@ const Leaderboard = ({ songDifficultyId }: { songDifficultyId?: string }) => {
   const [songDifficulties, setSongDifficulties] = useState<
     AllSongDifficultiesLeaderboardFragment[]
   >([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [, setLocation] = useLocation();
 
-  const [result] = useGetSongsForLeaderboardListingQuery();
+  const [{ data, fetching }] = useGetSongsForLeaderboardListingQuery();
 
   const [isSmallerOrEqualTo425] = useMediaQuery(['(max-width: 425px)']);
 
-  useEffect(() => {
-    const { data, fetching } = result;
-    if (fetching || !data) return;
-    setSongDifficulties(data.songDifficulties!.nodes!);
-    setIsLoading(false);
-  }, [result]);
+  if (data?.songDifficulties?.nodes) {
+    setSongDifficulties(data.songDifficulties.nodes);
+  }
 
   return (
     <>
@@ -50,7 +46,7 @@ const Leaderboard = ({ songDifficultyId }: { songDifficultyId?: string }) => {
       <Text textAlign="center" fontSize="lg">
         Click or tap the song card for comprehensive leaderboard
       </Text>
-      {isLoading ? (
+      {fetching ? (
         <Center>
           <Spinner // todo: replace this with proper skeleton structure
             thickness="4px"
