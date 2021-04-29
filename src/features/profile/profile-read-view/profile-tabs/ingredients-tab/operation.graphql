@@ -1,22 +1,28 @@
 query getAllGradedIngredientsForDancerId($dancerId: ID!) {
   ingredientsByDancerId(id: $dancerId) {
-    gradedIngredient {
-      grade
-      image128
-      ingredient {
-        id
-        name
-      }
+    ...DancerGradedIngredients
+  }
+}
+
+fragment DancerGradedIngredients on GradedDancerIngredient {
+  id
+  gradedIngredient {
+    grade
+    image128
+    description
+    ingredient {
+      id
+      name
     }
-    score {
-      value
-      songDifficulty {
-        id
-        difficulty
-        song {
-          name
-          image128
-        }
+  }
+  score {
+    value
+    songDifficulty {
+      id
+      difficulty
+      song {
+        name
+        image128
       }
     }
   }

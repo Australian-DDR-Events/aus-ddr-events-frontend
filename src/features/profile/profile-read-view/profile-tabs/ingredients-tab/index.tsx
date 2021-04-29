@@ -1,8 +1,10 @@
 import { Center, SimpleGrid, Spinner, useMediaQuery } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
-import { useGetAllGradedIngredientsForDancerIdQuery } from 'types/graphql.generated';
+import React from 'react';
+import {
+  DancerGradedIngredientsFragment,
+  useGetAllGradedIngredientsForDancerIdQuery,
+} from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
-import { DancerGradedIngredient } from 'types/summer2021';
 
 import IngredientScoreDisplay from './ingredient-score-display';
 
@@ -12,29 +14,17 @@ const IngredientsTab = ({
   setDancerGradedIngredients,
 }: {
   dancerId: string;
-  dancerGradedIngredients: DancerGradedIngredient[];
+  dancerGradedIngredients: DancerGradedIngredientsFragment[];
   setDancerGradedIngredients: Function;
 }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [result] = useGetAllGradedIngredientsForDancerIdQuery({
+  const [{ data, fetching }] = useGetAllGradedIngredientsForDancerIdQuery({
     variables: {
       dancerId,
     },
   });
-
-  useEffect(() => {
-    if (!result || result.fetching || !result.data) return;
-    setDancerGradedIngredients(
-      result.data.ingredientsByDancerId.map((dgi: DancerGradedIngredient) => ({
-        ...dgi,
-      })),
-    );
-    setIsLoading(false);
-  }, [result]);
-
   const [isLargerThan1440] = useMediaQuery(['(min-width: 1440px)']);
 
-  if (isLoading)
+  if (fetching)
     return (
       <Center>
         <Spinner // todo: replace this with proper skeleton structure
@@ -47,6 +37,10 @@ const IngredientsTab = ({
       </Center>
     );
 
+  if (data) {
+    setDancerGradedIngredients(data.ingredientsByDancerId);
+  }
+
   return (
     <SimpleGrid
       spacing={8}
@@ -57,11 +51,7 @@ const IngredientsTab = ({
       pr={isLargerThan1440 ? defaultPixel : 0}
     >
       {dancerGradedIngredients.map((dgi) => (
-        <IngredientScoreDisplay
-          key={dgi.id}
-          dancerGradedIngredient={dgi}
-          songDifficulty={dgi.score.songDifficulty!}
-        />
+        <IngredientScoreDisplay key={dgi.id} dancerGradedIngredient={dgi} />
       ))}
     </SimpleGrid>
   );

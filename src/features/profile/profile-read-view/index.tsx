@@ -10,8 +10,8 @@ import {
   useMediaQuery,
   useToast,
 } from '@chakra-ui/react';
-import { Dancer } from 'context/dancer';
 import React from 'react';
+import { DancerFieldsFragment } from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
 import { getProfileImageUrl } from 'utils/assets';
 import { StateOptions } from 'utils/dropdown-options';
@@ -24,7 +24,7 @@ const ProfileReadView = ({
   onEditButtonClick,
 }: {
   isEditable: boolean;
-  dancer: Dancer;
+  dancer: DancerFieldsFragment;
   onEditButtonClick: () => void;
 }) => {
   const [isLargerThan769] = useMediaQuery('(min-width: 769px)');
@@ -108,12 +108,12 @@ const ProfileReadView = ({
             </>
           )}
 
-          {dancer.primaryMachine && (
+          {dancer.primaryMachineLocation && (
             <>
               <Text fontSize="sm" mb={-1} color="gray">
                 Primary machine
               </Text>
-              <Text fontSize="lg">{dancer.primaryMachine}</Text>
+              <Text fontSize="lg">{dancer.primaryMachineLocation}</Text>
             </>
           )}
         </Box>

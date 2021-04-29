@@ -5,7 +5,6 @@ import {
   SkeletonCircle,
   useMediaQuery,
 } from '@chakra-ui/react';
-import { Dancer, DefaultDancer } from 'context/dancer';
 import React, { useEffect, useState } from 'react';
 import { Title } from 'react-head';
 import { useGetDancerByIdQuery } from 'types/graphql.generated';
@@ -22,14 +21,11 @@ const Profile: React.FC<ProfileProps> = ({
   id,
   isEditable = false,
 }: ProfileProps) => {
-  const [dancer, setDancer] = useState(DefaultDancer);
-
   const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   const [isLargerThan767] = useMediaQuery('(min-width: 767px)');
 
-  const [result] = useGetDancerByIdQuery({
+  const [{ data, fetching }, reloadProfile] = useGetDancerByIdQuery({
     variables: {
       dancerId: id,
     },
@@ -37,20 +33,13 @@ const Profile: React.FC<ProfileProps> = ({
 
   useEffect(() => {
     if (!isEditing) {
-      setLoading(true);
-
-      if (!result || result.fetching || !result.data) return;
-      setDancer({
-        ...DefaultDancer,
-        ...result.data.dancerById,
-      });
-      setLoading(false);
+      reloadProfile();
     }
-  }, [result, isEditing]);
+  }, [isEditing]);
 
   const renderProfileReadView = () => (
     <>
-      {loading && (
+      {fetching && (
         <Box w="70vw">
           <SkeletonCircle size="20" mb={4} />
           <Skeleton height={4} mb={2} />
@@ -58,10 +47,10 @@ const Profile: React.FC<ProfileProps> = ({
           <Skeleton height={4} />
         </Box>
       )}
-      {!loading && (
+      {!fetching && (
         <ProfileReadView
           isEditable={isEditable}
-          dancer={dancer}
+          dancer={data?.dancerById!}
           onEditButtonClick={() => {
             setIsEditing(true);
           }}
@@ -72,9 +61,8 @@ const Profile: React.FC<ProfileProps> = ({
 
   const renderProfileForm = () => (
     <ProfileForm
-      formData={dancer}
-      onSuccessfulSubmit={(updatedDancer: Dancer) => {
-        setDancer(updatedDancer);
+      formData={data?.dancerById!}
+      onSuccessfulSubmit={() => {
         setIsEditing(false);
       }}
       onCancelSubmit={() => {
@@ -85,7 +73,9 @@ const Profile: React.FC<ProfileProps> = ({
 
   return (
     <Container maxW={isLargerThan767 ? '90%' : '100%'} w="fit-content">
-      {!loading && <Title>{dancer.ddrName} | Australian DDR Events</Title>}
+      {!fetching && (
+        <Title>{data?.dancerById!.ddrName} | Australian DDR Events</Title>
+      )}
       {isEditing ? renderProfileForm() : renderProfileReadView()}
     </Container>
   );

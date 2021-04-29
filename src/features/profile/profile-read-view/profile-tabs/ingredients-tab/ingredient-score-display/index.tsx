@@ -9,9 +9,8 @@ import {
 import CustomIconRatings from 'components/custom-icon-ratings';
 import React from 'react';
 import { IoStar } from 'react-icons/io5';
-import { SongDifficulty } from 'types/core';
+import { DancerGradedIngredientsFragment } from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
-import { DancerGradedIngredient } from 'types/summer2021';
 import { getAssetUrl } from 'utils/assets';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 import { convertGradeToNumber } from 'utils/summer2021';
@@ -19,13 +18,14 @@ import { useLocation } from 'wouter';
 
 const IngredientScoreDisplay = ({
   dancerGradedIngredient,
-  songDifficulty,
 }: {
-  dancerGradedIngredient: DancerGradedIngredient;
-  songDifficulty?: SongDifficulty;
+  dancerGradedIngredient: DancerGradedIngredientsFragment;
 }) => {
-  if (!songDifficulty) return <Text>Uh oh</Text>;
-  const songColors = getColorByDifficulty(songDifficulty.difficulty);
+  const { songDifficulty } = dancerGradedIngredient.score;
+  if (!songDifficulty.difficulty) return <Text>Uh oh</Text>;
+  const songColors = getColorByDifficulty(
+    dancerGradedIngredient.score.songDifficulty.difficulty,
+  );
   const [isSmallerThan1024] = useMediaQuery('(max-width: 1024px');
   const [, setLocation] = useLocation();
   return (
@@ -63,7 +63,7 @@ const IngredientScoreDisplay = ({
 
         <Text fontWeight="bold">
           {dancerGradedIngredient.gradedIngredient.description}&nbsp;
-          {dancerGradedIngredient.gradedIngredient.name}
+          {dancerGradedIngredient.gradedIngredient.ingredient!.name}
         </Text>
         <CustomIconRatings
           icon={IoStar}

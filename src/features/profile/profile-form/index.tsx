@@ -12,24 +12,35 @@ import {
   Select,
 } from '@chakra-ui/react';
 import ImageUploadFormField from 'components/image-upload-form-field';
-import { Dancer, DancersRepositoryContext } from 'context/dancer';
+import { DancersRepositoryContext } from 'context/dancer';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
+import { DancerFieldsFragment } from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
 import { StateOptions } from 'utils/dropdown-options';
 
 import { ProfileFormData } from './types';
 
 const ProfileForm = ({
-  formData: initialFormData,
+  formData,
   onSuccessfulSubmit,
   onCancelSubmit,
 }: {
-  formData: ProfileFormData;
-  onSuccessfulSubmit: (dancer: Dancer) => void;
+  formData: DancerFieldsFragment;
+  onSuccessfulSubmit: () => void;
   onCancelSubmit: Function;
 }) => {
   const dancersRepository = useContext(DancersRepositoryContext);
+
+  const initialFormData: ProfileFormData = {
+    id: formData.id,
+    ddrName: formData.ddrName,
+    ddrCode: formData.ddrCode,
+    profilePictureUrl: formData.profilePictureUrl,
+    state: formData.state,
+    primaryMachine: formData.primaryMachineLocation,
+    newProfilePicture: new File([''], 'filename'),
+  };
 
   const [profilePictureUrl, setProfilePictureUrl] = useState<string>('');
   const [apiErrorMessage, setApiErrorMessage] = useState('');
@@ -62,7 +73,7 @@ const ProfileForm = ({
       })
       .then((result) => {
         if (result.isOk()) {
-          onSuccessfulSubmit(values);
+          onSuccessfulSubmit();
         } else if (result.isErr()) {
           setApiErrorMessage(result.error.message);
           actions.setSubmitting(false);
