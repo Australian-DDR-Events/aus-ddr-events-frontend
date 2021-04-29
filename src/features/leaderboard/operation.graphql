@@ -1,5 +1,5 @@
 query getSongsForLeaderboardListing {
-  songDifficulties {
+  songDifficulties(order: { level: ASC }) {
     nodes {
       ...AllSongDifficultiesLeaderboard
     }

@@ -1,11 +1,9 @@
 import {
   Avatar,
-  Badge,
   Box,
   Button,
   Center,
   Heading,
-  Icon,
   Stack,
   Text,
   useClipboard,
@@ -14,7 +12,6 @@ import {
 } from '@chakra-ui/react';
 import { Dancer } from 'context/dancer';
 import React from 'react';
-import { IoCheckmarkCircle } from 'react-icons/io5';
 import { defaultPixel } from 'types/styled';
 import { getProfileImageUrl } from 'utils/assets';
 import { StateOptions } from 'utils/dropdown-options';
@@ -23,12 +20,10 @@ import ProfileTabs from './profile-tabs';
 
 const ProfileReadView = ({
   isEditable,
-  emailVerified,
   dancer,
   onEditButtonClick,
 }: {
   isEditable: boolean;
-  emailVerified: boolean;
   dancer: Dancer;
   onEditButtonClick: () => void;
 }) => {
@@ -89,23 +84,7 @@ const ProfileReadView = ({
         </Center>
 
         <Box textAlign={isLargerThan769 ? 'left' : 'center'}>
-          <Heading>
-            {dancer.ddrName}
-            {emailVerified && !isLargerThan769 && (
-              <Icon
-                as={IoCheckmarkCircle}
-                color="green"
-                w={defaultPixel * 0.75}
-                h={defaultPixel * 0.75}
-              />
-            )}
-          </Heading>
-
-          {emailVerified && isLargerThan769 && (
-            <Badge fontSize="xs" colorScheme="green" borderRadius="full" mb={2}>
-              &nbsp;Verified&nbsp;
-            </Badge>
-          )}
+          <Heading>{dancer.ddrName}</Heading>
 
           {dancer.ddrCode && (
             <>

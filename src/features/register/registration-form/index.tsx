@@ -17,45 +17,100 @@ import {
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,
 } from 'context/authentication';
-import {
-  Dancer,
-  DancersRepositoryContext,
-  DefaultDancer,
-} from 'context/dancer';
 import { Field, Form, Formik, FormikErrors, FormikHelpers } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
+import {
+  AddDancerInput,
+  useAddNewDancerMutation,
+} from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
 import { StateOptions } from 'utils/dropdown-options';
 import { useLocation } from 'wouter';
 
-interface RegistrationFormData extends Dancer {
+interface RegistrationFormData extends AddDancerInput {
   email: string;
   password: string;
   confirmPassword: string;
 }
 
+const registrationFormValidator = (values: RegistrationFormData) => {
+  const errors: FormikErrors<RegistrationFormData> = {};
+
+  if (!values.ddrName) errors.ddrName = 'Please enter a dancer name';
+
+  if (!values.email) errors.email = 'Please enter your email address';
+  else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email))
+    errors.email = 'Please enter a valid email address';
+
+  if (!values.password) errors.password = 'Please enter a password';
+  else if (values.password !== values.confirmPassword)
+    errors.confirmPassword = 'Passwords must match';
+
+  return errors;
+};
+
 const RegistrationForm = () => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
     AuthenticationRepositoryContext,
   );
-  const dancersRepository = useContext(DancersRepositoryContext);
+
+  const [authToken, setAuthToken] = useState('');
+  const [signupLoading, setSignupLoading] = useState(true);
+
+  authRepo.authenticationRepositoryInstance.onAuthStateChanged(
+    async (result) => {
+      setAuthToken(result.token || '');
+      setSignupLoading(false);
+    },
+  );
+
+  const [newDancerResult, addNewDancer] = useAddNewDancerMutation();
+  const [dancerInput, setDancerInput] = useState<AddDancerInput | undefined>(
+    undefined,
+  );
+
+  useEffect(() => {
+    if (!signupLoading) {
+      addNewDancer(
+        {
+          input: {
+            ...dancerInput!,
+          },
+        },
+        {
+          fetchOptions: {
+            headers: {
+              authorization: authToken ? `Bearer ${authToken}` : '',
+            },
+          },
+        },
+      );
+    }
+  }, [signupLoading]);
+
   const [, setLocation] = useLocation();
   const [apiErrorMessage, setApiErrorMessage] = useState('');
   const [profilePictureUrl, setProfilePictureUrl] = useState<string>('');
 
-  useEffect(
-    () => () => {
-      URL.revokeObjectURL(profilePictureUrl);
-    },
-    [],
-  );
-
   useEffect(() => {
+    URL.revokeObjectURL(profilePictureUrl);
     const loggedInUser = authRepo.authenticationRepositoryInstance
       .get()
       .okOrDefault();
     if (loggedInUser.id) setLocation('/profile');
-  });
+  }, []);
+
+  useEffect(() => {
+    if (!newDancerResult) return;
+    const { data, error, fetching } = newDancerResult;
+    if (fetching || (!data && !error)) return;
+    if (data) {
+      setLocation('/profile');
+    }
+    if (error) {
+      setApiErrorMessage(error.message);
+    }
+  }, [newDancerResult]);
 
   const onSubmit = (
     values: RegistrationFormData,
@@ -65,43 +120,18 @@ const RegistrationForm = () => {
       .register(values.email, values.password)
       .then((authResult) => {
         if (authResult.isOk()) {
-          dancersRepository.dancersRepositoryInstance
-            .create({
-              ...DefaultDancer,
-              ddrName: values.ddrName,
-              ddrCode: values.ddrCode,
-              state: values.state,
-              primaryMachine: values.primaryMachine,
-              newProfilePicture: values.newProfilePicture,
-            })
-            .then((dancerResult) => {
-              if (dancerResult.isOk()) {
-                setLocation('/profile');
-              } else {
-                setApiErrorMessage(dancerResult.error.message);
-              }
-            });
+          setDancerInput({
+            ddrName: values.ddrName,
+            ddrCode: values.ddrCode,
+            state: values.state,
+            primaryMachineLocation: values.primaryMachineLocation,
+            profilePicture: values.profilePicture,
+          });
         } else {
           setApiErrorMessage(authResult.error.message);
         }
         action.setSubmitting(false);
       });
-  };
-
-  const validateForm = (values: RegistrationFormData) => {
-    const errors: FormikErrors<RegistrationFormData> = {};
-
-    if (!values.ddrName) errors.ddrName = 'Please enter a dancer name';
-
-    if (!values.email) errors.email = 'Please enter your email address';
-    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email))
-      errors.email = 'Please enter a valid email address';
-
-    if (!values.password) errors.password = 'Please enter a password';
-    else if (values.password !== values.confirmPassword)
-      errors.confirmPassword = 'Passwords must match';
-
-    return errors;
   };
 
   return (
@@ -117,13 +147,17 @@ const RegistrationForm = () => {
       )}
       <Formik
         initialValues={{
-          ...DefaultDancer,
           email: '',
           password: '',
           confirmPassword: '',
+          ddrName: '',
+          ddrCode: '',
+          profilePicture: undefined,
+          state: '',
+          primaryMachineLocation: '',
         }}
         onSubmit={onSubmit}
-        validate={validateForm}
+        validate={registrationFormValidator}
       >
         {(props) => (
           <Form>
@@ -214,30 +248,30 @@ const RegistrationForm = () => {
               )}
             </Field>
 
-            <Field type="text" name="primaryMachine">
+            <Field type="text" name="primaryMachineLocation">
               {({ field, form }: { field: any; form: any }) => (
-                <FormControl htmlFor="primaryMachine" mb={4}>
+                <FormControl htmlFor="primaryMachineLocation" mb={4}>
                   <FormLabel>Primary machine</FormLabel>
-                  <Input {...field} id="primaryMachine" />
+                  <Input {...field} id="primaryMachineLocation" />
                   <FormErrorMessage>
-                    {form.errors.primaryMachine}
+                    {form.errors.primaryMachineLocation}
                   </FormErrorMessage>
                 </FormControl>
               )}
             </Field>
 
-            <Field type="file" name="newProfilePicture">
+            <Field type="file" name="profilePicture">
               {({ form }: { form: any }) => (
                 <ImageUploadFormField
                   pt={2}
                   h={defaultPixel * 1.5}
-                  fieldName="newProfilePicture"
+                  fieldName="profilePicture"
                   label="Profile picture"
                   onChange={(event) => {
                     if (event.currentTarget.files) {
                       // eslint-disable-next-line react/prop-types
                       props.setFieldValue(
-                        'newProfilePicture',
+                        'profilePicture',
                         event.currentTarget.files[0],
                       );
                       setProfilePictureUrl(
@@ -247,7 +281,7 @@ const RegistrationForm = () => {
                   }}
                   isInvalid={form.errors.new}
                   imageUrl={profilePictureUrl}
-                  formError={form.errors.newProfilePicture}
+                  formError={form.errors.profilePicture}
                   imagePosition="bottom"
                 />
               )}

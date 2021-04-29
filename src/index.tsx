@@ -4,6 +4,7 @@ import {
   ColorModeScript,
   Spinner,
 } from '@chakra-ui/react';
+import { multipartFetchExchange } from '@urql/exchange-multipart-fetch';
 import Router from 'components/router';
 import Wrapper from 'components/wrapper';
 import {
@@ -57,6 +58,7 @@ const App = (): React.ReactElement => {
         fetchOptions: {
           headers: { authorization: authId ? `Bearer ${authId}` : '' },
         },
+        exchanges: [multipartFetchExchange],
       }),
     [authId],
   );

@@ -1,10 +1,10 @@
 import { Center, SimpleGrid, Spinner, useMediaQuery } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
+import { useGetAllGradedIngredientsForDancerIdQuery } from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
 import { DancerGradedIngredient } from 'types/summer2021';
 
 import IngredientScoreDisplay from './ingredient-score-display';
-import { useGetAllGradedIngredientsForDancerIdQuery } from './operation.generated';
 
 const IngredientsTab = ({
   dancerId,

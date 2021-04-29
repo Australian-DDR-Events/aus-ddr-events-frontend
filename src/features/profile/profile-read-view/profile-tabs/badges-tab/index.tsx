@@ -1,15 +1,14 @@
 import { Button, Center, SimpleGrid, Spinner } from '@chakra-ui/react';
 import AdminWrapper from 'components/admin-wrapper';
 import React, { useEffect, useState } from 'react';
-import { Badge } from 'types/graphql.generated';
+import {
+  BadgeFieldsFragment,
+  useGetAllBadgesForDancerQuery,
+} from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
 
 import BadgeAllocationModal from './badge-allocation-modal';
 import BadgeDisplay from './badge-display';
-import {
-  BadgeFieldsFragment,
-  useGetAllBadgesForDancerQuery,
-} from './operation.generated';
 
 const BadgesTab = ({
   dancerId,
@@ -17,7 +16,7 @@ const BadgesTab = ({
   setBadges,
 }: {
   dancerId: string;
-  badges: Badge[];
+  badges: BadgeFieldsFragment[];
   setBadges: Function;
 }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,11 +28,7 @@ const BadgesTab = ({
 
   useEffect(() => {
     if (!result || result.fetching || !result.data) return;
-    setBadges(
-      result.data.dancerById.badges.map((badge: BadgeFieldsFragment) => ({
-        ...badge,
-      })),
-    );
+    setBadges(result.data!.dancerById!.badges);
     setIsLoading(false);
   }, [result]);
 

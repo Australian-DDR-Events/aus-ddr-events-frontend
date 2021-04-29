@@ -1,0 +1,8 @@
+mutation AddNewDancer($input: AddDancerInput!) {
+  addDancer(input: $input) {
+    errors {
+      code
+      message
+    }
+  }
+}

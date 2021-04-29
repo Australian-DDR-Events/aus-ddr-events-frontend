@@ -14,6 +14,7 @@ import IngredientSubmission from 'features/ingredient-submission';
 import Leaderboard from 'features/leaderboard';
 import Login from 'features/login';
 import Profile from 'features/profile';
+import ProfileActive from 'features/profile-active';
 import Register from 'features/register';
 import React, { useContext, useEffect } from 'react';
 import { Title } from 'react-head';
@@ -60,7 +61,7 @@ const Router = () => (
     </Route>
     <ProtectedRoute path="/profile">
       <Title>Profile | Australian DDR Events</Title>
-      <Profile />
+      <ProfileActive />
     </ProtectedRoute>
     <ProtectedRoute path="/profile/:id">
       {(params) => (

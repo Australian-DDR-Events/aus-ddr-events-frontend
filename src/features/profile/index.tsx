@@ -5,39 +5,33 @@ import {
   SkeletonCircle,
   useMediaQuery,
 } from '@chakra-ui/react';
-import { AuthenticationRepositoryContext } from 'context/authentication';
 import { Dancer, DefaultDancer } from 'context/dancer';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Title } from 'react-head';
+import { useGetDancerByIdQuery } from 'types/graphql.generated';
 
-import { useGetDancerByIdQuery } from './operation.generated';
 import ProfileForm from './profile-form';
 import ProfileReadView from './profile-read-view';
 
 interface ProfileProps {
-  id?: string;
+  id: string;
+  isEditable?: boolean;
 }
 
-const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
-  const authRepo = useContext(AuthenticationRepositoryContext);
+const Profile: React.FC<ProfileProps> = ({
+  id,
+  isEditable = false,
+}: ProfileProps) => {
   const [dancer, setDancer] = useState(DefaultDancer);
 
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const loggedInUser = authRepo.authenticationRepositoryInstance
-    .get()
-    .okOrDefault();
-
   const [isLargerThan767] = useMediaQuery('(min-width: 767px)');
-
-  const authId = loggedInUser.id;
-  const emailVerified = loggedInUser.hasVerifiedEmail;
-  const isEditable = !id || authId === id;
 
   const [result] = useGetDancerByIdQuery({
     variables: {
-      dancerId: id || authId,
+      dancerId: id,
     },
   });
 
@@ -68,7 +62,6 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
         <ProfileReadView
           isEditable={isEditable}
           dancer={dancer}
-          emailVerified={emailVerified}
           onEditButtonClick={() => {
             setIsEditing(true);
           }}

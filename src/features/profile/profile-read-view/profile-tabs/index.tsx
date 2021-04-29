@@ -9,7 +9,7 @@ import {
 import { Dancer } from 'context/dancer';
 import { DishesRepositoryContext } from 'context/dishes';
 import React, { useContext, useState } from 'react';
-import { Badge } from 'types/core';
+import { BadgeFieldsFragment } from 'types/graphql.generated';
 import { DancerGradedDish, DancerGradedIngredient } from 'types/summer2021';
 
 import BadgesTab from './badges-tab';
@@ -17,7 +17,7 @@ import DishesTab from './dishes-tab';
 import IngredientsTab from './ingredients-tab';
 
 const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
-  const [badges, setBadges] = useState<Badge[]>([]);
+  const [badges, setBadges] = useState<BadgeFieldsFragment[]>([]);
 
   const [dancerGradedIngredients, setDancerGradedIngredients] = useState<
     DancerGradedIngredient[]

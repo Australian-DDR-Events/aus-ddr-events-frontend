@@ -10,13 +10,13 @@ import {
   Text,
 } from '@chakra-ui/react';
 import React from 'react';
-import { Badge } from 'types/graphql.generated';
+import { BadgeFieldsFragment } from 'types/graphql.generated';
 
 const BadgeDisplay = ({
   badge,
   eventName,
 }: {
-  badge: Badge;
+  badge: BadgeFieldsFragment;
   eventName: string;
 }) => (
   <>
