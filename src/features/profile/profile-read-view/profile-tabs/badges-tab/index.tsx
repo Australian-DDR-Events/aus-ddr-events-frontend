@@ -1,6 +1,6 @@
 import { Button, Center, SimpleGrid, Spinner } from '@chakra-ui/react';
 import AdminWrapper from 'components/admin-wrapper';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BadgeFieldsFragment,
   useGetAllBadgesForDancerQuery,
@@ -10,22 +10,28 @@ import { defaultPixel } from 'types/styled';
 import BadgeAllocationModal from './badge-allocation-modal';
 import BadgeDisplay from './badge-display';
 
-const BadgesTab = ({
-  dancerId,
-  badges,
-  setBadges,
-}: {
-  dancerId: string;
-  badges: BadgeFieldsFragment[];
-  setBadges: Function;
-}) => {
-  const [{ data, fetching }] = useGetAllBadgesForDancerQuery({
+const BadgesTab = ({ dancerId }: { dancerId: string }) => {
+  const [isBadgeAllocationModalOpen, setIsBadgeAllocationModalOpen] = useState(
+    false,
+  );
+
+  const [badges, setBadges] = useState<BadgeFieldsFragment[]>([]);
+  const [
+    { data, fetching },
+    reexecuteGetAllBadges,
+  ] = useGetAllBadgesForDancerQuery({
     variables: {
       dancerId,
     },
   });
 
-  if (fetching)
+  useEffect(() => {
+    if (data?.dancerById) {
+      setBadges(data.dancerById.badges);
+    }
+  }, [fetching]);
+
+  if (fetching) {
     return (
       <Center>
         <Spinner // todo: replace this with proper skeleton structure
@@ -37,14 +43,7 @@ const BadgesTab = ({
         />
       </Center>
     );
-
-  if (data?.dancerById) {
-    setBadges(data.dancerById.badges);
   }
-
-  const [isBadgeAllocationModalOpen, setIsBadgeAllocationModalOpen] = useState(
-    false,
-  );
 
   const gridWidth = badges.length > 5 ? 5 : badges.length;
 
@@ -63,7 +62,7 @@ const BadgesTab = ({
         <BadgeAllocationModal
           dancerId={dancerId}
           dancerBadges={badges}
-          setDancerBadges={setBadges}
+          setDancerBadges={() => reexecuteGetAllBadges()}
           isOpen={isBadgeAllocationModalOpen}
           onClose={() => setIsBadgeAllocationModalOpen(false)}
         />

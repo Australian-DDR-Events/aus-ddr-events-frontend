@@ -33,7 +33,6 @@ const ProtectedRoute = (props: RouteProps) => {
       setLocation('/login');
     }
   }, []);
-
   return <Route {...props} />;
 };
 

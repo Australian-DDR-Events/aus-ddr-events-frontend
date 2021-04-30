@@ -8,11 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { DishesRepositoryContext } from 'context/dishes';
 import React, { useContext, useState } from 'react';
-import {
-  BadgeFieldsFragment,
-  DancerFieldsFragment,
-  DancerGradedIngredientsFragment,
-} from 'types/graphql.generated';
+import { DancerFieldsFragment } from 'types/graphql.generated';
 import { DancerGradedDish } from 'types/summer2021';
 
 import BadgesTab from './badges-tab';
@@ -20,12 +16,6 @@ import DishesTab from './dishes-tab';
 import IngredientsTab from './ingredients-tab';
 
 const ProfileTabs = ({ dancer }: { dancer: DancerFieldsFragment }) => {
-  const [badges, setBadges] = useState<BadgeFieldsFragment[]>([]);
-
-  const [dancerGradedIngredients, setDancerGradedIngredients] = useState<
-    DancerGradedIngredientsFragment[]
-  >([]);
-
   // Set up for dishes tab
   const dishesRepository = useContext(DishesRepositoryContext);
   const [dancerGradedDishes, setDancerGradedDishes] = useState(
@@ -68,19 +58,11 @@ const ProfileTabs = ({ dancer }: { dancer: DancerFieldsFragment }) => {
 
       <TabPanels>
         <TabPanel minW={isSmallerThan1024 ? '100%' : '65vw'}>
-          <BadgesTab
-            dancerId={dancer.id}
-            badges={badges}
-            setBadges={setBadges}
-          />
+          <BadgesTab dancerId={dancer.id} />
         </TabPanel>
 
         <TabPanel minW={{ base: '100%', md: '65vw' }}>
-          <IngredientsTab
-            dancerId={dancer.id}
-            dancerGradedIngredients={dancerGradedIngredients}
-            setDancerGradedIngredients={setDancerGradedIngredients}
-          />
+          <IngredientsTab dancerId={dancer.id} />
         </TabPanel>
 
         <TabPanel minW={isSmallerThan1024 ? '100%' : '65vw'}>

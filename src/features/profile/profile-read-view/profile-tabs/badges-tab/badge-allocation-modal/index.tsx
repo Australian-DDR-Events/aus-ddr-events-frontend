@@ -11,7 +11,7 @@ import {
   SimpleGrid,
   Spinner,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BadgeAllocationModelFieldsFragment,
   BadgeFieldsFragment,
@@ -44,18 +44,18 @@ const BadgeAllocationModal = ({
   const [, assignBadges] = useAssignBadgeForDancerMutation();
   const [, revokeBadges] = useRevokeBadgeForDancerMutation();
 
-  if (data?.badges?.nodes) {
-    setBadges(data.badges.nodes);
-  }
+  useEffect(() => {
+    if (data?.badges?.nodes) {
+      setBadges(data.badges.nodes);
+    }
+  }, [data]);
 
   const onAssignBadge = (badge: BadgeAllocationModelFieldsFragment) => {
     assignBadges({
       dancerId,
       badgeId: badge.id,
     });
-    setDancerBadges(
-      new Array<BadgeAllocationModelFieldsFragment>(...dancerBadges, badge),
-    );
+    setDancerBadges();
   };
 
   const onRevokeBadge = (badge: BadgeFieldsFragment) => {
@@ -63,7 +63,7 @@ const BadgeAllocationModal = ({
       dancerId,
       badgeId: badge.id,
     });
-    setDancerBadges(dancerBadges.filter((db) => db.id !== badge.id));
+    setDancerBadges();
   };
 
   const revokableBadge = (badge: BadgeFieldsFragment) => {

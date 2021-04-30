@@ -5,7 +5,7 @@ import {
   SkeletonCircle,
   useMediaQuery,
 } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Title } from 'react-head';
 import { useGetDancerByIdQuery } from 'types/graphql.generated';
 
@@ -30,12 +30,6 @@ const Profile: React.FC<ProfileProps> = ({
       dancerId: id,
     },
   });
-
-  useEffect(() => {
-    if (!isEditing) {
-      reloadProfile();
-    }
-  }, [isEditing]);
 
   const renderProfileReadView = () => (
     <>
@@ -63,9 +57,11 @@ const Profile: React.FC<ProfileProps> = ({
     <ProfileForm
       formData={data?.dancerById!}
       onSuccessfulSubmit={() => {
+        reloadProfile();
         setIsEditing(false);
       }}
       onCancelSubmit={() => {
+        reloadProfile();
         setIsEditing(false);
       }}
     />

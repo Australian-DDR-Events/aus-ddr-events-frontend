@@ -12,14 +12,15 @@ import {
   Select,
 } from '@chakra-ui/react';
 import ImageUploadFormField from 'components/image-upload-form-field';
-import { DancersRepositoryContext } from 'context/dancer';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
-import React, { useContext, useEffect, useState } from 'react';
-import { DancerFieldsFragment } from 'types/graphql.generated';
+import React, { useEffect, useState } from 'react';
+import {
+  DancerFieldsFragment,
+  UpdateDancerInput,
+  useUpdateExistingDancerMutation,
+} from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
 import { StateOptions } from 'utils/dropdown-options';
-
-import { ProfileFormData } from './types';
 
 const ProfileForm = ({
   formData,
@@ -30,17 +31,19 @@ const ProfileForm = ({
   onSuccessfulSubmit: () => void;
   onCancelSubmit: Function;
 }) => {
-  const dancersRepository = useContext(DancersRepositoryContext);
-
-  const initialFormData: ProfileFormData = {
-    id: formData.id,
+  const initialFormData: UpdateDancerInput = {
+    dancerId: formData.id,
     ddrName: formData.ddrName,
     ddrCode: formData.ddrCode,
-    profilePictureUrl: formData.profilePictureUrl,
+    profilePicture: undefined,
     state: formData.state,
-    primaryMachine: formData.primaryMachineLocation,
-    newProfilePicture: new File([''], 'filename'),
+    primaryMachineLocation: formData.primaryMachineLocation,
   };
+
+  const [
+    updateDancerResult,
+    performDancerUpdate,
+  ] = useUpdateExistingDancerMutation();
 
   const [profilePictureUrl, setProfilePictureUrl] = useState<string>('');
   const [apiErrorMessage, setApiErrorMessage] = useState('');
@@ -63,23 +66,25 @@ const ProfileForm = ({
   };
 
   const onSubmit = (
-    values: ProfileFormData,
-    actions: FormikHelpers<ProfileFormData>,
+    values: UpdateDancerInput,
+    actions: FormikHelpers<UpdateDancerInput>,
   ) => {
-    dancersRepository.dancersRepositoryInstance
-      .update({
-        ...initialFormData,
+    performDancerUpdate({
+      input: {
         ...values,
-      })
-      .then((result) => {
-        if (result.isOk()) {
-          onSuccessfulSubmit();
-        } else if (result.isErr()) {
-          setApiErrorMessage(result.error.message);
-          actions.setSubmitting(false);
-        }
-      });
+      },
+    });
+
+    actions.setSubmitting(false);
   };
+
+  useEffect(() => {
+    if (updateDancerResult.error) {
+      setApiErrorMessage(updateDancerResult.error.message);
+    } else {
+      onSuccessfulSubmit();
+    }
+  }, [updateDancerResult]);
 
   return (
     <Container mb={8}>

@@ -47,9 +47,7 @@ const App = (): React.ReactElement => {
   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
     AuthenticationRepositoryContext,
   );
-  const [loading, setLoading] = useState<boolean>(true);
-
-  const [authId, setAuthId] = useState('');
+  const [authId, setAuthId] = useState<string | undefined>(undefined);
 
   const urqlClient = useMemo(
     () =>
@@ -65,7 +63,6 @@ const App = (): React.ReactElement => {
 
   authRepo.authenticationRepositoryInstance.onAuthStateChanged(
     async (result) => {
-      setLoading(false);
       setAuthId(result.token || '');
     },
   );
@@ -73,7 +70,7 @@ const App = (): React.ReactElement => {
   return (
     <UrqlProvider value={urqlClient}>
       <Wrapper>
-        {loading ? (
+        {authId === undefined ? (
           <Center>
             <Spinner // todo: replace this with proper skeleton structure
               thickness="4px"
