@@ -6,9 +6,9 @@ import {
   Text,
   useMediaQuery,
 } from '@chakra-ui/react';
+import { IoStar } from '@react-icons/all-files/io5/IoStar';
 import CustomIconRatings from 'components/custom-icon-ratings';
 import React from 'react';
-import { IoStar } from 'react-icons/io5';
 import { DancerGradedIngredientsFragment } from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
 import { getAssetUrl } from 'utils/assets';

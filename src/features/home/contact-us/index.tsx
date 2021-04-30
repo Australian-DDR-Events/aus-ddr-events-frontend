@@ -1,6 +1,8 @@
 import { Button, Center, Heading, Text, useMediaQuery } from '@chakra-ui/react';
+import { FaDiscord } from '@react-icons/all-files/fa/FaDiscord';
+import { FaFacebook } from '@react-icons/all-files/fa/FaFacebook';
+import { FaTwitter } from '@react-icons/all-files/fa/FaTwitter';
 import React from 'react';
-import { FaDiscord, FaFacebook, FaTwitter } from 'react-icons/fa';
 
 const ContactUs = () => {
   const [isLargerThan750] = useMediaQuery('(min-width: 750px)');

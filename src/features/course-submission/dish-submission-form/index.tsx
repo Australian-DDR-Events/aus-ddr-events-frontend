@@ -18,6 +18,7 @@ import {
   Switch,
   Text,
 } from '@chakra-ui/react';
+import { FiArrowRight } from '@react-icons/all-files/fi/FiArrowRight';
 import ImageUploadFormField from 'components/image-upload-form-field';
 import { DishesRepositoryContext } from 'context/dishes';
 import { DishSubmissionRequest } from 'context/dishes/types';
@@ -33,7 +34,6 @@ import {
   FormikState,
 } from 'formik';
 import React, { useContext, useState } from 'react';
-import { FiArrowRight } from 'react-icons/fi';
 import { Dish } from 'types/summer2021';
 import { getAssetUrl } from 'utils/assets';
 

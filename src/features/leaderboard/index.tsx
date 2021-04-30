@@ -9,8 +9,8 @@ import {
   useMediaQuery,
   VStack,
 } from '@chakra-ui/react';
+import { FaCrown } from '@react-icons/all-files/fa/FaCrown';
 import React, { useState } from 'react';
-import { FaCrown } from 'react-icons/fa';
 import {
   AllSongDifficultiesLeaderboardFragment,
   useGetSongsForLeaderboardListingQuery,

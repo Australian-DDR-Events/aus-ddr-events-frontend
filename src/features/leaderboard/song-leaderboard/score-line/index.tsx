@@ -1,6 +1,6 @@
 import { Avatar, Center, Flex, Icon, Spacer, Text } from '@chakra-ui/react';
+import { IoCamera } from '@react-icons/all-files/io5/IoCamera';
 import React from 'react';
-import { IoCamera } from 'react-icons/io5';
 import { Score } from 'types/core';
 import { getProfileImageUrl } from 'utils/assets';
 

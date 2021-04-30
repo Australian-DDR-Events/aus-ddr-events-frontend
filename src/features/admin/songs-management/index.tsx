@@ -5,8 +5,8 @@ import {
   Heading,
   SimpleGrid,
 } from '@chakra-ui/react';
+import { IoAddCircleOutline } from '@react-icons/all-files/io5/IoAddCircleOutline';
 import React from 'react';
-import { IoAddCircleOutline } from 'react-icons/io5';
 import { Song } from 'types/core';
 import { useQuery } from 'urql';
 

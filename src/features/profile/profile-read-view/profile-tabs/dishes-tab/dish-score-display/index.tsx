@@ -7,9 +7,10 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+import { IoOpenOutline } from '@react-icons/all-files/io5/IoOpenOutline';
+import { IoStar } from '@react-icons/all-files/io5/IoStar';
 import CustomIconRatings from 'components/custom-icon-ratings';
 import React from 'react';
-import { IoOpenOutline, IoStar } from 'react-icons/io5';
 import { DancerGradedDish } from 'types/summer2021';
 import { getAssetUrl } from 'utils/assets';
 import { convertGradeToNumber } from 'utils/summer2021';

@@ -1,7 +1,7 @@
 import { Avatar, Box, Heading, Icon, Stack } from '@chakra-ui/react';
+import { FaCrown } from '@react-icons/all-files/fa/FaCrown';
+import { IoCamera } from '@react-icons/all-files/io5/IoCamera';
 import React from 'react';
-import { FaCrown } from 'react-icons/fa';
-import { IoCamera } from 'react-icons/io5';
 import { Score } from 'types/core';
 import { defaultPixel } from 'types/styled';
 import { getProfileImageUrl } from 'utils/assets';

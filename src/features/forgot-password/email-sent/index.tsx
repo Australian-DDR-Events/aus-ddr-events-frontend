@@ -1,6 +1,6 @@
 import { Box, Center, Container, Heading, Icon, Text } from '@chakra-ui/react';
+import { IoMailUnreadOutline } from '@react-icons/all-files/io5/IoMailUnreadOutline';
 import React from 'react';
-import { IoMailUnreadOutline } from 'react-icons/io5';
 
 const EmailSent = () => (
   <Container maxW="container.xl" centerContent p={8}>

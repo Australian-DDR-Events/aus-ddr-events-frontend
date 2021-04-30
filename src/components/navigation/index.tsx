@@ -11,6 +11,8 @@ import {
   Spacer,
   Stack,
 } from '@chakra-ui/react';
+import { FiMenu } from '@react-icons/all-files/fi/FiMenu';
+import { FiX } from '@react-icons/all-files/fi/FiX';
 import logo from 'assets/logo.png';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import {
@@ -19,7 +21,6 @@ import {
   DefaultDancer,
 } from 'context/dancer';
 import React, { useContext, useEffect } from 'react';
-import { FiMenu, FiX } from 'react-icons/fi';
 import { Result } from 'types/result';
 import { getProfileImageUrl } from 'utils/assets';
 import { useLocation } from 'wouter';
