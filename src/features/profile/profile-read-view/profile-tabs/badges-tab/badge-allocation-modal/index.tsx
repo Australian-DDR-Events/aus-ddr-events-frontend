@@ -68,7 +68,7 @@ const BadgeAllocationModal = ({
       dancerId,
       badgeId: badge.id,
     });
-    setAssginedBadges(badges.filter((b) => b.id !== badge.id));
+    assignedBadges.push(badge);
   };
 
   const onRevokeBadge = (badge: BadgeFieldsFragment) => {
@@ -76,7 +76,7 @@ const BadgeAllocationModal = ({
       dancerId,
       badgeId: badge.id,
     });
-    badges.push(badge);
+    setAssginedBadges(assignedBadges.filter((b) => b.id !== badge.id));
   };
 
   const assignableBadge = (badge: BadgeFieldsFragment) => {
