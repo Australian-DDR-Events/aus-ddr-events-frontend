@@ -11,7 +11,7 @@ import { IoOpenOutline } from '@react-icons/all-files/io5/IoOpenOutline';
 import { IoStar } from '@react-icons/all-files/io5/IoStar';
 import CustomIconRatings from 'components/custom-icon-ratings';
 import React from 'react';
-import { DancerGradedDish } from 'types/summer2021';
+import { DancerGradedDishesFragment } from 'types/graphql.generated';
 import { getAssetUrl } from 'utils/assets';
 import { convertGradeToNumber } from 'utils/summer2021';
 
@@ -20,17 +20,20 @@ import SongScoreModal from './song-score-modal';
 const DishScoreDisplay = ({
   dancerGradedDish,
 }: {
-  dancerGradedDish: DancerGradedDish;
+  dancerGradedDish: DancerGradedDishesFragment;
 }) => {
   const { gradedDish, scores } = dancerGradedDish;
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box textAlign="center" w="fit-content">
       <Center>
-        <Image src={getAssetUrl(gradedDish.image256)} alt={gradedDish.name} />
+        <Image
+          src={getAssetUrl(gradedDish.image128)}
+          alt={gradedDish.description}
+        />
       </Center>
       <Text fontWeight="bold" fontSize="lg">
-        {gradedDish.description} {gradedDish.name}
+        {gradedDish.description} {gradedDish.dish!.name}
       </Text>
       <CustomIconRatings
         icon={IoStar}

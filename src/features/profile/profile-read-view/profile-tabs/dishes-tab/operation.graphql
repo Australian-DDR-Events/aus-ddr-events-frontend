@@ -1,0 +1,29 @@
+query getAllGradedDishesForDancerId($dancerId: ID!) {
+  dishesByDancerId(id: $dancerId) {
+    ...DancerGradedDishes
+  }
+}
+
+fragment DancerGradedDishes on GradedDancerDish {
+  id
+  gradedDish {
+    grade
+    image128
+    description
+    dish {
+      id
+      name
+    }
+  }
+  scores {
+    value
+    songDifficulty {
+      id
+      difficulty
+      song {
+        name
+        image128
+      }
+    }
+  }
+}

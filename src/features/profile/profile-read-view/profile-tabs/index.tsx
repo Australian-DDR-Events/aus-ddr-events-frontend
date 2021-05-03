@@ -6,42 +6,14 @@ import {
   Tabs,
   useMediaQuery,
 } from '@chakra-ui/react';
-import { DishesRepositoryContext } from 'context/dishes';
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import { DancerFieldsFragment } from 'types/graphql.generated';
-import { DancerGradedDish } from 'types/summer2021';
 
 import BadgesTab from './badges-tab';
 import DishesTab from './dishes-tab';
 import IngredientsTab from './ingredients-tab';
 
 const ProfileTabs = ({ dancer }: { dancer: DancerFieldsFragment }) => {
-  // Set up for dishes tab
-  const dishesRepository = useContext(DishesRepositoryContext);
-  const [dancerGradedDishes, setDancerGradedDishes] = useState(
-    new Array<DancerGradedDish>(),
-  );
-  const [isDishesTabLoaded, setIsDishesTabLoaded] = useState(false);
-  const [isDishesTabLoading, setIsDishesTabLoading] = useState(true);
-  /**
-   * Load the graded dishes for the user of the profile being viewed
-   * if the graded dishes have not already been loaded
-   * @returns the profile user's graded dishes
-   */
-  const loadDishScores = () => {
-    if (isDishesTabLoaded) return;
-
-    dishesRepository.dishesRepositoryInstance
-      .getDancerGradedDishes(dancer.id)
-      .then((dancerGradedDishesResult) => {
-        if (dancerGradedDishesResult.isOk()) {
-          setDancerGradedDishes(dancerGradedDishesResult.value);
-          setIsDishesTabLoaded(true);
-          setIsDishesTabLoading(false);
-        }
-      });
-  };
-
   const [isSmallerThan1024] = useMediaQuery(['(max-width: 1023px)']);
   return (
     <Tabs
@@ -66,11 +38,7 @@ const ProfileTabs = ({ dancer }: { dancer: DancerFieldsFragment }) => {
         </TabPanel>
 
         <TabPanel minW={isSmallerThan1024 ? '100%' : '65vw'}>
-          <DishesTab
-            isLoading={isDishesTabLoading}
-            dancerGradedDishes={dancerGradedDishes}
-            loadDishScores={loadDishScores}
-          />
+          <DishesTab dancerId={dancer.id} />
         </TabPanel>
       </TabPanels>
     </Tabs>
