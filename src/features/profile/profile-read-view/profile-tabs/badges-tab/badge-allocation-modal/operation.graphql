@@ -14,17 +14,14 @@ mutation revokeBadgeForDancer($dancerId: ID!, $badgeId: ID!) {
   }
 }
 
-query getBadges {
-  badges {
+query getBadges($page: String) {
+  badges(after: $page) {
     nodes {
-      ...BadgeAllocationModelFields
+      ...BadgeFields
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
     }
   }
-}
-
-fragment BadgeAllocationModelFields on Badge {
-  id
-  name
-  image64
-  image128
 }

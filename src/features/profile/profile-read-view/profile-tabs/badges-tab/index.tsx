@@ -31,6 +31,11 @@ const BadgesTab = ({ dancerId }: { dancerId: string }) => {
     }
   }, [fetching]);
 
+  const onBadgeAllocationModalClosed = () => {
+    setIsBadgeAllocationModalOpen(false);
+    reexecuteGetAllBadges();
+  };
+
   if (fetching) {
     return (
       <Center>
@@ -59,13 +64,14 @@ const BadgesTab = ({ dancerId }: { dancerId: string }) => {
         >
           Badge allocation
         </Button>
-        <BadgeAllocationModal
-          dancerId={dancerId}
-          dancerBadges={badges}
-          setDancerBadges={() => reexecuteGetAllBadges()}
-          isOpen={isBadgeAllocationModalOpen}
-          onClose={() => setIsBadgeAllocationModalOpen(false)}
-        />
+        {isBadgeAllocationModalOpen && (
+          <BadgeAllocationModal
+            dancerId={dancerId}
+            dancerBadges={badges}
+            isOpen={isBadgeAllocationModalOpen}
+            onClose={onBadgeAllocationModalClosed}
+          />
+        )}
       </AdminWrapper>
       <SimpleGrid
         minChildWidth="128px"
