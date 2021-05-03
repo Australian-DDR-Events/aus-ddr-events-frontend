@@ -13,14 +13,19 @@ fragment IndividualSongLeaderboard on SongDifficulty {
     image256
   }
   dancerTopScores(order: { value: DESC, submissionTime: DESC }) {
-    dancer {
-      id
-      ddrName
-      ddrCode
-      profilePictureTimestamp
-    }
-    id
-    imageUrl
-    value
+    ...IndividualSongDancerTopScore
   }
+}
+
+fragment IndividualSongDancerTopScore on Score {
+  dancer {
+    id
+    ddrName
+    ddrCode
+    profilePictureTimestamp
+    profilePictureUrl
+  }
+  id
+  imageUrl
+  value
 }

@@ -1,9 +1,6 @@
 import { Center, Container, Spinner } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import {
-  IndividualSongLeaderboardFragment,
-  useGetSongDifficultyWithScoresForIdQuery,
-} from 'types/graphql.generated';
+import { useGetSongDifficultyWithScoresForIdQuery } from 'types/graphql.generated';
 import { useLocation } from 'wouter';
 
 import SongLeaderboardView from './song-leaderboard-view';
@@ -13,11 +10,6 @@ const SongLeaderboard = ({
 }: {
   songDifficultyId: string;
 }) => {
-  const [
-    songDifficulty,
-    setSongDifficulty,
-  ] = useState<IndividualSongLeaderboardFragment>();
-
   const [, setLocation] = useLocation();
   const [{ data, fetching }] = useGetSongDifficultyWithScoresForIdQuery({
     variables: { songDifficultyId },
@@ -40,14 +32,10 @@ const SongLeaderboard = ({
     );
   }
 
-  if (data?.songDifficultyById) {
-    setSongDifficulty(data.songDifficultyById);
-  }
-
   return (
     <Container maxW="100%" w="fit-content">
       <SongLeaderboardView
-        songDifficulty={songDifficulty!}
+        songDifficulty={data?.songDifficultyById!}
         modalUrl={modalUrl}
         modalIsOpen={modalIsOpen}
         setModalIsOpen={setModalIsOpen}

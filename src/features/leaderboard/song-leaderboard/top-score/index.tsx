@@ -2,7 +2,7 @@ import { Avatar, Box, Heading, Icon, Stack } from '@chakra-ui/react';
 import { FaCrown } from '@react-icons/all-files/fa/FaCrown';
 import { IoCamera } from '@react-icons/all-files/io5/IoCamera';
 import React from 'react';
-import { Score } from 'types/core';
+import { IndividualSongDancerTopScoreFragment } from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
 import { getProfileImageUrl } from 'utils/assets';
 
@@ -11,7 +11,7 @@ const TopScore = ({
   onClickImage,
   onClickUser,
 }: {
-  score: Score;
+  score: IndividualSongDancerTopScoreFragment;
   onClickImage: Function;
   onClickUser: Function;
 }) => {

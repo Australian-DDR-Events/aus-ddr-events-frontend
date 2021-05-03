@@ -10,7 +10,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { FaCrown } from '@react-icons/all-files/fa/FaCrown';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AllSongDifficultiesLeaderboardFragment,
   useGetSongsForLeaderboardListingQuery,
@@ -33,9 +33,11 @@ const Leaderboard = ({ songDifficultyId }: { songDifficultyId?: string }) => {
 
   const [isSmallerOrEqualTo425] = useMediaQuery(['(max-width: 425px)']);
 
-  if (data?.songDifficulties?.nodes) {
-    setSongDifficulties(data.songDifficulties.nodes);
-  }
+  useEffect(() => {
+    if (data?.songDifficulties?.nodes) {
+      setSongDifficulties(data.songDifficulties.nodes);
+    }
+  }, [fetching]);
 
   return (
     <>
