@@ -4,7 +4,6 @@ import React from 'react';
 import { useLocation } from 'wouter';
 
 import ColorModeSwitch from '../color-mode-switch';
-import MenuItem from '../menu-item';
 import ProfileMenuItem from '../profile-menu-item';
 
 const LoggedInMenuItems = ({
@@ -18,12 +17,6 @@ const LoggedInMenuItems = ({
 
   return (
     <>
-      <MenuItem onClick={() => setLocation('/submission')}>
-        Submit scores
-      </MenuItem>
-      <MenuItem onClick={() => setLocation('/course-submission')}>
-        Submit courses
-      </MenuItem>
       <HStack>
         <ColorModeSwitch
           mr={2}

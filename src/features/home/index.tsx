@@ -19,14 +19,16 @@ const Home = () => {
     <Container maxW="container.xl" centerContent p={8}>
       <Box align="center" mb={8}>
         <Heading>Current season</Heading>
-        <Heading size="lg">05 March - 16 April</Heading>
+        <Heading size="lg">
+          There is no current season running. Please check back soon.
+        </Heading>
         <Image
           objectFit="cover"
           src={getAssetUrl(`/common/season-logo.png`)}
           alt="Summer BBQ Logo"
         />
         <Heading as="h2" size="md">
-          Join the barbecue today, sign-up to participate!
+          We&apos;ve reached the end of this season. Thank you for playing!
         </Heading>
         {!loggedInUser.id && (
           <Button onClick={() => setLocation('/register')} mt={4}>
