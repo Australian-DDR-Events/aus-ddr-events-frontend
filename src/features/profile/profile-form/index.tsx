@@ -81,7 +81,7 @@ const ProfileForm = ({
   useEffect(() => {
     if (updateDancerResult.error) {
       setApiErrorMessage(updateDancerResult.error.message);
-    } else {
+    } else if (updateDancerResult.data) {
       onSuccessfulSubmit();
     }
   }, [updateDancerResult]);
@@ -154,18 +154,18 @@ const ProfileForm = ({
               )}
             </Field>
 
-            <Field type="file" name="newProfilePicture">
+            <Field type="file" name="profilePicture">
               {({ form }: { form: any }) => (
                 <ImageUploadFormField
                   pt={2}
                   h={defaultPixel * 1.5}
-                  fieldName="newProfilePicture"
+                  fieldName="profilePicture"
                   label="Profile picture"
                   onChange={(event) => {
                     if (event.currentTarget.files) {
                       // eslint-disable-next-line react/prop-types
                       props.setFieldValue(
-                        'newProfilePicture',
+                        'profilePicture',
                         event.currentTarget.files[0],
                       );
                       setProfilePictureUrl(
@@ -176,7 +176,7 @@ const ProfileForm = ({
                   isInvalid={form.errors.new}
                   imageUrl={profilePictureUrl}
                   imagePosition="bottom"
-                  formError={form.errors.newProfilePicture}
+                  formError={form.errors.profilePicture}
                 />
               )}
             </Field>

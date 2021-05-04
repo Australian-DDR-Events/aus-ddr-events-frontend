@@ -42,7 +42,7 @@
     "react-head": "^3.4.0",
     "react-image-file-resizer": "^0.4.2",
     "urql": "^2.0.2",
-    "wouter": "^2.7.1"
+    "wouter": "^2.7.4"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-0",
