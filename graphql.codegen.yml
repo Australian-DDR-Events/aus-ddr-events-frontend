@@ -1,5 +1,5 @@
 overwrite: true
-schema: 'http://localhost:5000/graphql'
+schema: 'https://api.ausddrevents.com/graphql'
 documents:
   - 'src/**/*.graphql'
 generates:
