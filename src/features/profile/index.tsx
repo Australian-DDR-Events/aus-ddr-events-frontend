@@ -5,62 +5,35 @@ import {
   SkeletonCircle,
   useMediaQuery,
 } from '@chakra-ui/react';
-import { AuthenticationRepositoryContext } from 'context/authentication';
-import {
-  Dancer,
-  DancersRepositoryContext,
-  DefaultDancer,
-} from 'context/dancer';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Title } from 'react-head';
-import { Result } from 'types/result';
+import { useGetDancerByIdQuery } from 'types/graphql.generated';
 
 import ProfileForm from './profile-form';
 import ProfileReadView from './profile-read-view';
 
 interface ProfileProps {
-  id?: string;
+  id: string;
+  isEditable?: boolean;
 }
 
-const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
-  const dancersRepository = useContext(DancersRepositoryContext);
-  const authRepo = useContext(AuthenticationRepositoryContext);
-  const [dancer, setDancer] = useState(DefaultDancer);
-
+const Profile: React.FC<ProfileProps> = ({
+  id,
+  isEditable = false,
+}: ProfileProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  const loggedInUser = authRepo.authenticationRepositoryInstance
-    .get()
-    .okOrDefault();
 
   const [isLargerThan767] = useMediaQuery('(min-width: 767px)');
 
-  const authId = loggedInUser.id;
-  const emailVerified = loggedInUser.hasVerifiedEmail;
-  const isEditable = !id || authId === id;
-
-  useEffect(() => {
-    if (!isEditing) {
-      setLoading(true);
-
-      const onGetFinished = (u: Result<Error, Dancer>) => {
-        setDancer(u.okOrDefault());
-        setLoading(false);
-      };
-
-      if (id)
-        dancersRepository.dancersRepositoryInstance.get(id).then(onGetFinished);
-      else if (authId)
-        dancersRepository.dancersRepositoryInstance
-          .getByAuthenticationId(authId)
-          .then(onGetFinished);
-    }
-  }, [isEditing]);
+  const [{ data, fetching }, reloadProfile] = useGetDancerByIdQuery({
+    variables: {
+      dancerId: id,
+    },
+  });
 
   const renderProfileReadView = () => (
     <>
-      {loading && (
+      {fetching && (
         <Box w="70vw">
           <SkeletonCircle size="20" mb={4} />
           <Skeleton height={4} mb={2} />
@@ -68,11 +41,10 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
           <Skeleton height={4} />
         </Box>
       )}
-      {!loading && (
+      {!fetching && (
         <ProfileReadView
           isEditable={isEditable}
-          dancer={dancer}
-          emailVerified={emailVerified}
+          dancer={data?.dancerById!}
           onEditButtonClick={() => {
             setIsEditing(true);
           }}
@@ -83,12 +55,13 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
 
   const renderProfileForm = () => (
     <ProfileForm
-      formData={dancer}
-      onSuccessfulSubmit={(updatedDancer: Dancer) => {
-        setDancer(updatedDancer);
+      formData={data?.dancerById!}
+      onSuccessfulSubmit={() => {
+        reloadProfile();
         setIsEditing(false);
       }}
       onCancelSubmit={() => {
+        reloadProfile();
         setIsEditing(false);
       }}
     />
@@ -96,7 +69,9 @@ const Profile: React.FC<ProfileProps> = ({ id = undefined }: ProfileProps) => {
 
   return (
     <Container maxW={isLargerThan767 ? '90%' : '100%'} w="fit-content">
-      {!loading && <Title>{dancer.ddrName} | Australian DDR Events</Title>}
+      {!fetching && (
+        <Title>{data?.dancerById!.ddrName} | Australian DDR Events</Title>
+      )}
       {isEditing ? renderProfileForm() : renderProfileReadView()}
     </Container>
   );

@@ -1,0 +1,18 @@
+overwrite: true
+schema: 'https://api.ausddrevents.com/graphql'
+documents:
+  - 'src/**/*.graphql'
+generates:
+  src/types/graphql.generated.ts:
+    plugins:
+      - add:
+          content:
+            - '/* eslint-disable */'
+            - '// @ts-nocheck'
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-urql'
+    config:
+      strict: true
+      strictScalars: true
+      useImplementingTypes: true

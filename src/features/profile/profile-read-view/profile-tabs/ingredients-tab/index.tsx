@@ -1,29 +1,34 @@
 import { Center, SimpleGrid, Spinner, useMediaQuery } from '@chakra-ui/react';
-import React, { useEffect } from 'react';
-import { Song } from 'types/core';
+import React, { useEffect, useState } from 'react';
+import {
+  DancerGradedIngredientsFragment,
+  useGetAllGradedIngredientsForDancerIdQuery,
+} from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
-import { DancerGradedIngredient } from 'types/summer2021';
 
 import IngredientScoreDisplay from './ingredient-score-display';
 
-const IngredientsTab = ({
-  dancerGradedIngredients,
-  songs,
-  isLoading,
-  loadGradedIngredients,
-}: {
-  dancerGradedIngredients: DancerGradedIngredient[];
-  songs: Map<string, Song>;
-  isLoading: boolean;
-  loadGradedIngredients: () => void;
-}) => {
+const IngredientsTab = ({ dancerId }: { dancerId: string }) => {
+  const [dancerGradedIngredients, setDancerGradedIngredients] = useState<
+    DancerGradedIngredientsFragment[]
+  >([]);
+  const [
+    { data: ingredientData, fetching: fetchingIngredients },
+  ] = useGetAllGradedIngredientsForDancerIdQuery({
+    variables: {
+      dancerId,
+    },
+  });
+
   useEffect(() => {
-    loadGradedIngredients();
-  }, []);
+    if (ingredientData?.ingredientsByDancerId) {
+      setDancerGradedIngredients(ingredientData.ingredientsByDancerId);
+    }
+  }, [ingredientData]);
 
   const [isLargerThan1440] = useMediaQuery(['(min-width: 1440px)']);
 
-  if (isLoading)
+  if (fetchingIngredients)
     return (
       <Center>
         <Spinner // todo: replace this with proper skeleton structure
@@ -46,11 +51,7 @@ const IngredientsTab = ({
       pr={isLargerThan1440 ? defaultPixel : 0}
     >
       {dancerGradedIngredients.map((dgi) => (
-        <IngredientScoreDisplay
-          key={dgi.id}
-          dancerGradedIngredient={dgi}
-          song={songs.get(dgi.score.songId)}
-        />
+        <IngredientScoreDisplay key={dgi.id} dancerGradedIngredient={dgi} />
       ))}
     </SimpleGrid>
   );

@@ -79,4 +79,10 @@ export interface AuthenticationRepositoryProviderOptions {
   instance: AuthenticationRepository;
 }
 
-export type AuthStateChangedCallback = () => void;
+export type AuthStateChangedCallbackResult = {
+  token: string | undefined;
+};
+
+export type AuthStateChangedCallback = (
+  result: AuthStateChangedCallbackResult,
+) => void;

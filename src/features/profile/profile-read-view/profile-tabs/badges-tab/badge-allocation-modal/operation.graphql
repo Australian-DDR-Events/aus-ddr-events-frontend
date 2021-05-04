@@ -1,0 +1,27 @@
+mutation assignBadgeForDancer($dancerId: ID!, $badgeId: ID!) {
+  addBadgeAllocation(input: { dancerId: $dancerId, badgeId: $badgeId }) {
+    errors {
+      message
+    }
+  }
+}
+
+mutation revokeBadgeForDancer($dancerId: ID!, $badgeId: ID!) {
+  revokeBadgeAllocation(input: { dancerId: $dancerId, badgeId: $badgeId }) {
+    errors {
+      message
+    }
+  }
+}
+
+query getBadges($page: String) {
+  badges(after: $page) {
+    nodes {
+      ...BadgeFields
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

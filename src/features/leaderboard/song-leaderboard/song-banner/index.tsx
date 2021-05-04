@@ -1,10 +1,14 @@
 import { Box, Heading } from '@chakra-ui/react';
 import React from 'react';
-import { Song } from 'types/core';
+import { IndividualSongLeaderboardFragment } from 'types/graphql.generated';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 
-const Index = ({ song }: { song: Song }) => {
-  const songColors = getColorByDifficulty(song.difficulty);
+const Index = ({
+  songDifficulty,
+}: {
+  songDifficulty: IndividualSongLeaderboardFragment;
+}) => {
+  const songColors = getColorByDifficulty(songDifficulty.difficulty);
   return (
     <Box
       bgColor={songColors.shadow}
@@ -15,7 +19,7 @@ const Index = ({ song }: { song: Song }) => {
       borderRadius="full"
     >
       <Heading color="white" size="md">
-        {song.name} by {song.artist}
+        {songDifficulty.song?.name} by {songDifficulty.song?.artist}
       </Heading>
     </Box>
   );

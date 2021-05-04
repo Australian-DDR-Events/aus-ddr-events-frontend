@@ -11,6 +11,7 @@ export const DefaultScore: Score = {
   dancerId: '',
   dancer: null,
   songId: '',
+  song: null,
 };
 
 export const DefaultSummer2021Score: Summer2021Score = {

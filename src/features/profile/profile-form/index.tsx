@@ -12,24 +12,38 @@ import {
   Select,
 } from '@chakra-ui/react';
 import ImageUploadFormField from 'components/image-upload-form-field';
-import { Dancer, DancersRepositoryContext } from 'context/dancer';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import {
+  DancerFieldsFragment,
+  UpdateDancerInput,
+  useUpdateExistingDancerMutation,
+} from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
 import { StateOptions } from 'utils/dropdown-options';
 
-import { ProfileFormData } from './types';
-
 const ProfileForm = ({
-  formData: initialFormData,
+  formData,
   onSuccessfulSubmit,
   onCancelSubmit,
 }: {
-  formData: ProfileFormData;
-  onSuccessfulSubmit: (dancer: Dancer) => void;
+  formData: DancerFieldsFragment;
+  onSuccessfulSubmit: () => void;
   onCancelSubmit: Function;
 }) => {
-  const dancersRepository = useContext(DancersRepositoryContext);
+  const initialFormData: UpdateDancerInput = {
+    dancerId: formData.id,
+    ddrName: formData.ddrName,
+    ddrCode: formData.ddrCode,
+    profilePicture: undefined,
+    state: formData.state,
+    primaryMachineLocation: formData.primaryMachineLocation,
+  };
+
+  const [
+    updateDancerResult,
+    performDancerUpdate,
+  ] = useUpdateExistingDancerMutation();
 
   const [profilePictureUrl, setProfilePictureUrl] = useState<string>('');
   const [apiErrorMessage, setApiErrorMessage] = useState('');
@@ -52,23 +66,25 @@ const ProfileForm = ({
   };
 
   const onSubmit = (
-    values: ProfileFormData,
-    actions: FormikHelpers<ProfileFormData>,
+    values: UpdateDancerInput,
+    actions: FormikHelpers<UpdateDancerInput>,
   ) => {
-    dancersRepository.dancersRepositoryInstance
-      .update({
-        ...initialFormData,
+    performDancerUpdate({
+      input: {
         ...values,
-      })
-      .then((result) => {
-        if (result.isOk()) {
-          onSuccessfulSubmit(values);
-        } else if (result.isErr()) {
-          setApiErrorMessage(result.error.message);
-          actions.setSubmitting(false);
-        }
-      });
+      },
+    });
+
+    actions.setSubmitting(false);
   };
+
+  useEffect(() => {
+    if (updateDancerResult.error) {
+      setApiErrorMessage(updateDancerResult.error.message);
+    } else if (updateDancerResult.data) {
+      onSuccessfulSubmit();
+    }
+  }, [updateDancerResult]);
 
   return (
     <Container mb={8}>
@@ -138,18 +154,18 @@ const ProfileForm = ({
               )}
             </Field>
 
-            <Field type="file" name="newProfilePicture">
+            <Field type="file" name="profilePicture">
               {({ form }: { form: any }) => (
                 <ImageUploadFormField
                   pt={2}
                   h={defaultPixel * 1.5}
-                  fieldName="newProfilePicture"
+                  fieldName="profilePicture"
                   label="Profile picture"
                   onChange={(event) => {
                     if (event.currentTarget.files) {
                       // eslint-disable-next-line react/prop-types
                       props.setFieldValue(
-                        'newProfilePicture',
+                        'profilePicture',
                         event.currentTarget.files[0],
                       );
                       setProfilePictureUrl(
@@ -160,7 +176,7 @@ const ProfileForm = ({
                   isInvalid={form.errors.new}
                   imageUrl={profilePictureUrl}
                   imagePosition="bottom"
-                  formError={form.errors.newProfilePicture}
+                  formError={form.errors.profilePicture}
                 />
               )}
             </Field>

@@ -7,8 +7,8 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
+import { IoArrowForward } from '@react-icons/all-files/io5/IoArrowForward';
 import React from 'react';
-import { IoArrowForward } from 'react-icons/io5';
 
 const Step4 = () => {
   return (

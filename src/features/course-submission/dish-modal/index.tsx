@@ -13,10 +13,10 @@ import {
   ModalOverlay,
   Text,
 } from '@chakra-ui/react';
+import { IoStar } from '@react-icons/all-files/io5/IoStar';
 import CustomIconRatings from 'components/custom-icon-ratings';
 import { DishSubmissionResponse } from 'context/dishes/types';
 import React from 'react';
-import { IoStar } from 'react-icons/io5';
 import { defaultPixel } from 'types/styled';
 import { Dish } from 'types/summer2021';
 import { convertGradeToNumber } from 'utils/summer2021';

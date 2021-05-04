@@ -1,7 +1,7 @@
 import { Avatar, Center, Flex, Icon, Spacer, Text } from '@chakra-ui/react';
+import { IoCamera } from '@react-icons/all-files/io5/IoCamera';
 import React from 'react';
-import { IoCamera } from 'react-icons/io5';
-import { Score } from 'types/core';
+import { IndividualSongDancerTopScoreFragment } from 'types/graphql.generated';
 import { getProfileImageUrl } from 'utils/assets';
 
 const ScoreLine = ({
@@ -12,7 +12,7 @@ const ScoreLine = ({
   color,
 }: {
   index: number;
-  score: Score;
+  score: IndividualSongDancerTopScoreFragment;
   onClickImage: Function;
   onClickName: Function;
   color: string;

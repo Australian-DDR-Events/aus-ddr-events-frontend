@@ -1,0 +1,8 @@
+mutation UpdateExistingDancer($input: UpdateDancerInput!) {
+  updateDancer(input: $input) {
+    errors {
+      code
+      message
+    }
+  }
+}

@@ -7,14 +7,14 @@ export interface SongDifficultyColors {
 export const getColorByDifficulty = (
   difficulty: string,
 ): SongDifficultyColors => {
-  if (difficulty === 'Expert')
+  if (difficulty === 'EXPERT')
     return {
       shadow: '#52b788',
       border: '#95d5b2',
       badge: 'green',
     };
 
-  if (difficulty === 'Challenge')
+  if (difficulty === 'CHALLENGE')
     return {
       shadow: '#9d4edd',
       border: '#c77dff',

@@ -39,6 +39,8 @@ src/
     │       │       └── ...
     │       ├── index.tsx
     │       ├── styled.tsx
+    │       ├── operation.graphql
+    │       ├── operation.generated.ts
     │       └── types.tsx
     ├── context/
     │   └── context-name/
@@ -55,12 +57,13 @@ src/
     │       ├── index.tsx
     │       └── ...
     └── types/
-        └── type-name/
-            └── index.tsx
+    │   ├── type-name.ts
+        └── graphql.generated.ts
 ```
 
 - `features`
   - Anything that the users may interact with goes under this folder
+  - In a feature, you'll most likely need to use graphql to perform data query or changes. We use a code generator to generate types and hooks related to the graphql query or mutation or subscription you wrote in the `operation.graphql` file which is per feature folder
 - `context`
   - Stores all the custom context that can be used with `React.useContext`
 - `components`

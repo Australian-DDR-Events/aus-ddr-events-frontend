@@ -6,12 +6,11 @@ import {
   Text,
   useMediaQuery,
 } from '@chakra-ui/react';
+import { IoStar } from '@react-icons/all-files/io5/IoStar';
 import CustomIconRatings from 'components/custom-icon-ratings';
 import React from 'react';
-import { IoStar } from 'react-icons/io5';
-import { Song } from 'types/core';
+import { DancerGradedIngredientsFragment } from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
-import { DancerGradedIngredient } from 'types/summer2021';
 import { getAssetUrl } from 'utils/assets';
 import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 import { convertGradeToNumber } from 'utils/summer2021';
@@ -19,13 +18,14 @@ import { useLocation } from 'wouter';
 
 const IngredientScoreDisplay = ({
   dancerGradedIngredient,
-  song,
 }: {
-  dancerGradedIngredient: DancerGradedIngredient;
-  song?: Song;
+  dancerGradedIngredient: DancerGradedIngredientsFragment;
 }) => {
-  if (!song) return <Text>Uh oh</Text>;
-  const songColors = getColorByDifficulty(song.difficulty);
+  const { songDifficulty } = dancerGradedIngredient.score;
+  if (!songDifficulty.difficulty) return <Text>Uh oh</Text>;
+  const songColors = getColorByDifficulty(
+    dancerGradedIngredient.score.songDifficulty.difficulty,
+  );
   const [isSmallerThan1024] = useMediaQuery('(max-width: 1024px');
   const [, setLocation] = useLocation();
   return (
@@ -45,11 +45,11 @@ const IngredientScoreDisplay = ({
         }px 0 ${songColors.shadow}`,
       }}
       cursor="pointer"
-      onClick={() => setLocation(`/leaderboard/${song.id}`)}
+      onClick={() => setLocation(`/leaderboard/${songDifficulty.id}`)}
       {...(isSmallerThan1024 && { w: '100%' })}
     >
       <Image
-        src={getAssetUrl(song.image128)}
+        src={getAssetUrl(songDifficulty.song!.image128)}
         h={isSmallerThan1024 ? '95px' : '128px'}
       />
       <Box mt={2} ml={2} textAlign="left">
@@ -63,7 +63,7 @@ const IngredientScoreDisplay = ({
 
         <Text fontWeight="bold">
           {dancerGradedIngredient.gradedIngredient.description}&nbsp;
-          {dancerGradedIngredient.gradedIngredient.name}
+          {dancerGradedIngredient.gradedIngredient.ingredient!.name}
         </Text>
         <CustomIconRatings
           icon={IoStar}

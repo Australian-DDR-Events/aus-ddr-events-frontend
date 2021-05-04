@@ -1,46 +1,24 @@
 import { Center, Container, Spinner } from '@chakra-ui/react';
-import { ScoresRepositoryContext } from 'context/scores';
-import { DefaultSong, SongsRepositoryContext } from 'context/songs';
-import React, { useContext, useEffect, useState } from 'react';
-import { Score } from 'types/core';
-import { getAssetUrl } from 'utils/assets';
-import { getColorByDifficulty } from 'utils/song-difficulty-colors';
+import React, { useState } from 'react';
+import { useGetSongDifficultyWithScoresForIdQuery } from 'types/graphql.generated';
 import { useLocation } from 'wouter';
 
-import ScoreImageModal from '../score-image-modal';
-import ScoreLine from './score-line';
-import SongBanner from './song-banner';
-import TopScore from './top-score';
+import SongLeaderboardView from './song-leaderboard-view';
 
-const SongLeaderboard = ({ songId }: { songId: string }) => {
-  const songsRepo = useContext(SongsRepositoryContext);
-  const scoresRepo = useContext(ScoresRepositoryContext);
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [song, setSong] = useState(DefaultSong);
-  const [scores, setScores] = useState(new Array<Score>());
-
+const SongLeaderboard = ({
+  songDifficultyId,
+}: {
+  songDifficultyId: string;
+}) => {
   const [, setLocation] = useLocation();
+  const [{ data, fetching }] = useGetSongDifficultyWithScoresForIdQuery({
+    variables: { songDifficultyId },
+  });
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalUrl, setModalUrl] = useState('');
 
-  useEffect(() => {
-    songsRepo.songsRepositoryInstance.getById(songId).then((result) => {
-      if (result.isOk()) setSong(result.value);
-    });
-    scoresRepo.scoresRepositoryInstance
-      .getAll({
-        songId: new Array<string>(songId),
-      })
-      .then((result) => {
-        if (result.isOk())
-          setScores(result.value.sort((s1, s2) => s2.value - s1.value));
-        setIsLoading(false);
-      });
-  }, []);
-
-  if (isLoading) {
+  if (fetching) {
     return (
       <Center>
         <Spinner // todo: replace this with proper skeleton structure
@@ -56,39 +34,14 @@ const SongLeaderboard = ({ songId }: { songId: string }) => {
 
   return (
     <Container maxW="100%" w="fit-content">
-      <Center>
-        <SongBanner song={song} />
-      </Center>
-      <ScoreImageModal
-        imageUrl={modalUrl}
-        isOpen={modalIsOpen}
-        onClose={() => setModalIsOpen(false)}
+      <SongLeaderboardView
+        songDifficulty={data?.songDifficultyById!}
+        modalUrl={modalUrl}
+        modalIsOpen={modalIsOpen}
+        setModalIsOpen={setModalIsOpen}
+        setModalUrl={setModalUrl}
+        setLocation={setLocation}
       />
-
-      <Center mb={4}>
-        {scores[0] && (
-          <TopScore
-            onClickImage={() => {
-              setModalUrl(getAssetUrl(scores[0].imageUrl));
-              setModalIsOpen(true);
-            }}
-            onClickUser={() => setLocation(`/profile/${scores[0].dancer?.id}`)}
-            score={scores[0]}
-          />
-        )}
-      </Center>
-      {scores.slice(1).map((s, index) => (
-        <ScoreLine
-          index={index}
-          score={s}
-          onClickImage={() => {
-            setModalUrl(getAssetUrl(s.imageUrl));
-            setModalIsOpen(true);
-          }}
-          onClickName={() => setLocation(`/profile/${s.dancer?.id}`)}
-          color={getColorByDifficulty(song.difficulty).shadow}
-        />
-      ))}
     </Container>
   );
 };

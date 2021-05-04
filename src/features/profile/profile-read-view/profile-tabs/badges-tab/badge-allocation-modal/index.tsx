@@ -11,49 +11,84 @@ import {
   SimpleGrid,
   Spinner,
 } from '@chakra-ui/react';
-import { BadgesRepositoryContext } from 'context/badges';
-import { Badge } from 'context/badges/types';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import {
+  BadgeFieldsFragment,
+  GetBadgesQueryVariables,
+  useAssignBadgeForDancerMutation,
+  useGetBadgesQuery,
+  useRevokeBadgeForDancerMutation,
+} from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
 import { getAssetUrl } from 'utils/assets';
 
 const BadgeAllocationModal = ({
   dancerId,
   dancerBadges,
-  setDancerBadges,
   isOpen,
   onClose,
 }: {
   dancerId: string;
-  dancerBadges: Array<Badge>;
-  setDancerBadges: Function;
+  dancerBadges: Array<BadgeFieldsFragment>;
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  const badgesRepo = useContext(BadgesRepositoryContext);
-  const [badges, setBadges] = useState(new Array<Badge>());
-  const [isLoading, setIsLoading] = useState(true);
+  const [badges, setBadges] = useState<BadgeFieldsFragment[]>([]);
+  const [assignedBadges, setAssginedBadges] = useState(dancerBadges);
+
+  const [queryVariables, setQueryVariables] = useState<GetBadgesQueryVariables>(
+    {
+      page: undefined,
+    },
+  );
+
+  const [{ data, fetching }] = useGetBadgesQuery({
+    variables: queryVariables,
+  });
+
+  const [, assignBadges] = useAssignBadgeForDancerMutation();
+  const [, revokeBadges] = useRevokeBadgeForDancerMutation();
 
   useEffect(() => {
-    if (isLoading && isOpen) {
-      badgesRepo.badgesRepositoryInstance.getAll().then((badgeResult) => {
-        setBadges(badgeResult.okOrDefault());
-        setIsLoading(false);
-      });
+    if (!fetching) {
+      if (data?.badges?.nodes) {
+        setBadges(badges.concat(data.badges.nodes));
+      }
+      if (data?.badges?.pageInfo.hasNextPage) {
+        setQueryVariables({
+          ...queryVariables,
+          page: data.badges.pageInfo.endCursor,
+        });
+      }
     }
-  }, [isOpen]);
+  }, [fetching]);
 
-  const onAssignBadge = (badge: Badge) => {
-    badgesRepo.badgesRepositoryInstance.assignBadge(dancerId, badge.id);
-    setDancerBadges(new Array<Badge>(...dancerBadges, badge));
+  const onAssignBadge = (badge: BadgeFieldsFragment) => {
+    assignBadges({
+      dancerId,
+      badgeId: badge.id,
+    });
+    assignedBadges.push(badge);
   };
 
-  const onRevokeBadge = (badge: Badge) => {
-    badgesRepo.badgesRepositoryInstance.revokeBadge(dancerId, badge.id);
-    setDancerBadges(dancerBadges.filter((db) => db.id !== badge.id));
+  const onRevokeBadge = (badge: BadgeFieldsFragment) => {
+    revokeBadges({
+      dancerId,
+      badgeId: badge.id,
+    });
+    setAssginedBadges(assignedBadges.filter((b) => b.id !== badge.id));
   };
 
-  const revokableBadge = (badge: Badge) => {
+  const assignableBadge = (badge: BadgeFieldsFragment) => {
+    return (
+      <Center key={`${badge.id}`}>
+        <Image src={getAssetUrl(badge.image64)} />
+        <Button onClick={() => onAssignBadge(badge)}>Assign</Button>
+      </Center>
+    );
+  };
+
+  const revokableBadge = (badge: BadgeFieldsFragment) => {
     return (
       <Center key={`${badge.id}`}>
         <Image src={getAssetUrl(badge.image64)} />
@@ -64,21 +99,12 @@ const BadgeAllocationModal = ({
     );
   };
 
-  const assignableBadge = (badge: Badge) => {
-    return (
-      <Center key={`${badge.id}`}>
-        <Image src={getAssetUrl(badge.image64)} />
-        <Button onClick={() => onAssignBadge(badge)}>Assign</Button>
-      </Center>
-    );
-  };
-
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="lg">
       <ModalOverlay />
       <ModalContent p={4}>
         <ModalCloseButton />
-        {isLoading ? (
+        {fetching ? (
           <Center>
             <Spinner size="lg" />
           </Center>
@@ -90,7 +116,7 @@ const BadgeAllocationModal = ({
               spacing={4}
               maxW={defaultPixel * 18 * 8}
             >
-              {dancerBadges.map((badge) => revokableBadge(badge))}
+              {assignedBadges.map((badge) => revokableBadge(badge))}
             </SimpleGrid>
             <Divider mt={4} mb={4} />
             <Heading size="md">Assign badges</Heading>
@@ -100,7 +126,7 @@ const BadgeAllocationModal = ({
               maxW={defaultPixel * 18 * 8}
             >
               {badges
-                .filter((b) => !dancerBadges.some((db) => db.id === b.id))
+                .filter((b) => !assignedBadges.some((db) => db.id === b.id))
                 .map((badge) => assignableBadge(badge))}
             </SimpleGrid>
           </>

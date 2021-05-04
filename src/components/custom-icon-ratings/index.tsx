@@ -1,6 +1,6 @@
 import { Icon } from '@chakra-ui/react';
+import { IconType } from '@react-icons/all-files/lib';
 import React from 'react';
-import { IconType } from 'react-icons/lib';
 
 interface CustomIconRatingsProps extends React.HTMLAttributes<any> {
   id: string;

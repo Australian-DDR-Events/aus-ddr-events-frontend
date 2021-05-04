@@ -1,0 +1,19 @@
+query getAllBadgesForDancer($dancerId: ID!) {
+  dancerById(id: $dancerId) {
+    badges {
+      ...BadgeFields
+    }
+  }
+}
+
+fragment BadgeFields on Badge {
+  id
+  name
+  description
+  eventId
+  image64
+  image128
+  event {
+    name
+  }
+}

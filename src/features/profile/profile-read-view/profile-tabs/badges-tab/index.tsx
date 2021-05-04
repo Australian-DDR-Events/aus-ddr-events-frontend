@@ -1,34 +1,42 @@
 import { Button, Center, SimpleGrid, Spinner } from '@chakra-ui/react';
 import AdminWrapper from 'components/admin-wrapper';
-import { Badge } from 'context/badges/types';
 import React, { useEffect, useState } from 'react';
+import {
+  BadgeFieldsFragment,
+  useGetAllBadgesForDancerQuery,
+} from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
 
 import BadgeAllocationModal from './badge-allocation-modal';
 import BadgeDisplay from './badge-display';
 
-const BadgesTab = ({
-  dancerId,
-  dancerBadges,
-  isLoading,
-  onDancerBadgesChanged,
-  loadBadges,
-}: {
-  dancerId: string;
-  dancerBadges: Badge[];
-  isLoading: boolean;
-  onDancerBadgesChanged: (badges: Badge[]) => void;
-  loadBadges: () => void;
-}) => {
+const BadgesTab = ({ dancerId }: { dancerId: string }) => {
+  const [isBadgeAllocationModalOpen, setIsBadgeAllocationModalOpen] = useState(
+    false,
+  );
+
+  const [badges, setBadges] = useState<BadgeFieldsFragment[]>([]);
+  const [
+    { data, fetching },
+    reexecuteGetAllBadges,
+  ] = useGetAllBadgesForDancerQuery({
+    variables: {
+      dancerId,
+    },
+  });
+
   useEffect(() => {
-    loadBadges();
-  }, []);
+    if (data?.dancerById) {
+      setBadges(data.dancerById.badges);
+    }
+  }, [fetching]);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const onBadgeAllocationModalClosed = () => {
+    setIsBadgeAllocationModalOpen(false);
+    reexecuteGetAllBadges();
+  };
 
-  const gridWidth = dancerBadges.length > 5 ? 5 : dancerBadges.length;
-
-  if (isLoading)
+  if (fetching) {
     return (
       <Center>
         <Spinner // todo: replace this with proper skeleton structure
@@ -40,12 +48,15 @@ const BadgesTab = ({
         />
       </Center>
     );
+  }
+
+  const gridWidth = badges.length > 5 ? 5 : badges.length;
 
   return (
     <>
       <AdminWrapper>
         <Button
-          onClick={() => setIsOpen(true)}
+          onClick={() => setIsBadgeAllocationModalOpen(true)}
           p={2}
           colorScheme="red"
           mt={2}
@@ -53,20 +64,21 @@ const BadgesTab = ({
         >
           Badge allocation
         </Button>
-        <BadgeAllocationModal
-          dancerId={dancerId}
-          dancerBadges={dancerBadges}
-          setDancerBadges={onDancerBadgesChanged}
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-        />
+        {isBadgeAllocationModalOpen && (
+          <BadgeAllocationModal
+            dancerId={dancerId}
+            dancerBadges={badges}
+            isOpen={isBadgeAllocationModalOpen}
+            onClose={onBadgeAllocationModalClosed}
+          />
+        )}
       </AdminWrapper>
       <SimpleGrid
         minChildWidth="128px"
         spacing={4}
         maxW={defaultPixel * 18 * gridWidth}
       >
-        {dancerBadges.map((b) => (
+        {badges.map((b) => (
           <Center key={b.id}>
             <BadgeDisplay badge={b} eventName={b.event?.name || ''} />
           </Center>

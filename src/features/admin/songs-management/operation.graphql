@@ -1,0 +1,18 @@
+query getAllSongDifficulties {
+  songDifficulties(first: 50) {
+    nodes {
+      id
+      difficulty
+      level
+      song {
+        ...SongFields
+      }
+    }
+  }
+}
+
+fragment SongFields on Song {
+  name
+  artist
+  image256
+}

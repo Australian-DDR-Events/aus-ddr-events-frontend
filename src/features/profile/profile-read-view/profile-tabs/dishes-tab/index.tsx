@@ -1,23 +1,29 @@
 import { Center, SimpleGrid, Spinner } from '@chakra-ui/react';
-import React, { useEffect } from 'react';
-import { DancerGradedDish } from 'types/summer2021';
+import React, { useEffect, useState } from 'react';
+import {
+  DancerGradedDishesFragment,
+  useGetAllGradedDishesForDancerIdQuery,
+} from 'types/graphql.generated';
 
 import DishScoreDisplay from './dish-score-display';
 
-const DishesTab = ({
-  isLoading,
-  dancerGradedDishes,
-  loadDishScores,
-}: {
-  isLoading: boolean;
-  dancerGradedDishes: DancerGradedDish[];
-  loadDishScores: () => void;
-}) => {
-  useEffect(() => {
-    loadDishScores();
-  }, []);
+const DishesTab = ({ dancerId }: { dancerId: string }) => {
+  const [dancerGradedDishes, setDancerGradedDishes] = useState<
+    DancerGradedDishesFragment[]
+  >([]);
+  const [{ data, fetching }] = useGetAllGradedDishesForDancerIdQuery({
+    variables: {
+      dancerId,
+    },
+  });
 
-  if (isLoading)
+  useEffect(() => {
+    if (data?.dishesByDancerId) {
+      setDancerGradedDishes(data.dishesByDancerId);
+    }
+  }, [data]);
+
+  if (fetching)
     return (
       <Center mt={2}>
         <Spinner // todo: replace this with proper skeleton structure

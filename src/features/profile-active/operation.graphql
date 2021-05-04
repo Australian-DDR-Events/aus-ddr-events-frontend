@@ -1,0 +1,5 @@
+query getDancerByAuthId($authId: String!) {
+  dancerByAuthId(authId: $authId) {
+    id
+  }
+}

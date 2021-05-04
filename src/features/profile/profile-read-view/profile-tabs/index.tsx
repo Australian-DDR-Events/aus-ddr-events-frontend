@@ -6,109 +6,14 @@ import {
   Tabs,
   useMediaQuery,
 } from '@chakra-ui/react';
-import { BadgesRepositoryContext } from 'context/badges';
-import { Badge } from 'context/badges/types';
-import { Dancer } from 'context/dancer';
-import { DishesRepositoryContext } from 'context/dishes';
-import { IngredientsRepositoryContext } from 'context/ingredients';
-import { SongsRepositoryContext } from 'context/songs';
-import React, { useContext, useState } from 'react';
-import { Song } from 'types/core';
-import { DancerGradedDish, DancerGradedIngredient } from 'types/summer2021';
+import React from 'react';
+import { DancerFieldsFragment } from 'types/graphql.generated';
 
 import BadgesTab from './badges-tab';
 import DishesTab from './dishes-tab';
 import IngredientsTab from './ingredients-tab';
 
-const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
-  // Set up badges tab
-  const badgesRepo = useContext(BadgesRepositoryContext);
-  const [dancerBadges, setDancerBadges] = useState(new Array<Badge>());
-  const [isBadgesTabLoaded, setIsBadgesTabLoaded] = useState(false);
-  const [isBadgesTabLoading, setIsBadgesTabLoading] = useState(true);
-  /**
-   * Load the badges for the user of the profile being viewed
-   * if the badges have not already been loaded
-   * @returns the profile user's badges
-   */
-  const loadBadges = () => {
-    if (isBadgesTabLoaded) return;
-
-    badgesRepo.badgesRepositoryInstance
-      .getForDancerId(dancer.id)
-      .then((badgeResult) => {
-        if (badgeResult.isOk()) {
-          setDancerBadges(badgeResult.value);
-          setIsBadgesTabLoaded(true);
-          setIsBadgesTabLoading(false);
-        }
-      });
-  };
-
-  // Set up ingredient tab
-  const [dancerGradedIngredients, setDancerGradedIngredients] = useState<
-    DancerGradedIngredient[]
-  >(new Array<DancerGradedIngredient>());
-  const ingredientsRepository = useContext(IngredientsRepositoryContext);
-  const songsRepository = useContext(SongsRepositoryContext);
-  const [songs, setSongs] = useState<Map<string, Song>>(new Map());
-  const [isIngredientsTabLoaded, setIsIngredientsTabLoaded] = useState(false);
-  const [isIngredientsTabLoading, setIsIngredientsTabLoading] = useState(true);
-  /**
-   * Load the graded ingredients and the related songs
-   * for the user of the profile being viewed
-   * if these information have not already been loaded
-   * @returns the profile user's graded
-   */
-  const loadGradedIngredients = () => {
-    if (isIngredientsTabLoaded) return;
-
-    ingredientsRepository.ingredientsRepositoryInstance
-      .getGradedIngredientsByDancer(dancer.id, true)
-      .then((result) => {
-        if (result.isOk()) {
-          const songIds = result.value.map((r) => r.score.songId);
-
-          songsRepository.songsRepositoryInstance
-            .getByIds(songIds)
-            .then((songsResult) => {
-              if (songsResult.isOk()) {
-                setDancerGradedIngredients(result.value);
-                setSongs(new Map(songsResult.value.map((s) => [s.id, s])));
-                setIsIngredientsTabLoading(false);
-                setIsIngredientsTabLoaded(true);
-              }
-            });
-        }
-      });
-  };
-
-  // Set up for dishes tab
-  const dishesRepository = useContext(DishesRepositoryContext);
-  const [dancerGradedDishes, setDancerGradedDishes] = useState(
-    new Array<DancerGradedDish>(),
-  );
-  const [isDishesTabLoaded, setIsDishesTabLoaded] = useState(false);
-  const [isDishesTabLoading, setIsDishesTabLoading] = useState(true);
-  /**
-   * Load the graded dishes for the user of the profile being viewed
-   * if the graded dishes have not already been loaded
-   * @returns the profile user's graded dishes
-   */
-  const loadDishScores = () => {
-    if (isDishesTabLoaded) return;
-
-    dishesRepository.dishesRepositoryInstance
-      .getDancerGradedDishes(dancer.id)
-      .then((dancerGradedDishesResult) => {
-        if (dancerGradedDishesResult.isOk()) {
-          setDancerGradedDishes(dancerGradedDishesResult.value);
-          setIsDishesTabLoaded(true);
-          setIsDishesTabLoading(false);
-        }
-      });
-  };
-
+const ProfileTabs = ({ dancer }: { dancer: DancerFieldsFragment }) => {
   const [isSmallerThan1024] = useMediaQuery(['(max-width: 1023px)']);
   return (
     <Tabs
@@ -125,30 +30,15 @@ const ProfileTabs = ({ dancer }: { dancer: Dancer }) => {
 
       <TabPanels>
         <TabPanel minW={isSmallerThan1024 ? '100%' : '65vw'}>
-          <BadgesTab
-            isLoading={isBadgesTabLoading}
-            dancerId={dancer.id}
-            dancerBadges={dancerBadges}
-            onDancerBadgesChanged={setDancerBadges}
-            loadBadges={loadBadges}
-          />
+          <BadgesTab dancerId={dancer.id} />
         </TabPanel>
 
         <TabPanel minW={{ base: '100%', md: '65vw' }}>
-          <IngredientsTab
-            dancerGradedIngredients={dancerGradedIngredients}
-            songs={songs}
-            isLoading={isIngredientsTabLoading}
-            loadGradedIngredients={loadGradedIngredients}
-          />
+          <IngredientsTab dancerId={dancer.id} />
         </TabPanel>
 
         <TabPanel minW={isSmallerThan1024 ? '100%' : '65vw'}>
-          <DishesTab
-            isLoading={isDishesTabLoading}
-            dancerGradedDishes={dancerGradedDishes}
-            loadDishScores={loadDishScores}
-          />
+          <DishesTab dancerId={dancer.id} />
         </TabPanel>
       </TabPanels>
     </Tabs>

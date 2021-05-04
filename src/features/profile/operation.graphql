@@ -1,0 +1,14 @@
+query getDancerById($dancerId: ID!) {
+  dancerById(id: $dancerId) {
+    ...DancerFields
+  }
+}
+
+fragment DancerFields on Dancer {
+  id
+  ddrCode
+  ddrName
+  primaryMachineLocation
+  profilePictureUrl
+  state
+}
