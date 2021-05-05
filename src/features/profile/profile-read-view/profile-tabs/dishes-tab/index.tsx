@@ -1,11 +1,11 @@
 import { Center, SimpleGrid, Spinner } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
+
+import DishScoreDisplay from './dish-score-display';
 import {
   DancerGradedDishesFragment,
   useGetAllGradedDishesForDancerIdQuery,
-} from 'types/graphql.generated';
-
-import DishScoreDisplay from './dish-score-display';
+} from './operation.generated';
 
 const DishesTab = ({ dancerId }: { dancerId: string }) => {
   const [dancerGradedDishes, setDancerGradedDishes] = useState<

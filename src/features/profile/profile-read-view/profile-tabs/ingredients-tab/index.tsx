@@ -1,12 +1,12 @@
 import { Center, SimpleGrid, Spinner, useMediaQuery } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import {
-  DancerGradedIngredientsFragment,
-  useGetAllGradedIngredientsForDancerIdQuery,
-} from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
 
 import IngredientScoreDisplay from './ingredient-score-display';
+import {
+  DancerGradedIngredientsFragment,
+  useGetAllGradedIngredientsForDancerIdQuery,
+} from './operation.generated';
 
 const IngredientsTab = ({ dancerId }: { dancerId: string }) => {
   const [dancerGradedIngredients, setDancerGradedIngredients] = useState<

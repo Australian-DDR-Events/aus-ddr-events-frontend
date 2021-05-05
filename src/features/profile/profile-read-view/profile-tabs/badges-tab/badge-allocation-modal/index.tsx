@@ -12,15 +12,16 @@ import {
   Spinner,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
+import { defaultPixel } from 'types/styled';
+import { getAssetUrl } from 'utils/assets';
+
+import { BadgeFieldsFragment } from '../operation.generated';
 import {
-  BadgeFieldsFragment,
   GetBadgesQueryVariables,
   useAssignBadgeForDancerMutation,
   useGetBadgesQuery,
   useRevokeBadgeForDancerMutation,
-} from 'types/graphql.generated';
-import { defaultPixel } from 'types/styled';
-import { getAssetUrl } from 'utils/assets';
+} from './operation.generated';
 
 const BadgeAllocationModal = ({
   dancerId,

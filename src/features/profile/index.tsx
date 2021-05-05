@@ -7,8 +7,8 @@ import {
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { Title } from 'react-head';
-import { useGetDancerByIdQuery } from 'types/graphql.generated';
 
+import { useGetDancerByIdQuery } from './operation.generated';
 import ProfileForm from './profile-form';
 import ProfileReadView from './profile-read-view';
 
