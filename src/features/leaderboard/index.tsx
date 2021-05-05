@@ -11,12 +11,12 @@ import {
 } from '@chakra-ui/react';
 import { FaCrown } from '@react-icons/all-files/fa/FaCrown';
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'wouter';
+
 import {
   AllSongDifficultiesLeaderboardFragment,
   useGetSongsForLeaderboardListingQuery,
-} from 'types/graphql.generated';
-import { useLocation } from 'wouter';
-
+} from './operation.generated';
 import SongDisplay from './song-display';
 import SongLeaderboard from './song-leaderboard';
 

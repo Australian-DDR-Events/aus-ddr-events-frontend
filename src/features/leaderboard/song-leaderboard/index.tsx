@@ -1,8 +1,8 @@
 import { Center, Container, Spinner } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { useGetSongDifficultyWithScoresForIdQuery } from 'types/graphql.generated';
 import { useLocation } from 'wouter';
 
+import { useGetSongDifficultyWithScoresForIdQuery } from './operation.generated';
 import SongLeaderboardView from './song-leaderboard-view';
 
 const SongLeaderboard = ({

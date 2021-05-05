@@ -19,13 +19,12 @@ import {
 } from 'context/authentication';
 import { Field, Form, Formik, FormikErrors, FormikHelpers } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
-import {
-  AddDancerInput,
-  useAddNewDancerMutation,
-} from 'types/graphql.generated';
+import { AddDancerInput } from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
 import { StateOptions } from 'utils/dropdown-options';
 import { useLocation } from 'wouter';
+
+import { useAddNewDancerMutation } from './operation.generated';
 
 interface RegistrationFormData extends AddDancerInput {
   email: string;

@@ -10,6 +10,20 @@ generates:
             - '/* eslint-disable */'
             - '// @ts-nocheck'
       - 'typescript'
+    config:
+      strict: true
+      strictScalars: true
+      useImplementingTypes: true
+  src/:
+    preset: near-operation-file
+    presetConfig:
+      extension: .generated.ts
+      baseTypesPath: types/graphql.generated.ts
+    plugins:
+      - add:
+          content:
+            - '/* eslint-disable */'
+            - '// @ts-nocheck'
       - 'typescript-operations'
       - 'typescript-urql'
     config:

@@ -11,10 +11,10 @@ import { IoOpenOutline } from '@react-icons/all-files/io5/IoOpenOutline';
 import { IoStar } from '@react-icons/all-files/io5/IoStar';
 import CustomIconRatings from 'components/custom-icon-ratings';
 import React from 'react';
-import { DancerGradedDishesFragment } from 'types/graphql.generated';
 import { getAssetUrl } from 'utils/assets';
 import { convertGradeToNumber } from 'utils/summer2021';
 
+import { DancerGradedDishesFragment } from '../operation.generated';
 import SongScoreModal from './song-score-modal';
 
 const DishScoreDisplay = ({

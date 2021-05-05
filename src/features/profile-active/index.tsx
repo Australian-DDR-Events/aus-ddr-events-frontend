@@ -10,7 +10,8 @@ import {
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import Profile from 'features/profile';
 import React, { useContext } from 'react';
-import { useGetDancerByAuthIdQuery } from 'types/graphql.generated';
+
+import { useGetDancerByAuthIdQuery } from './operation.generated';
 
 const ProfileActive = () => {
   const authRepo = useContext(AuthenticationRepositoryContext);

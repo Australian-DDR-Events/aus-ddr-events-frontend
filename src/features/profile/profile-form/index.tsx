@@ -14,13 +14,12 @@ import {
 import ImageUploadFormField from 'components/image-upload-form-field';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import React, { useEffect, useState } from 'react';
-import {
-  DancerFieldsFragment,
-  UpdateDancerInput,
-  useUpdateExistingDancerMutation,
-} from 'types/graphql.generated';
+import { UpdateDancerInput } from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
 import { StateOptions } from 'utils/dropdown-options';
+
+import { DancerFieldsFragment } from '../operation.generated';
+import { useUpdateExistingDancerMutation } from './operation.generated';
 
 const ProfileForm = ({
   formData,
