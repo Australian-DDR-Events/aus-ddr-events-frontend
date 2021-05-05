@@ -1,7 +1,8 @@
 import { Avatar, Button, Center, SkeletonCircle } from '@chakra-ui/react';
-import { Dancer } from 'context/dancer';
 import React from 'react';
 import { getProfileImageUrl } from 'utils/assets';
+
+import { NavigationDancerFieldsFragment } from '../operation.generated';
 
 const ProfileMenuItem = ({
   isMobileView,
@@ -9,7 +10,7 @@ const ProfileMenuItem = ({
   onProfileMenuItemClick,
 }: {
   isMobileView: boolean;
-  dancer: Dancer;
+  dancer: NavigationDancerFieldsFragment;
   onProfileMenuItemClick: () => void;
 }) =>
   isMobileView ? (

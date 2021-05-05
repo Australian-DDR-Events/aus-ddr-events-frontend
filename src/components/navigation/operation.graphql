@@ -1,0 +1,11 @@
+query getNavigationDancerById($dancerId: String!) {
+  dancerByAuthId(authId: $dancerId) {
+    ...NavigationDancerFields
+  }
+}
+
+fragment NavigationDancerFields on Dancer {
+  id
+  ddrName
+  profilePictureUrl
+}
