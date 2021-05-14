@@ -19,16 +19,14 @@ const Home = () => {
     <Container maxW="container.xl" centerContent p={8}>
       <Box align="center" mb={8}>
         <Heading>Current season</Heading>
-        <Heading size="lg">
-          There is no current season running. Please check back soon.
-        </Heading>
+        <Heading size="lg">COMING SOON</Heading>
         <Image
           objectFit="cover"
-          src={getAssetUrl(`/common/season-logo.png`)}
-          alt="Summer BBQ Logo"
+          src={getAssetUrl(`/common/season-logo.png?event=supercars`)}
+          alt="DDR V8 Supercars Logo"
         />
         <Heading as="h2" size="md">
-          We&apos;ve reached the end of this season. Thank you for playing!
+          Start your engines for early july
         </Heading>
         {!loggedInUser.id && (
           <Button onClick={() => setLocation('/register')} mt={4}>
