@@ -18,7 +18,6 @@ const Home = () => {
   return (
     <Container maxW="container.xl" centerContent p={8}>
       <Box align="center" mb={8}>
-        <Heading>Current season</Heading>
         <Heading size="lg">COMING SOON</Heading>
         <Image
           objectFit="cover"
@@ -26,7 +25,7 @@ const Home = () => {
           alt="DDR V8 Supercars Logo"
         />
         <Heading as="h2" size="md">
-          Start your engines for early july
+          Start your engines for early July
         </Heading>
         {!loggedInUser.id && (
           <Button onClick={() => setLocation('/register')} mt={4}>
