@@ -14,7 +14,7 @@
     "prestart": "yarn generate"
   },
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0-or-later",
   "alias": {
     "assets": "./src/assets",
     "components": "./src/components",

@@ -1,3 +1,4 @@
+import Footer from 'components/footer';
 import React from 'react';
 
 import Navigation from '../navigation';
@@ -10,6 +11,7 @@ const Wrapper = ({
   <>
     <Navigation />
     {children}
+    <Footer />
   </>
 );
 
