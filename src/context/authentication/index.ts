@@ -4,6 +4,7 @@ import AuthenticationRepositoryContext from './context';
 import authenticationFirebaseDao from './firebase-dao';
 import AuthenticationRepositoryProvider from './provider';
 import {
+  AuthenticationRepository,
   AuthenticationRepositoryContextInterface,
   AuthenticationUser,
   AuthStateChangedCallback,
@@ -11,6 +12,7 @@ import {
 
 export {
   authenticationFirebaseDao,
+  AuthenticationRepository,
   authenticationRepository,
   AuthenticationRepositoryContext,
   AuthenticationRepositoryContextInterface,

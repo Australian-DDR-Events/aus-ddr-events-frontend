@@ -9,9 +9,8 @@ import { AuthenticationRepositoryContext } from 'context/authentication';
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 
 const AdminWrapper = ({ children }: { children: ReactNode }) => {
-  const authRepo = useContext(AuthenticationRepositoryContext);
-
   const [isAdmin, setIsAdmin] = useState(false);
+  const authRepo = useContext(AuthenticationRepositoryContext);
 
   useEffect(() => {
     authRepo.authenticationRepositoryInstance
