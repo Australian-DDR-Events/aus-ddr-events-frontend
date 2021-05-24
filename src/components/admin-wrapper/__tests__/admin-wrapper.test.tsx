@@ -1,6 +1,6 @@
 import 'jsdom-global/register';
 
-import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import AdminWrapper from 'components/admin-wrapper';
 import { AuthenticationRepositoryContext } from 'context/authentication';
@@ -42,13 +42,6 @@ describe('AdminWrapper', () => {
 
   const useContextSpy = jest.spyOn(React, 'useContext');
 
-  const Potato = ({ children }: { children: JSX.Element }) => (
-    <ChakraProvider>
-      <ColorModeScript initialColorMode="light" />
-      {children}
-    </ChakraProvider>
-  );
-
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -67,7 +60,7 @@ describe('AdminWrapper', () => {
         <AdminWrapper>
           <div data-testid="test-admin-wrapper">Test</div>
         </AdminWrapper>,
-        { wrapper: Potato },
+        { wrapper: ChakraProvider },
       );
 
       await waitFor(() => {
