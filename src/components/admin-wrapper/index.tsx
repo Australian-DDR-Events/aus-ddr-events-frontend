@@ -22,6 +22,7 @@ const AdminWrapper = ({ children }: { children: ReactNode }) => {
       });
   }, []);
 
+  console.info(isAdmin);
   return (
     <>
       {isAdmin && (
