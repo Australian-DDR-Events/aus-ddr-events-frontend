@@ -12,12 +12,9 @@ import {
   FormLabel,
   Input,
 } from '@chakra-ui/react';
-import {
-  AuthenticationRepositoryContext,
-  AuthenticationRepositoryContextInterface,
-} from 'context/authentication';
+import { useAuthentication } from 'context/authentication';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 
 interface LoginFormData {
@@ -27,9 +24,7 @@ interface LoginFormData {
 }
 
 const LoginForm = () => {
-  const authRepo = useContext<AuthenticationRepositoryContextInterface>(
-    AuthenticationRepositoryContext,
-  );
+  const authRepo = useAuthentication();
   const [, setLocation] = useLocation();
   const [apiErrorMessage, setApiErrorMessage] = useState('');
 

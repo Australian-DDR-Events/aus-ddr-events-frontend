@@ -38,7 +38,6 @@ const firebaseConfig = {
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
-
 const authenticationRepositoryInstance = authenticationRepository(
   authenticationFirebaseDao(firebaseApp),
 );
