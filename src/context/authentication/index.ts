@@ -9,6 +9,7 @@ import {
   AuthenticationUser,
   AuthStateChangedCallback,
 } from './types';
+import useAuthentication from './use-authentication';
 
 export {
   authenticationFirebaseDao,
@@ -19,6 +20,7 @@ export {
   AuthenticationRepositoryProvider,
   AuthenticationUser,
   DefaultAuthenticationUser,
+  useAuthentication,
 };
 
 export type AuthStateChangedCallbackType = AuthStateChangedCallback;
