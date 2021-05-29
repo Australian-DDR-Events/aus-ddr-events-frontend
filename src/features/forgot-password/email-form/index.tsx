@@ -10,12 +10,9 @@ import {
   FormLabel,
   Input,
 } from '@chakra-ui/react';
-import {
-  AuthenticationRepositoryContext,
-  AuthenticationRepositoryContextInterface,
-} from 'context/authentication';
 import { Field, Form, Formik, FormikHelpers, FormikValues } from 'formik';
-import React, { useContext, useState } from 'react';
+import useAuthentication from 'hooks/use-authentication';
+import React, { useState } from 'react';
 import { useLocation } from 'wouter';
 
 interface ResetPasswordFormData {
@@ -23,26 +20,20 @@ interface ResetPasswordFormData {
 }
 
 const EmailForm = ({ onSubmitCallback }: { onSubmitCallback: Function }) => {
-  const authRepo = useContext<AuthenticationRepositoryContextInterface>(
-    AuthenticationRepositoryContext,
-  );
-
   const [apiErrorMessage, setApiErrorMessage] = useState('');
   const [, setLocation] = useLocation();
-
+  const { sendPasswordResetEmail } = useAuthentication();
   const onSubmit = (
     values: ResetPasswordFormData,
     action: FormikHelpers<ResetPasswordFormData>,
   ) => {
-    authRepo.authenticationRepositoryInstance
-      .sendPasswordResetEmail(values.email)
-      .then((result) => {
-        if (result.isOk()) onSubmitCallback();
-        else {
-          setApiErrorMessage(result.error.message);
-          action.setSubmitting(false);
-        }
-      });
+    sendPasswordResetEmail(values.email).then((result) => {
+      if (result.isOk()) onSubmitCallback();
+      else {
+        setApiErrorMessage(result.error.message);
+        action.setSubmitting(false);
+      }
+    });
   };
 
   const validateForm = (values: FormikValues) => {

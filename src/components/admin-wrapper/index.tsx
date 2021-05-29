@@ -5,22 +5,19 @@ import {
   AlertTitle,
   Box,
 } from '@chakra-ui/react';
-import { AuthenticationRepositoryContext } from 'context/authentication';
-import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import useAuthentication from 'hooks/use-authentication';
+import React, { ReactNode, useEffect, useState } from 'react';
 
 const AdminWrapper = ({ children }: { children: ReactNode }) => {
-  const authRepo = useContext(AuthenticationRepositoryContext);
-
   const [isAdmin, setIsAdmin] = useState(false);
+  const { isAdmin: checkIsAdmin } = useAuthentication();
 
   useEffect(() => {
-    authRepo.authenticationRepositoryInstance
-      .getClaim('admin')
-      .then((result) => {
-        if (result.isOk() && result.okOrDefault()) {
-          setIsAdmin(true);
-        }
-      });
+    checkIsAdmin().then((result) => {
+      if (result.isOk() && result.okOrDefault()) {
+        setIsAdmin(true);
+      }
+    });
   }, []);
 
   return (

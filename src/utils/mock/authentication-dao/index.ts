@@ -88,9 +88,8 @@ const authenticationTestingDao = (): TestingAuthenticationDao => {
     );
   };
 
-  let onAuthStateChangedHook: (
-    cb: AuthStateChangedCallbackType,
-  ) => void = (): void => {};
+  let onAuthStateChangedHook: (cb: AuthStateChangedCallbackType) => void =
+    (): void => {};
 
   const setLoginHook = (
     f: (

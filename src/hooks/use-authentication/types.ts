@@ -1,7 +1,12 @@
-import { LoggedInUser } from 'hooks/use-authentication/types';
 import { Result } from 'types/result';
 
-export interface AuthenticationContextParams {
+export type LoggedInUser = {
+  id: string;
+  isVerified: boolean;
+  token: string;
+};
+
+export interface UseAuthentication {
   loggedInUser: LoggedInUser | null;
   setLoggedInUser: (loggedInUser: LoggedInUser | null) => void;
   login: (
