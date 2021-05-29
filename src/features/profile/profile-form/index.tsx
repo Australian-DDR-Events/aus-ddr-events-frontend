@@ -39,10 +39,8 @@ const ProfileForm = ({
     primaryMachineLocation: formData.primaryMachineLocation,
   };
 
-  const [
-    updateDancerResult,
-    performDancerUpdate,
-  ] = useUpdateExistingDancerMutation();
+  const [updateDancerResult, performDancerUpdate] =
+    useUpdateExistingDancerMutation();
 
   const [profilePictureUrl, setProfilePictureUrl] = useState<string>('');
   const [apiErrorMessage, setApiErrorMessage] = useState('');

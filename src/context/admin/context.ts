@@ -10,8 +10,7 @@ const initialContext = {
   },
 };
 
-const AdminRepositoryContext = createContext<AdminRepositoryContextInterface>(
-  initialContext,
-);
+const AdminRepositoryContext =
+  createContext<AdminRepositoryContextInterface>(initialContext);
 
 export default AdminRepositoryContext;

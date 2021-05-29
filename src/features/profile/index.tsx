@@ -1,5 +1,6 @@
 import {
   Box,
+  Center,
   Container,
   Skeleton,
   SkeletonCircle,
@@ -17,10 +18,7 @@ interface ProfileProps {
   isEditable?: boolean;
 }
 
-const Profile: React.FC<ProfileProps> = ({
-  id,
-  isEditable = false,
-}: ProfileProps) => {
+const Profile = ({ id, isEditable = false }: ProfileProps): JSX.Element => {
   const [isEditing, setIsEditing] = useState(false);
 
   const [isLargerThan767] = useMediaQuery('(min-width: 767px)');
@@ -34,12 +32,14 @@ const Profile: React.FC<ProfileProps> = ({
   const renderProfileReadView = () => (
     <>
       {fetching && (
-        <Box w="70vw">
-          <SkeletonCircle size="20" mb={4} />
-          <Skeleton height={4} mb={2} />
-          <Skeleton height={4} mb={2} />
-          <Skeleton height={4} />
-        </Box>
+        <Center>
+          <Box w="70vw">
+            <SkeletonCircle size="20" mb={4} />
+            <Skeleton height={4} mb={2} />
+            <Skeleton height={4} mb={2} />
+            <Skeleton height={4} />
+          </Box>
+        </Center>
       )}
       {!fetching && (
         <ProfileReadView
@@ -57,7 +57,7 @@ const Profile: React.FC<ProfileProps> = ({
     <ProfileForm
       formData={data?.dancerById!}
       onSuccessfulSubmit={() => {
-        reloadProfile();
+        reloadProfile({ requestPolicy: 'network-only' });
         setIsEditing(false);
       }}
       onCancelSubmit={() => {

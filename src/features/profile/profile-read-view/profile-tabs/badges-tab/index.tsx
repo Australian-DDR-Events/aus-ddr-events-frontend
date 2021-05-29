@@ -11,19 +11,16 @@ import {
 } from './operation.generated';
 
 const BadgesTab = ({ dancerId }: { dancerId: string }) => {
-  const [isBadgeAllocationModalOpen, setIsBadgeAllocationModalOpen] = useState(
-    false,
-  );
+  const [isBadgeAllocationModalOpen, setIsBadgeAllocationModalOpen] =
+    useState(false);
 
   const [badges, setBadges] = useState<BadgeFieldsFragment[]>([]);
-  const [
-    { data, fetching },
-    reexecuteGetAllBadges,
-  ] = useGetAllBadgesForDancerQuery({
-    variables: {
-      dancerId,
-    },
-  });
+  const [{ data, fetching }, reexecuteGetAllBadges] =
+    useGetAllBadgesForDancerQuery({
+      variables: {
+        dancerId,
+      },
+    });
 
   useEffect(() => {
     if (data?.dancerById) {

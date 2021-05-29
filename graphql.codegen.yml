@@ -12,7 +12,7 @@ generates:
       - 'typescript'
     config:
       strict: true
-      strictScalars: true
+      # strictScalars: true
       useImplementingTypes: true
   src/:
     preset: near-operation-file
@@ -28,5 +28,5 @@ generates:
       - 'typescript-urql'
     config:
       strict: true
-      strictScalars: true
+      # strictScalars: true
       useImplementingTypes: true

@@ -7,22 +7,18 @@ import {
   Skeleton,
   SkeletonCircle,
 } from '@chakra-ui/react';
-import { AuthenticationRepositoryContext } from 'context/authentication';
 import Profile from 'features/profile';
-import React, { useContext } from 'react';
+import useAuthentication from 'hooks/use-authentication';
+import React from 'react';
 
 import { useGetDancerByAuthIdQuery } from './operation.generated';
 
 const ProfileActive = () => {
-  const authRepo = useContext(AuthenticationRepositoryContext);
-
-  const loggedInUser = authRepo.authenticationRepositoryInstance
-    .get()
-    .okOrDefault();
+  const { loggedInUser } = useAuthentication();
 
   const [{ data, fetching }] = useGetDancerByAuthIdQuery({
     variables: {
-      authId: loggedInUser.id,
+      authId: loggedInUser?.id || '',
     },
   });
 

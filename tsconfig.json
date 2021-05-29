@@ -15,7 +15,8 @@
       "/context/*": ["./src/context/*"],
       "/features/*": ["./src/features/*"],
       "/types/*": ["./src/types/*"],
-      "/utils/*": ["./src/utils/*"]
+      "/utils/*": ["./src/utils/*"],
+      "/hooks/*": ["./src/hooks/*"]
     },
     "noImplicitReturns": true,
     "noImplicitThis": true,

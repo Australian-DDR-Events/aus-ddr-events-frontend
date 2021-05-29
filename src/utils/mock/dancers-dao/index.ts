@@ -7,21 +7,15 @@ interface TestingDancersDao extends DancersDao {
 }
 
 const dancersTestingDao = (): TestingDancersDao => {
-  let getHook: (
-    id: string,
-  ) => Promise<Result<Error, Dancer>> = async (): Promise<
-    Result<Error, Dancer>
-  > => {
-    return err(new Error('get hook not overridden'), DefaultDancer);
-  };
+  let getHook: (id: string) => Promise<Result<Error, Dancer>> =
+    async (): Promise<Result<Error, Dancer>> => {
+      return err(new Error('get hook not overridden'), DefaultDancer);
+    };
 
-  let updateHook: (
-    user: Dancer,
-  ) => Promise<Result<Error, boolean>> = async (): Promise<
-    Result<Error, boolean>
-  > => {
-    return err(new Error('update hook not overridden'), false);
-  };
+  let updateHook: (user: Dancer) => Promise<Result<Error, boolean>> =
+    async (): Promise<Result<Error, boolean>> => {
+      return err(new Error('update hook not overridden'), false);
+    };
 
   const setGetHook = (f: (id: string) => Promise<Result<Error, Dancer>>) => {
     getHook = f;

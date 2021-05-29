@@ -1,6 +1,6 @@
 import { Box, Button, Container, Heading, Image } from '@chakra-ui/react';
-import { AuthenticationRepositoryContext } from 'context/authentication';
-import React, { useContext } from 'react';
+import useAuthentication from 'hooks/use-authentication';
+import React from 'react';
 import useLocation from 'wouter/use-location';
 
 import { getAssetUrl } from '../../utils/assets';
@@ -10,11 +10,7 @@ import HowTo from './how-to';
 
 const Home = () => {
   const [, setLocation] = useLocation();
-
-  const authRepo = useContext(AuthenticationRepositoryContext)
-    .authenticationRepositoryInstance;
-  const loggedInUser = authRepo.get().okOrDefault();
-
+  const { loggedInUser } = useAuthentication();
   return (
     <Container maxW="container.xl" centerContent p={8}>
       <Box align="center" mb={8}>
@@ -27,7 +23,7 @@ const Home = () => {
         <Heading as="h2" size="md">
           Start your engines for early July
         </Heading>
-        {!loggedInUser.id && (
+        {!loggedInUser && (
           <Button onClick={() => setLocation('/register')} mt={4}>
             Register now!
           </Button>

@@ -14,8 +14,8 @@ import {
 import { FiMenu } from '@react-icons/all-files/fi/FiMenu';
 import { FiX } from '@react-icons/all-files/fi/FiX';
 import logo from 'assets/logo.png';
-import { AuthenticationRepositoryContext } from 'context/authentication';
-import React, { useContext } from 'react';
+import useAuthentication from 'hooks/use-authentication';
+import React from 'react';
 import { getProfileImageUrl } from 'utils/assets';
 import { useLocation } from 'wouter';
 
@@ -45,14 +45,11 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [, setLocation] = useLocation();
 
-  const authRepo = useContext(AuthenticationRepositoryContext);
-  const loggedInUser = authRepo.authenticationRepositoryInstance
-    .get()
-    .okOrDefault();
+  const { loggedInUser, logout } = useAuthentication();
   const toggle = () => setIsOpen(!isOpen);
 
   const queryVariables: GetNavigationDancerByIdQueryVariables = {
-    dancerId: loggedInUser.id,
+    dancerId: loggedInUser?.id || '',
   };
 
   const [{ data, fetching }] = useGetNavigationDancerByIdQuery({
@@ -61,7 +58,7 @@ const Navigation = () => {
   });
 
   const onLogout = () => {
-    authRepo.authenticationRepositoryInstance.logout().then((result) => {
+    logout().then((result) => {
       if (result.isOk()) {
         setLocation('/');
         window.location.reload();
