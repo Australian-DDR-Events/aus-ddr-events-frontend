@@ -20,6 +20,7 @@
     "components": "./src/components",
     "context": "./src/context",
     "features": "./src/features",
+    "services": "./src/services",
     "types": "./src/types",
     "utils": "./src/utils",
     "graphql-operations": "./src/graphql-operations"
