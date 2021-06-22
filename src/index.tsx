@@ -14,12 +14,12 @@ import {
   AuthenticationRepositoryContextInterface,
   AuthenticationRepositoryProvider,
 } from 'context/authentication';
+import { EndpointProvider } from 'context/use-endpoint';
 import dotenv from 'dotenv';
 import firebase from 'firebase/app';
 import React, { useContext, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { HeadProvider, Title } from 'react-head';
-import { EndpointProvider } from 'services/use-endpoint';
 import { createClient, Provider as UrqlProvider } from 'urql';
 import compose, { ComposeProps } from 'utils/compose';
 

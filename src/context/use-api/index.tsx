@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { useEndpoint } from 'context/use-endpoint';
 import { useEffect, useState } from 'react';
-import { useEndpoint } from 'services/use-endpoint';
 
 type UseApiReturn<T> = {
   value?: T;
