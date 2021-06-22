@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
+import { useEndpoint } from 'services/use-endpoint';
 
 type UseApiReturn<T> = {
   value?: T;
@@ -11,10 +12,11 @@ const useApi = <T extends unknown>(
 ): UseApiReturn<T> => {
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState<T | undefined>(undefined);
+  const { url } = useEndpoint();
 
   const requestOptions = {
     ...options,
-    baseURL: 'http://localhost:5000',
+    baseURL: url,
   };
 
   useEffect(() => {

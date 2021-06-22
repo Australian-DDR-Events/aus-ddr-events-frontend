@@ -19,6 +19,7 @@ import firebase from 'firebase/app';
 import React, { useContext, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { HeadProvider, Title } from 'react-head';
+import { EndpointProvider } from 'services/use-endpoint';
 import { createClient, Provider as UrqlProvider } from 'urql';
 import compose, { ComposeProps } from 'utils/compose';
 
@@ -98,6 +99,10 @@ const providers: Array<ComposeProps> = [
   },
   {
     Provider: ChakraProvider,
+  },
+  {
+    Provider: EndpointProvider,
+    props: { baseUrl: 'http://localhost:5000' },
   },
 ];
 
