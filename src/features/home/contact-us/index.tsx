@@ -1,4 +1,11 @@
-import { Button, Center, Heading, Text, useMediaQuery } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  Heading,
+  Text,
+  useMediaQuery,
+} from '@chakra-ui/react';
 import { FaDiscord } from '@react-icons/all-files/fa/FaDiscord';
 import { FaFacebook } from '@react-icons/all-files/fa/FaFacebook';
 import { FaTwitter } from '@react-icons/all-files/fa/FaTwitter';
@@ -11,7 +18,7 @@ const ContactUs = () => {
     win?.focus();
   };
   return (
-    <>
+    <Box maxW="75%" margin="0 auto">
       <Heading as="h2" mb={8} textAlign="center">
         Want more information?
       </Heading>
@@ -54,7 +61,7 @@ const ContactUs = () => {
       <Text fontSize="md" textAlign="center">
         We’re looking forward to seeing your moves on the dance floor!
       </Text>
-    </>
+    </Box>
   );
 };
 
