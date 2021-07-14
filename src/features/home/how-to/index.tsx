@@ -13,8 +13,8 @@ import { getAssetUrl } from '../../../utils/assets';
 const HowTo = () => {
   const [isLargerThan750] = useMediaQuery('(min-width: 750px)');
   return (
-    <Box>
-      <Heading as="h2" textAlign="center" mb={4}>
+    <Box maxW="75%" margin="0 auto" textAlign="center">
+      <Heading as="h2" mb={4}>
         How to Participate
       </Heading>
       <Text fontSize="md" mb={8}>

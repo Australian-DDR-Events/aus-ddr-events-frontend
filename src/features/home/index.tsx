@@ -1,4 +1,4 @@
-import { Box, Button, Container, Heading, Image } from '@chakra-ui/react';
+import { Box, Button, Heading, Image } from '@chakra-ui/react';
 import { AuthenticationRepositoryContext } from 'context/authentication';
 import React, { useContext } from 'react';
 import useLocation from 'wouter/use-location';
@@ -16,9 +16,9 @@ const Home = () => {
   const loggedInUser = authRepo.get().okOrDefault();
 
   return (
-    <Container maxW="container.xl" centerContent p={8}>
-      <Box align="center" mb={8}>
-        <Heading size="lg">COMING SOON</Heading>
+    <>
+      <Box align="center" padding="5rem 0">
+        <Heading fontSize="7xl">COMING SOON</Heading>
         <Image
           objectFit="cover"
           src={getAssetUrl(`/common/season-logo.png?event=supercars`)}
@@ -34,18 +34,18 @@ const Home = () => {
         )}
       </Box>
 
-      <Box>
+      <Box background="#2d8f9c" padding="5rem 0">
         <AboutUs />
       </Box>
 
-      <Box>
+      <Box padding="5rem 0">
         <HowTo />
       </Box>
 
-      <Box>
+      <Box background="#2d8f9c" padding="3rem 0">
         <ContactUs />
       </Box>
-    </Container>
+    </>
   );
 };
 
