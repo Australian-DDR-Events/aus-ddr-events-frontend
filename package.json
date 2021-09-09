@@ -19,6 +19,7 @@
     "context": "./src/context",
     "hooks": "./src/hooks",
     "features": "./src/features",
+    "services": "./src/services",
     "types": "./src/types",
     "utils": "./src/utils"
   },

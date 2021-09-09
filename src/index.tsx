@@ -6,6 +6,7 @@ import {
 } from '@chakra-ui/react';
 import Router from 'components/router';
 import Wrapper from 'components/wrapper';
+import { EndpointProvider } from 'context/use-endpoint';
 import dotenv from 'dotenv';
 import { OAuth2Provider, useAuthentication } from 'hooks/use-authentication';
 import React from 'react';
@@ -48,6 +49,10 @@ const providers: Array<ComposeProps> = [
   },
   {
     Provider: ChakraProvider,
+  },
+  {
+    Provider: EndpointProvider,
+    props: { baseUrl: 'http://localhost:5000' },
   },
 ];
 
