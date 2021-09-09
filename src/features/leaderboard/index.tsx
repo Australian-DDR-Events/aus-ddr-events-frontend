@@ -1,43 +1,16 @@
-import {
-  Box,
-  Center,
-  Container,
-  Heading,
-  Icon,
-  Spinner,
-  Text,
-  useMediaQuery,
-  VStack,
-} from '@chakra-ui/react';
+import { Heading, Icon, Text } from '@chakra-ui/react';
 import { FaCrown } from '@react-icons/all-files/fa/FaCrown';
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'wouter';
+import React from 'react';
 
-import {
-  AllSongDifficultiesLeaderboardFragment,
-  useGetSongsForLeaderboardListingQuery,
-} from './operation.generated';
-import SongDisplay from './song-display';
 import SongLeaderboard from './song-leaderboard';
 
 const Leaderboard = ({ songDifficultyId }: { songDifficultyId?: string }) => {
   if (songDifficultyId)
     return <SongLeaderboard songDifficultyId={songDifficultyId} />;
 
-  const [songDifficulties, setSongDifficulties] = useState<
-    AllSongDifficultiesLeaderboardFragment[]
-  >([]);
-  const [, setLocation] = useLocation();
+  // const [, setLocation] = useLocation();
 
-  const [{ data, fetching }] = useGetSongsForLeaderboardListingQuery();
-
-  const [isSmallerOrEqualTo425] = useMediaQuery(['(max-width: 425px)']);
-
-  useEffect(() => {
-    if (data?.songDifficulties?.nodes) {
-      setSongDifficulties(data.songDifficulties.nodes);
-    }
-  }, [fetching]);
+  // const [isSmallerOrEqualTo425] = useMediaQuery(['(max-width: 425px)']);
 
   return (
     <>
@@ -48,7 +21,7 @@ const Leaderboard = ({ songDifficultyId }: { songDifficultyId?: string }) => {
       <Text textAlign="center" fontSize="lg">
         Click or tap the song card for comprehensive leaderboard
       </Text>
-      {fetching ? (
+      {/* {fetching ? (
         <Center>
           <Spinner // todo: replace this with proper skeleton structure
             thickness="4px"
@@ -75,7 +48,7 @@ const Leaderboard = ({ songDifficultyId }: { songDifficultyId?: string }) => {
             ))}
           </VStack>
         </Container>
-      )}
+      )} */}
     </>
   );
 };

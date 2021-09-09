@@ -8,7 +8,6 @@ import {
 import React, { useState } from 'react';
 import { Title } from 'react-head';
 
-import { useGetDancerByIdQuery } from './operation.generated';
 import ProfileForm from './profile-form';
 import ProfileReadView from './profile-read-view';
 
@@ -25,56 +24,51 @@ const Profile: React.FC<ProfileProps> = ({
 
   const [isLargerThan767] = useMediaQuery('(min-width: 767px)');
 
-  const [{ data, fetching }, reloadProfile] = useGetDancerByIdQuery({
-    variables: {
-      dancerId: id,
-    },
-  });
+  return <></>;
+  // const renderProfileReadView = () => (
+  //   <>
+  //     {fetching && (
+  //       <Box w="70vw">
+  //         <SkeletonCircle size="20" mb={4} />
+  //         <Skeleton height={4} mb={2} />
+  //         <Skeleton height={4} mb={2} />
+  //         <Skeleton height={4} />
+  //       </Box>
+  //     )}
+  //     {!fetching && (
+  //       <ProfileReadView
+  //         isEditable={isEditable}
+  //         dancer={data?.dancerById!}
+  //         onEditButtonClick={() => {
+  //           setIsEditing(true);
+  //         }}
+  //       />
+  //     )}
+  //   </>
+  // );
 
-  const renderProfileReadView = () => (
-    <>
-      {fetching && (
-        <Box w="70vw">
-          <SkeletonCircle size="20" mb={4} />
-          <Skeleton height={4} mb={2} />
-          <Skeleton height={4} mb={2} />
-          <Skeleton height={4} />
-        </Box>
-      )}
-      {!fetching && (
-        <ProfileReadView
-          isEditable={isEditable}
-          dancer={data?.dancerById!}
-          onEditButtonClick={() => {
-            setIsEditing(true);
-          }}
-        />
-      )}
-    </>
-  );
+  // const renderProfileForm = () => (
+  //   <ProfileForm
+  //     formData={data?.dancerById!}
+  //     onSuccessfulSubmit={() => {
+  //       reloadProfile();
+  //       setIsEditing(false);
+  //     }}
+  //     onCancelSubmit={() => {
+  //       reloadProfile();
+  //       setIsEditing(false);
+  //     }}
+  //   />
+  // );
 
-  const renderProfileForm = () => (
-    <ProfileForm
-      formData={data?.dancerById!}
-      onSuccessfulSubmit={() => {
-        reloadProfile();
-        setIsEditing(false);
-      }}
-      onCancelSubmit={() => {
-        reloadProfile();
-        setIsEditing(false);
-      }}
-    />
-  );
-
-  return (
-    <Container maxW={isLargerThan767 ? '90%' : '100%'} w="fit-content">
-      {!fetching && (
-        <Title>{data?.dancerById!.ddrName} | Australian DDR Events</Title>
-      )}
-      {isEditing ? renderProfileForm() : renderProfileReadView()}
-    </Container>
-  );
+  // return (
+  //   <Container maxW={isLargerThan767 ? '90%' : '100%'} w="fit-content">
+  //     {!fetching && (
+  //       <Title>{data?.dancerById!.ddrName} | Australian DDR Events</Title>
+  //     )}
+  //     {isEditing ? renderProfileForm() : renderProfileReadView()}
+  //   </Container>
+  // );
 };
 
 export default Profile;
