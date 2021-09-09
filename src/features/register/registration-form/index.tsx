@@ -1,3 +1,4 @@
+import React from 'react';
 // import {
 //   Alert,
 //   AlertDescription,
@@ -47,7 +48,7 @@
 
 //   return errors;
 // };
-export const RegistrationForm = () => <></>;
+const RegistrationForm = () => <></>;
 // const RegistrationForm = () => {
 //   const authRepo = useContext<AuthenticationRepositoryContextInterface>(
 //     AuthenticationRepositoryContext,
@@ -302,4 +303,4 @@ export const RegistrationForm = () => <></>;
 //   );
 // };
 
-// export default RegistrationForm;
+export default RegistrationForm;
