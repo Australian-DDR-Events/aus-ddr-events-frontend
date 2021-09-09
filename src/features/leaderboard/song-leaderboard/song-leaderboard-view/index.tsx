@@ -1,13 +1,8 @@
 import { Center } from '@chakra-ui/react';
 import React from 'react';
-import { IndividualSongLeaderboardFragment } from 'types/graphql.generated';
-import { getAssetUrl } from 'utils/assets';
-import { getColorByDifficulty } from 'utils/song-difficulty-colors';
 
 import ScoreImageModal from '../../score-image-modal';
-import ScoreLine from '../score-line';
 import SongBanner from '../song-banner';
-import TopScore from '../top-score';
 
 const SongLeaderboardView = ({
   songDifficulty,
@@ -17,7 +12,7 @@ const SongLeaderboardView = ({
   setModalUrl,
   setLocation,
 }: {
-  songDifficulty: IndividualSongLeaderboardFragment;
+  songDifficulty: undefined;
   modalUrl: string;
   modalIsOpen: boolean;
   setModalIsOpen: Function;
@@ -26,6 +21,8 @@ const SongLeaderboardView = ({
 }) => {
   return (
     <>
+      {setModalUrl}
+      {setLocation}
       <Center>
         <SongBanner songDifficulty={songDifficulty} />
       </Center>
@@ -35,7 +32,7 @@ const SongLeaderboardView = ({
         onClose={() => setModalIsOpen(false)}
       />
 
-      <Center mb={4}>
+      {/* <Center mb={4}>
         {songDifficulty.dancerTopScores.length && (
           <TopScore
             onClickImage={() => {
@@ -52,8 +49,8 @@ const SongLeaderboardView = ({
             score={songDifficulty.dancerTopScores[0]}
           />
         )}
-      </Center>
-      {songDifficulty.dancerTopScores.slice(1).map((s, index) => (
+      </Center> */}
+      {/* {songDifficulty.dancerTopScores.slice(1).map((s, index) => (
         <ScoreLine
           key={s.id}
           index={index}
@@ -65,7 +62,7 @@ const SongLeaderboardView = ({
           onClickName={() => setLocation(`/profile/${s.dancer.id}`)}
           color={getColorByDifficulty(songDifficulty.difficulty).shadow}
         />
-      ))}
+      ))} */}
     </>
   );
 };

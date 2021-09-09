@@ -14,9 +14,6 @@ jobs:
       - run:
           name: install
           command: yarn install
-      - run:
-          name: generate
-          command: yarn generate
       - persist_to_workspace:
           root: ~/
           paths:
@@ -50,15 +47,8 @@ jobs:
       - run:
           name: Populate .env.$NODE_ENV
           command: |
-            printf "FIREBASE_API_KEY=$FIREBASE_API_KEY\r\n" >> .env.$NODE_ENV
-            printf "FIREBASE_AUTH_DOMAIN=$FIREBASE_AUTH_DOMAIN\r\n" >> .env.$NODE_ENV
-            printf "FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID\r\n" >> .env.$NODE_ENV
-            printf "FIREBASE_MESSAGE_SENDER_ID=$FIREBASE_MESSAGE_SENDER_ID\r\n" >> .env.$NODE_ENV
-            printf "FIREBASE_APP_ID=$FIREBASE_APP_ID\r\n" >> .env.$NODE_ENV
-            printf "FIREBASE_MEASUREMENT_ID=$FIREBASE_MEASUREMENT_ID\r\n" >> .env.$NODE_ENV
-            printf "API_URL=$API_URL\r\n" >> .env.$NODE_ENV
-            printf "ASSETS_URL=$ASSETS_URL\r\n" >> .env.$NODE_ENV
-            printf "BASE_URL=BASE_URL\r\n" >> .env.$NODE_ENV
+            printf "CLIENT_ID=$CLIENT_ID\r\n" >> .env.$NODE_ENV
+            printf "PROVIDER=$PROVIDER\r\n" >> .env.$NODE_ENV
       - run: yarn build:prod
       - persist_to_workspace:
           root: ~/
@@ -72,7 +62,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
-      - run: yarn firebase hosting:channel:deploy ausddrevents-development --token $FIREBASE_TOKEN
+      - run: echo dev
   deploy:
     working_directory: ~/aus-ddr-poc
     docker:
@@ -81,7 +71,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
-      - run: yarn firebase hosting:channel:deploy ausddrevents-staging --token $FIREBASE_TOKEN
+      - run: echo staging
   deploy_prod:
     working_directory: ~/aus-ddr-poc
     docker:
@@ -90,7 +80,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
-      - run: yarn firebase deploy --token $FIREBASE_TOKEN
+      - run: echo prod
 
 workflows:
   build_and_test:
