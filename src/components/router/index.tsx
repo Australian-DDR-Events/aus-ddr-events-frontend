@@ -1,7 +1,3 @@
-import {
-  AuthenticationRepositoryContext,
-  AuthenticationRepositoryContextInterface,
-} from 'context/authentication';
 import ImageUploader from 'features/admin/image-uploader';
 import SongsManagement from 'features/admin/songs-management';
 import Error from 'features/error';
@@ -13,21 +9,16 @@ import Login from 'features/login';
 import Profile from 'features/profile';
 import ProfileActive from 'features/profile-active';
 import Register from 'features/register';
-import React, { useContext, useEffect } from 'react';
+import { useAuthentication } from 'hooks/use-authentication/authenticationContext';
+import React, { useEffect } from 'react';
 import { Title } from 'react-head';
-import { Route, RouteProps, Switch, useLocation } from 'wouter';
+import { Route, RouteProps, Switch } from 'wouter';
 
 const ProtectedRoute = (props: RouteProps) => {
-  const authRepo = useContext<AuthenticationRepositoryContextInterface>(
-    AuthenticationRepositoryContext,
-  );
-  const [, setLocation] = useLocation();
+  const { login, isAuthenticated } = useAuthentication();
   useEffect(() => {
-    const loggedInUser = authRepo.authenticationRepositoryInstance
-      .get()
-      .okOrDefault();
-    if (!loggedInUser.id) {
-      setLocation('/login');
+    if (!isAuthenticated()) {
+      login();
     }
   }, []);
   return <Route {...props} />;

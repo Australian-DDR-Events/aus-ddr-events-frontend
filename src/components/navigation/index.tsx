@@ -14,18 +14,14 @@ import {
 import { FiMenu } from '@react-icons/all-files/fi/FiMenu';
 import { FiX } from '@react-icons/all-files/fi/FiX';
 import logo from 'assets/logo.png';
-import { AuthenticationRepositoryContext } from 'context/authentication';
-import React, { useContext } from 'react';
-import { getProfileImageUrl } from 'utils/assets';
+import { DefaultDancer } from 'context/dancer';
+import { useAuthentication } from 'hooks/use-authentication';
+import React from 'react';
 import { useLocation } from 'wouter';
 
 import ColorModeSwitch from './color-mode-switch';
 import LoggedInMenuItems from './logged-in-menu-items';
 import MenuItem from './menu-item';
-import {
-  GetNavigationDancerByIdQueryVariables,
-  useGetNavigationDancerByIdQuery,
-} from './operation.generated';
 import ProfileMenuItem from './profile-menu-item';
 
 const MenuToggle = ({ toggle, isOpen }: { toggle: any; isOpen: boolean }) => {
@@ -45,31 +41,22 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [, setLocation] = useLocation();
 
-  const authRepo = useContext(AuthenticationRepositoryContext);
-  const loggedInUser = authRepo.authenticationRepositoryInstance
-    .get()
-    .okOrDefault();
+  const {
+    login,
+    logout,
+    isAuthenticated,
+    isPending,
+    getClaim,
+  } = useAuthentication();
+
   const toggle = () => setIsOpen(!isOpen);
 
-  const queryVariables: GetNavigationDancerByIdQueryVariables = {
-    dancerId: loggedInUser.id,
-  };
-
-  const [{ data, fetching }] = useGetNavigationDancerByIdQuery({
-    variables: queryVariables,
-    pause: !queryVariables.dancerId,
-  });
-
   const onLogout = () => {
-    authRepo.authenticationRepositoryInstance.logout().then((result) => {
-      if (result.isOk()) {
-        setLocation('/');
-        window.location.reload();
-      }
-    });
+    logout();
   };
 
-  const dancer = data?.dancerByAuthId;
+  const nickname = getClaim<string>('nickname');
+  const picture = getClaim<string>('picture');
 
   return (
     <Flex
@@ -90,25 +77,27 @@ const Navigation = () => {
       <Spacer />
       <ColorModeSwitch mr={2} display={{ lg: 'none' }} />
 
-      {fetching && <SkeletonCircle display={{ lg: 'none' }} />}
-      {dancer && !isOpen && (
+      {isPending() && <SkeletonCircle display={{ lg: 'none' }} />}
+      {isAuthenticated() && !isOpen && (
         <Avatar
           size="sm"
-          name={dancer.ddrName}
-          src={getProfileImageUrl(dancer.profilePictureUrl)}
+          name={nickname.okOrDefault()}
+          src={picture.isOk() ? picture.value : undefined}
           display={{ lg: 'none' }}
           showBorder
           borderColor="blue.500"
           borderWidth={2}
           onClick={toggle}
-          {...(getProfileImageUrl(dancer.profilePictureUrl) && {
+          {...(picture.okOrDefault() && {
             bgColor: 'transparent',
           })}
         />
       )}
 
-      {dancer && isOpen && <MenuToggle toggle={toggle} isOpen={isOpen} />}
-      {!dancer && !fetching && <MenuToggle toggle={toggle} isOpen={isOpen} />}
+      {isAuthenticated() && isOpen && (
+        <MenuToggle toggle={toggle} isOpen={isOpen} />
+      )}
+      {!isAuthenticated() && <MenuToggle toggle={toggle} isOpen={isOpen} />}
       <Box
         display={{ base: isOpen ? 'block' : 'none', lg: 'block' }}
         flexBasis={{ base: '100%', lg: 'auto' }}
@@ -120,18 +109,21 @@ const Navigation = () => {
           direction={['column', 'column', 'column', 'row']}
           pt={[4, 4, 0, 0]}
         >
-          {dancer && (
+          {isAuthenticated() && (
             <ProfileMenuItem
               isMobileView
-              dancer={dancer}
+              dancer={DefaultDancer}
               onProfileMenuItemClick={() => setLocation('/profile')}
             />
           )}
           <MenuItem onClick={() => setLocation('/leaderboard')}>
             Leaderboards
           </MenuItem>
-          {dancer ? (
-            <LoggedInMenuItems dancer={dancer} onLogoutClick={onLogout} />
+          {isAuthenticated() ? (
+            <LoggedInMenuItems
+              dancer={DefaultDancer}
+              onLogoutClick={onLogout}
+            />
           ) : (
             <HStack>
               <ColorModeSwitch
@@ -143,7 +135,7 @@ const Navigation = () => {
                 rounded="md"
                 variant="solid"
                 colorScheme="blue"
-                onClick={() => setLocation('/login')}
+                onClick={() => login()}
               >
                 Login
               </Button>

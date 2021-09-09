@@ -5,22 +5,18 @@ import {
   AlertTitle,
   Box,
 } from '@chakra-ui/react';
-import { AuthenticationRepositoryContext } from 'context/authentication';
-import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import { useAuthentication } from 'hooks/use-authentication';
+import React, { ReactNode, useEffect, useState } from 'react';
 
 const AdminWrapper = ({ children }: { children: ReactNode }) => {
-  const authRepo = useContext(AuthenticationRepositoryContext);
-
+  const { getClaim } = useAuthentication();
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    authRepo.authenticationRepositoryInstance
-      .getClaim('admin')
-      .then((result) => {
-        if (result.isOk() && result.okOrDefault()) {
-          setIsAdmin(true);
-        }
-      });
+    const groups = getClaim<Array<string>>('cognito:groups');
+    if (groups.isOk()) {
+      setIsAdmin(!!groups.value?.includes('Administrators'));
+    }
   }, []);
 
   return (

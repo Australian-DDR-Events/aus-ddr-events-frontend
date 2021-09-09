@@ -2,7 +2,6 @@ import { Center, Container, Spinner } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useLocation } from 'wouter';
 
-import { useGetSongDifficultyWithScoresForIdQuery } from './operation.generated';
 import SongLeaderboardView from './song-leaderboard-view';
 
 const SongLeaderboard = ({
@@ -11,16 +10,17 @@ const SongLeaderboard = ({
   songDifficultyId: string;
 }) => {
   const [, setLocation] = useLocation();
-  const [{ data, fetching }] = useGetSongDifficultyWithScoresForIdQuery({
-    variables: { songDifficultyId },
-  });
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalUrl, setModalUrl] = useState('');
 
+  const fetching = true;
+  const data = undefined;
+
   if (fetching) {
     return (
       <Center>
+        {songDifficultyId}
         <Spinner // todo: replace this with proper skeleton structure
           thickness="4px"
           speed="0.65s"
@@ -35,7 +35,7 @@ const SongLeaderboard = ({
   return (
     <Container maxW="100%" w="fit-content">
       <SongLeaderboardView
-        songDifficulty={data?.songDifficultyById!}
+        songDifficulty={data}
         modalUrl={modalUrl}
         modalIsOpen={modalIsOpen}
         setModalIsOpen={setModalIsOpen}
