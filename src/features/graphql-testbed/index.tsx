@@ -1,4 +1,5 @@
 import { Button, Text, Textarea } from '@chakra-ui/react';
+import AdminWrapper from 'components/admin-wrapper';
 import React, { useState } from 'react';
 import { useClient } from 'urql';
 
@@ -23,9 +24,11 @@ const GraphqlTestbed = () => {
 
   return (
     <>
-      <Textarea value={input} onChange={handleInputChange} size="sm" />
-      <Button onClick={() => graphqlRequest(input)} />
-      <Text fontSize="sm">{response}</Text>
+      <AdminWrapper>
+        <Textarea value={input} onChange={handleInputChange} size="sm" />
+        <Button onClick={() => graphqlRequest(input)} />
+        <Text fontSize="sm">{response}</Text>
+      </AdminWrapper>
     </>
   );
 };

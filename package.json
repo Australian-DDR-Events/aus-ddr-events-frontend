@@ -9,9 +9,7 @@
     "test": "yarn jest",
     "lint": "yarn eslint .",
     "lint:fix": "yarn eslint . --fix",
-    "clean": "rm -rf dist",
-    "generate": "graphql-codegen --config graphql.codegen.yml",
-    "prestart": "yarn generate"
+    "clean": "rm -rf dist"
   },
   "author": "",
   "license": "GPL-3.0-or-later",
@@ -19,10 +17,10 @@
     "assets": "./src/assets",
     "components": "./src/components",
     "context": "./src/context",
+    "hooks": "./src/hooks",
     "features": "./src/features",
     "types": "./src/types",
-    "utils": "./src/utils",
-    "graphql-operations": "./src/graphql-operations"
+    "utils": "./src/utils"
   },
   "dependencies": {
     "@babel/runtime": "^7.13.9",
@@ -37,11 +35,13 @@
     "formik": "^2.2.6",
     "framer-motion": "^3.10.2",
     "graphql": "^15.5.0",
-    "react": "^17.0.1",
+    "hooks": "^0.3.2",
+    "react": ">= 16.8.0",
     "react-dom": "^17.0.1",
     "react-head": "^3.4.0",
     "react-image-file-resizer": "^0.4.2",
-    "urql": "^2.0.2",
+    "react-oauth2-pkce": "^2.0.5",
+    "urql": "^2.0.4",
     "wouter": "^2.7.4"
   },
   "devDependencies": {
@@ -50,11 +50,6 @@
     "@babel/preset-env": "^7.13.15",
     "@babel/preset-react": "^7.13.13",
     "@babel/preset-typescript": "^7.13.0",
-    "@graphql-codegen/cli": "1.21.3",
-    "@graphql-codegen/near-operation-file-preset": "^1.17.13",
-    "@graphql-codegen/typescript": "1.21.1",
-    "@graphql-codegen/typescript-operations": "1.17.15",
-    "@graphql-codegen/typescript-urql": "^2.0.5",
     "@types/enzyme": "^3.10.8",
     "@types/jest": "^26.0.20",
     "@types/react": "^17.0.0",
