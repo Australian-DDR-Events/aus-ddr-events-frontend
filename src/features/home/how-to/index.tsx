@@ -6,6 +6,9 @@ import {
   Text,
   useMediaQuery,
 } from '@chakra-ui/react';
+import sample0 from 'assets/sample-badge-0.png';
+import sample1 from 'assets/sample-badge-1.png';
+import sample2 from 'assets/sample-badge-2.png';
 import React from 'react';
 
 import { getAssetUrl } from '../../../utils/assets';
@@ -48,21 +51,9 @@ const HowTo = () => {
         profile.
       </Text>
       <Center mb={8}>
-        <Image
-          maxW="25%"
-          src={getAssetUrl(`/common/sample-badge-0.png`)}
-          alt="badges"
-        />
-        <Image
-          maxW="25%"
-          src={getAssetUrl(`/common/sample-badge-1.png`)}
-          alt="badges"
-        />
-        <Image
-          maxW="25%"
-          src={getAssetUrl(`/common/sample-badge-2.png`)}
-          alt="badges"
-        />
+        <Image maxW="25%" src={sample0} alt="badges" />
+        <Image maxW="25%" src={sample1} alt="badges" />
+        <Image maxW="25%" src={sample2} alt="badges" />
       </Center>
     </Box>
   );

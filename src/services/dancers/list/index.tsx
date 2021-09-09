@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
-import useApi from 'context/use-api';
+import useApi from 'hooks/use-api';
 
 import { Dancer } from './types';
 
