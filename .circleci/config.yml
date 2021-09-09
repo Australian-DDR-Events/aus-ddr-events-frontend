@@ -62,7 +62,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
-      - run: yarn firebase hosting:channel:deploy ausddrevents-development --token $FIREBASE_TOKEN
+      - run: echo dev
   deploy:
     working_directory: ~/aus-ddr-poc
     docker:
@@ -71,7 +71,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
-      - run: yarn firebase hosting:channel:deploy ausddrevents-staging --token $FIREBASE_TOKEN
+      - run: echo staging
   deploy_prod:
     working_directory: ~/aus-ddr-poc
     docker:
@@ -80,7 +80,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
-      - run: yarn firebase deploy --token $FIREBASE_TOKEN
+      - run: echo prod
 
 workflows:
   build_and_test:
