@@ -35,7 +35,6 @@
     "formik": "^2.2.6",
     "framer-motion": "^3.10.2",
     "graphql": "^15.5.0",
-    "hooks": "^0.3.2",
     "react": ">= 16.8.0",
     "react-dom": "^17.0.1",
     "react-head": "^3.4.0",
