@@ -1,15 +1,4 @@
-import {
-  Box,
-  Container,
-  Skeleton,
-  SkeletonCircle,
-  useMediaQuery,
-} from '@chakra-ui/react';
-import React, { useState } from 'react';
-import { Title } from 'react-head';
-
-import ProfileForm from './profile-form';
-import ProfileReadView from './profile-read-view';
+import React from 'react';
 
 interface ProfileProps {
   id: string;
@@ -20,11 +9,16 @@ const Profile: React.FC<ProfileProps> = ({
   id,
   isEditable = false,
 }: ProfileProps) => {
-  const [isEditing, setIsEditing] = useState(false);
+  // const [isEditing, setIsEditing] = useState(false);
 
-  const [isLargerThan767] = useMediaQuery('(min-width: 767px)');
+  // const [isLargerThan767] = useMediaQuery('(min-width: 767px)');
 
-  return <></>;
+  return (
+    <>
+      {id}
+      {isEditable}
+    </>
+  );
   // const renderProfileReadView = () => (
   //   <>
   //     {fetching && (

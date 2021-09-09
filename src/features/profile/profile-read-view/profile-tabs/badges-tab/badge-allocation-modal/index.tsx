@@ -1,19 +1,4 @@
-import {
-  Button,
-  Center,
-  Divider,
-  Heading,
-  Image,
-  Modal,
-  ModalCloseButton,
-  ModalContent,
-  ModalOverlay,
-  SimpleGrid,
-  Spinner,
-} from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
-import { defaultPixel } from 'types/styled';
-import { getAssetUrl } from 'utils/assets';
+import React from 'react';
 
 const BadgeAllocationModal = ({
   dancerId,
@@ -26,7 +11,14 @@ const BadgeAllocationModal = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  return <></>;
+  onClose();
+  return (
+    <>
+      {dancerId}
+      {dancerBadges}
+      {isOpen}
+    </>
+  );
   // const [badges, setBadges] = useState<any[]>([]);
   // const [assignedBadges, setAssginedBadges] = useState(dancerBadges);
 

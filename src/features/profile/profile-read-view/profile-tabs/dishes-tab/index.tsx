@@ -1,10 +1,7 @@
-import { Center, SimpleGrid, Spinner } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
-
-import DishScoreDisplay from './dish-score-display';
+import React from 'react';
 
 const DishesTab = ({ dancerId }: { dancerId: string }) => {
-  return <></>;
+  return <>{dancerId}</>;
   // useEffect(() => {
   //   if (data?.dishesByDancerId) {
   //     setDancerGradedDishes(data.dishesByDancerId);
