@@ -106,9 +106,22 @@ jobs:
       - image: cimg/node:15.6.0
     resource_class: medium
     steps:
+      - aws-cli/setup:
+          aws-access-key-id: AWS_ACCESS_KEY
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          aws-region: AWS_REGION
       - attach_workspace:
           at: ~/
       - run: echo prod
+      - run: |
+          cdn_stack=$(aws ssm get-parameter --name '/prod/stacks/cdn' | jq -r '.Parameter.Value')
+          root_bucket_name=$(aws cloudformation describe-stacks --stack-name "$cdn_stack" | jq -r '.Stacks[0].Outputs[] | select(.ExportName == "root-bucket-name-prod") | .OutputValue')
+          root_cdn_id=$(aws cloudformation describe-stacks --stack-name "$cdn_stack" | jq -r '.Stacks[0].Outputs[] | select(.ExportName == "root-distribution-id-prod") | .OutputValue')
+          aws s3 cp ./dist s3://$root_bucket_name/ --recursive
+          aws cloudfront create-invalidation \
+            --distribution-id $root_cdn_id \
+            --paths "/index.html"
+          aws s3 sync ./dist s3://$root_bucket_name/
 
 workflows:
   build_and_test:
@@ -185,7 +198,7 @@ workflows:
       - build:
           name: build-production
           context:
-            - production
+            - prod
           post-steps:
             - jira/notify
           requires:
@@ -196,7 +209,7 @@ workflows:
 
       - deploy_prod:
           context:
-            - production
+            - prod
           post-steps:
             - jira/notify
           requires:
