@@ -1,8 +1,7 @@
 import { Box, Container, Heading, Image } from '@chakra-ui/react';
-// import { AuthenticationRepositoryContext } from 'context/authentication';
+import seasonlogo from 'assets/seasonlogo.png';
 import React from 'react';
 
-import { getAssetUrl } from '../../utils/assets';
 import AboutUs from './about-us';
 import ContactUs from './contact-us';
 import HowTo from './how-to';
@@ -17,14 +16,10 @@ const Home = () => {
   return (
     <Container maxW="container.xl" centerContent p={8}>
       <Box align="center" mb={8}>
-        <Heading size="lg">COMING SOON</Heading>
-        <Image
-          objectFit="cover"
-          src={getAssetUrl(`/common/season-logo.png?event=supercars`)}
-          alt="DDR V8 Supercars Logo"
-        />
+        <Heading size="lg">SITE IN MAINTENANCE MODE</Heading>
+        <Image src={seasonlogo} objectFit="cover" alt="DDR V8 Supercars Logo" />
         <Heading as="h2" size="md">
-          Start your engines for early July
+          This site is currently in maintenance mode.
         </Heading>
         {/* {!loggedInUser.id && (
           <Button onClick={() => setLocation('/register')} mt={4}>

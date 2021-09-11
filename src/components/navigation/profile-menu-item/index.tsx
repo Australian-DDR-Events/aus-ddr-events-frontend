@@ -2,15 +2,11 @@ import { Avatar, Button, Center } from '@chakra-ui/react';
 import { useAuthentication } from 'hooks/use-authentication';
 import React from 'react';
 
-import { NavigationDancerFieldsFragment } from '../operation.generated';
-
 const ProfileMenuItem = ({
   isMobileView,
-  dancer,
   onProfileMenuItemClick,
 }: {
   isMobileView: boolean;
-  dancer: NavigationDancerFieldsFragment;
   onProfileMenuItemClick: () => void;
 }) => {
   const { getClaim } = useAuthentication();
@@ -22,7 +18,7 @@ const ProfileMenuItem = ({
     <Center mr={4}>
       <Avatar
         size="sm"
-        name={dancer.ddrName}
+        name={nickname.okOrDefault()}
         src={profilePicture.isOk() ? profilePicture.value : undefined}
         display={{ lg: 'none' }}
         showBorder

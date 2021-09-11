@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { useEndpoint } from 'context/use-endpoint';
+import { useAuthentication } from 'hooks/use-authentication';
+import { useEndpoint } from 'hooks/use-endpoint';
 import { useEffect, useState } from 'react';
 
 type UseApiReturn<T> = {
@@ -13,11 +14,21 @@ const useApi = <T extends unknown>(
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState<T | undefined>(undefined);
   const { url } = useEndpoint();
+  const { isAuthenticated, getAccessToken } = useAuthentication();
 
-  const requestOptions = {
+  let requestOptions = {
     ...options,
     baseURL: url,
   };
+
+  if (isAuthenticated()) {
+    requestOptions = {
+      headers: {
+        authorization: `Bearer ${getAccessToken()}`,
+      },
+      ...requestOptions,
+    };
+  }
 
   useEffect(() => {
     axios
