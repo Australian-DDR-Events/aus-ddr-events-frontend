@@ -1,5 +1,6 @@
 version: 2.1
 orbs:
+  aws-cli: circleci/aws-cli@2.0.3
   jira: circleci/jira@1.3.0
 jobs:
   install:
@@ -49,6 +50,7 @@ jobs:
           command: |
             printf "CLIENT_ID=$CLIENT_ID\r\n" >> .env.$NODE_ENV
             printf "PROVIDER=$PROVIDER\r\n" >> .env.$NODE_ENV
+            printf "API_BASE=$API_BASE\r\n" >> .env.$NODE_ENV
       - run: yarn build:prod
       - persist_to_workspace:
           root: ~/
@@ -69,9 +71,22 @@ jobs:
       - image: cimg/node:15.6.0
     resource_class: medium
     steps:
+      - aws-cli/setup:
+          aws-access-key-id: $AWS_ACCESS_KEY
+          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
+          aws-region: $AWS_REGION
       - attach_workspace:
           at: ~/
       - run: echo staging
+      - run: cdn_stack=$(aws ssm get-parameter --name '/staging/stacks/cdn' | jq -r '.Parameter.Value')
+      - run: root_bucket_name=$(aws cloudformation describe-stacks --stack-name "$cdn_stack" | jq -r '.Stacks[0].Outputs[] | select(.ExportName == "root-bucket-name-staging") | .OutputValue')
+      - run: root_cdn_id=$(aws cloudformation describe-stacks --stack-name "$cdn_stack" | jq -r '.Stacks[0].Outputs[] | select(.ExportName == "root-distribution-id-staging") | .OutputValue')
+      - run: aws s3 cp ./aus-ddr-poc/dist s3://$root_bucket_name/
+      - run: |
+          aws cloudfront create-invalidation \
+            --distribution-id $root_cdn_id \
+            --paths "/index.html"
+      - run: aws s3 sync ./aus-ddr-poc/dist s3://$root_bucket_name/
   deploy_prod:
     working_directory: ~/aus-ddr-poc
     docker:

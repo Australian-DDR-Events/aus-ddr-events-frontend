@@ -6,12 +6,12 @@ import {
   Text,
   useMediaQuery,
 } from '@chakra-ui/react';
+import participate1 from 'assets/participate-1.png';
+import participate2 from 'assets/participate-2.png';
 import sample0 from 'assets/sample-badge-0.png';
 import sample1 from 'assets/sample-badge-1.png';
 import sample2 from 'assets/sample-badge-2.png';
 import React from 'react';
-
-import { getAssetUrl } from '../../../utils/assets';
 
 const HowTo = () => {
   const [isLargerThan750] = useMediaQuery('(min-width: 750px)');
@@ -27,7 +27,7 @@ const HowTo = () => {
       <Center>
         <Image
           maxW={isLargerThan750 ? '50%' : '75%'}
-          src="https://i.imgur.com/bVWe0WE.png"
+          src={participate1}
           alt="emusecard"
           mb={8}
         />
@@ -40,7 +40,7 @@ const HowTo = () => {
       <Center>
         <Image
           maxW={isLargerThan750 ? '50%' : '75%'}
-          src="https://i.imgur.com/6rTazTU.png"
+          src={participate2}
           alt="scoressection"
           mb={8}
         />
