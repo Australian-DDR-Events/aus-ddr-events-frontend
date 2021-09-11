@@ -72,9 +72,9 @@ jobs:
     resource_class: medium
     steps:
       - aws-cli/setup:
-          aws-access-key-id: $AWS_ACCESS_KEY
-          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
-          aws-region: $AWS_REGION
+          aws-access-key-id: AWS_ACCESS_KEY
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          aws-region: AWS_REGION
       - attach_workspace:
           at: ~/
       - run: echo staging
