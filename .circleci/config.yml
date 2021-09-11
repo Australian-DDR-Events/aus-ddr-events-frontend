@@ -73,7 +73,7 @@ jobs:
           cdn_stack=$(aws ssm get-parameter --name '/bauxe/stacks/cdn' | jq -r '.Parameter.Value')
           root_bucket_name=$(aws cloudformation describe-stacks --stack-name "$cdn_stack" | jq -r '.Stacks[0].Outputs[] | select(.ExportName == "root-bucket-name-bauxe") | .OutputValue')
           root_cdn_id=$(aws cloudformation describe-stacks --stack-name "$cdn_stack" | jq -r '.Stacks[0].Outputs[] | select(.ExportName == "root-distribution-id-bauxe") | .OutputValue')
-          aws s3 cp ./dist s3://$root_bucket_name/
+          aws s3 cp ./dist s3://$root_bucket_name/ --recursive
           aws cloudfront create-invalidation \
             --distribution-id $root_cdn_id \
             --paths "/index.html"
@@ -95,7 +95,7 @@ jobs:
           cdn_stack=$(aws ssm get-parameter --name '/staging/stacks/cdn' | jq -r '.Parameter.Value')
           root_bucket_name=$(aws cloudformation describe-stacks --stack-name "$cdn_stack" | jq -r '.Stacks[0].Outputs[] | select(.ExportName == "root-bucket-name-staging") | .OutputValue')
           root_cdn_id=$(aws cloudformation describe-stacks --stack-name "$cdn_stack" | jq -r '.Stacks[0].Outputs[] | select(.ExportName == "root-distribution-id-staging") | .OutputValue')
-          aws s3 cp ./dist s3://$root_bucket_name/
+          aws s3 cp ./dist s3://$root_bucket_name/ --recursive
           aws cloudfront create-invalidation \
             --distribution-id $root_cdn_id \
             --paths "/index.html"
