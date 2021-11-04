@@ -1,14 +1,16 @@
 import { AxiosRequestConfig } from 'axios';
 import useApi from 'hooks/use-api';
 
+import { UpdateProfileRequest } from './types';
+
 type UpdateProfileData = [Boolean];
 
-const useUpdateProfile = (nickname: string): UpdateProfileData => {
+const useUpdateProfile = (request: UpdateProfileRequest): UpdateProfileData => {
   const requestOptions: AxiosRequestConfig = {
     url: '/profile',
     method: 'POST',
     data: {
-      nickname,
+      nickname: request.nickname,
     },
   };
 
