@@ -40,7 +40,7 @@
     "react-dom": "^17.0.1",
     "react-head": "^3.4.0",
     "react-image-file-resizer": "^0.4.2",
-    "react-oauth2-pkce": "^2.0.5",
+    "react-oauth2-pkce": "^2.0.6",
     "urql": "^2.0.4",
     "wouter": "^2.7.4"
   },

@@ -10799,10 +10799,10 @@ react-is@^16.13.1, react-is@^16.7.0, react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-oauth2-pkce@^2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/react-oauth2-pkce/-/react-oauth2-pkce-2.0.5.tgz#cd792dd9ec8ccc318a856d56579592871a8aa35d"
-  integrity sha512-2e3vho9ourK/nS/adpiPSkD+vum3KmtVZEeLGlpTX3HK0hcPPzWcTt9XSqTcIITnm1WNS4bhQJe+TS1kIRegqA==
+react-oauth2-pkce@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/react-oauth2-pkce/-/react-oauth2-pkce-2.0.6.tgz#646c843eb9c772c7dd559cfdaaa1a7305b2f8688"
+  integrity sha512-JqsYwARQPpI9ei3uEDLigWbldFHS8KOzcPDCD3dkjSTwBYer3X+woNA6RJVmccKDymwQAqMgkhSXftdkSqiu2Q==
   dependencies:
     jwt-decode "^2.2.0"
 

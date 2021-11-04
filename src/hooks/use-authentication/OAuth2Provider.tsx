@@ -49,7 +49,13 @@ const OAuth2Provider = ({ children }: { children: ReactNode }) => {
     location: window.location,
     provider: process.env.PROVIDER || '',
     redirectUri: `${window.location.origin}/callback`,
-    scopes: ['openid', 'profile', 'aws.cognito.signin.user.admin'],
+    scopes: [
+      'openid',
+      'profile',
+      // 'aws.cognito.signin.user.admin',
+      'aus-ddr-events-api/user:read',
+    ],
+    audience: process.env.AUDIENCE,
   });
 
   return (
