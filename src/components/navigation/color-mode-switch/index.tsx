@@ -1,9 +1,14 @@
-import { Icon, IconButton, useColorMode } from '@chakra-ui/react';
+import {
+  Icon,
+  IconButton,
+  IconButtonProps,
+  useColorMode,
+} from '@chakra-ui/react';
 import { FaMoon } from '@react-icons/all-files/fa/FaMoon';
 import { FaSun } from '@react-icons/all-files/fa/FaSun';
 import React from 'react';
 
-const ColorModeSwitch = ({ ...rest }: { [x: string]: any }) => {
+const ColorModeSwitch = (props?: Omit<IconButtonProps, 'aria-label'>) => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
@@ -13,7 +18,7 @@ const ColorModeSwitch = ({ ...rest }: { [x: string]: any }) => {
       onClick={toggleColorMode}
       variant="ghost"
       color={colorMode === 'light' ? 'blue.400' : 'yellow.300'}
-      {...rest}
+      {...props}
     />
   );
 };
