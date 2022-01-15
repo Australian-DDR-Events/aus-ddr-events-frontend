@@ -57,28 +57,6 @@ jobs:
           root: ~/
           paths:
             - aus-ddr-poc/dist
-  deploy_dev:
-    working_directory: ~/aus-ddr-poc
-    docker:
-      - image: cimg/node:15.6.0
-    resource_class: medium
-    steps:
-      - aws-cli/setup:
-          aws-access-key-id: AWS_ACCESS_KEY
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          aws-region: AWS_REGION
-      - attach_workspace:
-          at: ~/
-      - run: echo dev
-      - run: |
-          cdn_stack=$(aws ssm get-parameter --name '/bauxe/stacks/cdn' | jq -r '.Parameter.Value')
-          root_bucket_name=$(aws cloudformation describe-stacks --stack-name "$cdn_stack" | jq -r '.Stacks[0].Outputs[] | select(.ExportName == "root-bucket-name-bauxe") | .OutputValue')
-          root_cdn_id=$(aws cloudformation describe-stacks --stack-name "$cdn_stack" | jq -r '.Stacks[0].Outputs[] | select(.ExportName == "root-distribution-id-bauxe") | .OutputValue')
-          aws s3 cp ./dist s3://$root_bucket_name/ --recursive
-          aws cloudfront create-invalidation \
-            --distribution-id $root_cdn_id \
-            --paths "/index.html"
-          aws s3 sync ./dist s3://$root_bucket_name/
   deploy:
     working_directory: ~/aus-ddr-poc
     docker:
@@ -91,33 +69,11 @@ jobs:
           aws-region: AWS_REGION
       - attach_workspace:
           at: ~/
-      - run: echo staging
+      - run: echo ${ENVIRONMENT}
       - run: |
-          cdn_stack=$(aws ssm get-parameter --name '/staging/stacks/cdn' | jq -r '.Parameter.Value')
-          root_bucket_name=$(aws cloudformation describe-stacks --stack-name "$cdn_stack" | jq -r '.Stacks[0].Outputs[] | select(.ExportName == "root-bucket-name-staging") | .OutputValue')
-          root_cdn_id=$(aws cloudformation describe-stacks --stack-name "$cdn_stack" | jq -r '.Stacks[0].Outputs[] | select(.ExportName == "root-distribution-id-staging") | .OutputValue')
-          aws s3 cp ./dist s3://$root_bucket_name/ --recursive
-          aws cloudfront create-invalidation \
-            --distribution-id $root_cdn_id \
-            --paths "/index.html"
-          aws s3 sync ./dist s3://$root_bucket_name/
-  deploy_prod:
-    working_directory: ~/aus-ddr-poc
-    docker:
-      - image: cimg/node:15.6.0
-    resource_class: medium
-    steps:
-      - aws-cli/setup:
-          aws-access-key-id: AWS_ACCESS_KEY
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          aws-region: AWS_REGION
-      - attach_workspace:
-          at: ~/
-      - run: echo prod
-      - run: |
-          cdn_stack=$(aws ssm get-parameter --name '/prod/stacks/cdn' | jq -r '.Parameter.Value')
-          root_bucket_name=$(aws cloudformation describe-stacks --stack-name "$cdn_stack" | jq -r '.Stacks[0].Outputs[] | select(.ExportName == "root-bucket-name-prod") | .OutputValue')
-          root_cdn_id=$(aws cloudformation describe-stacks --stack-name "$cdn_stack" | jq -r '.Stacks[0].Outputs[] | select(.ExportName == "root-distribution-id-prod") | .OutputValue')
+          cdn_stack=$(aws ssm get-parameter --name "/${ENVIRONMENT}/webapp/id" | jq -r '.Parameter.Value')
+          root_bucket_name=$(aws cloudformation describe-stacks --stack-name "$cdn_stack" | jq -r ".Stacks[0].Outputs[] | select(.ExportName == \"${WEBAPP_BUCKET_EXPORT}\") | .OutputValue")
+          root_cdn_id=$(aws cloudformation describe-stacks --stack-name "$cdn_stack" | jq -r ".Stacks[0].Outputs[] | select(.ExportName == \"${WEBAPP_PROXY_EXPORT}\") | .OutputValue")
           aws s3 cp ./dist s3://$root_bucket_name/ --recursive
           aws cloudfront create-invalidation \
             --distribution-id $root_cdn_id \
@@ -140,31 +96,6 @@ workflows:
             - jira/notify
           requires:
             - install
-
-      - build:
-          name: build-development
-          context:
-            - staging
-          post-steps:
-            - jira/notify
-          requires:
-            - test
-            - lint
-          filters:
-            branches:
-              ignore: master
-
-      - deploy_dev:
-          name: deploy-development
-          context:
-            - staging
-          post-steps:
-            - jira/notify
-          requires:
-            - build-development
-          filters:
-            branches:
-              ignore: master
 
       - build:
           name: build-staging
@@ -199,7 +130,7 @@ workflows:
       - build:
           name: build-production
           context:
-            - prod
+            - production
           post-steps:
             - jira/notify
           requires:
@@ -208,9 +139,9 @@ workflows:
             branches:
               only: master
 
-      - deploy_prod:
+      - deploy:
           context:
-            - prod
+            - production
           post-steps:
             - jira/notify
           requires:
