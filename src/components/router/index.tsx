@@ -3,12 +3,12 @@ import SongsManagement from 'features/admin/songs-management';
 import Error from 'features/error';
 import ForgotPassword from 'features/forgot-password';
 import GraphqlTestbed from 'features/graphql-testbed';
-import Home from 'features/home';
 import Leaderboard from 'features/leaderboard';
 import Login from 'features/login';
 import Profile from 'features/profile';
 import ProfileActive from 'features/profile-active';
 import Register from 'features/register';
+import UnderMaintenance from 'features/under-maintenance';
 import { useAuthentication } from 'hooks/use-authentication/authenticationContext';
 import React, { useEffect } from 'react';
 import { Title } from 'react-head';
@@ -28,7 +28,7 @@ const Router = () => (
   <Switch>
     <Route path="/">
       <Title>Australian DDR Events</Title>
-      <Home />
+      <UnderMaintenance />
     </Route>
     <Route path="/login">
       <Title>Login | Australian DDR Events</Title>
