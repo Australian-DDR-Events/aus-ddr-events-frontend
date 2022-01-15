@@ -1,22 +1,20 @@
-import { AxiosRequestConfig } from 'axios';
-import useApi from 'hooks/use-api';
+import useSWRGet from 'hooks/use-swr-get';
 
 import { Dancer } from './types';
 
 type ListDancersData = [Boolean, Array<Dancer> | undefined];
 
+/**
+ * Get a paginated list of dancers
+ * @param page
+ * @param limit
+ */
 const useListDancers = (page: Number, limit: Number): ListDancersData => {
-  const requestOptions: AxiosRequestConfig = {
-    url: '/dancers',
-    params: {
-      page: page || 0,
-      limit: limit || 10,
-    },
-  };
+  const { data, error } = useSWRGet<Dancer[]>('/dancers', page, limit);
 
-  const { loading, value: dancers } = useApi<Array<Dancer>>(requestOptions);
+  if (error) return [false, error];
 
-  return [loading, dancers];
+  return [!data, data];
 };
 
 export default useListDancers;
