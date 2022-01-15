@@ -18,7 +18,6 @@ const Footer = () => (
       alignItems="center"
     >
       <Copyright />
-      <p />
     </Stack>
   </Box>
 );

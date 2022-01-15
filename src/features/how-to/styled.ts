@@ -1,4 +1,4 @@
-import styled from 'types/styled';
+import styled from '@emotion/styled';
 
 export const HowToWrapper = styled.div`
   width: 90%;
