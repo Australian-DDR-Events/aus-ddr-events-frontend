@@ -3,7 +3,7 @@ orbs:
   aws-cli: circleci/aws-cli@2.0.3
   jira: circleci/jira@1.3.0
 jobs:
-  build_and_deploy:
+  install:
     working_directory: ~/aus-ddr-poc
     docker:
       - image: cimg/node:17.3.1
@@ -15,8 +15,36 @@ jobs:
       - run:
           name: install
           command: yarn install
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - aus-ddr-poc
+  lint:
+    working_directory: ~/aus-ddr-poc
+    docker:
+      - image: cimg/node:17.3.1
+    resource_class: medium
+    steps:
+      - attach_workspace:
+          at: ~/
       - run: echo skip
+  test:
+    working_directory: ~/aus-ddr-poc
+    docker:
+      - image: cimg/node:17.3.1
+    resource_class: medium
+    steps:
+      - attach_workspace:
+          at: ~/
       - run: yarn test
+  build:
+    working_directory: ~/aus-ddr-poc
+    docker:
+      - image: cimg/node:17.3.1
+    resource_class: medium
+    steps:
+      - attach_workspace:
+          at: ~/
       - run:
           name: Populate .env.$NODE_ENV
           command: |
@@ -25,6 +53,16 @@ jobs:
             printf "API_BASE=$API_BASE\r\n" >> .env.$NODE_ENV
             printf "AUDIENCE=$AUDIENCE\r\n" >> .env.$NODE_ENV
       - run: yarn build:prod
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - aus-ddr-poc/dist
+  deploy:
+    working_directory: ~/aus-ddr-poc
+    docker:
+      - image: cimg/node:17.3.1
+    resource_class: medium
+    steps:
       - aws-cli/setup:
           aws-access-key-id: AWS_ACCESS_KEY
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
@@ -45,12 +83,41 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - build_and_deploy:
+      - install
+
+      - lint:
+          post-steps:
+            - jira/notify
+          requires:
+            - install
+
+      - test:
+          post-steps:
+            - jira/notify
+          requires:
+            - install
+
+      - build:
+          name: build-staging
+          context:
+            - staging
+          post-steps:
+            - jira/notify
+          requires:
+            - test
+            - lint
+          filters:
+            branches:
+              only: master
+
+      - deploy:
           name: deploy-staging
           context:
             - staging
           post-steps:
             - jira/notify
+          requires:
+            - build-staging
           filters:
             branches:
               only: master
@@ -60,14 +127,25 @@ workflows:
           requires:
             - deploy-staging
 
-      - build_and_deploy:
-          name: deploy-production
+      - build:
+          name: build-production
           context:
             - production
           post-steps:
             - jira/notify
           requires:
             - block_production
+          filters:
+            branches:
+              only: master
+
+      - deploy:
+          context:
+            - production
+          post-steps:
+            - jira/notify
+          requires:
+            - build-production
           filters:
             branches:
               only: master

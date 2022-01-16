@@ -5,6 +5,7 @@ import ForgotPassword from 'features/forgot-password';
 import GraphqlTestbed from 'features/graphql-testbed';
 import Leaderboard from 'features/leaderboard';
 import Login from 'features/login';
+import Callback from 'features/login-callback';
 import Profile from 'features/profile';
 import ProfileActive from 'features/profile-active';
 import Register from 'features/register';
@@ -29,6 +30,9 @@ const Router = () => (
     <Route path="/">
       <Title>Australian DDR Events</Title>
       <UnderMaintenance />
+    </Route>
+    <Route path="/callback">
+      <Callback />
     </Route>
     <Route path="/login">
       <Title>Login | Australian DDR Events</Title>

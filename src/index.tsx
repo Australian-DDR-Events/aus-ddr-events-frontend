@@ -20,24 +20,24 @@ dotenv.config();
 
 const App = (): React.ReactElement => {
   const { isPending } = useAuthentication();
-
-  return (
-    <Wrapper>
-      {isPending() ? (
-        <Center>
-          <Spinner // todo: replace this with proper skeleton structure
-            thickness="4px"
-            speed="0.65s"
-            emptyColor="gray.200"
-            color="blue.500"
-            size="xl"
-          />
-        </Center>
-      ) : (
-        <Router />
-      )}
-    </Wrapper>
-  );
+  return <Wrapper><Router /></Wrapper>;
+  // return (
+  //   <Wrapper>
+  //     {isPending() ? (
+  //       <Center>
+  //         <Spinner // todo: replace this with proper skeleton structure
+  //           thickness="4px"
+  //           speed="0.65s"
+  //           emptyColor="gray.200"
+  //           color="blue.500"
+  //           size="xl"
+  //         />
+  //       </Center>
+  //     ) : (
+  //       <Router />
+  //     )}
+  //   </Wrapper>
+  // );
 };
 
 const providers: Array<ComposeProps> = [
