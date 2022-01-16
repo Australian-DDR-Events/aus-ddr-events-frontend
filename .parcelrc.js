@@ -1,0 +1,6 @@
+module.exports = {
+  extends: "@parcel/config-default",
+  transformers: {
+    "*.{ts,tsx}": ["@parcel/transformer-typescript-tsc"]
+  }
+}
