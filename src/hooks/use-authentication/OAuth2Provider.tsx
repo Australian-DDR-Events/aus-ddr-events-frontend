@@ -13,7 +13,7 @@ const oauth2Context = (): AuthenticationService => {
   };
 
   const logout = () => {
-    authService.logout();
+    authService.logout(true);
   };
 
   const isAuthenticated = () => authService.isAuthenticated();
