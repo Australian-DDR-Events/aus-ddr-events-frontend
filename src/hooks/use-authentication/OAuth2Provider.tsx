@@ -53,9 +53,9 @@ const OAuth2Provider = ({ children }: { children: ReactNode }) => {
       'openid',
       'profile',
       // 'aws.cognito.signin.user.admin',
-      'aus-ddr-events-api/user:read',
+      //'aus-ddr-events-api/user:read',
     ],
-    audience: process.env.AUDIENCE,
+    //audience: process.env.AUDIENCE,
   });
 
   return (
