@@ -15,6 +15,7 @@ import { HeadProvider, Title } from 'react-head';
 import compose, { ComposeProps } from 'utils/compose';
 
 import theme from './theme';
+import LocalProvider from "./hooks/use-authentication/LocalProvider";
 
 dotenv.config();
 
@@ -40,9 +41,11 @@ const App = (): React.ReactElement => {
   // );
 };
 
+const authProvider = process.env.AUTH_PROVIDER === "local" ? LocalProvider : OAuth2Provider;
+
 const providers: Array<ComposeProps> = [
   {
-    Provider: OAuth2Provider,
+    Provider: authProvider,
   },
   {
     Provider: HeadProvider,
