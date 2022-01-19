@@ -11,7 +11,7 @@ module.exports = {
     sourceType: 'module',
     extraFileExtensions: ['.json'],
   },
-  plugins: ['@typescript-eslint', 'simple-import-sort'],
+  plugins: ['@typescript-eslint', 'simple-import-sort', 'import'],
   env: {
     browser: true,
     commonjs: true,
@@ -46,16 +46,20 @@ module.exports = {
       'error',
       {
         allow: [
-          'features/*',
-          'context/*',
-          'types/*',
-          'types/*',
           'components/*',
           '**/components/*',
+          'context/*',
+          'features/*',
+          'hooks/*',
+          'services/*',
+          'types/*',
           'utils/*',
           '!features/*/components/*', // don't allow import from components within a feature
         ],
       },
+    ],
+    'import/no-extraneous-dependencies': [
+      'error', {}
     ],
     'react/destructuring-assignment': 'off',
     'react/props-types': 'off',

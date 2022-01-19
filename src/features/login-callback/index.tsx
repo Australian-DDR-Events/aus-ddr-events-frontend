@@ -1,18 +1,9 @@
-import { useAuthentication } from "../../hooks/use-authentication";
 import { Center, Spinner } from "@chakra-ui/react";
-import React, { useEffect } from "react";
-import { useLocation } from "wouter";
+import React from "react";
 
-const Callback = () => {
-  const { isPending, isAuthenticated } = useAuthentication();
-  const [,setLocation] = useLocation();
-  let attempts = 0;
-  useEffect(() => {
-    if (!isPending()) {
-      setLocation("/");
-    }
-    new Promise(resolve => setTimeout(resolve, 1000)).then(() => attempts++);
-  }, [attempts]);
+const LoginCallback = () => {
+  window.localStorage.setItem('preAuthUri', '/profile/start');
+
   return (
     <Center>
       <Spinner // todo: replace this with proper skeleton structure
@@ -26,4 +17,4 @@ const Callback = () => {
   );
 }
 
-export default Callback;
+export default LoginCallback;

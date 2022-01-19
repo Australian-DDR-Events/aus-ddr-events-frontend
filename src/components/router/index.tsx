@@ -5,7 +5,7 @@ import ForgotPassword from 'features/forgot-password';
 import GraphqlTestbed from 'features/graphql-testbed';
 import Leaderboard from 'features/leaderboard';
 import Login from 'features/login';
-import Callback from 'features/login-callback';
+import LoginCallback from 'features/login-callback';
 import Profile from 'features/profile';
 import ProfileActive from 'features/profile-active';
 import Register from 'features/register';
@@ -14,6 +14,7 @@ import { useAuthentication } from 'hooks/use-authentication/authenticationContex
 import React, { useEffect } from 'react';
 import { Title } from 'react-head';
 import { Route, RouteProps, Switch } from 'wouter';
+import CreateProfile from "../../features/profile/create-profile";
 
 const ProtectedRoute = (props: RouteProps) => {
   const { login, isAuthenticated } = useAuthentication();
@@ -32,7 +33,7 @@ const Router = () => (
       <UnderMaintenance />
     </Route>
     <Route path="/callback">
-      <Callback />
+      <LoginCallback />
     </Route>
     <Route path="/login">
       <Title>Login | Australian DDR Events</Title>
@@ -49,6 +50,10 @@ const Router = () => (
     <ProtectedRoute path="/profile">
       <Title>Profile | Australian DDR Events</Title>
       <ProfileActive />
+    </ProtectedRoute>
+    <ProtectedRoute path="/profile/start">
+      <Title>Profile | Australian DDR Events</Title>
+      <CreateProfile />
     </ProtectedRoute>
     <ProtectedRoute path="/profile/:id">
       {(params) => (

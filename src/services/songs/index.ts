@@ -1,4 +1,4 @@
-import useSWRGet from 'hooks/use-swr-get';
+import useSWRGetPaginated from 'hooks/use-swr-get-paginated';
 import { ApiResponse, HookResponse } from 'types/api';
 
 import { Song } from './types';
@@ -11,7 +11,7 @@ type ListSongResponse = HookResponse<Song[]>;
  * @param limit
  */
 const useListSongs = (page: Number, limit: Number): ListSongResponse => {
-  const { data, error } = useSWRGet<ApiResponse<Song[]>>('/songs', page, limit);
+  const { data, error } = useSWRGetPaginated<ApiResponse<Song[]>>('/songs', page, limit);
 
   if (data)
     return {

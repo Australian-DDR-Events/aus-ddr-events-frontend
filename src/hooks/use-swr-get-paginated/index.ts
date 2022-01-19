@@ -10,9 +10,10 @@ import useSWR, { SWRResponse } from 'swr';
  * @param limit
  * @returns
  */
-const useSWRGet = <T extends unknown>(
+const useSWRGetPaginated = <T extends unknown>(
   path: string,
-  retry: boolean = true,
+  page: Number,
+  limit: Number,
 ): SWRResponse<T> => {
   const { isAuthenticated, getAccessToken } = useAuthentication();
 
@@ -22,6 +23,10 @@ const useSWRGet = <T extends unknown>(
   ): AxiosRequestConfig => ({
     url: `${process.env.API_URL}${url}`,
     method: 'GET',
+    params: {
+      page: page || 0,
+      limit: limit || 10,
+    },
     ...(token && {
       headers: {
         authorization: `Bearer ${token}`,
@@ -33,18 +38,11 @@ const useSWRGet = <T extends unknown>(
     axios
       .request(getRequestOption(url, token))
       .then((r: AxiosResponse<T>) => r.data)
-      .catch((e) => {
-        throw e;
-      });
+      .catch((e) => e);
 
-  if (isAuthenticated())
-    return useSWR([path, getAccessToken()], fetcher, {
-      shouldRetryOnError: retry,
-    });
+  if (isAuthenticated()) return useSWR([path, getAccessToken()], fetcher);
 
-  return useSWR(path, fetcher, {
-    shouldRetryOnError: retry,
-  });
+  return useSWR(path, fetcher);
 };
 
-export default useSWRGet;
+export default useSWRGetPaginated;

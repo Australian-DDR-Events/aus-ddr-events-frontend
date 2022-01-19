@@ -1,4 +1,4 @@
-import useSWRGet from 'hooks/use-swr-get';
+import useSWRGetPaginated from 'hooks/use-swr-get-paginated';
 
 import { Dancer } from './types';
 
@@ -10,7 +10,7 @@ type ListDancersData = [Boolean, Array<Dancer> | undefined];
  * @param limit
  */
 const useListDancers = (page: Number, limit: Number): ListDancersData => {
-  const { data, error } = useSWRGet<Dancer[]>('/dancers', page, limit);
+  const { data, error } = useSWRGetPaginated<Dancer[]>('/dancers', page, limit);
 
   if (error) return [false, error];
 
