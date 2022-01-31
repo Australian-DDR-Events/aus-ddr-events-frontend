@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 
 type UseApiReturn<T> = {
   value?: T;
+  error?: any;
   loading: boolean;
 };
 
@@ -13,6 +14,7 @@ const useApi = <T extends unknown>(
 ): UseApiReturn<T> => {
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState<T | undefined>(undefined);
+  const [error, setError] = useState<any>(undefined);
   const { url } = useEndpoint();
   const { isAuthenticated, getAccessToken } = useAuthentication();
 
@@ -37,7 +39,8 @@ const useApi = <T extends unknown>(
         setValue(r.data);
         setLoading(false);
       })
-      .catch(() => {
+      .catch((e) => {
+        setError(e);
         setLoading(false);
       });
   }, []);
@@ -45,6 +48,7 @@ const useApi = <T extends unknown>(
   return {
     value,
     loading,
+    error,
   };
 };
 
