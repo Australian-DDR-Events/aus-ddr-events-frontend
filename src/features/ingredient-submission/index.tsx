@@ -24,13 +24,11 @@ const IngredientSubmission = () => {
   const [ingredients, setIngredients] = useState<Ingredient[]>(
     new Array<Ingredient>(),
   );
-  const [
-    loggedInDancerGradedIngredients,
-    setLoggedInDancerGradedIngredients,
-  ] = useState<Map<string, DancerGradedIngredient>>(
-    // key: songId -> value: gradedIngredient
-    new Map<string, DancerGradedIngredient>(),
-  );
+  const [loggedInDancerGradedIngredients, setLoggedInDancerGradedIngredients] =
+    useState<Map<string, DancerGradedIngredient>>(
+      // key: songId -> value: gradedIngredient
+      new Map<string, DancerGradedIngredient>(),
+    );
   const [isLoading, setIsLoading] = useState(true);
   const [isSmallerThan1440] = useMediaQuery('(max-width: 1440px)');
 

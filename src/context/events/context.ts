@@ -10,8 +10,7 @@ const initialContext = {
   },
 };
 
-const EventsRepositoryContext = createContext<EventsRepositoryContextInterface>(
-  initialContext,
-);
+const EventsRepositoryContext =
+  createContext<EventsRepositoryContextInterface>(initialContext);
 
 export default EventsRepositoryContext;

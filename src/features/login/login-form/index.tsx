@@ -104,7 +104,11 @@ const LoginForm = () => {
   //             )}
   //           </Field>
 
-  //           <Field type="password" name="password" validate={validatePassword}>
+  //           <Field
+  //             type="password"
+  //             name="password"
+  //             validate={validatePassword}
+  //           >
   //             {({ field, form }: { field: any; form: any }) => (
   //               <FormControl
   //                 htmlFor="password"

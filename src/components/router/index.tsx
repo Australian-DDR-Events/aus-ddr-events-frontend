@@ -14,7 +14,8 @@ import { useAuthentication } from 'hooks/use-authentication/authenticationContex
 import React, { useEffect } from 'react';
 import { Title } from 'react-head';
 import { Route, RouteProps, Switch } from 'wouter';
-import CreateProfile from "../../features/profile/create-profile";
+
+import CreateProfile from '../../features/profile/create-profile';
 
 const ProtectedRoute = (props: RouteProps) => {
   const { login, isAuthenticated } = useAuthentication();

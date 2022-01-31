@@ -18,8 +18,7 @@ const initialContext = {
 };
 
 // eslint-disable-next-line max-len
-const DancersRepositoryContext = createContext<DancersRepositoryContextInterface>(
-  initialContext,
-);
+const DancersRepositoryContext =
+  createContext<DancersRepositoryContextInterface>(initialContext);
 
 export default DancersRepositoryContext;

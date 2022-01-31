@@ -1,5 +1,5 @@
-import { Center, Spinner } from "@chakra-ui/react";
-import React from "react";
+import { Center, Spinner } from '@chakra-ui/react';
+import React from 'react';
 
 const LoginCallback = () => {
   window.localStorage.setItem('preAuthUri', '/profile/start');
@@ -15,6 +15,6 @@ const LoginCallback = () => {
       />
     </Center>
   );
-}
+};
 
 export default LoginCallback;

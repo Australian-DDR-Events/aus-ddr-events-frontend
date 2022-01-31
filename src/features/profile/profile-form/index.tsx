@@ -14,12 +14,8 @@ import {
 import ImageUploadFormField from 'components/image-upload-form-field';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { UpdateDancerInput } from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
 import { StateOptions } from 'utils/dropdown-options';
-
-import { DancerFieldsFragment } from '../operation.generated';
-import { useUpdateExistingDancerMutation } from './operation.generated';
 
 const ProfileForm = ({
   formData,
@@ -39,10 +35,8 @@ const ProfileForm = ({
     primaryMachineLocation: formData.primaryMachineLocation,
   };
 
-  const [
-    updateDancerResult,
-    performDancerUpdate,
-  ] = useUpdateExistingDancerMutation();
+  const [updateDancerResult, performDancerUpdate] =
+    useUpdateExistingDancerMutation();
 
   const [profilePictureUrl, setProfilePictureUrl] = useState<string>('');
   const [apiErrorMessage, setApiErrorMessage] = useState('');
@@ -162,7 +156,6 @@ const ProfileForm = ({
                   label="Profile picture"
                   onChange={(event) => {
                     if (event.currentTarget.files) {
-                      // eslint-disable-next-line react/prop-types
                       props.setFieldValue(
                         'profilePicture',
                         event.currentTarget.files[0],
@@ -183,7 +176,6 @@ const ProfileForm = ({
             <Button
               colorScheme="blue"
               type="submit"
-              // eslint-disable-next-line react/prop-types
               isLoading={props.isSubmitting}
               mr={4}
             >
@@ -191,7 +183,6 @@ const ProfileForm = ({
             </Button>
             <Button
               colorScheme="gray"
-              // eslint-disable-next-line react/prop-types
               isLoading={props.isSubmitting}
               onClick={() => onCancelSubmit()}
             >

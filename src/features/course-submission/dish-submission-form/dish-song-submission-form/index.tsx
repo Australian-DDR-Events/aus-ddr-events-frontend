@@ -135,7 +135,6 @@ const DishSongSubmissionForm = ({
                   formError={form.errors.scoreImage}
                   onChange={(event) => {
                     if (event.currentTarget.files) {
-                      // eslint-disable-next-line react/prop-types
                       props.setFieldValue(
                         'scoreImage',
                         event.currentTarget.files[0],

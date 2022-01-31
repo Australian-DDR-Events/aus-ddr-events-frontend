@@ -26,11 +26,9 @@ const scoresApiDao = ({
         (response: AxiosResponse<Score>): Result<Error, Score> =>
           ok(response.data),
       )
-      .catch(
-        (): Result<Error, Score> => {
-          return err(new Error('failed to get songs'), DefaultScore);
-        },
-      );
+      .catch((): Result<Error, Score> => {
+        return err(new Error('failed to get songs'), DefaultScore);
+      });
   };
 
   const getAll = async (

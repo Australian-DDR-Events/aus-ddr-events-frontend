@@ -24,11 +24,9 @@ const dishesApiDao = ({
         (response: AxiosResponse<Dish>): Result<Error, Dish> =>
           ok(response.data),
       )
-      .catch(
-        (): Result<Error, Dish> => {
-          return err(new Error('failed to get dish'), DefaultDish);
-        },
-      );
+      .catch((): Result<Error, Dish> => {
+        return err(new Error('failed to get dish'), DefaultDish);
+      });
   };
 
   const getAll = async (): Promise<Result<Error, Array<Dish>>> => {
@@ -54,11 +52,9 @@ const dishesApiDao = ({
           response: AxiosResponse<Array<DishSong>>,
         ): Result<Error, Array<DishSong>> => ok(response.data),
       )
-      .catch(
-        (): Result<Error, Array<DishSong>> => {
-          return err(new Error('failed to get songs'), new Array<DishSong>());
-        },
-      );
+      .catch((): Result<Error, Array<DishSong>> => {
+        return err(new Error('failed to get songs'), new Array<DishSong>());
+      });
   };
 
   const getGrades = async (
@@ -71,14 +67,9 @@ const dishesApiDao = ({
           response: AxiosResponse<Array<GradedDish>>,
         ): Result<Error, Array<GradedDish>> => ok(response.data),
       )
-      .catch(
-        (): Result<Error, Array<GradedDish>> => {
-          return err(
-            new Error('failed to get grades'),
-            new Array<GradedDish>(),
-          );
-        },
-      );
+      .catch((): Result<Error, Array<GradedDish>> => {
+        return err(new Error('failed to get grades'), new Array<GradedDish>());
+      });
   };
 
   /**
@@ -96,14 +87,12 @@ const dishesApiDao = ({
           response: AxiosResponse<DancerGradedDish[]>,
         ): Result<Error, DancerGradedDish[]> => ok(response.data),
       )
-      .catch(
-        (): Result<Error, DancerGradedDish[]> => {
-          return err(
-            new Error('failed to get grades'),
-            new Array<DancerGradedDish>(),
-          );
-        },
-      );
+      .catch((): Result<Error, DancerGradedDish[]> => {
+        return err(
+          new Error('failed to get grades'),
+          new Array<DancerGradedDish>(),
+        );
+      });
   };
 
   const postSubmission = async (

@@ -18,26 +18,22 @@ const dancersApiDao = ({
 
     return axiosClient
       .get(`/dancers/${dancerId}`)
-      .then(
-        (response: AxiosResponse): Result<Error, Dancer> => {
-          const dancer: Dancer = {
-            id: response.data.id,
-            ddrCode: response.data.ddrCode,
-            ddrName: response.data.ddrName,
-            primaryMachine: response.data.primaryMachineLocation,
-            profilePictureUrl: response.data.profilePictureUrl,
-            newProfilePicture: new File([''], 'filename'),
-            state: response.data.state,
-          };
-          activeDancers.set(dancerId, dancer);
-          return ok(dancer);
-        },
-      )
-      .catch(
-        (): Result<Error, Dancer> => {
-          return err(new Error('failed to get user'), DefaultDancer);
-        },
-      );
+      .then((response: AxiosResponse): Result<Error, Dancer> => {
+        const dancer: Dancer = {
+          id: response.data.id,
+          ddrCode: response.data.ddrCode,
+          ddrName: response.data.ddrName,
+          primaryMachine: response.data.primaryMachineLocation,
+          profilePictureUrl: response.data.profilePictureUrl,
+          newProfilePicture: new File([''], 'filename'),
+          state: response.data.state,
+        };
+        activeDancers.set(dancerId, dancer);
+        return ok(dancer);
+      })
+      .catch((): Result<Error, Dancer> => {
+        return err(new Error('failed to get user'), DefaultDancer);
+      });
   };
 
   const getByAuthenticationId = async (
@@ -48,26 +44,22 @@ const dancersApiDao = ({
 
     return axiosClient
       .get(`/dancers/${authenticationId}`)
-      .then(
-        (response: AxiosResponse): Result<Error, Dancer> => {
-          const dancer: Dancer = {
-            id: response.data.id,
-            ddrCode: response.data.ddrCode,
-            ddrName: response.data.ddrName,
-            primaryMachine: response.data.primaryMachineLocation,
-            profilePictureUrl: response.data.profilePictureUrl,
-            newProfilePicture: new File([''], 'filename'),
-            state: response.data.state,
-          };
-          activeDancers.set('authUser', dancer);
-          return ok(dancer);
-        },
-      )
-      .catch(
-        (): Result<Error, Dancer> => {
-          return err(new Error('failed to get user'), DefaultDancer);
-        },
-      );
+      .then((response: AxiosResponse): Result<Error, Dancer> => {
+        const dancer: Dancer = {
+          id: response.data.id,
+          ddrCode: response.data.ddrCode,
+          ddrName: response.data.ddrName,
+          primaryMachine: response.data.primaryMachineLocation,
+          profilePictureUrl: response.data.profilePictureUrl,
+          newProfilePicture: new File([''], 'filename'),
+          state: response.data.state,
+        };
+        activeDancers.set('authUser', dancer);
+        return ok(dancer);
+      })
+      .catch((): Result<Error, Dancer> => {
+        return err(new Error('failed to get user'), DefaultDancer);
+      });
   };
 
   const uploadProfilePicture = async (

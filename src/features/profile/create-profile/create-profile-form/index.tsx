@@ -1,15 +1,22 @@
-import { Formik, Field, FormikHelpers } from "formik";
-import React from "react";
-import { Button, FormControl, FormErrorMessage, FormLabel, Input, Select } from "@chakra-ui/react";
-import { StateOptions } from "../../../../utils/dropdown-options";
-import useSWRPost from "../../../../hooks/use-swr-post";
-import { CreateProfileFormData } from "./types";
-import { useLocation } from "wouter";
-import { AxiosRequestConfig } from "axios";
-import useApi from "hooks/use-api";
+import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  Select,
+} from '@chakra-ui/react';
+import { AxiosRequestConfig } from 'axios';
+import { Field, Formik, FormikHelpers } from 'formik';
+import useApi from 'hooks/use-api';
+import React from 'react';
+import { useLocation } from 'wouter';
+
+import { StateOptions } from '../../../../utils/dropdown-options';
+import { CreateProfileFormData } from './types';
 
 const CreateProfileForm: React.FC = () => {
-  const [,setlocation] = useLocation();
+  const [, setlocation] = useLocation();
 
   const validateDancerName = (value: string) => {
     if (!value) return 'Please enter a dancer name';
@@ -21,7 +28,10 @@ const CreateProfileForm: React.FC = () => {
     return null;
   };
 
-  const onSubmit = (values: CreateProfileFormData, actions: FormikHelpers<CreateProfileFormData>) => {
+  const onSubmit = (
+    values: CreateProfileFormData,
+    actions: FormikHelpers<CreateProfileFormData>,
+  ) => {
     const requestOptions: AxiosRequestConfig = {
       url: '/dancers',
       method: 'POST',
@@ -31,7 +41,7 @@ const CreateProfileForm: React.FC = () => {
     };
     const { error } = useApi<undefined>(requestOptions);
     if (!error) {
-      setlocation("/profile");
+      setlocation('/profile');
     }
 
     actions.setSubmitting(false);
@@ -47,7 +57,7 @@ const CreateProfileForm: React.FC = () => {
       }}
       onSubmit={onSubmit}
     >
-      {props => (
+      {(props) => (
         <FormControl>
           <Field type="ddrName" name="ddrName" validate={validateDancerName}>
             {({ field, form }: { field: any; form: any }) => (
@@ -59,7 +69,7 @@ const CreateProfileForm: React.FC = () => {
             )}
           </Field>
           <Field type="ddrCode" name="ddrCode" validate={validateDancerId}>
-            {({ field, form }: { field: any; form: any}) => (
+            {({ field, form }: { field: any; form: any }) => (
               <FormControl id="ddrName" isRequired mb={4}>
                 <FormLabel>DDR Code</FormLabel>
                 <Input type="text" {...field} />
@@ -99,7 +109,6 @@ const CreateProfileForm: React.FC = () => {
           <Button
             colorScheme="blue"
             type="submit"
-            // eslint-disable-next-line react/prop-types
             isLoading={props.isSubmitting}
             mr={4}
           >
@@ -109,6 +118,6 @@ const CreateProfileForm: React.FC = () => {
       )}
     </Formik>
   );
-}
+};
 
 export default CreateProfileForm;

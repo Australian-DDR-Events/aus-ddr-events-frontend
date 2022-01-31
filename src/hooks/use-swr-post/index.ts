@@ -3,7 +3,8 @@ import { useAuthentication } from 'hooks/use-authentication';
 import useSWR, { SWRResponse } from 'swr';
 
 /**
- * Perform a POST request using SWR. This will automatically attach a Auth header
+ * Perform a POST request using SWR.
+ * This will automatically attach a Auth header
  * if the user is authenticated.
  * @param path
  * @param body
@@ -24,7 +25,9 @@ const useSWRPost = <T1 extends unknown, T2 extends unknown>(
     data: body,
     ...(token && {
       headers: {
-        authorization: `Bearer ${token}`,
+        authorization: `${
+          process.env.AUTH_PROVIDER === 'local' ? 'basic' : 'bearer'
+        } ${token}`,
       },
     }),
   });

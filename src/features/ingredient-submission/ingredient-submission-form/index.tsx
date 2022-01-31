@@ -129,7 +129,6 @@ const IngredientSubmissionForm = ({
                   formError={form.errors.scoreImage}
                   onChange={(event) => {
                     if (event.currentTarget.files) {
-                      // eslint-disable-next-line react/prop-types
                       props.setFieldValue(
                         'scoreImage',
                         event.currentTarget.files[0],
@@ -168,7 +167,6 @@ const IngredientSubmissionForm = ({
             <Button
               colorScheme="blue"
               type="submit"
-              // eslint-disable-next-line react/prop-types
               isLoading={props.isSubmitting}
               mr={4}
             >
@@ -176,7 +174,6 @@ const IngredientSubmissionForm = ({
             </Button>
             <Button
               colorScheme="gray"
-              // eslint-disable-next-line react/prop-types
               isLoading={props.isSubmitting}
               onClick={() => onCancelSubmit()}
             >
