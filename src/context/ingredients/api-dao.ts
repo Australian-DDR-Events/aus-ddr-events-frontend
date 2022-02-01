@@ -22,23 +22,19 @@ const ingredientsApiDao = ({
   const getAll = async (): Promise<Result<Error, Array<Ingredient>>> => {
     return axiosClient
       .get(`/summer2021/ingredients`)
-      .then(
-        (response: AxiosResponse): Array<Ingredient> => {
-          return response.data;
-        },
-      )
+      .then((response: AxiosResponse): Array<Ingredient> => {
+        return response.data;
+      })
       .then(
         (ingredients: Array<Ingredient>): Result<Error, Array<Ingredient>> =>
           ok(ingredients),
       )
-      .catch(
-        (): Result<Error, Array<Ingredient>> => {
-          return err(
-            new Error('failed to get ingredients'),
-            new Array<Ingredient>(),
-          );
-        },
-      );
+      .catch((): Result<Error, Array<Ingredient>> => {
+        return err(
+          new Error('failed to get ingredients'),
+          new Array<Ingredient>(),
+        );
+      });
   };
 
   const getById = async (id: string): Promise<Result<Error, Ingredient>> => {
@@ -48,11 +44,9 @@ const ingredientsApiDao = ({
         (response: AxiosResponse<Ingredient>): Result<Error, Ingredient> =>
           ok(response.data),
       )
-      .catch(
-        (): Result<Error, Ingredient> => {
-          return err(new Error('failed to get ingredient'), DefaultIngredient);
-        },
-      );
+      .catch((): Result<Error, Ingredient> => {
+        return err(new Error('failed to get ingredient'), DefaultIngredient);
+      });
   };
 
   const getGrades = async (
@@ -60,27 +54,23 @@ const ingredientsApiDao = ({
   ): Promise<Result<Error, Array<GradedIngredient>>> => {
     return axiosClient
       .get(`/summer2021/ingredients/${id}/grades`)
-      .then(
-        (response: AxiosResponse): Array<GradedIngredient> => {
-          return response.data.map(
-            (ingredientGrade: GradedIngredient): GradedIngredient =>
-              ingredientGrade,
-          );
-        },
-      )
+      .then((response: AxiosResponse): Array<GradedIngredient> => {
+        return response.data.map(
+          (ingredientGrade: GradedIngredient): GradedIngredient =>
+            ingredientGrade,
+        );
+      })
       .then(
         (
           ingredientGrades: Array<GradedIngredient>,
         ): Result<Error, Array<GradedIngredient>> => ok(ingredientGrades),
       )
-      .catch(
-        (): Result<Error, Array<GradedIngredient>> => {
-          return err(
-            new Error('failed to get ingredient grades'),
-            new Array<GradedIngredient>(),
-          );
-        },
-      );
+      .catch((): Result<Error, Array<GradedIngredient>> => {
+        return err(
+          new Error('failed to get ingredient grades'),
+          new Array<GradedIngredient>(),
+        );
+      });
   };
 
   const getGradedIngredientsByDancer = async (
@@ -89,24 +79,20 @@ const ingredientsApiDao = ({
   ): Promise<Result<Error, Array<DancerGradedIngredient>>> => {
     return axiosClient
       .get(`/summer2021/dancers/${dancerId}/ingredients?top_only=${topOnly}`)
-      .then(
-        (response: AxiosResponse): Array<DancerGradedIngredient> => {
-          return response.data;
-        },
-      )
+      .then((response: AxiosResponse): Array<DancerGradedIngredient> => {
+        return response.data;
+      })
       .then(
         (
           ingredientGrades: Array<DancerGradedIngredient>,
         ): Result<Error, Array<DancerGradedIngredient>> => ok(ingredientGrades),
       )
-      .catch(
-        (): Result<Error, Array<DancerGradedIngredient>> => {
-          return err(
-            new Error('failed to get ingredient grades'),
-            new Array<DancerGradedIngredient>(),
-          );
-        },
-      );
+      .catch((): Result<Error, Array<DancerGradedIngredient>> => {
+        return err(
+          new Error('failed to get ingredient grades'),
+          new Array<DancerGradedIngredient>(),
+        );
+      });
   };
 
   const postScoreSubmission = async (

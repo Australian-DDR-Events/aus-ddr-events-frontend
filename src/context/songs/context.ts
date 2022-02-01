@@ -16,8 +16,7 @@ const initialContext = {
   },
 };
 
-const SongsRepositoryContext = createContext<SongsRepositoryContextInterface>(
-  initialContext,
-);
+const SongsRepositoryContext =
+  createContext<SongsRepositoryContextInterface>(initialContext);
 
 export default SongsRepositoryContext;

@@ -34,8 +34,7 @@ const initialContext = {
   },
 };
 
-const DishesRepositoryContext = createContext<DishesRepositoryContextInterface>(
-  initialContext,
-);
+const DishesRepositoryContext =
+  createContext<DishesRepositoryContextInterface>(initialContext);
 
 export default DishesRepositoryContext;

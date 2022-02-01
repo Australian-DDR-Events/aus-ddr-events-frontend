@@ -11,7 +11,11 @@ type ListSongResponse = HookResponse<Song[]>;
  * @param limit
  */
 const useListSongs = (page: Number, limit: Number): ListSongResponse => {
-  const { data, error } = useSWRGetPaginated<ApiResponse<Song[]>>('/songs', page, limit);
+  const { data, error } = useSWRGetPaginated<ApiResponse<Song[]>>(
+    '/songs',
+    page,
+    limit,
+  );
 
   if (data)
     return {

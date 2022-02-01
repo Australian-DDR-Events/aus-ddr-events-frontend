@@ -44,13 +44,8 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [, setLocation] = useLocation();
 
-  const {
-    login,
-    logout,
-    isAuthenticated,
-    isPending,
-    getClaim,
-  } = useAuthentication();
+  const { login, logout, isAuthenticated, isPending, getClaim } =
+    useAuthentication();
 
   const toggle = () => setIsOpen(!isOpen);
 

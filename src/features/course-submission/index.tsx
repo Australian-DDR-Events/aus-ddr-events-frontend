@@ -21,9 +21,8 @@ const CourseSubmission = () => {
   const dishesRepo = useContext(DishesRepositoryContext);
   const ingredientsRepo = useContext(IngredientsRepositoryContext);
   const [dishes, setDishes] = useState<Dish[]>();
-  const [dancerIngredients, setDancerIngredients] = useState<
-    Map<string, DancerGradedIngredient>
-  >();
+  const [dancerIngredients, setDancerIngredients] =
+    useState<Map<string, DancerGradedIngredient>>();
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const loggedInUser = authRepo.authenticationRepositoryInstance

@@ -26,7 +26,6 @@ const CustomIconRatings = ({
         .map((_, i) => (
           <Icon
             as={icon}
-            // eslint-disable-next-line react/no-array-index-key
             key={`${id}-${i}`}
             color={i < rating ? color : 'gray.300'}
             {...props}

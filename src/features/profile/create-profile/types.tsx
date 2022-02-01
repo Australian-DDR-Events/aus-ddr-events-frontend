@@ -1,5 +1,4 @@
-
 export interface DancerResponse {
-  Id: string,
-  Name: string,
+  Id: string;
+  Name: string;
 }

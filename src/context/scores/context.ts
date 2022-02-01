@@ -28,8 +28,7 @@ const initialContext = {
   },
 };
 
-const ScoresRepositoryContext = createContext<ScoresRepositoryContextInterface>(
-  initialContext,
-);
+const ScoresRepositoryContext =
+  createContext<ScoresRepositoryContextInterface>(initialContext);
 
 export default ScoresRepositoryContext;

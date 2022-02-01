@@ -1,10 +1,17 @@
-import { Center, Container, Heading, Spinner, useMediaQuery } from "@chakra-ui/react";
-import React, { useEffect } from "react";
-import { useLocation } from "wouter";
-import CreateProfileForm from "./create-profile-form";
-import { DancerResponse } from "./types";
-import useApi from "../../../hooks/use-api";
-import { AxiosRequestConfig } from "axios";
+import {
+  Center,
+  Container,
+  Heading,
+  Spinner,
+  useMediaQuery,
+} from '@chakra-ui/react';
+import { AxiosRequestConfig } from 'axios';
+import React, { useEffect } from 'react';
+import { useLocation } from 'wouter';
+
+import useApi from '../../../hooks/use-api';
+import CreateProfileForm from './create-profile-form';
+import { DancerResponse } from './types';
 
 const CreateProfile: React.FC = () => {
   const [isLargerThan767] = useMediaQuery('(min-width: 767px)');
@@ -15,11 +22,11 @@ const CreateProfile: React.FC = () => {
   };
   const { error, loading } = useApi<DancerResponse>(requestOptions);
 
-  const [,setLocation] = useLocation();
+  const [, setLocation] = useLocation();
 
   useEffect(() => {
     if (!loading && error == null) {
-      setLocation("/profile");
+      setLocation('/profile');
     }
   }, [loading]);
 
@@ -43,6 +50,6 @@ const CreateProfile: React.FC = () => {
       <CreateProfileForm />
     </Container>
   );
-}
+};
 
 export default CreateProfile;

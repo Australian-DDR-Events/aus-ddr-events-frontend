@@ -41,8 +41,7 @@ const initialContext = {
 };
 
 // eslint-disable-next-line max-len
-const IngredientsRepositoryContext = createContext<IngredientsRepositoryContextInterface>(
-  initialContext,
-);
+const IngredientsRepositoryContext =
+  createContext<IngredientsRepositoryContextInterface>(initialContext);
 
 export default IngredientsRepositoryContext;

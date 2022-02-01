@@ -12,13 +12,12 @@ const IngredientsTab = ({ dancerId }: { dancerId: string }) => {
   const [dancerGradedIngredients, setDancerGradedIngredients] = useState<
     DancerGradedIngredientsFragment[]
   >([]);
-  const [
-    { data: ingredientData, fetching: fetchingIngredients },
-  ] = useGetAllGradedIngredientsForDancerIdQuery({
-    variables: {
-      dancerId,
-    },
-  });
+  const [{ data: ingredientData, fetching: fetchingIngredients }] =
+    useGetAllGradedIngredientsForDancerIdQuery({
+      variables: {
+        dancerId,
+      },
+    });
 
   useEffect(() => {
     if (ingredientData?.ingredientsByDancerId) {

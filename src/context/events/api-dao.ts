@@ -23,11 +23,9 @@ const eventsApiDao = ({
         (response: AxiosResponse<Array<Event>>): Result<Error, Array<Event>> =>
           ok(response.data),
       )
-      .catch(
-        (): Result<Error, Array<Event>> => {
-          return err(new Error('failed to get events'), new Array<Event>());
-        },
-      );
+      .catch((): Result<Error, Array<Event>> => {
+        return err(new Error('failed to get events'), new Array<Event>());
+      });
   };
 
   return { getAll };

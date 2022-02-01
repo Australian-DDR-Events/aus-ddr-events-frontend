@@ -28,10 +28,8 @@ const IngredientSubmissionModal = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  const [
-    submissionResult,
-    setSubmissionResult,
-  ] = useState<Summer2021Score | null>(null);
+  const [submissionResult, setSubmissionResult] =
+    useState<Summer2021Score | null>(null);
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="lg">
       <ModalOverlay />

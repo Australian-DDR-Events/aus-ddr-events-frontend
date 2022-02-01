@@ -197,7 +197,8 @@ const RegistrationForm = () => <></>;
 //                   htmlFor="confirmPassword"
 //                   isRequired
 //                   isInvalid={
-//                     form.errors.confirmPassword && form.touched.confirmPassword
+//                     form.errors.confirmPassword
+//                     && form.touched.confirmPassword
 //                   }
 //                   mb={4}
 //                 >
