@@ -23,6 +23,7 @@ jobs:
             printf "CLIENT_ID=$CLIENT_ID\r\n" >> .env.$NODE_ENV
             printf "PROVIDER=$PROVIDER\r\n" >> .env.$NODE_ENV
             printf "API_BASE=$API_BASE\r\n" >> .env.$NODE_ENV
+            printf "API_URL=$API_URL\r\n" >> .env.$NODE_ENV
             printf "AUDIENCE=$AUDIENCE\r\n" >> .env.$NODE_ENV
       - run: yarn build:prod
       - aws-cli/setup:
