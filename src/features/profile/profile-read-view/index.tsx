@@ -11,11 +11,11 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import React from 'react';
-import { DancerFieldsFragment } from 'types/graphql.generated';
 import { defaultPixel } from 'types/styled';
 import { getProfileImageUrl } from 'utils/assets';
 import { StateOptions } from 'utils/dropdown-options';
 
+import { DancerResponse } from '../types';
 import ProfileTabs from './profile-tabs';
 
 const ProfileReadView = ({
@@ -24,7 +24,7 @@ const ProfileReadView = ({
   onEditButtonClick,
 }: {
   isEditable: boolean;
-  dancer: DancerFieldsFragment;
+  dancer: DancerResponse;
   onEditButtonClick: () => void;
 }) => {
   const [isLargerThan769] = useMediaQuery('(min-width: 769px)');
@@ -54,8 +54,8 @@ const ProfileReadView = ({
         <Center>
           <Avatar
             size="2xl"
-            name={dancer.ddrName}
-            src={getProfileImageUrl(dancer.profilePictureUrl)}
+            name={dancer.name}
+            src={getProfileImageUrl('')}
             mb={4}
             bgColor="transparent"
           />
@@ -84,15 +84,15 @@ const ProfileReadView = ({
         </Center>
 
         <Box textAlign={isLargerThan769 ? 'left' : 'center'}>
-          <Heading>{dancer.ddrName}</Heading>
+          <Heading>{dancer.name}</Heading>
 
-          {dancer.ddrCode && (
+          {dancer.code && (
             <>
               <Text fontSize="sm" mb={-1} color="gray">
                 Dancer code
               </Text>
               <Text fontSize="lg" mb={defaultPixel / 8}>
-                {dancer.ddrCode}
+                {dancer.code}
               </Text>
             </>
           )}
@@ -108,17 +108,17 @@ const ProfileReadView = ({
             </>
           )}
 
-          {dancer.primaryMachineLocation && (
+          {dancer.primaryLocation && (
             <>
               <Text fontSize="sm" mb={-1} color="gray">
                 Primary machine
               </Text>
-              <Text fontSize="lg">{dancer.primaryMachineLocation}</Text>
+              <Text fontSize="lg">{dancer.primaryLocation}</Text>
             </>
           )}
         </Box>
       </Box>
-      <ProfileTabs dancer={dancer} />
+      <ProfileTabs id={dancer.id} />
     </Stack>
   );
 };
