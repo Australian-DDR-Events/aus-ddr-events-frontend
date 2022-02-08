@@ -11,10 +11,12 @@ type UseApiReturn<T> = {
 
 const useApi = <T extends unknown>(
   options: AxiosRequestConfig,
+  data: any,
 ): UseApiReturn<T> => {
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState<T | undefined>(undefined);
   const [error, setError] = useState<any>(undefined);
+
   const { url } = useEndpoint();
   const { isAuthenticated, getAccessToken } = useAuthentication();
 
@@ -34,7 +36,10 @@ const useApi = <T extends unknown>(
 
   useEffect(() => {
     axios
-      .request(requestOptions)
+      .request({
+        ...requestOptions,
+        data: data,
+      })
       .then((r: AxiosResponse<T>) => {
         setValue(r.data);
         setLoading(false);
