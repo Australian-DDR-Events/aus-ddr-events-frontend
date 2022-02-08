@@ -4,11 +4,14 @@ import { ServiceGetResponse } from 'types/service';
 import { DancerResponse } from './types';
 
 const GetUserById = (id: string): ServiceGetResponse<DancerResponse> => {
-  const { data, error } = useSWRGet<DancerResponse>(`/dancers/me?id=${id}`);
+  const { data, error, mutate } = useSWRGet<DancerResponse>(
+    `/dancers/me?id=${id}`,
+  );
   return {
     loading: data === undefined && error == undefined,
     error,
     data,
+    refetch: mutate,
   };
 };
 

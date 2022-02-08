@@ -5,6 +5,7 @@ interface ServiceGetResponse<T> {
   loading: boolean;
   error: any;
   data?: T;
+  refetch?: Function;
 }
 
 interface ServicePostResponse {

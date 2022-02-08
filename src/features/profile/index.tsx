@@ -8,6 +8,7 @@ import {
 import React, { useState } from 'react';
 import { Title } from 'react-head';
 
+import ProfileForm from './profile-form';
 import ProfileReadView from './profile-read-view';
 import { GetUserById } from './service';
 
@@ -20,7 +21,7 @@ const Profile: React.FC<ProfileProps> = ({
   id,
   isEditable = false,
 }: ProfileProps) => {
-  const { data, loading } = GetUserById(id);
+  const { data, loading, refetch } = GetUserById(id);
   const [isEditing, setIsEditing] = useState(false);
 
   const [isLargerThan767] = useMediaQuery('(min-width: 767px)');
@@ -48,24 +49,23 @@ const Profile: React.FC<ProfileProps> = ({
   );
 
   const renderProfileForm = () => (
-    <a>Hello</a>
-    // <ProfileForm
-    //   formData={data?.dancerById!}
-    //   onSuccessfulSubmit={() => {
-    //     reloadProfile();
-    //     setIsEditing(false);
-    //   }}
-    //   onCancelSubmit={() => {
-    //     reloadProfile();
-    //     setIsEditing(false);
-    //   }}
-    // />
+    <ProfileForm
+      formData={data!}
+      onSuccessfulSubmit={() => {
+        refetch!();
+        setIsEditing(false);
+      }}
+      onCancelSubmit={() => {
+        refetch!();
+        setIsEditing(false);
+      }}
+    />
   );
 
   return (
     <Container maxW={isLargerThan767 ? '90%' : '100%'} w="fit-content">
       {!loading && data && <Title>{data.name} | Australian DDR Events</Title>}
-      {isEditing ? renderProfileForm() : renderProfileReadView()}
+      {isEditing && data ? renderProfileForm() : renderProfileReadView()}
     </Container>
   );
 };
