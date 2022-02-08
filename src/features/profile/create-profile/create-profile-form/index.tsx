@@ -7,16 +7,18 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { AxiosRequestConfig } from 'axios';
-import { Field, Formik, FormikHelpers } from 'formik';
-import useApi from 'hooks/use-api';
+import { Field, Form, Formik, FormikHelpers } from 'formik';
 import React from 'react';
 import { useLocation } from 'wouter';
 
 import { StateOptions } from '../../../../utils/dropdown-options';
+import { PostCurrentUser } from './service';
 import { CreateProfileFormData } from './types';
 
 const CreateProfileForm: React.FC = () => {
   const [, setlocation] = useLocation();
+
+  const { execute } = PostCurrentUser();
 
   const validateDancerName = (value: string) => {
     if (!value) return 'Please enter a dancer name';
@@ -35,16 +37,15 @@ const CreateProfileForm: React.FC = () => {
     const requestOptions: AxiosRequestConfig = {
       url: '/dancers',
       method: 'POST',
-      data: {
-        nickname: values,
-      },
+      data: values,
     };
-    const { error } = useApi<undefined>(requestOptions);
-    if (!error) {
-      setlocation('/profile');
-    }
-
-    actions.setSubmitting(false);
+    execute(requestOptions)
+      .then(() => {
+        setlocation('/profile');
+      })
+      .catch(() => {
+        actions.setSubmitting(false);
+      });
   };
 
   return (
@@ -58,7 +59,7 @@ const CreateProfileForm: React.FC = () => {
       onSubmit={onSubmit}
     >
       {(props) => (
-        <FormControl>
+        <Form onSubmit={props.handleSubmit}>
           <Field type="ddrName" name="ddrName" validate={validateDancerName}>
             {({ field, form }: { field: any; form: any }) => (
               <FormControl id="ddrName" isRequired mb={4}>
@@ -114,7 +115,7 @@ const CreateProfileForm: React.FC = () => {
           >
             Save
           </Button>
-        </FormControl>
+        </Form>
       )}
     </Formik>
   );

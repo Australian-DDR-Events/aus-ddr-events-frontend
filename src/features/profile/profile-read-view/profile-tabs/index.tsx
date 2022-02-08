@@ -7,13 +7,10 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react';
 import React from 'react';
-import { DancerFieldsFragment } from 'types/graphql.generated';
 
 import BadgesTab from './badges-tab';
-import DishesTab from './dishes-tab';
-import IngredientsTab from './ingredients-tab';
 
-const ProfileTabs = ({ dancer }: { dancer: DancerFieldsFragment }) => {
+const ProfileTabs = ({ id }: { id: string }) => {
   const [isSmallerThan1024] = useMediaQuery(['(max-width: 1023px)']);
   return (
     <Tabs
@@ -24,21 +21,11 @@ const ProfileTabs = ({ dancer }: { dancer: DancerFieldsFragment }) => {
     >
       <TabList>
         <Tab>Badges</Tab>
-        <Tab>Ingredients</Tab>
-        <Tab>Dishes</Tab>
       </TabList>
 
       <TabPanels>
         <TabPanel minW={isSmallerThan1024 ? '100%' : '65vw'}>
-          <BadgesTab dancerId={dancer.id} />
-        </TabPanel>
-
-        <TabPanel minW={{ base: '100%', md: '65vw' }}>
-          <IngredientsTab dancerId={dancer.id} />
-        </TabPanel>
-
-        <TabPanel minW={isSmallerThan1024 ? '100%' : '65vw'}>
-          <DishesTab dancerId={dancer.id} />
+          <BadgesTab dancerId={id} />
         </TabPanel>
       </TabPanels>
     </Tabs>

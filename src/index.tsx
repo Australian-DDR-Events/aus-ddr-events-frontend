@@ -1,9 +1,10 @@
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
+import axios from 'axios';
 import Router from 'components/router';
 import Wrapper from 'components/wrapper';
 import dotenv from 'dotenv';
-import { OAuth2Provider } from 'hooks/use-authentication';
-import { EndpointProvider } from 'hooks/use-endpoint';
+import { OAuth2Provider, useAuthentication } from 'hooks/use-authentication';
+import { EndpointProvider, useEndpoint } from 'hooks/use-endpoint';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HeadProvider, Title } from 'react-head';
@@ -15,6 +16,18 @@ import theme from './theme';
 dotenv.config();
 
 const App = (): React.ReactElement => {
+  const { url } = useEndpoint();
+  const { isAuthenticated, getAccessToken } = useAuthentication();
+  axios.interceptors.request.use((config) => {
+    config.baseURL = url;
+    if (isAuthenticated()) {
+      config.headers = {
+        authorization: `bearer ${getAccessToken()}`,
+      };
+    }
+    return config;
+  });
+
   return (
     <Wrapper>
       <Router />

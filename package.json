@@ -29,6 +29,7 @@
     "@react-icons/all-files": "^4.1.0",
     "@urql/exchange-multipart-fetch": "^0.1.11",
     "axios": "^0.24.0",
+    "axios-hooks": "^3.0.0",
     "dotenv": "^12.0.3",
     "formik": "^2.2.6",
     "framer-motion": "^5",

@@ -5,30 +5,25 @@ import {
   Spinner,
   useMediaQuery,
 } from '@chakra-ui/react';
-import { AxiosRequestConfig } from 'axios';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useLocation } from 'wouter';
 
-import useApi from '../../../hooks/use-api';
 import CreateProfileForm from './create-profile-form';
-import { DancerResponse } from './types';
+import { GetCurrentUser } from './service';
 
 const CreateProfile: React.FC = () => {
   const [isLargerThan767] = useMediaQuery('(min-width: 767px)');
 
-  const requestOptions: AxiosRequestConfig = {
-    url: '/dancers/me',
-    method: 'GET',
-  };
-  const { error, loading } = useApi<DancerResponse>(requestOptions);
+  // const requestOptions: AxiosRequestConfig = {
+  //   url: '/dancers/me',
+  //   method: 'GET',
+  // };
+
+  // const [{ loading, error }] = useAxios<DancerResponse>(requestOptions);
+
+  const { loading, error } = GetCurrentUser();
 
   const [, setLocation] = useLocation();
-
-  useEffect(() => {
-    if (!loading && error == null) {
-      setLocation('/profile');
-    }
-  }, [loading]);
 
   if (loading) {
     return (
@@ -42,6 +37,10 @@ const CreateProfile: React.FC = () => {
         />
       </Center>
     );
+  }
+
+  if (error == null) {
+    setLocation('/profile');
   }
 
   return (
