@@ -1,3 +1,11 @@
-import { Dancer } from 'context/dancer/types';
+import { DancerResponse } from '../types';
 
-export type ProfileFormData = Dancer;
+type ProfileFormData = DancerResponse;
+interface UpdateProfileData {
+  ddrName: string;
+  ddrCode: string;
+  primaryMachineLocation: string;
+  state: string;
+}
+
+export { ProfileFormData, UpdateProfileData };

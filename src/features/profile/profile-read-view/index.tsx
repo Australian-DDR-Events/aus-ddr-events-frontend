@@ -33,7 +33,7 @@ const ProfileReadView = ({
   };
 
   const { onCopy } = useClipboard(
-    `${process.env.BASE_URL}/profile/${dancer.id}`,
+    `${window.location.origin}/profile/${dancer.id}`,
   );
 
   const toast = useToast();

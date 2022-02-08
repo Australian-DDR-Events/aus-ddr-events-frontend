@@ -11,42 +11,32 @@ import {
   Input,
   Select,
 } from '@chakra-ui/react';
-import ImageUploadFormField from 'components/image-upload-form-field';
+import { AxiosRequestConfig } from 'axios';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
-import React, { useEffect, useState } from 'react';
-import { defaultPixel } from 'types/styled';
+import React, { useState } from 'react';
 import { StateOptions } from 'utils/dropdown-options';
+
+import { PutCurrentUser } from './service';
+import { ProfileFormData, UpdateProfileData } from './types';
 
 const ProfileForm = ({
   formData,
   onSuccessfulSubmit,
   onCancelSubmit,
 }: {
-  formData: DancerFieldsFragment;
+  formData: ProfileFormData;
   onSuccessfulSubmit: () => void;
   onCancelSubmit: Function;
 }) => {
-  const initialFormData: UpdateDancerInput = {
-    dancerId: formData.id,
-    ddrName: formData.ddrName,
-    ddrCode: formData.ddrCode,
-    profilePicture: undefined,
+  const initialFormData: UpdateProfileData = {
+    ddrName: formData.name,
+    ddrCode: formData.code,
     state: formData.state,
-    primaryMachineLocation: formData.primaryMachineLocation,
+    primaryMachineLocation: formData.primaryLocation,
   };
 
-  const [updateDancerResult, performDancerUpdate] =
-    useUpdateExistingDancerMutation();
-
-  const [profilePictureUrl, setProfilePictureUrl] = useState<string>('');
-  const [apiErrorMessage, setApiErrorMessage] = useState('');
-
-  useEffect(
-    () => () => {
-      URL.revokeObjectURL(profilePictureUrl);
-    },
-    [],
-  );
+  const { execute } = PutCurrentUser();
+  const [apiErrorMessage, setApiErrorMessage] = useState<string>('');
 
   const validateDancerName = (value: string) => {
     if (!value) return 'Please enter a dancer name';
@@ -59,25 +49,24 @@ const ProfileForm = ({
   };
 
   const onSubmit = (
-    values: UpdateDancerInput,
-    actions: FormikHelpers<UpdateDancerInput>,
+    values: UpdateProfileData,
+    actions: FormikHelpers<UpdateProfileData>,
   ) => {
-    performDancerUpdate({
-      input: {
-        ...values,
-      },
-    });
-
-    actions.setSubmitting(false);
+    const requestOptions: AxiosRequestConfig = {
+      url: '/dancers',
+      method: 'PUT',
+      data: values,
+    };
+    execute(requestOptions)
+      .then(() => {
+        actions.setSubmitting(false);
+        onSuccessfulSubmit();
+      })
+      .catch(() => {
+        setApiErrorMessage('Failed to update profile.');
+        actions.setSubmitting(false);
+      });
   };
-
-  useEffect(() => {
-    if (updateDancerResult.error) {
-      setApiErrorMessage(updateDancerResult.error.message);
-    } else if (updateDancerResult.data) {
-      onSuccessfulSubmit();
-    }
-  }, [updateDancerResult]);
 
   return (
     <Container mb={8}>
@@ -89,9 +78,13 @@ const ProfileForm = ({
           </Box>
         </Alert>
       )}
-      <Formik initialValues={initialFormData} onSubmit={onSubmit}>
+      <Formik
+        initialValues={initialFormData}
+        onSubmit={onSubmit}
+        enableReinitialize
+      >
         {(props) => (
-          <Form>
+          <Form onSubmit={props.handleSubmit}>
             <Field type="ddrName" name="ddrName" validate={validateDancerName}>
               {({ field, form }: { field: any; form: any }) => (
                 <FormControl id="ddrName" isRequired mb={4}>
@@ -106,12 +99,12 @@ const ProfileForm = ({
               {({ field, form }: { field: any; form: any }) => (
                 <FormControl
                   htmlFor="ddrCode"
-                  isInvalid={form.errors.dancerId && form.touched.dancerId}
+                  isInvalid={form.errors.ddrCode && form.touched.ddrCode}
                   mb={4}
                 >
                   <FormLabel>Dancer code</FormLabel>
                   <Input {...field} id="ddrCode" />
-                  <FormErrorMessage>{form.errors.dancerId}</FormErrorMessage>
+                  <FormErrorMessage>{form.errors.ddrCode}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>
@@ -147,7 +140,7 @@ const ProfileForm = ({
               )}
             </Field>
 
-            <Field type="file" name="profilePicture">
+            {/* <Field type="file" name="profilePicture">
               {({ form }: { form: any }) => (
                 <ImageUploadFormField
                   pt={2}
@@ -171,7 +164,7 @@ const ProfileForm = ({
                   formError={form.errors.profilePicture}
                 />
               )}
-            </Field>
+            </Field> */}
 
             <Button
               colorScheme="blue"
