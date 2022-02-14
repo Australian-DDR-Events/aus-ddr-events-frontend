@@ -10,23 +10,19 @@ import {
   Text,
 } from '@chakra-ui/react';
 import React from 'react';
-import { BadgeFieldsFragment } from 'types/graphql.generated';
+import { badgeIdToAsset } from 'utils/assets';
 
-const BadgeDisplay = ({
-  badge,
-  eventName,
-}: {
-  badge: BadgeFieldsFragment;
-  eventName: string;
-}) => (
+import { BadgeResponse } from '../types';
+
+const BadgeDisplay = ({ badge }: { badge: BadgeResponse }) => (
   <>
     <Popover isLazy trigger="hover">
       <PopoverTrigger>
         <Box w="fit-content" textAlign="center">
           <Center>
-            <Image src={`${process.env.ASSETS_URL}${badge.image128}`} />
+            <Image src={badgeIdToAsset(badge.id, 128)} />
           </Center>
-          <Text fontWeight="bold">{eventName}</Text>
+          <Text fontWeight="bold">{badge.eventName}</Text>
           <Text>{badge.name}</Text>
         </Box>
       </PopoverTrigger>

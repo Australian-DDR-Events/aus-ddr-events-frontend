@@ -25,6 +25,7 @@ jobs:
             printf "API_BASE=$API_BASE\r\n" >> .env.$NODE_ENV
             printf "API_URL=$API_URL\r\n" >> .env.$NODE_ENV
             printf "AUDIENCE=$AUDIENCE\r\n" >> .env.$NODE_ENV
+            printf "ASSETS_URL=$ASSETS_URL\r\n" >> .env.$NODE_ENV
       - run: yarn build:prod
       - aws-cli/setup:
           aws-access-key-id: AWS_ACCESS_KEY

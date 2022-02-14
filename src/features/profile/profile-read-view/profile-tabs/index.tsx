@@ -25,7 +25,7 @@ const ProfileTabs = ({ id }: { id: string }) => {
 
       <TabPanels>
         <TabPanel minW={isSmallerThan1024 ? '100%' : '65vw'}>
-          <BadgesTab dancerId={id} />
+          <BadgesTab id={id} />
         </TabPanel>
       </TabPanels>
     </Tabs>
