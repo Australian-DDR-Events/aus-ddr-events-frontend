@@ -14,13 +14,6 @@ import { GetCurrentUser } from './service';
 const CreateProfile: React.FC = () => {
   const [isLargerThan767] = useMediaQuery('(min-width: 767px)');
 
-  // const requestOptions: AxiosRequestConfig = {
-  //   url: '/dancers/me',
-  //   method: 'GET',
-  // };
-
-  // const [{ loading, error }] = useAxios<DancerResponse>(requestOptions);
-
   const { loading, error } = GetCurrentUser();
 
   const [, setLocation] = useLocation();
