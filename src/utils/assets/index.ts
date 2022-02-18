@@ -12,3 +12,9 @@ type AllowedBadgeSizes = 32 | 64 | 128 | 256 | 512;
 export const badgeIdToAsset = (id: string, size: AllowedBadgeSizes) => {
   return `${process.env.ASSETS_URL}/badges/${id}.${size}.png`;
 };
+
+type AllowedAvatarSizes = 128 | 256;
+
+export const dancerIdToAvatar = (id: string, size: AllowedAvatarSizes) => {
+  return `${process.env.ASSETS_URL}/profile/avatar/${id}.${size}.png`;
+};

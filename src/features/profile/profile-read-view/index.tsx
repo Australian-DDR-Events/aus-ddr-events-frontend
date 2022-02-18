@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   Center,
@@ -12,10 +11,10 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { defaultPixel } from 'types/styled';
-import { getProfileImageUrl } from 'utils/assets';
 import { StateOptions } from 'utils/dropdown-options';
 
 import { DancerResponse } from '../types';
+import EditableAvatar from './editable-avatar';
 import ProfileTabs from './profile-tabs';
 
 const ProfileReadView = ({
@@ -52,13 +51,7 @@ const ProfileReadView = ({
     <Stack direction={['column', 'column', 'column', 'row']} spacing={8}>
       <Box w={isLargerThan769 ? `${defaultPixel * 40}px` : '100%'}>
         <Center>
-          <Avatar
-            size="2xl"
-            name={dancer.name}
-            src={getProfileImageUrl('')}
-            mb={4}
-            bgColor="transparent"
-          />
+          <EditableAvatar dancerId={dancer.id} isEditable />
         </Center>
         {isEditable && (
           <Center>
