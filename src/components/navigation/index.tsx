@@ -14,6 +14,7 @@ import { useAuthentication } from 'hooks/use-authentication';
 import React from 'react';
 import { useLocation } from 'wouter';
 
+import EventsMenuItem from './events-menu-item';
 import LoggedInMenuItems from './logged-in-menu-items';
 import MenuItem from './menu-item';
 import ProfileMenuItem from './profile-menu-item';
@@ -66,6 +67,8 @@ const Navigation = () => {
       />
       <Spacer />
       <MobileTabletColorModeSwitch />
+
+      <EventsMenuItem />
 
       {isPending() && <SkeletonCircle display={{ lg: 'none' }} />}
 
