@@ -1,46 +1,42 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { useAuthentication } from 'hooks/use-authentication';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import useSWR, { SWRResponse } from 'swr';
 
+interface PostParams {
+  queryParams?: URLSearchParams;
+}
+
 /**
- * Perform a POST request using SWR.
- * This will automatically attach a Auth header
+ * Perform a GET request using SWR. This will automatically attach a Auth header
  * if the user is authenticated.
  * @param path
- * @param body
+ * @param page
+ * @param limit
  * @returns
  */
-const useSWRPost = <T1 extends unknown, T2 extends unknown>(
+const useSWRPost = <T extends unknown>(
   path: string,
-  body: T1,
-): SWRResponse<T2 | undefined> => {
-  const { isAuthenticated, getAccessToken } = useAuthentication();
+  params: PostParams,
+  retry: boolean = true,
+): SWRResponse<T, AxiosError> => {
+  const getRequestOption = (url: string): AxiosRequestConfig => {
+    const queryString = params.queryParams
+      ? new URLSearchParams(params.queryParams).toString()
+      : '';
+    return {
+      url: `${process.env.API_URL}${url}${
+        queryString.length > 0 ? `?${queryString}` : ''
+      }`,
+      method: 'POST',
+      withCredentials: true,
+    };
+  };
 
-  const postRequestOptions = (
-    url: string,
-    token?: string,
-  ): AxiosRequestConfig => ({
-    url: `${process.env.API_URL}${url}`,
-    method: 'POST',
-    data: body,
-    ...(token && {
-      headers: {
-        authorization: `${
-          process.env.AUTH_PROVIDER === 'local' ? 'basic' : 'bearer'
-        } ${token}`,
-      },
-    }),
+  const fetcher = (url: string) =>
+    axios.request(getRequestOption(url)).then((r: AxiosResponse<T>) => r.data);
+
+  return useSWR(path, fetcher, {
+    shouldRetryOnError: retry,
   });
-
-  const fetcher = (url: string, token: string = '') =>
-    axios
-      .request(postRequestOptions(url, token))
-      .then((r: AxiosResponse<T2>) => r.data)
-      .catch((e) => e);
-
-  if (isAuthenticated()) return useSWR([path, getAccessToken()], fetcher);
-
-  return useSWR(path, fetcher);
 };
 
 export default useSWRPost;

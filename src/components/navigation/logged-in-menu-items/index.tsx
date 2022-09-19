@@ -1,16 +1,16 @@
 import { Button, HStack } from '@chakra-ui/react';
 import React from 'react';
+import { Dancer } from 'services/dancers';
 import { useLocation } from 'wouter';
 
 import ColorModeSwitch from '../color-mode-switch';
-import { NavigationDancerFieldsFragment } from '../operation.generated';
 import ProfileMenuItem from '../profile-menu-item';
 
 const LoggedInMenuItems = ({
-  dancer,
+  user,
   onLogoutClick,
 }: {
-  dancer: NavigationDancerFieldsFragment;
+  user: Dancer;
   onLogoutClick: () => void;
 }) => {
   const [, setLocation] = useLocation();
@@ -24,7 +24,7 @@ const LoggedInMenuItems = ({
         />
         <ProfileMenuItem
           isMobileView={false}
-          dancer={dancer}
+          user={user}
           onProfileMenuItemClick={() => setLocation('/profile')}
         />
         <Button

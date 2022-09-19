@@ -10,11 +10,12 @@ import { FiMenu } from '@react-icons/all-files/fi/FiMenu';
 import { FiX } from '@react-icons/all-files/fi/FiX';
 import logo from 'assets/logo.png';
 import { DefaultDancer } from 'context/dancer';
-import { useAuthentication } from 'hooks/use-authentication';
-import React from 'react';
+import { useAuthChanged } from 'hooks/use-auth-changed';
+import React, { useEffect } from 'react';
+import { useActiveProfile } from 'services/dancers';
+import { GetLoginUrl, GetLogoutUrl } from 'utils/account';
 import { useLocation } from 'wouter';
 
-import EventsMenuItem from './events-menu-item';
 import LoggedInMenuItems from './logged-in-menu-items';
 import MenuItem from './menu-item';
 import ProfileMenuItem from './profile-menu-item';
@@ -25,7 +26,6 @@ import {
   NavBarMenuItemsContainer,
   NavBarProfilePictureIcon,
   PCColorModeSwitch,
-  RegisterButton,
 } from './styled';
 
 const MenuToggle = ({ toggle, isOpen }: { toggle: any; isOpen: boolean }) => {
@@ -45,19 +45,74 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [, setLocation] = useLocation();
 
-  const { login, logout, isAuthenticated, isPending, getClaim } =
-    useAuthentication();
-
   const toggle = () => setIsOpen(!isOpen);
 
-  const onLogout = () => {
-    logout();
-  };
+  const { trigger } = useAuthChanged();
+  const [loading, , refresh, user] = useActiveProfile();
 
-  const nickname = getClaim<string>('nickname');
-  const picture = getClaim<string>('picture');
+  useEffect(() => {
+    refresh();
+  }, [trigger]);
 
+  // return <DesktopNav />;
   return (
+    <NavBarContainer>
+      <Image
+        src={logo}
+        w="70px"
+        onClick={() => setLocation('/')}
+        cursor="pointer"
+      />
+      <Spacer />
+      <MobileTabletColorModeSwitch />
+      {loading && <SkeletonCircle display={{ lg: 'none' }} />}
+      {!!user && !isOpen && (
+        <NavBarProfilePictureIcon
+          name={user.name}
+          src={user.profilePictureUrl ? user.profilePictureUrl : undefined}
+          onClick={toggle}
+          {...(user.profilePictureUrl && {
+            bgColor: 'transparent',
+          })}
+        />
+      )}
+      {!user && !isOpen && (
+        <NavBarProfilePictureIcon
+          name={'Guest'}
+          src={undefined}
+          onClick={toggle}
+        />
+      )}
+      {isOpen && !loading && <MenuToggle toggle={toggle} isOpen={isOpen} />}
+      {/* <NavBarMenuItemsContainer isOpen={isOpen}>
+        {!!user && (
+          <ProfileMenuItem
+            isMobileView
+            user={user}
+            onProfileMenuItemClick={() => setLocation('/profile')}
+          />
+        )}
+        <MenuItem onClick={() => setLocation('/leaderboard')}>
+          Leaderboards
+        </MenuItem>
+        {!!user ? (
+          <LoggedInMenuItems
+            user={user}
+            onLogoutClick={() => window.location.assign(GetLogoutUrl())}
+          />
+        ) : (
+          <HStack>
+            <PCColorModeSwitch />
+            <LoginButton onClick={() => window.location.assign(GetLoginUrl())}>
+              Login
+            </LoginButton>
+          </HStack>
+        )}
+      </NavBarMenuItemsContainer> */}
+    </NavBarContainer>
+  );
+
+  /*return (
     <NavBarContainer>
       <Image
         src={logo}
@@ -114,7 +169,7 @@ const Navigation = () => {
         )}
       </NavBarMenuItemsContainer>
     </NavBarContainer>
-  );
+  );*/
 };
 
 export default Navigation;

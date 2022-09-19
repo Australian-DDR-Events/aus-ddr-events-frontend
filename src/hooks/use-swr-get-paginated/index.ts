@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { useAuthentication } from 'hooks/use-authentication';
 import useSWR, { SWRResponse } from 'swr';
 
 /**
@@ -15,32 +14,21 @@ const useSWRGetPaginated = <T extends unknown>(
   page: Number,
   limit: Number,
 ): SWRResponse<T> => {
-  const { isAuthenticated, getAccessToken } = useAuthentication();
-
-  const getRequestOption = (
-    url: string,
-    token?: string,
-  ): AxiosRequestConfig => ({
+  const getRequestOption = (url: string): AxiosRequestConfig => ({
     url: `${process.env.API_URL}${url}`,
     method: 'GET',
     params: {
       page: page || 0,
       limit: limit || 10,
     },
-    ...(token && {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    }),
+    withCredentials: true,
   });
 
-  const fetcher = (url: string, token: string = '') =>
+  const fetcher = (url: string) =>
     axios
-      .request(getRequestOption(url, token))
+      .request(getRequestOption(url))
       .then((r: AxiosResponse<T>) => r.data)
       .catch((e) => e);
-
-  if (isAuthenticated()) return useSWR([path, getAccessToken()], fetcher);
 
   return useSWR(path, fetcher);
 };

@@ -9,15 +9,17 @@ import useSWR, { SWRResponse } from 'swr';
  * @param limit
  * @returns
  */
-const useSWRGet = <T extends unknown>(
+const useSWRDelete = <T extends unknown>(
   path: string,
   retry: boolean = true,
 ): SWRResponse<T, AxiosError> => {
-  const getRequestOption = (url: string): AxiosRequestConfig => ({
-    url: `${process.env.API_URL}${url}`,
-    method: 'GET',
-    withCredentials: true,
-  });
+  const getRequestOption = (url: string): AxiosRequestConfig => {
+    return {
+      url: `${process.env.API_URL}${url}`,
+      method: 'DELETE',
+      withCredentials: true,
+    };
+  };
 
   const fetcher = (url: string) =>
     axios.request(getRequestOption(url)).then((r: AxiosResponse<T>) => r.data);
@@ -27,4 +29,4 @@ const useSWRGet = <T extends unknown>(
   });
 };
 
-export default useSWRGet;
+export default useSWRDelete;

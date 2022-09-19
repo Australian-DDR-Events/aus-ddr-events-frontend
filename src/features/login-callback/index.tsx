@@ -1,8 +1,28 @@
 import { Center, Spinner } from '@chakra-ui/react';
-import React from 'react';
+import { useAuthChanged } from 'hooks/use-auth-changed';
+import React, { useEffect } from 'react';
+import { useLoginConnection } from 'services/connections';
+import { useLocation } from 'wouter';
 
 const LoginCallback = () => {
-  window.localStorage.setItem('preAuthUri', '/profile/start');
+  const [, setLocation] = useLocation();
+  const { trigger, setTrigger } = useAuthChanged();
+  const params = new URLSearchParams(window.location.search);
+  if (!params.has('code')) {
+    setLocation('/');
+    return <></>;
+  }
+
+  const [loading, success] = useLoginConnection(params.get('code')!);
+
+  useEffect(() => {
+    if (success && !loading) {
+      setTrigger(!trigger);
+      setLocation('/profile/start');
+    } else if (!loading) {
+      setLocation('/');
+    }
+  }, [success, loading]);
 
   return (
     <Center>

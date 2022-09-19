@@ -4,26 +4,29 @@ import Error from 'features/error';
 import ForgotPassword from 'features/forgot-password';
 import GraphqlTestbed from 'features/graphql-testbed';
 import Leaderboard from 'features/leaderboard';
-import Login from 'features/login';
 import LoginCallback from 'features/login-callback';
+import LogoutCallback from 'features/logout-callback';
 import Profile from 'features/profile';
 import ProfileActive from 'features/profile-active';
 import Register from 'features/register';
+import Song from 'features/song';
 import UnderMaintenance from 'features/under-maintenance';
-import { useAuthentication } from 'hooks/use-authentication/authenticationContext';
 import React, { useEffect } from 'react';
 import { Title } from 'react-head';
+import { useActiveProfile } from 'services/dancers';
+import { GetLoginUrl } from 'utils/account';
 import { Route, RouteProps, Switch } from 'wouter';
 
 import CreateProfile from '../../features/profile/create-profile';
 
 const ProtectedRoute = (props: RouteProps) => {
-  const { login, isAuthenticated } = useAuthentication();
+  const [loading, authorized] = useActiveProfile();
   useEffect(() => {
-    if (!isAuthenticated()) {
-      login();
+    if (!loading && !authorized) {
+      window.location.assign(GetLoginUrl());
     }
   }, []);
+  if (loading) return <></>;
   return <Route {...props} />;
 };
 
@@ -36,9 +39,8 @@ const Router = () => (
     <Route path="/callback">
       <LoginCallback />
     </Route>
-    <Route path="/login">
-      <Title>Login | Australian DDR Events</Title>
-      <Login />
+    <Route path="/logout">
+      <LogoutCallback />
     </Route>
     <Route path="/register">
       <Title>Register | Australian DDR Events</Title>
@@ -67,6 +69,14 @@ const Router = () => (
     <Route path="/leaderboard">
       <Title>Leaderboards | Australian DDR Events</Title>
       <Leaderboard />
+    </Route>
+    <Route path="/song/:id">
+      {(params) => (
+        <>
+          <Title>Loading | Australian DDR Events</Title>
+          <Song songId={params.id} />
+        </>
+      )}
     </Route>
     <Route path="/leaderboard/:id">
       {(params) => (

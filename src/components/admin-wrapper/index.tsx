@@ -5,23 +5,18 @@ import {
   AlertTitle,
   Box,
 } from '@chakra-ui/react';
-import { useAuthentication } from 'hooks/use-authentication';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode } from 'react';
+import { Dancer } from 'services/dancers';
 
-const AdminWrapper = ({ children }: { children: ReactNode }) => {
-  const { getClaim } = useAuthentication();
-  const [isAdmin, setIsAdmin] = useState(false);
+interface AdminWrapperProps {
+  user: Dancer;
+  children: ReactNode;
+}
 
-  useEffect(() => {
-    const groups = getClaim<Array<string>>('cognito:groups');
-    if (groups.isOk()) {
-      setIsAdmin(!!groups.value?.includes('Administrators'));
-    }
-  }, []);
-
+const AdminWrapper = (props: AdminWrapperProps) => {
   return (
     <>
-      {isAdmin && (
+      {props.user.userRoles?.some((v) => v.toLowerCase() == 'admin') && (
         <>
           <Alert status="error">
             <AlertIcon />
@@ -30,7 +25,7 @@ const AdminWrapper = ({ children }: { children: ReactNode }) => {
               <AlertDescription>Please proceed with caution.</AlertDescription>
             </Box>
           </Alert>
-          {children}
+          {props.children}
         </>
       )}
     </>

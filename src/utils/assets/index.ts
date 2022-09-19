@@ -18,3 +18,9 @@ type AllowedAvatarSizes = 128 | 256;
 export const dancerIdToAvatar = (id: string, size: AllowedAvatarSizes) => {
   return `${process.env.ASSETS_URL}/profile/avatar/${id}.${size}.png`;
 };
+
+type AllowedSongJacketSizes = 64 | 256 | 512;
+
+export const songIdToJacket = (id: string, size: AllowedSongJacketSizes) => {
+  return `${process.env.ASSETS_URL}/songs/${id}.${size}.png`;
+};

@@ -1,32 +1,34 @@
 import { Avatar, Button, Center } from '@chakra-ui/react';
-import { useAuthentication } from 'hooks/use-authentication';
 import React from 'react';
+import { Dancer } from 'services/dancers';
+import { getProfileImageUrl } from 'utils/assets';
 
 const ProfileMenuItem = ({
   isMobileView,
   onProfileMenuItemClick,
+  user,
 }: {
   isMobileView: boolean;
   onProfileMenuItemClick: () => void;
+  user: Dancer;
 }) => {
-  const { getClaim } = useAuthentication();
-
-  const nickname = getClaim<string>('nickname');
-  const profilePicture = getClaim<string>('picture');
-
   return isMobileView ? (
     <Center mr={4}>
       <Avatar
         size="sm"
-        name={nickname.okOrDefault()}
-        src={profilePicture.isOk() ? profilePicture.value : undefined}
+        name={user.name}
+        src={
+          user.profilePictureUrl
+            ? getProfileImageUrl(user.profilePictureUrl)
+            : undefined
+        }
         display={{ lg: 'none' }}
         showBorder
         borderColor="blue.500"
         borderWidth={2}
         mr={2}
         onClick={onProfileMenuItemClick}
-        {...(profilePicture.okOrDefault() && {
+        {...(user.profilePictureUrl && {
           bgColor: 'transparent',
         })}
       />
@@ -44,15 +46,15 @@ const ProfileMenuItem = ({
     <>
       <Avatar
         size="md"
-        name={nickname.okOrDefault()}
-        src={profilePicture.isOk() ? profilePicture.value : undefined}
+        name={user.name}
+        src={user.profilePictureUrl ? user.profilePictureUrl : undefined}
         display={{ base: 'none', lg: 'inline-block' }}
         showBorder
         borderColor="blue.500"
         borderWidth={2}
         onClick={onProfileMenuItemClick}
         cursor="pointer"
-        {...(profilePicture.okOrDefault() && {
+        {...(user.profilePictureUrl && {
           bgColor: 'transparent',
         })}
       />
