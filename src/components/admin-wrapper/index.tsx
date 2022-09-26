@@ -9,14 +9,14 @@ import React, { ReactNode } from 'react';
 import { Dancer } from 'services/dancers';
 
 interface AdminWrapperProps {
-  user: Dancer;
+  user?: Dancer;
   children: ReactNode;
 }
 
 const AdminWrapper = (props: AdminWrapperProps) => {
   return (
     <>
-      {props.user.userRoles?.some((v) => v.toLowerCase() == 'admin') && (
+      {props.user?.userRoles?.some((v) => v.toLowerCase() == 'admin') && (
         <>
           <Alert status="error">
             <AlertIcon />

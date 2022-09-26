@@ -58,7 +58,7 @@ const MobileNav = (props: MobileNavProps) => {
           cursor="pointer"
           pr="10px"
         />
-        <Flex w="70px" pl="10px">
+        <Flex w="100px" pl="10px" pr="10px">
           <PCColorModeSwitch />
           <Menu>
             <Profile isLoaded={!props.loading}>
