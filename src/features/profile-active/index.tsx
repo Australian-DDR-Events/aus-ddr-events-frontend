@@ -9,11 +9,10 @@ import {
 } from '@chakra-ui/react';
 import Profile from 'features/profile';
 import React from 'react';
-
-import { GetCurrentUser } from './service';
+import { useActiveProfile } from 'services/dancers';
 
 const ProfileActive = () => {
-  const { loading, data, error } = GetCurrentUser();
+  const [loading, , , user] = useActiveProfile();
 
   if (loading) {
     return (
@@ -26,7 +25,7 @@ const ProfileActive = () => {
     );
   }
 
-  if (error || !data) {
+  if (!user) {
     return (
       <Container maxW="sm" mb={8}>
         <Alert status="error" borderRadius="md" mb={4}>
@@ -43,7 +42,7 @@ const ProfileActive = () => {
     );
   }
 
-  return <Profile id={data?.id} isEditable />;
+  return <Profile id={user?.id} isEditable />;
 };
 
 export default ProfileActive;

@@ -6,7 +6,7 @@ import {
   Box,
 } from '@chakra-ui/react';
 import React, { ReactNode } from 'react';
-import { Dancer } from 'services/dancers';
+import { Dancer, useActiveProfile } from 'services/dancers';
 
 interface AdminWrapperProps {
   user?: Dancer;
@@ -14,9 +14,10 @@ interface AdminWrapperProps {
 }
 
 const AdminWrapper = (props: AdminWrapperProps) => {
+  const [, , , user] = useActiveProfile();
   return (
     <>
-      {props.user?.userRoles?.some((v) => v === 0) && (
+      {user?.userRoles?.some((v) => v === 0) && (
         <>
           <Alert status="error">
             <AlertIcon />

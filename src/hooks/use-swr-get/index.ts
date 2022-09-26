@@ -24,6 +24,7 @@ const useSWRGet = <T extends unknown>(
 
   return useSWR(path, fetcher, {
     shouldRetryOnError: retry,
+    revalidateOnFocus: false,
   });
 };
 

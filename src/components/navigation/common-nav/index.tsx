@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import { Dancer } from 'services/dancers';
 import { GetLoginUrl, GetLogoutUrl } from 'utils/account';
+import { getProfileImageUrl } from 'utils/assets';
 
 import { NavBarProfilePictureIcon } from './styled';
 
@@ -68,7 +69,11 @@ const LoggedInProfile = ({
 }) => (
   <NavBarProfilePictureIcon
     name={user.name}
-    src={user.profilePictureUrl ? user.profilePictureUrl : undefined}
+    src={
+      user.profilePictureUrl
+        ? getProfileImageUrl(user.profilePictureUrl)
+        : undefined
+    }
     onClick={() => onClick()}
     {...(user.profilePictureUrl && {
       bgColor: 'transparent',
