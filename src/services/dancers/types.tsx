@@ -5,5 +5,5 @@ export type Dancer = {
   primaryLocation: string;
   state: string;
   profilePictureUrl: string;
-  userRoles?: string[];
+  userRoles?: number[];
 };

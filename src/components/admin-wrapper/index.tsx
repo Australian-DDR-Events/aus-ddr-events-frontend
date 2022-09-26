@@ -16,7 +16,7 @@ interface AdminWrapperProps {
 const AdminWrapper = (props: AdminWrapperProps) => {
   return (
     <>
-      {props.user?.userRoles?.some((v) => v.toLowerCase() == 'admin') && (
+      {props.user?.userRoles?.some((v) => v === 0) && (
         <>
           <Alert status="error">
             <AlertIcon />
