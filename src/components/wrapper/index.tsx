@@ -1,7 +1,7 @@
 import Footer from 'components/footer';
+import Navigation from 'components/navigation';
 import React from 'react';
 
-import Navigation from '../navigation';
 
 const Wrapper = ({
   children,
