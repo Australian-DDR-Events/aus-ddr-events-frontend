@@ -4,8 +4,8 @@ import useSWRGetPaginated from 'hooks/use-swr-get-paginated';
 import { Dancer } from './types';
 
 type ActiveProfileData = [
-  loading: Boolean,
-  authorized: Boolean,
+  loading: boolean,
+  authorized: boolean,
   refresh: () => void,
   user?: Dancer,
 ];
@@ -20,7 +20,7 @@ const useActiveProfile = (): ActiveProfileData => {
   return [isValidating, authorized, refresh, data];
 };
 
-type ListDancersData = [Boolean, Array<Dancer> | undefined];
+type ListDancersData = [boolean, Array<Dancer> | undefined];
 
 /**
  * Get a paginated list of dancers

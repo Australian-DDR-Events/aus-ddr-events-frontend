@@ -1,4 +1,4 @@
-interface EventResponse {
+interface GameEvent {
   eventId: string;
   name: string;
   description: string;
@@ -6,4 +6,4 @@ interface EventResponse {
   endDate: string;
 }
 
-export { EventResponse };
+export { GameEvent };
