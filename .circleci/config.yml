@@ -20,9 +20,7 @@ jobs:
           command: |
             printf "CLIENT_ID=$CLIENT_ID\r\n" >> .env.$NODE_ENV
             printf "PROVIDER=$PROVIDER\r\n" >> .env.$NODE_ENV
-            printf "API_BASE=$API_BASE\r\n" >> .env.$NODE_ENV
             printf "API_URL=$API_URL\r\n" >> .env.$NODE_ENV
-            printf "AUDIENCE=$AUDIENCE\r\n" >> .env.$NODE_ENV
             printf "ASSETS_URL=$ASSETS_URL\r\n" >> .env.$NODE_ENV
       - run: yarn build:prod
       - aws-cli/setup:
@@ -33,14 +31,13 @@ jobs:
           at: ~/
       - run: echo ${ENVIRONMENT}
       - run: |
-          cdn_stack=$(aws ssm get-parameter --name "/${ENVIRONMENT}/webapp/id" | jq -r '.Parameter.Value')
-          root_bucket_name=$(aws cloudformation describe-stacks --stack-name "$cdn_stack" | jq -r ".Stacks[0].Outputs[] | select(.ExportName == \"${WEBAPP_BUCKET_EXPORT}\") | .OutputValue")
-          root_cdn_id=$(aws cloudformation describe-stacks --stack-name "$cdn_stack" | jq -r ".Stacks[0].Outputs[] | select(.ExportName == \"${WEBAPP_PROXY_EXPORT}\") | .OutputValue")
-          aws s3 cp ./dist s3://$root_bucket_name/ --recursive
+          webapp_bucket_name=$(aws cloudformation describe-stacks --stack-name "${WEBAPP_STACK_ID}" | jq -r ".Stacks[0].Outputs[] | select(.ExportName == \"webapp-bucket-name\") | .OutputValue")
+          webapp_distribution_id=$(aws cloudformation describe-stacks --stack-name "${WEBAPP_STACK_ID}" | jq -r ".Stacks[0].Outputs[] | select(.ExportName == \"webapp-distribution-id\") | .OutputValue")
+          aws s3 cp ./dist s3://$webapp_bucket_name/ --recursive
           aws cloudfront create-invalidation \
-            --distribution-id $root_cdn_id \
+            --distribution-id $webapp_distribution_id \
             --paths "/index.html"
-          aws s3 sync ./dist s3://$root_bucket_name/
+          aws s3 sync ./dist s3://$webapp_bucket_name/
 
 workflows:
   build_and_test:
@@ -48,7 +45,7 @@ workflows:
       - build_and_deploy:
           name: deploy-staging
           context:
-            - staging
+            - ausddr-webapp-stg
           post-steps:
             - jira/notify
           filters:
